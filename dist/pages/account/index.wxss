@@ -1,0 +1,5 @@
+@import "../../common/vendor.wxss";
+
+.account-container {
+  color: #32DA31;
+}

@@ -1,0 +1,11 @@
+<template name="7504fef3">
+  <view class="_div data-v-5e9571b6 front-container">
+    <view class="_div data-v-5e9571b6 weui-search-bar">
+      <view class="_div data-v-5e9571b6 weui-search-bar__form"><label class="_label data-v-5e9571b6 weui-search-bar__label" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">
+          <view class="_div data-v-5e9571b6 search-label-body flex-row-center"><label class="_span data-v-5e9571b6 search-icon"></label>
+            <view class="_div data-v-5e9571b6 weui-search-bar__text ellipsis input-placeholder">搜索课程、活动、老师、学校</view>
+          </view>
+        </label></view>
+    </view>
+  </view>
+</template>

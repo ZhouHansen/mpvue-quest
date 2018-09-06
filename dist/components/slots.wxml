@@ -1,0 +1,3 @@
+<import src="/module/search.header.vue.wxml" />
+<import src="/components/left.border.title.vue.wxml" />
+<import src="/components/select.vue.wxml" />

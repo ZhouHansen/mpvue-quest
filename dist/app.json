@@ -1,0 +1,45 @@
+{
+  "这是注释": "现在tabBar的图片是直接复制到dist文件夹的",
+  "pages": [
+    "pages/index/index",
+    "pages/counter/index",
+    "pages/organization/index",
+    "pages/teacher/index",
+    "pages/account/index",
+    "pages/search/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "Hooray",
+    "navigationBarTextStyle": "black",
+    "onReachBottomDistance": 50
+  },
+  "tabBar": {
+    "color": "#454545",
+    "borderStyle": "black",
+    "selectedColor": "#32DA31",
+    "position": "bottom",
+    "list": [{
+      "pagePath": "pages/index/index",
+      "text": "发现",
+      "iconPath": "img/ic_tab_see_off.png",
+      "selectedIconPath": "img/ic_tab_see_on.png"
+    }, {
+      "pagePath": "pages/organization/index",
+      "text": "机构",
+      "iconPath": "img/ic_tab_org_off.png",
+      "selectedIconPath": "img/ic_tab_org_on.png"
+    }, {
+      "pagePath": "pages/teacher/index",
+      "text": "老师",
+      "iconPath": "img/ic_tab_teacher_off.png",
+      "selectedIconPath": "img/ic_tab_teacher_on.png"
+    }, {
+      "pagePath": "pages/account/index",
+      "text": "我的",
+      "iconPath": "img/ic_tab_me_off.png",
+      "selectedIconPath": "img/ic_tab_me_on.png"
+    }]
+  }
+}

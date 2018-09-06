@@ -1,0 +1,5 @@
+<template name="04cf480b">
+  <view class="_div data-v-79348d68 have-left-topic-border-container">
+    <view class="_div data-v-79348d68 content">{{title}}</view>
+  </view>
+</template>

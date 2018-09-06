@@ -1,0 +1,12 @@
+<import src="/components/select.vue.wxml" /><template name="007f7352">
+  <view class="_div data-v-205b38b4 search-header-container">
+    <view class="_div data-v-205b38b4 weui-search-bar">
+      <view class="_div data-v-205b38b4 weui-search-bar__form">
+        <view class="_div data-v-205b38b4 weui-search-bar__box flex-row-start">
+          <view class="_div data-v-205b38b4 choose-search-type"><template data="{{...$root[$kk+'0'], $root}}" is="6bd057fe"></template></view> <input type="text" class="_input data-v-205b38b4 weui-search-bar__input ellipsis" placeholder="搜索课程、活动、老师、学校" placeholder-class="{{'input-placeholder'}}" value="{{inputVal}}" bindinput="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" />
+        </view>
+      </view>
+      <view class="_div data-v-205b38b4 start-search weui-search-bar__cancel-btn" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}">搜索</view>
+    </view>
+  </view>
+</template>

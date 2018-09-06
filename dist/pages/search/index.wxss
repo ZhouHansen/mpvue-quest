@@ -1,0 +1,61 @@
+@import "../../common/vendor.wxss";
+
+.search-container {
+  width: 100%;
+  min-height: 100vh;
+  border-top: 1rpx solid #efefef;
+}
+.search-container .search-history-list {
+  border-top: 1rpx solid #efefef;
+  padding: 40rpx 5%;
+}
+.search-container .search-history-list .list {
+  margin-top: 28rpx;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.search-container .search-history-list .list .item {
+  padding: 12rpx 16rpx;
+  border: 2rpx solid #e6e6e6;
+  font-size: 26rpx;
+  border-radius: 30rpx;
+  margin-right: 16rpx;
+  margin-top: 20rpx;
+}
+.search-header-container.data-v-205b38b4 {
+  color: #454545;
+}
+.search-header-container .weui-search-bar.data-v-205b38b4 {
+  background-color: #ffffff;
+  border: 0;
+  padding: 16rpx 5%;
+}
+.search-header-container .weui-search-bar .weui-search-bar__form.data-v-205b38b4 {
+  border-radius: 50rpx;
+  overflow: hidden;
+  border: 1rpx solid #e9e9e9;
+  background-color: #fafafa;
+}
+.search-header-container .weui-search-bar .weui-search-bar__form .weui-search-bar__box.data-v-205b38b4 {
+  padding: 6rpx 30rpx;
+}
+.search-header-container .weui-search-bar .weui-search-bar__form .weui-search-bar__box .choose-search-type.data-v-205b38b4 {
+  flex-shrink: 0;
+  padding-right: 10rpx;
+  border-right: 2rpx solid #e6e6e6;
+}
+.search-header-container .weui-search-bar .weui-search-bar__form .weui-search-bar__box .weui-search-bar__input.data-v-205b38b4 {
+  width: 100%;
+  padding-left: 10rpx;
+}
+.search-header-container .weui-search-bar .start-search.data-v-205b38b4 {
+  color: #32DA31;
+  line-height: 72rpx;
+  font-size: 30rpx;
+}
+.have-left-topic-border-container .content.data-v-79348d68 {
+  border-left: 6rpx solid #32DA31;
+  padding-left: 16rpx;
+}

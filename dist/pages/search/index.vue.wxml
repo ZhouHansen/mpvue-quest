@@ -1,0 +1,9 @@
+<import src="/module/search.header.vue.wxml" />
+<import src="/components/left.border.title.vue.wxml" /><template name="4e6fbdfd">
+  <view class="_div data-v-d224b8cc search-container"><template data="{{...$root[$kk+'0'], $root}}" is="007f7352"></template>
+    <view class="_div data-v-d224b8cc search-history-list">
+      <view class="_div data-v-d224b8cc title"><template data="{{...$root[$kk+'1'], $root}}" is="04cf480b"></template></view>
+      <view class="_div data-v-d224b8cc list"><label class="_span data-v-d224b8cc item" wx:key="index" key="{{index}}" wx:for="{{history}}" wx:for-index="index" wx:for-item="item">{{item.name}}</label></view>
+    </view>
+  </view>
+</template>

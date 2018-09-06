@@ -1,0 +1,5 @@
+@import "../../common/vendor.wxss";
+
+.teacher-container {
+  color: #32DA31;
+}
