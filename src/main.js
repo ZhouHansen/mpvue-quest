@@ -18,8 +18,8 @@ app.$mount();
 
 // 开始挂载插件对象
 Vue.prototype.$store = Store;
-Vue.prototype.$network = new Network();
-Vue.prototype.$storage = new Storage();
+Vue.prototype.$network = Network;
+Vue.prototype.$storage = Storage;
 Vue.prototype.$storageTypeName = StorageTypeName;
 Vue.use(MpvueRouterPatch);
 

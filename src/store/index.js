@@ -4,22 +4,24 @@ import state from './state';
 import mutations from './mutation';
 
 import createPersistedState from 'vuex-persistedstate';
+import SearchModule from './search.module';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state,
   mutations,
+  modules: {
+    search: SearchModule
+  },
   plugins: [
     createPersistedState({
       storage: {
         getItem: key => {
           wx.getStorageSync(key);
-          console.log('getItem');
         },
         setItem: (key, value) => {
           wx.setStorageSync(key, value);
-          console.log('setItem');
         },
         removeItem: key => {
           // wx.removeStorageSync(key);

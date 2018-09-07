@@ -8,8 +8,11 @@ import {
 } from './config';
 
 import base from './network.base';
+import search from './network.search';
+
 const networkActions = {
-  base
+  base,
+  search
 };
 
 class Network {
@@ -26,6 +29,13 @@ class Network {
       return (params, uploadBlock, customUrl) => {
         if (!params) {
           params = {};
+        }
+
+        // /* debug */
+        if (!_.isUndefined(networkAction.debug)) {
+          return new Promise((resolve, reject) => {
+            resolve(networkAction.debug);
+          });
         }
 
         let BASICURL = NetworkAPIHost;
@@ -86,8 +96,6 @@ class Network {
       }
     }
 
-    console.debug('authorization', user);
-
     if (!user || !user.api_key) {
       return '';
     }
@@ -140,4 +148,4 @@ class Network {
 //   }
 // );
 
-export default Network;
+export default new Network();

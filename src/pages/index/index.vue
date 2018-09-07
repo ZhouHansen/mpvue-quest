@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import * as MutationType from '@/store/mutation.type';
 import WxUtils from '@/utils/wx.utils';
 
 export default {
@@ -30,10 +29,8 @@ export default {
     WxUtils.getUserInfo();
   },
   mounted () {
-    this.Storage.set('aaa', '3toa');
-    this.$store.commit(MutationType.SUM_TOTAL, 10);
-
-    console.log(WxUtils.getPagesLength());
+    this.$storage.set('aaa', '3toa');
+    this.ajax();
   },
   methods: {
     goSearchPage () {
@@ -42,7 +39,7 @@ export default {
 
     ajax () {
       this.$network.base.getUserInf({limit: 1, offset: 2}).then(res => {
-        // console.log(res);
+        console.log(res);
       }).catch(err => {
         console.log(err);
       });

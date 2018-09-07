@@ -1,1 +1,1 @@
-export const SUM_TOTAL = 'SUM_TOTAL';
+export const TOGGLE_SEARCH_OVERFLOW = 'TOGGLE_SEARCH_OVERFLOW';

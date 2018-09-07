@@ -4,27 +4,41 @@
       <div class="weui-search-bar__form">
         <div class="weui-search-bar__box flex-row-start">
           <div class="choose-search-type">
-            <hoo-select></hoo-select>
+            <picker class="weui-btn" @change="pickerSelect" :value="indexPicker" :range="array" :range-key="'text'">
+              <hoo-select :filter="{text: selectText}"></hoo-select>
+            </picker>
           </div>
           <input type="text" class="weui-search-bar__input ellipsis" placeholder="搜索课程、活动、老师、学校" :placeholder-class="'input-placeholder'" v-model="inputVal" @input="inputTyping" :focus="'true'"/>
         </div>
       </div>
       <div class="start-search weui-search-bar__cancel-btn" @click="startSearch">搜索</div>
     </div>
+
   </div>
 </template>
 <script>
   import _ from 'lodash';
-  import Select from '@/components/select';
+  import hooSelect from '@/components/select';
 
   export default {
     components: {
-      hooSelect: Select
+      hooSelect
     },
     props: ['inputVal', 'inputValEnter'],
     data () {
       return {
+        selectText: '',
+        indexPicker: 0,
+        array: [
+          {text: '课程', type: 'course'},
+          {text: '机构', type: 'organi'},
+          {text: '老师', type: 'teacher'}
+        ]
       };
+    },
+    mounted () {
+      this.selectText = this.array[0].text;
+      this.$emit('chooseFilterType', this.array[0].type);
     },
     methods: {
       inputTyping (e) {
@@ -32,12 +46,8 @@
       },
 
       startSearch () {
-        if (this.inputValEnter === '') {
-          this.inputValEnter = this.inputVal;
-        }
-
         if (this.inputVal !== this.inputValEnter && this.inputVal !== '') {
-          this.inputValEnter = '';
+          this.inputValEnter = this.inputVal;
           this.setSearchHistoryStorage();
           this.$emit('startSearchEvent', this.inputVal);
         }
@@ -48,29 +58,42 @@
           name: this.inputVal
         };
         let historyList = this.$storage.get(this.$storageTypeName.hr_search_history);
-
-        for (let i = 0; i < historyList.length; i++) {
-          if (historyList[i].name === this.inputVal) {
-            return;
+        let result = [];
+        if (historyList && historyList.length > 0) {
+          for (let i = 0; i < historyList.length; i++) {
+            if (historyList[i].name === this.inputVal) {
+              return;
+            }
           }
+          result = _.concat(search, historyList);
+        } else {
+          result.push(search);
         }
-
-        let result = _.concat(search, historyList);
 
         if (result.length > 9) {
           result = result.slice(0, 10);
         }
 
         this.$storage.set(this.$storageTypeName.hr_search_history, result);
+      },
+
+      pickerSelect (e) {
+        let index = e.mp.detail.value;
+        this.selectText = this.array[index].text;
+        this.indexPicker = index;
+
+        this.$emit('chooseFilterType', this.array[index].type);
       }
     }
   };
 </script>
 <style lang="scss" scoped>
-  @import '../assets/style/variables.scss';
+  @import '../../assets/style/variables.scss';
 
   .search-header-container {
     color: #454545;
+    border-bottom: $navigateTitleBottomBorder;
+
     .weui-search-bar {
       background-color: #ffffff;
       border: 0;
@@ -89,6 +112,7 @@
             flex-shrink: 0;
             padding-right:10rpx;
             border-right:1px solid #e6e6e6;
+            width:20%;
           }
 
           .weui-search-bar__input {
