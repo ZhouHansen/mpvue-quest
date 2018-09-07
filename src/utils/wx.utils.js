@@ -1,4 +1,4 @@
-// 获取当情页面战
+// 获取当前页面战
 const getPagesLength = () => {
   // return getCurrentPages(); // 需要关闭eslint检查
   return 'getCurrentPages';
@@ -20,7 +20,19 @@ const getUserInfo = () => {
   });
 };
 
+const loading = ({title, mask = false, show}) => {
+  if (show) {
+    wx.showLoading({
+      title: title,
+      mask: mask
+    });
+  } else {
+    wx.hideLoading();
+  }
+};
+
 export default {
   getPagesLength,
-  getUserInfo
+  getUserInfo,
+  loading
 };

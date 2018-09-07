@@ -1,10 +1,16 @@
+
 class Storage {
   set (key, val) {
     return wx.setStorageSync(key, val);
   }
 
   get (key) {
-    return JSON.parse(wx.getStorageSync(key));
+    let result = wx.getStorageSync(key);
+    if (result) {
+      return wx.getStorageSync(key);
+    } else {
+      return null;
+    }
   }
 
   remove (key) {

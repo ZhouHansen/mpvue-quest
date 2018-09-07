@@ -1,4 +1,4 @@
-<template>
+{<template>
   <div class="search-header-container">
     <div class="weui-search-bar">
       <div class="weui-search-bar__form">
@@ -6,7 +6,7 @@
           <div class="choose-search-type">
             <hoo-select></hoo-select>
           </div>
-          <input type="text" class="weui-search-bar__input ellipsis" placeholder="搜索课程、活动、老师、学校" :placeholder-class="'input-placeholder'" v-model="inputVal" @input="inputTyping" />
+          <input type="text" class="weui-search-bar__input ellipsis" placeholder="搜索课程、活动、老师、学校" :placeholder-class="'input-placeholder'" v-model="inputVal" @input="inputTyping" :focus="'true'"/>
         </div>
       </div>
       <div class="start-search weui-search-bar__cancel-btn" @click="startSearch">搜索</div>
@@ -14,15 +14,16 @@
   </div>
 </template>
 <script>
+  import _ from 'lodash';
   import Select from '@/components/select';
 
   export default {
     components: {
       hooSelect: Select
     },
+    props: ['inputVal', 'inputValEnter'],
     data () {
       return {
-        inputVal: ''
       };
     },
     methods: {
@@ -30,14 +31,37 @@
         this.inputVal = e.mp.detail.value;
       },
 
-      startSearch (e) {
-        this.$network.search.search({
-          method: 'get'
-        }).then(res => {
+      startSearch () {
+        if (this.inputValEnter === '') {
+          this.inputValEnter = this.inputVal;
+        }
 
-        }).catch(err => {
-          console.log(err);
-        });
+        if (this.inputVal !== this.inputValEnter && this.inputVal !== '') {
+          this.inputValEnter = '';
+          this.setSearchHistoryStorage();
+          this.$emit('startSearchEvent', this.inputVal);
+        }
+      },
+
+      setSearchHistoryStorage () {
+        let search = {
+          name: this.inputVal
+        };
+        let historyList = this.$storage.get(this.$storageTypeName.hr_search_history);
+
+        for (let i = 0; i < historyList.length; i++) {
+          if (historyList[i].name === this.inputVal) {
+            return;
+          }
+        }
+
+        let result = _.concat(search, historyList);
+
+        if (result.length > 9) {
+          result = result.slice(0, 10);
+        }
+
+        this.$storage.set(this.$storageTypeName.hr_search_history, result);
       }
     }
   };
@@ -82,3 +106,4 @@
     }
   }
 </style>
+}

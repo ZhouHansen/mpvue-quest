@@ -4,7 +4,8 @@ import Store from './store/index';
 import Network from './network/index';
 import MpvueRouterPatch from 'mpvue-router-patch';
 
-import Storage from '@/utils/storage';
+import Storage from '@/utils/wx.storage';
+import StorageTypeName from '@/utils/storage.typename';
 
 import '@/assets/style/weui.scss';
 import '@/assets/style/base.scss';
@@ -18,7 +19,8 @@ app.$mount();
 // 开始挂载插件对象
 Vue.prototype.$store = Store;
 Vue.prototype.$network = new Network();
-Vue.prototype.Storage = new Storage();
+Vue.prototype.$storage = new Storage();
+Vue.prototype.$storageTypeName = StorageTypeName;
 Vue.use(MpvueRouterPatch);
 
 export default {

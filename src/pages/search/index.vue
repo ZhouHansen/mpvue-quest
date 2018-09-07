@@ -1,17 +1,18 @@
 <template>
   <div class="search-container">
-    <search-header></search-header>
+    <search-header @startSearchEvent="startSearch" :input-val="inputVal" :input-val-enter="inputVal"></search-header>
     <div class="search-history-list">
       <div class="title">
         <have-topic-title :title="'搜索历史'"></have-topic-title>
       </div>
       <div class="list">
-        <span class="item" v-for="(item, index) in history" :key="index">{{item.name}}</span>
+        <span class="item" v-for="(item, index) in history" :key="index" @click="useHistorySearch(item.name)">{{item.name}}</span>
       </div>
     </div>
   </div>
 </template>
 <script>
+  import WxUtils from '@/utils/wx.utils';
   import SearchHeader from '@/module/search.header';
   import haveTopicTitle from '@/components/left.border.title';
 
@@ -22,15 +23,36 @@
     },
     data () {
       return {
-        history: [
-          {name: '佛陀传'},
-          {name: '一行法师'},
-          {name: '讲述了多年前'},
-          {name: '佛陀传'},
-          {name: '一行法师'},
-          {name: '讲述了多年前的道理'}
-        ]
+        inputVal: '',
+        history: []
       };
+    },
+    mounted () {
+      this.getSearchHistory();
+    },
+    methods: {
+      startSearch (e) {
+        this.inputVal = e;
+        this.getSearchHistory();
+        this.sendSearchRequest(e);
+      },
+
+      useHistorySearch (e) {
+        this.inputVal = e;
+        this.sendSearchRequest(e);
+      },
+
+      getSearchHistory () {
+        this.history = this.$storage.get(this.$storageTypeName.hr_search_history);
+      },
+
+      sendSearchRequest (params) {
+        WxUtils.loading({show: true, title: '查找中...'});
+        this.$network.search.search({type: 'a'}).then(res => {
+        }).catch(err => {
+          console.log(err);
+        });
+      }
     }
   };
 </script>
