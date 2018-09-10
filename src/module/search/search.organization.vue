@@ -2,15 +2,15 @@
   <div class="search-organization-container">
     <div class="organi-filter-list">
       <div class="organi-filter-item">
-        <hoo-select :filter="{text:'附近', event: 'nearby'}" @filterEvent="chooseFilter"></hoo-select>
+        <hoo-select :filter="{text:'附近', event: 'organ_nearby'}" @filterEvent="chooseFilter"></hoo-select>
       </div>
       <div class="organi-filter-item">
-        <hoo-select :filter="{text: '认证', event: 'auth'}" @filterEvent="chooseFilter"></hoo-select>
+        <hoo-select :filter="{text: '认证', event: 'organ_auth'}" @filterEvent="chooseFilter"></hoo-select>
       </div>
     </div>
     <div class="organi-content">
       <div class="organi-filter-item-desc" :hidden="!showFilterItemDesc">
-        <filter-list @chooseFilterDone="doneChooseFilter"></filter-list>
+        <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="organi-list">
         <div class="organi-item"></div>
@@ -34,7 +34,21 @@ export default {
   data () {
     return {
       showFilterItemDesc: false,
-      chooseFilterType: ''
+      chooseFilterType: '',
+      filterData: {
+        organ_nearby: [
+          {text: '全部', id: '1'},
+          {text: '500米内', id: '2'},
+          {text: '1000米内', id: '3'},
+          {text: '3000米内', id: '4'}
+        ],
+        organ_auth: [
+          {text: '全部', id: '1'},
+          {text: '已认证', id: '2'}
+        ]
+      },
+      chooseFilterData: null,
+      checkedFilter: {}
     };
   },
   methods: {
@@ -54,10 +68,28 @@ export default {
         this.showFilterItemDesc = true;
         this.$store.commit(MutationsType.TOGGLE_SEARCH_OVERFLOW, true);
       }
+
+      this.chooseFilterData = this.filterData[this.chooseFilterType];
+
+      if (!this.checkedFilter[this.chooseFilterType]) {
+        this.checkedFilter[this.chooseFilterType] = {
+          type: this.chooseFilterType,
+          id: null
+        };
+      }
     },
 
     doneChooseFilter (e) {
       console.log('接收到的过滤参数', e);
+      if (this.checkedFilter[this.chooseFilterType].id !== e) {
+        let params = {
+          id: e,
+          type: this.chooseFilterType
+        };
+        this.checkedFilter[this.chooseFilterType] = params;
+      } else {
+        this.checkedFilter[this.chooseFilterType] = null;
+      }
       this.showFilterItemDesc = false;
     }
   }

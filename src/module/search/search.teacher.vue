@@ -2,10 +2,10 @@
   <div class="search-teacher-container">
     <div class="teacher-filter-list">
       <div class="teacher-filter-item">
-        <hoo-select :filter="{text: '学科', event: 'type'}" @filterEvent="chooseFilter"></hoo-select>
+        <hoo-select :filter="{text: '学科', event: 'teacher_type'}" @filterEvent="chooseFilter"></hoo-select>
       </div>
       <div class="teacher-filter-item">
-        <hoo-select :filter="{text:'认证', event: 'auth'}" @filterEvent="chooseFilter"></hoo-select>
+        <hoo-select :filter="{text:'认证', event: 'teacher_auth'}" @filterEvent="chooseFilter"></hoo-select>
       </div>
       <div class="teacher-filter-item" @click="getOrderList">
         <div class="teacher-praise">
@@ -20,7 +20,7 @@
     </div>
     <div class="teacher-content">
       <div class="teacher-filter-item-desc" :hidden="!showFilterItemDesc">
-        <filter-list @chooseFilterDone="doneChooseFilter"></filter-list>
+        <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="teacher-list">
         <div class="teacher-item"></div>
@@ -45,7 +45,22 @@
       return {
         showFilterItemDesc: false,
         chooseFilterType: '',
-        orderContrl: 'normal'
+        orderContrl: 'normal',
+
+        filterData: {
+          teacher_type: [
+            {text: '全部', id: '1'},
+            {text: '数学', id: '2'},
+            {text: '英文', id: '3'},
+            {text: '美术', id: '4'}
+          ],
+          teacher_auth: [
+            {text: '全部', id: '1'},
+            {text: '已认证', id: '2'}
+          ]
+        },
+        chooseFilterData: null,
+        checkedFilter: {}
       };
     },
     methods: {
@@ -69,10 +84,28 @@
             this.$store.commit(MutationsType.TOGGLE_SEARCH_OVERFLOW, true);
           }
         }
+
+        this.chooseFilterData = this.filterData[this.chooseFilterType];
+
+        if (!this.checkedFilter[this.chooseFilterType]) {
+          this.checkedFilter[this.chooseFilterType] = {
+            type: this.chooseFilterType,
+            id: null
+          };
+        }
       },
 
       doneChooseFilter (e) {
         console.log('接收到的过滤参数', e);
+        if (this.checkedFilter[this.chooseFilterType].id !== e) {
+          let params = {
+            id: e,
+            type: this.chooseFilterType
+          };
+          this.checkedFilter[this.chooseFilterType] = params;
+        } else {
+          this.checkedFilter[this.chooseFilterType] = null;
+        }
         this.showFilterItemDesc = false;
       },
 
