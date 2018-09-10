@@ -10,36 +10,47 @@
         </label>
       </div>
     </div>
+
+    <div class="section-list">
+      <div class="section-item" v-for="item in sections" :key="item.id">
+        <hoo-section :section-data="item"></hoo-section>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import WxUtils from '@/utils/wx.utils';
+import hooSection from '@/module/discovery/section.item';
 
 export default {
   components: {
+    hooSection
   },
   data () {
     return {
-
+      sections: null
     };
   },
   created () {
+  },
+  onReady () {
     // 调用应用实例的方法获取全局数据
     WxUtils.getUserInfo();
+
+    this.getDiscovery();
   },
   mounted () {
-    this.$storage.set('aaa', '3toa');
-    this.ajax();
   },
   methods: {
     goSearchPage () {
       this.$router.push('/pages/search/index');
     },
 
-    ajax () {
-      this.$network.base.getUserInf({limit: 1, offset: 2}).then(res => {
+    getDiscovery () {
+      this.$network.discovery.getDiscovery({limit: 1, offset: 2}).then(res => {
         console.log(res);
+        this.sections = res;
       }).catch(err => {
         console.log(err);
       });

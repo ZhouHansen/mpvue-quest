@@ -1,21 +1,20 @@
-
 class Storage {
-  set (key, val) {
+  static set (key, val) {
     return wx.setStorageSync(key, val);
   }
 
-  get (key) {
+  static get (key) {
     let result = wx.getStorageSync(key);
     if (result) {
-      return wx.getStorageSync(key);
+      return result;
     } else {
       return null;
     }
   }
 
-  remove (key) {
+  static remove (key) {
     return wx.removeStorageSync(key);
   }
 }
 
-export default new Storage();
+export default Storage;

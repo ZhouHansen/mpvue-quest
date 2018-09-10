@@ -6,6 +6,8 @@
     <div class="organi-inf">
       <div class="organi-title">娱乐网</div>
       <div class="organi-desc line-clamp-3">寓乐湾成立以来已获得27项机器人、创客类寓乐湾成立以来已获得27项机器人、创客类寓乐湾成立以来已获得27项机器人、创客类寓乐湾成立以来已获得27项机器人、创客类</div>
+
+      <!-- 显示可选的 -->
       <div class="organi-total">
         <div class="organi-total-type">
           <span class="organi-total-num">52</span>
@@ -16,6 +18,8 @@
           <span>课程</span>
         </div>
       </div>
+
+      <!-- 收藏 分享 -->
     </div>
   </div>
 </template>

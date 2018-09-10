@@ -20,6 +20,7 @@
       </div>
       <div class="course-list">
         <hoo-course-list></hoo-course-list>
+        <!-- <search-empty></search-empty> -->
       </div>
     </div>
   </div>
@@ -29,12 +30,14 @@
   import hooSelect from '@/components/select';
   import filterList from '@/module/search/search.header.filter.list';
   import hooCourseList from '@/module/course/course.list';
+  import searchEmpty from '@/module/search/search.empty';
 
   export default {
     components: {
       hooSelect,
       filterList,
-      hooCourseList
+      hooCourseList,
+      searchEmpty
     },
     data () {
       return {

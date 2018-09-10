@@ -9,10 +9,12 @@ import {
 
 import base from './network.base';
 import search from './network.search';
+import discovery from './network.discovery';
 
 const networkActions = {
   base,
-  search
+  search,
+  discovery
 };
 
 class Network {

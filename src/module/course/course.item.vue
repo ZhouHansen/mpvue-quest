@@ -1,6 +1,6 @@
 <template>
   <div class="course-item-container">
-    <div class="course-cover" :style="{background: 'url(' + courseData.avtar + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+    <div class="course-cover" :style="{background: 'url(' + courseData.avatar + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
     <div class="course-inf">
       <div class="course-title">{{courseData.title}}</div>
       <hoo-label :type-text="teacherLabelTypeText" :label-arr="teacherLabelArr"></hoo-label>

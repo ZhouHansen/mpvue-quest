@@ -8,6 +8,7 @@
       <div class="list">
         <span class="item" v-for="(item, index) in history" :key="index" @click="useHistorySearch(item.name)">{{item.name}}</span>
       </div>
+      <div @click="clearHistory">清除历史记录</div>
     </div>
     <!-- Course -->
     <search-course v-if="alreadyUseSearch && filterTypeVal === 'course'"></search-course>
@@ -45,11 +46,14 @@
     },
     computed: {
       isOverflow: function () {
+        console.log(this.$store.state);
         return this.$store.state.search.isOverFlowStatu;
       }
     },
-    mounted () {
+    onReady () {
       this.getSearchHistory();
+    },
+    mounted () {
     },
     methods: {
       startSearch (e) {
@@ -79,6 +83,10 @@
 
       filterType (e) {
         this.filterTypeVal = e;
+      },
+
+      clearHistory (e) {
+        wx.clearStorage();
       }
     }
   };

@@ -14,6 +14,7 @@
       </div>
       <div class="organi-list">
         <hoo-organi-list></hoo-organi-list>
+        <!-- <search-empty></search-empty> -->
       </div>
     </div>
   </div>
@@ -23,12 +24,14 @@ import * as MutationsType from '@/store/mutation.type';
 import hooSelect from '@/components/select';
 import filterList from '@/module/search/search.header.filter.list';
 import hooOrganiList from '@/module/organization/organization.list';
+import searchEmpty from '@/module/search/search.empty';
 
 export default {
   components: {
     hooSelect,
     filterList,
-    hooOrganiList
+    hooOrganiList,
+    searchEmpty
   },
   data () {
     return {

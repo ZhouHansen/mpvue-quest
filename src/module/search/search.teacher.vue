@@ -24,6 +24,7 @@
       </div>
       <div class="teacher-list">
         <hoo-teacher-list></hoo-teacher-list>
+        <!-- <search-empty></search-empty> -->
       </div>
     </div>
   </div>
@@ -33,12 +34,14 @@
   import hooSelect from '@/components/select';
   import filterList from '@/module/search/search.header.filter.list';
   import hooTeacherList from '@/module/teacher/teacher.list';
+  import searchEmpty from '@/module/search/search.empty';
 
   export default {
     components: {
       hooSelect,
       filterList,
-      hooTeacherList
+      hooTeacherList,
+      searchEmpty
     },
     data () {
       return {
