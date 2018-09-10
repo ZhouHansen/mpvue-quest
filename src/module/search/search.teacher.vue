@@ -23,10 +23,7 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="teacher-list">
-        <div class="teacher-item"></div>
-        <div class="teacher-item"></div>
-        <div class="teacher-item"></div>
-        <div class="teacher-item"></div>
+        <hoo-teacher-list></hoo-teacher-list>
       </div>
     </div>
   </div>
@@ -35,11 +32,13 @@
   import * as MutationsType from '@/store/mutation.type';
   import hooSelect from '@/components/select';
   import filterList from '@/module/search/search.header.filter.list';
+  import hooTeacherList from '@/module/teacher/teacher.list';
 
   export default {
     components: {
       hooSelect,
-      filterList
+      filterList,
+      hooTeacherList
     },
     data () {
       return {
@@ -131,6 +130,7 @@
 <style lang="scss" scope>
   .search-teacher-container {
     width: 100%;
+
     .teacher-filter-list {
       display:flex;
       flex-flow:row nowrap;
@@ -181,12 +181,9 @@
     .teacher-content {
       position: relative;
 
-      .teacher-item {
-        border-top: 1rpx solid #bfbfbf;
-        height: 10vh;
-        background-color: palevioletred;
-        width: 100%;
-        padding: 40rpx;
+      .teacher-list {
+        height: calc(100vh - 200rpx);
+        overflow-y: auto;
       }
     }
   }

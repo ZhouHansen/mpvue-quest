@@ -83,21 +83,6 @@ export default {
             width: 50rpx;
             height: 50rpx;
           }
-
-          .art {
-            background: url('http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085143.393360.png') no-repeat 50% 50%;
-            background-size: contain;
-          }
-
-          .english {
-            background: url('http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085139.445848.png') no-repeat 50% 50%;
-            background-size: contain;
-          }
-
-          .music {
-            background: url('http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png') no-repeat 50% 50%;
-            background-size: contain;
-          }
         }
       }
 
