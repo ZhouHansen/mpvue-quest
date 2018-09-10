@@ -1,5 +1,5 @@
 <template>
-  <div class="avatar-container" v-if="avatar" :style="{background: 'url(' + avatar + ') no-repeat', backgroundSize: 'cover'}"></div>
+  <div class="avatar-container" v-if="avatar" :style="{background: 'url(' + avatar + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
 </template>
 
 <script>

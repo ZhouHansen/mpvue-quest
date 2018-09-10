@@ -1,16 +1,16 @@
 <template>
   <div class="teacher-list-container">
-    <hoo-teacher></hoo-teacher>
-    <hoo-teacher></hoo-teacher>
-    <hoo-teacher></hoo-teacher>
+    <hoo-teacher-item></hoo-teacher-item>
+    <hoo-teacher-item></hoo-teacher-item>
+    <hoo-teacher-item></hoo-teacher-item>
   </div>
 </template>
 <script>
-  import hooTeacher from '@/module/teacher/teacher';
+  import hooTeacherItem from '@/module/teacher/teacher.item';
 
   export default {
     components: {
-      hooTeacher
+      hooTeacherItem
     }
   };
 </script>

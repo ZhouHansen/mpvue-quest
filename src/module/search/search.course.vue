@@ -19,10 +19,7 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="course-list">
-        <div class="course-item"></div>
-        <div class="course-item"></div>
-        <div class="course-item"></div>
-        <div class="course-item"></div>
+        <hoo-course-list></hoo-course-list>
       </div>
     </div>
   </div>
@@ -31,11 +28,13 @@
   import * as MutationsType from '@/store/mutation.type';
   import hooSelect from '@/components/select';
   import filterList from '@/module/search/search.header.filter.list';
+  import hooCourseList from '@/module/course/course.list';
 
   export default {
     components: {
       hooSelect,
-      filterList
+      filterList,
+      hooCourseList
     },
     data () {
       return {
@@ -149,13 +148,9 @@
 
     .course-content {
       position: relative;
-
-      .course-item {
-        border-top: 1rpx solid #bfbfbf;
-        height: 10vh;
-        background-color: palevioletred;
-        width: 100%;
-        padding: 40rpx;
+      .course-list {
+        max-height: calc(100vh - 200rpx);
+        overflow-y: auto;
       }
     }
   }

@@ -28,6 +28,7 @@ export default {
       border-radius: 16rpx;
       font-size: 12px;
       margin-right: 16rpx;
+      margin-top:10rpx;
     }
 
     .label-header {

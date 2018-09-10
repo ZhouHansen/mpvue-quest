@@ -1,0 +1,62 @@
+<template>
+  <div class="course-item-container">
+    <div class="course-cover" :style="{background: 'url(' + courseData.avtar + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+    <div class="course-inf">
+      <div class="course-title">{{courseData.title}}</div>
+      <hoo-label :type-text="teacherLabelTypeText" :label-arr="teacherLabelArr"></hoo-label>
+    </div>
+    <div class="course-join">{{courseData.num}}人想买</div>
+  </div>
+</template>
+<script>
+  import hooLabel from '@/components/label';
+
+  export default {
+    props: ['courseData'],
+    components: {
+      hooLabel
+    },
+    data () {
+      return {
+        teacherLabelTypeText: '活动',
+        teacherLabelArr: ['蜗牛英语', '9月11日-9月20日']
+      };
+    }
+  };
+</script>
+<style lang="scss" scoped>
+  @import '../../assets/style/variables.scss';
+
+  .course-item-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-top: 1rpx solid #bfbfbf;
+    padding: 40rpx;
+    position: relative;
+
+    .course-cover {
+      width: 240rpx;
+      height: 240rpx;
+      border-radius: 16rpx;
+      margin-right:40rpx;
+      flex-shrink: 0;
+    }
+
+    .course-title {
+      font-size: 18px;
+      color: #46311E;
+      font-weight: bold;
+    }
+
+    .course-join {
+      text-align: right;
+      color: #9f9f9f;
+      margin-top: 40rpx;
+      position: absolute;
+      bottom: 45rpx;
+      right: 45rpx;
+    }
+  }
+</style>
