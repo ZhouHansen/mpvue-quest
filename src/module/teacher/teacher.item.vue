@@ -49,7 +49,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     padding: 40rpx;
-    border-top: 1rpx solid #bfbfbf;
+    border-top: $searchItemTopBorder;
 
     .teacher-avatar {
       margin-right: 30rpx;
@@ -60,7 +60,7 @@
         .teacher-name-text {
           margin-right: 8rpx;
           font-size: 16px;
-          color: #46311E;
+          color: $searchTitleColor;
           font-weight: bold;
         }
 

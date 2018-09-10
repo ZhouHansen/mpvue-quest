@@ -32,7 +32,7 @@
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: flex-start;
-    border-top: 1rpx solid #bfbfbf;
+    border-top: $searchItemTopBorder;
     padding: 40rpx;
     position: relative;
 
@@ -46,7 +46,7 @@
 
     .course-title {
       font-size: 18px;
-      color: #46311E;
+      color: $searchTitleColor;
       font-weight: bold;
     }
 

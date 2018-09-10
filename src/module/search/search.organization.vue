@@ -13,10 +13,7 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="organi-list">
-        <div class="organi-item"></div>
-        <div class="organi-item"></div>
-        <div class="organi-item"></div>
-        <div class="organi-item"></div>
+        <hoo-organi-list></hoo-organi-list>
       </div>
     </div>
   </div>
@@ -25,11 +22,13 @@
 import * as MutationsType from '@/store/mutation.type';
 import hooSelect from '@/components/select';
 import filterList from '@/module/search/search.header.filter.list';
+import hooOrganiList from '@/module/organization/organization.list';
 
 export default {
   components: {
     hooSelect,
-    filterList
+    filterList,
+    hooOrganiList
   },
   data () {
     return {
@@ -120,12 +119,9 @@ export default {
     .organi-content {
       position: relative;
 
-      .organi-item {
-        border-top: 1rpx solid #bfbfbf;
-        height: 10vh;
-        background-color: palevioletred;
-        width: 100%;
-        padding: 40rpx;
+      .organi-list {
+        max-height: calc(100vh - 200rpx);
+        overflow-y: auto;
       }
     }
   }
