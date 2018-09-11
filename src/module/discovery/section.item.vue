@@ -1,10 +1,10 @@
 <template>
-  <div class="section-container">
+  <div class="section-container" @click="goDetail">
     <div class="section-title">
       <div class="section-avatar" :style="'background: url(' + sectionData.avatar + ') no-repeat 50% 50%; background-size: cover;'"></div>
       <div class="section-inf">
-        <div class="section-inf-title ellipsis">{{sectionData.title}}</div>
-        <div class="section-inf-desc">{{sectionData.desc}}</div>
+        <div class="section-inf-title line-clamp-2">{{sectionData.title}}</div>
+        <!-- <div class="section-inf-desc">{{sectionData.desc}}</div> -->
       </div>
     </div>
     <div class="section-label">
@@ -12,6 +12,7 @@
       <div class="section-distance" v-if="sectionData.distance">{{sectionData.distance}}km</div>
     </div>
     <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.cover + ') no-repeat 50% 50%; background-size: cover;'"></div>
+    <div class="section-desc">{{sectionData.desc}}</div>
   </div>
 </template>
 <script>
@@ -25,6 +26,11 @@
     data () {
       return {
       };
+    },
+    methods: {
+      goDetail () {
+        this.$router.push('/pages/index/sectionDetail');
+      }
     }
   };
 </script>
@@ -86,6 +92,11 @@
       width: 100%;
       height: 45vw;
       border-radius: 20rpx;
+    }
+
+    .section-desc {
+      color: #9f9f9f;
+      margin-top:10rpx;
     }
   }
 </style>

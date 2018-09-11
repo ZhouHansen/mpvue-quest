@@ -1,0 +1,132 @@
+<template>
+  <div class="have-icon-btn-container">
+    <span class="activity btn-item" v-if="type === 'activity'" @click="setJoinActivity">
+      <span class="icon hand"></span>
+      <span>{{personNum}}人想参加</span>
+    </span>
+     <span class="activity btn-item" v-if="type === 'activity_already'" @click="cancelJoinActivity">
+      <span class="icon hand_already"></span>
+      <span>{{personNum}}人想参加</span>
+    </span>
+    <span v-if="type === 'share'" @click="share">
+      <button :open-type="'share'" :plain="'true'">
+        <span class="icon share"></span>
+        <span>分享</span>
+      </button>
+    </span>
+    <span class="collection btn-item" v-if="type === 'collection'" @click="setCollect">
+      <span class="icon star"></span>
+      <span>收藏</span>
+    </span>
+    <span class="collection btn-item" v-if="type === 'collection_already'" @click="cancelCollect">
+      <span class="icon star_already"></span>
+      <span>已收藏</span>
+    </span>
+  </div>
+</template>
+<script>
+import WxUtils from '@/utils/wx.utils';
+
+export default {
+  props: ['type', 'personNum', 'id'],
+  methods: {
+    setCollect () {
+      this.$network.discovery.setCollection({id: this.id ? this.id : '123'}).then(res => {
+        WxUtils.toast({title: res.message});
+        this.type = 'collection_already';
+      });
+    },
+
+    cancelCollect () {
+      this.$network.discovery.cancelCollection({id: this.id ? this.id : '123'}).then(res => {
+        WxUtils.toast({title: res.message});
+        this.type = 'collection';
+      });
+    },
+
+    setJoinActivity () {
+      this.$network.discovery.joinActivity({id: this.id ? this.id : '123'}).then(res => {
+        WxUtils.toast({title: res.message});
+        this.type = 'activity_already';
+      });
+    },
+
+    cancelJoinActivity () {
+      this.$network.discovery.cancelJoinActivity({id: this.id ? this.id : '123'}).then(res => {
+        WxUtils.toast({title: res.message});
+        this.type = 'activity';
+      });
+    },
+
+    share () {
+
+    }
+  }
+};
+</script>
+<style lang="scss" scoped>
+  @import '../assets/style/variables.scss';
+
+  .have-icon-btn-container {
+    .btn-item {
+      @include flex(space-between);
+      padding: 10rpx 20rpx;
+      border-radius: 42rpx;
+      border: 1rpx solid $topic-color;
+      color: $topic-color;
+
+      button {
+        @include flex(space-between);
+        color: $topic-color;
+
+      }
+
+      .icon {
+        width: 30rpx;
+        height: 30rpx;
+        margin-right: 10rpx;
+        flex-shrink: 0;
+      }
+
+      .hand {
+        @include backgroundImg('../assets/images/hand.png');
+      }
+
+      .hand_already {
+        @include backgroundImg('../assets/images/ic_hand_green.png');
+      }
+
+
+
+      .star {
+        @include backgroundImg('../assets/images/star.png');
+      }
+
+      .star_already {
+        @include backgroundImg('../assets/images/ic_cllect_green.png');
+      }
+    }
+
+    button {
+      @include flex(space-between);
+      color: $topic-color;
+      border: 1rpx solid $topic-color;
+      font-size: 14px;
+      padding: 10rpx 20rpx;
+      border-radius: 42rpx;
+      line-height:normal;
+
+      .icon {
+        width: 30rpx;
+        height: 30rpx;
+        margin-right: 10rpx;
+        flex-shrink: 0;
+      }
+
+      .share {
+        @include backgroundImg('../assets/images/share.png');
+      }
+    }
+
+  }
+</style>

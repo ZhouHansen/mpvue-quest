@@ -14,3 +14,16 @@ $labelCommonBackgroundColor: #FFFAF0;
 
 $searchItemTopBorder: 1rpx solid #bfbfbf;
 $searchTitleColor: #46311E;
+
+
+@mixin backgroundImg ($url) {
+  background: url($url) no-repeat 50% 50%;
+  background-size: contain;
+}
+
+@mixin flex ($justify: space-between, $align: center) {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: $justify;
+  align-items: $align;
+}

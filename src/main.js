@@ -6,6 +6,7 @@ import MpvueRouterPatch from 'mpvue-router-patch';
 
 import Storage from '@/utils/wx.storage';
 import StorageTypeName from '@/utils/storage.typename';
+import '@/utils/wx.onlanch';
 
 import '@/assets/style/weui.scss';
 import '@/assets/style/base.scss';

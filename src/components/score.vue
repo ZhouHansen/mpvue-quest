@@ -1,6 +1,6 @@
 <template>
   <div class="score-container">
-    评分星星
+    评价星星
   </div>
 </template>
 <script>
@@ -11,5 +11,6 @@ export default {
   @import '../assets/style/variables.scss';
 
   .score-container {
+
   }
 </style>

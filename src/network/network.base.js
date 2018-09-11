@@ -2,7 +2,7 @@ import {NetworkAPIVersion, NetworkParamType} from './config';
 import DebugData from './debug.data';
 
 export default {
-  getUserInf: {
+  getOpenid: {
     url: 'user',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
@@ -10,6 +10,6 @@ export default {
       limit: [NetworkParamType.number],
       offset: [NetworkParamType.number]
     },
-    debug: DebugData.getUserInf
+    debug: DebugData.getOpenid
   }
 };

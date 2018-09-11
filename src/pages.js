@@ -5,5 +5,6 @@ module.exports = [
   'pages/organization/index',
   'pages/teacher/index',
   'pages/account/index',
-  'pages/search/index'
+  'pages/search/index',
+  'pages/index/sectionDetail'
 ];

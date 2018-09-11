@@ -37,7 +37,7 @@ export default {
   onReady () {
     // 调用应用实例的方法获取全局数据
     WxUtils.getUserInfo();
-
+    console.log(this.$store.state);
     this.getDiscovery();
   },
   mounted () {
@@ -54,10 +54,6 @@ export default {
       }).catch(err => {
         console.log(err);
       });
-    },
-
-    goCount () {
-      this.$router.push('/pages/counter/index');
     }
   }
 };
@@ -89,8 +85,7 @@ export default {
             width: 28rpx;
             height: 28rpx;
             vertical-align: middle;
-            background: url('../../assets/images/ic_search.png') no-repeat 50% 50%;
-            background-size: contain;
+            @include backgroundImg('../../assets/images/ic_search.png');
             margin-right: 10rpx;
           }
 

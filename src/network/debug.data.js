@@ -2,9 +2,8 @@ const Data = {
   search: {
     name: '这是搜索请求返回的数据'
   },
-  getUserInf: {
-    username: 'wwy',
-    phone: '17645091513'
+  getOpenid: {
+    openid: 'test1234'
   },
   discovery: [
     {
@@ -56,7 +55,23 @@ const Data = {
       label_type: '商品',
       label_arr: ['¥198/人']
     }
-  ]
+  ],
+
+  setCollection: {
+    message: '收藏成功'
+  },
+
+  cancelCollection: {
+    message: '取消收藏成功'
+  },
+
+  joinActivity: {
+    message: '参加活动成功'
+  },
+
+  cancelJoinActivity: {
+    message: '取消参加活动成功'
+  }
 };
 
 export default Data;
