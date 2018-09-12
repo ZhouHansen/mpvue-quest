@@ -34,7 +34,7 @@ const getLocation = () => {
       resolve(location);
     } else {
       wx.getLocation({
-        type: 'wgs84',
+        type: 'gcj02',
         success: (res) => {
           res.timestamp = timestamp;
           Storage.set(StorageTypeName.location, res);
@@ -74,11 +74,23 @@ const toast = ({title, icon = 'none', hide}) => {
   }
 };
 
+const download = ({url}) => {
+  return new Promise((resolve, reject) => {
+    wx.downloadFile({
+      url: url,
+      success: (res) => {
+        resolve(res.tempFilePath);
+      }
+    });
+  });
+};
+
 export default {
   getPagesLength,
   getUserInfo,
   getLocation,
   callPhone,
   loading,
-  toast
+  toast,
+  download
 };

@@ -9,27 +9,44 @@
       bindmarkertap="markertap"
       bindregionchange="regionchange"
       show-location style="width: 100%; height:{{mapHeight}}px;"></map> -->
-      <map :markers="markers" :longitude="'121.541557'" :latitude="'38.860103'" :style="'width: 100%; height: 100vh;'"></map>
+      <map v-if="markers" :markers="markers" :show-location="'true'" :longitude="'121.541557'" :latitude="'38.860103'" :style="'width: 100%; height: 100vh;'"></map>
   </div>
 </template>
 <script>
+import WxUtils from '@/utils/wx.utils';
+
 export default {
   data () {
     return {
-      markers: [
+      markers: null,
+      markersData: [
         {
-          iconPath: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
+          iconPath: '',
           id: 1,
           latitude: '38.860103',
           longitude: '121.541557',
           width: 40,
-          height: 40,
-          label: {
-            content: '你好'
-          }
+          height: 40
         }
-      ]
+      ],
+      url: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg'
     };
+  },
+  mounted () {
+    this.setMarkerIcon();
+    this.getCityList();
+  },
+  methods: {
+    setMarkerIcon () {
+      WxUtils.download({url: this.url}).then(res => {
+        this.markersData[0].iconPath = res;
+        this.markers = this.markersData;
+      });
+    },
+
+    getCityList () {
+
+    }
   }
 };
 </script>
