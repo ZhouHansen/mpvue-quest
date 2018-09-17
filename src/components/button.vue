@@ -2,6 +2,7 @@
   <div class="button-container">
     <div class="btn-item normal" v-if="type === 'normal'" @click="tapButton">{{text || '测试'}}</div>
     <div class="btn-item topic" v-if="type === 'topic'" @click="tapButton">{{text || '测试'}}</div>
+    <div class="btn-item topic-unchecked" v-if="type === 'topic-unchecked'" @click="tapButton">{{text || '测试'}}</div>
   </div>
 </template>
 <script>
@@ -34,6 +35,12 @@ export default {
     .topic {
       color: #ffffff;
       background-color: $topic-color;
+    }
+
+    .topic-unchecked {
+      color: $topic-color;
+      border: 1rpx solid $topic-color;
+      background-color: transparent;
     }
   }
 </style>

@@ -3,6 +3,16 @@ const formatNumber = n => {
   return str[1] ? str : `0${str}`;
 };
 
+const formatDateToPicker = date => {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  const result = [year, month, day].map(formatNumber).join('-');
+
+  return result;
+};
+
 const formatTime = date => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
@@ -28,5 +38,6 @@ const formatDate = date => {
 export default {
   formatNumber,
   formatTime,
-  formatDate
+  formatDate,
+  formatDateToPicker
 };

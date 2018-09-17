@@ -6,6 +6,7 @@ import MpvueRouterPatch from 'mpvue-router-patch';
 
 import Storage from '@/utils/wx.storage';
 import StorageTypeName from '@/utils/storage.typename';
+import WxUtils from '@/utils/wx.utils';
 import '@/utils/wx.onlanch';
 
 import '@/assets/style/weui.scss';
@@ -22,6 +23,7 @@ Vue.prototype.$store = Store;
 Vue.prototype.$network = Network;
 Vue.prototype.$storage = Storage;
 Vue.prototype.$storageTypeName = StorageTypeName;
+Vue.prototype.$wxUtils = WxUtils;
 Vue.use(MpvueRouterPatch);
 
 export default {

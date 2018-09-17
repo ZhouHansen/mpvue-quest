@@ -47,5 +47,14 @@ export default {
       id: '123'
     },
     debug: DebugData.cancelJoinActivity
+  },
+  getSelectDate: {
+    url: '',
+    method: 'post',
+    apiVersion: NetworkAPIVersion.v1_version,
+    params: {
+      id: '123'
+    },
+    debug: DebugData.getSelectDate
   }
 };

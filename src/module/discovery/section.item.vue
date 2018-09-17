@@ -16,6 +16,7 @@
   </div>
 </template>
 <script>
+  import * as MutationsType from '@/store/mutation.type';
   import hooLabel from '@/components/label';
 
   export default {
@@ -27,9 +28,12 @@
       return {
       };
     },
+    mounted () {
+      this.$store.commit(MutationsType.SET_CHOOSE_ACTIVITY, this.sectionData);
+    },
     methods: {
       goDetail () {
-        this.$router.push('/pages/index/sectionDetail');
+        this.$router.push('/pages/index/section.detail');
       }
     }
   };

@@ -11,4 +11,22 @@ const Search = {
   }
 };
 
-export default Search;
+const Discovery = {
+  state: {
+    activity: {},
+    order: {}
+  },
+  mutations: {
+    [MutationsType.SET_CHOOSE_DATE] (state, param) {
+      state.order['date'] = param;
+    },
+    [MutationsType.SET_CHOOSE_ACTIVITY] (state, param) {
+      state.activity = param;
+    }
+  }
+};
+
+export default {
+  Search,
+  Discovery
+};

@@ -91,7 +91,7 @@
       },
 
       goToOrder () {
-        this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, groupOrder: true});
+        this.$router.push('/pages/index/select.time.purchases');
       },
 
       groupToOrder () {

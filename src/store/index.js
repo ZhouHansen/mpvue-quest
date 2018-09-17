@@ -4,7 +4,7 @@ import state from './state';
 import mutations from './mutation';
 
 import createPersistedState from 'vuex-persistedstate';
-import SearchModule from './search.module';
+import Module from './search.module';
 
 Vue.use(Vuex);
 
@@ -12,7 +12,8 @@ export default new Vuex.Store({
   state,
   mutations,
   modules: {
-    search: SearchModule
+    search: Module.Search,
+    discovery: Module.Discovery
   },
   plugins: [
     createPersistedState({

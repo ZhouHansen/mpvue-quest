@@ -85,6 +85,12 @@ const download = ({url}) => {
   });
 };
 
+const setNavTitle = text => {
+  wx.setNavigationBarTitle({
+    title: text
+  });
+};
+
 export default {
   getPagesLength,
   getUserInfo,
@@ -92,5 +98,6 @@ export default {
   callPhone,
   loading,
   toast,
-  download
+  download,
+  setNavTitle
 };

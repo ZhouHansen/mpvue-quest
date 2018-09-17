@@ -6,5 +6,8 @@ module.exports = [
   'pages/teacher/index',
   'pages/account/index',
   'pages/search/index',
-  'pages/index/sectionDetail'
+  'pages/index/section.detail',
+  'pages/index/select.time.purchases',
+  'pages/index/section.submit.order',
+  'pages/payment/payment.result'
 ];

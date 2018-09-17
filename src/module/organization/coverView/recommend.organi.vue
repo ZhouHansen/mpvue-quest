@@ -7,6 +7,7 @@
         <cover-view class="recommend-item"></cover-view>
         <cover-view class="recommend-item"></cover-view>
         <cover-view class="recommend-item"></cover-view>
+        <cover-view class="recommend-item"></cover-view>
       </cover-view>
     </cover-view>
   </cover-view>
@@ -27,7 +28,7 @@
     bottom: 26rpx;
     width: calc(100vw - 160rpx);
     left: 40rpx;
-    overflow: scroll;
+    overflow-y: scroll;
 
     .title {
       border-left: 8rpx solid $topic-color;
@@ -38,20 +39,23 @@
 
     .recommend-list-scroll {
       width: 100%;
-      overflow: scroll;
+      height: 20vw;
+      margin-top: 30rpx;
+      overflow-y: scroll;
 
       .recommend-list {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
         align-items: center;
-        margin-top: 30rpx;
-        overflow: scroll;
 
         .recommend-item {
           display: inline-block;
           width: 20vw;
           height: 20vw;
-          margin-right: 2vw;
           background-color: $topic-color;
           border-radius: 16rpx;
+          margin-top: 20rpx;
         }
       }
     }
