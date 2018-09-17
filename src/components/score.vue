@@ -13,6 +13,10 @@
   </div>
 </template>
 <script>
+/**
+ * 展示分数： :score , :type="'show'"
+ * 评价分数: :type="'set'" , @setScore
+*/
 export default {
   props: ['score', 'type'],
   computed: {
@@ -41,6 +45,7 @@ export default {
   methods: {
     tapChooseScore (e) {
       this.chooseScore = e;
+      this.$emit('setScore', e);
     }
   }
 };

@@ -17,7 +17,6 @@
       <div class="teacher-education">北京大学/历史学博士</div>
       <div class="teacher-score">
         <hoo-score :score="2.5" :type="'show'"></hoo-score>
-        <hoo-score :score="2.5" :type="'set'"></hoo-score>
       </div>
     </div>
   </div>

@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="section-content">
-      <left-border-title :title="'活动信息'"></left-border-title>
+      <hoo-left-border-title :title="'活动信息'"></hoo-left-border-title>
       <div class="section-content-arrange">
         <hoo-arrange></hoo-arrange>
       </div>
@@ -33,30 +33,47 @@
         <div class="section-nav-detail" v-if="chooseNavIndex === '0'">
           详情
         </div>
-        <div class="section-nav-appraisal" v-if="chooseNavIndex === '1'">评价</div>
+        <div class="section-nav-appraise" v-if="chooseNavIndex === '1'">
+          <appra-list></appra-list>
+        </div>
       </div>
-
     </div>
+    <div class="section-order">
+      <div class="go-to-order" @click="goToOrder"><span>直接下单</span><span class="order-cost">¥268</span></div>
+      <div class="group-order" @click="groupToOrder"><span>拼团购买</span></div>
+    </div>
+    <group-order></group-order>
+    <bind-phone></bind-phone>
+    <hoo-feedback :text="'评价成功'"></hoo-feedback>
   </div>
 </template>
 <script>
+  import * as MutationType from '@/store/mutation.type';
   import hooLabel from '@/components/label';
   import hooIconButton from '@/components/have.icon.btn';
-  import leftBorderTitle from '@/components/left.border.title';
+  import hooLeftBorderTitle from '@/components/left.border.title';
   import hooArrange from '@/components/arrange';
   import hooLocation from '@/module/discovery/section.location';
   import hooOrgani from '@/components/organization';
   import hooNav from '@/components/nav';
+  import hooFeedback from '@/components/feedback';
 
+  import appraList from '@/module/base/appraisal/appraisal.list';
+  import groupOrder from '@/module/discovery/section.detail.group.order';
+  import bindPhone from '@/module/base/bindphone/bindphone';
   export default {
     components: {
       hooLabel,
       hooIconButton,
-      leftBorderTitle,
+      hooLeftBorderTitle,
       hooArrange,
       hooLocation,
       hooOrgani,
-      hooNav
+      hooNav,
+      hooFeedback,
+      appraList,
+      groupOrder,
+      bindPhone
     },
     data () {
       return {
@@ -71,6 +88,15 @@
       chooseNav (e) {
         console.log('接收到点击的nav', e);
         this.chooseNavIndex = e;
+      },
+
+      goToOrder () {
+        this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, groupOrder: true});
+      },
+
+      groupToOrder () {
+        // this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, bindPhone: true});
+        this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, feedback: true});
       }
     }
   };
@@ -131,6 +157,47 @@
 
     .section-nav {
       border-top: 20rpx solid #f9f9f9;
+      margin-bottom: 10vh;
+    }
+
+    .section-order {
+      position: fixed;
+      bottom: 60rpx;
+      left: 40rpx;
+      width: calc(100vw - 80rpx);
+      border-radius: 49rpx;
+      overflow: hidden;
+      color: #ffffff;
+      text-align: center;
+      height: 7vh;
+      line-height: 7vh;
+      z-index: 599;
+      @include flex(space-between);
+
+      .go-to-order {
+        background-color: $topic-color;
+        font-size: 13px;
+        flex-basis: 66%;
+        height: 100%;
+
+        .order-cost {
+          font-size: 18px;
+          margin-left: 12rpx;
+          font-weight: bold;
+        }
+      }
+
+      .group-order {
+        font-size: 13px;
+        flex-basis: 34%;
+        height: 100%;
+        background-color: #26C925;
+
+        span {
+          display:inline-block;
+          margin-top:4rpx;
+        }
+      }
     }
   }
 </style>

@@ -1,9 +1,9 @@
-function formatNumber (n) {
+const formatNumber = n => {
   const str = n.toString();
   return str[1] ? str : `0${str}`;
-}
+};
 
-export function formatTime (date) {
+const formatTime = date => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
@@ -16,9 +16,17 @@ export function formatTime (date) {
   const t2 = [hour, minute, second].map(formatNumber).join(':');
 
   return `${t1} ${t2}`;
-}
+};
+
+const formatDate = date => {
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  return `${month}月${day}日`;
+};
 
 export default {
   formatNumber,
-  formatTime
+  formatTime,
+  formatDate
 };

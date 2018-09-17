@@ -9,13 +9,19 @@
       bindmarkertap="markertap"
       bindregionchange="regionchange"
       show-location style="width: 100%; height:{{mapHeight}}px;"></map> -->
-      <map v-if="markers" :markers="markers" :show-location="'true'" :longitude="'121.541557'" :latitude="'38.860103'" :style="'width: 100%; height: 100vh;'"></map>
+      <map v-if="markers" :markers="markers" :show-location="'true'" :longitude="'121.541557'" :latitude="'38.860103'" :style="'width: 100%; height: 100vh;'">
+        <recommend-organi></recommend-organi>
+      </map>
   </div>
 </template>
 <script>
 import WxUtils from '@/utils/wx.utils';
+import recommendOrgani from '@/module/organization/coverView/recommend.organi';
 
 export default {
+  components: {
+    recommendOrgani
+  },
   data () {
     return {
       markers: null,

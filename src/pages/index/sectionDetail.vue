@@ -1,15 +1,19 @@
 <template>
-  <div>
+  <div :class="{'overflow-hidden': overflowHiddenStatus}">
     <section-detail></section-detail>
   </div>
 </template>
 <script>
+  import { mapState } from 'vuex';
   import sectionDetail from '@/module/discovery/section.detail';
 
   export default {
     components: {
       sectionDetail
     },
+    computed: mapState([
+      'overflowHiddenStatus'
+    ]),
     onShareAppMessage (res) {
       if (res.from === 'button') {
         // 来自页面内转发按钮
