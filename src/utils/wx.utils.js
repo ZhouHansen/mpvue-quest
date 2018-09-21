@@ -51,7 +51,7 @@ const callPhone = ({phone}) => {
   });
 };
 
-const loading = ({title, mask = false, show}) => {
+const loading = ({title = '', mask = false, show = true}) => {
   if (show) {
     wx.showLoading({
       title: title,

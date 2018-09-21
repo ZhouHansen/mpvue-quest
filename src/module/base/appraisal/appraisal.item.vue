@@ -40,7 +40,7 @@
 
   .appraisal-container {
     padding: 40rpx;
-    border-top: 1rpx solid #dddddd;
+    border-top: $searchItemTopBorder;
     @include flex(flex-start, flex-start);
 
     .appra-avatar {

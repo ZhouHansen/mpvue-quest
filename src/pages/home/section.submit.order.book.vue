@@ -1,9 +1,5 @@
 <template>
   <div class="order-container">
-    <div class="group-tips" v-if="type === 'group' && showGroupTips">
-      <span>拼团在24小时内无法成团将自动退款！</span>
-      <span class="group-tips-icon" @click="hideGroupTips"></span>
-    </div>
     <div class="payment-detail">
       <hoo-left-border-title :title="'购买内容'"></hoo-left-border-title>
       <div class="payment-detail-content">
@@ -20,35 +16,55 @@
       </div>
     </div>
     <div class="user-detail">
-      <hoo-left-border-title :title="'参加信息'"></hoo-left-border-title>
+      <hoo-left-border-title :title="'收货地址'"></hoo-left-border-title>
       <div class="user-content">
-        <div class="parent">
-          <div class="user-title">家长信息</div>
-          <div class="parent-inf">
-            <span class="parent-name">孙俪</span>
-            <span class="parent-phone">13304482010</span>
+        <div class="address-section">
+          <div class="address-inf">
+            <div class="user-title">北京朝阳区蓝河大厦23号</div>
+            <span class="address-name">张爱玲</span>
+            <span class="address-phone">12341325534</span>
+          </div>
+          <div class="address-edit">
+            <div class="address-ctrl"></div>
           </div>
         </div>
-        <div class="child">
-          <div class="user-title">孩子信息</div>
-          <div class="child-section">
-            <div class="child-inf">
-              <span class="child-name">张爱玲</span>
-              <span class="child-icon man"></span>
+        <div class="address-add">
+          <span>添加收货地址</span>
+          <span class="address-add-icon"></span>
+        </div>
+      </div>
+    </div>
+
+     <div class="custom-detail">
+      <hoo-left-border-title :title="'定制签名'"></hoo-left-border-title>
+      <div v-show="order.customSign">
+        <div class="custom-inf">
+          <div class="custom-list">
+            <div class="custom-item">
+              <span class="custom-item-name">留言内容</span>
+              <span class="custom-item-value">{{order.customSign?order.customSign.text:''}}</span>
             </div>
-            <div class="child-ctrl"></div>
+            <div class="custom-item">
+              <span class="custom-item-name">给予</span>
+              <span class="custom-item-value">{{order.customSign?order.customSign.name:''}}</span>
+            </div>
           </div>
-          <div class="child-add">
-            <span>添加</span>
-            <span class="child-add-icon"></span>
+          <div class="custom-edit" @click="editSignature">
+            <div class="custom-ctrl"></div>
           </div>
+        </div>
+      </div>
+      <div v-show="!order.customSign">
+        <div class="custom-add" @click="editSignature">
+          <span>添加定制签名</span>
+          <span class="custom-add-icon"></span>
         </div>
       </div>
     </div>
     <div class="activity-detail">
       <hoo-left-border-title :title="'活动详情'"></hoo-left-border-title>
       <div class="activity-inf">
-        <div class="activity-item">
+        <div class="activity-item" @click="editSignature">
           <span class="activity-item-name">活动时间</span>
           <span class="activity-item-value">9月11日-9月20日</span>
         </div>
@@ -81,7 +97,8 @@
     },
     mounted () {
       this.$wxUtils.setNavTitle('确认订单');
-      // console.log(this.$store.state.discovery.order);
+
+      // console.log(this.$store.state.discovery.order.customSign);
       // console.log(this.$store.state.discovery.activity);
     },
     data () {
@@ -96,6 +113,12 @@
     computed: {
       totalMoney () {
         return this.price * this.priceNumber;
+      },
+      order () {
+        return this.$store.state.discovery.order;
+      },
+      section () {
+        return this.$store.state.discovery.activity;
       }
     },
     methods: {
@@ -117,6 +140,10 @@
 
       hideGroupTips () {
         this.showGroupTips = false;
+      },
+
+      editSignature () {
+        this.$router.push('/pages/home/custom.signature');
       }
     }
   };
@@ -130,20 +157,6 @@
       border-top: 20rpx solid #f9f9f9;
       padding: 40rpx;
       background-color: #ffffff;
-    }
-
-    .group-tips {
-      @include flex();
-      background-color: $orange-color;
-      color: #ffffff;
-      padding: 20rpx 40rpx;
-
-      .group-tips-icon {
-        display: inline-block;
-        width: 32rpx;
-        height: 32rpx;
-        @include backgroundImg('../../assets/images/ic_close.png');
-      }
     }
 
     .payment-detail {
@@ -209,67 +222,45 @@
 
       .user-content {
         padding-left: 26rpx;
+        padding-top: 30rpx;
 
         .user-title {
           font-size: 18px;
           color: #000000;
           font-weight: bold;
         }
-        .parent {
-          margin-top: 30rpx;
-          padding-bottom: 30rpx;
 
-          .parent-inf {
-            margin-top: 12rpx;
+        .address-section {
+          margin-top: 12rpx;
+          @include flex();
 
-            .parent-name {
-              margin-right: 30rpx;
-            }
+          .address-name {
+            margin-right: 10rpx;
           }
-        }
-        .child {
-          padding-top: 30rpx;
-          border-top: 1rpx solid #efefef;
 
-          .child-section {
-            margin-top: 12rpx;
-            @include flex();
+          .address-edit {
+            flex-shrink: 0;
+            padding: 30rpx 0 30rpx 40rpx;
+            border-left: 1rpx solid #ececec;
 
-            .child-name {
-              margin-right: 10rpx;
-            }
-
-            .child-icon {
-              width: 22rpx;
-              height: 22rpx;
-              display:inline-block;
-            }
-
-            .man {
-              @include backgroundImg('../../assets/images/man.png');
-            }
-
-            .woman {
-              @include backgroundImg('../../assets/images/woman.png');
-            }
-
-            .child-ctrl {
+            .address-ctrl {
               @include backgroundImg('../../assets/images/write.png');
               width: 32rpx;
               height: 32rpx;
             }
           }
+        }
 
-          .child-add {
-            margin-top: 30rpx;
-            color: $orange-color;
-            @include flex();
 
-            .child-add-icon {
-              @include backgroundImg('../../assets/images/icon_add_child.png');
-              width: 32rpx;
-              height: 32rpx;
-            }
+        .address-add {
+          margin-top: 30rpx;
+          color: $orange-color;
+          @include flex();
+
+          .address-add-icon {
+            @include backgroundImg('../../assets/images/icon_add_child.png');
+            width: 32rpx;
+            height: 32rpx;
           }
         }
       }
@@ -294,9 +285,66 @@
           .activity-item-name {
             color: #9F9F9F;
             margin-right: 40rpx;
+            flex-basis: 20%;
+            flex-shrink: 0;
           }
         }
       }
+    }
+
+    .custom-detail {
+      @include sectionStyle();
+
+      .custom-inf {
+        margin-top: 30rpx;
+        padding-left: 16rpx;
+        @include flex();
+
+        .custom-list {
+          flex-basis: 100%;
+        }
+
+        .custom-item {
+          @include flex(flex-start, flex-start);
+          margin-top: 26rpx;
+
+          &:first-child {
+            margin-top: 0;
+          }
+
+          .custom-item-name {
+            color: #9F9F9F;
+            margin-right: 40rpx;
+            flex-basis: 25%;
+            flex-shrink: 0;
+          }
+        }
+
+        .custom-edit {
+          padding: 30rpx 0 30rpx 40rpx;
+          border-left: 1rpx solid #ececec;
+          flex-shrink: 0;
+
+          .custom-ctrl {
+            @include backgroundImg('../../assets/images/write.png');
+            width: 32rpx;
+            height: 32rpx;
+          }
+        }
+      }
+
+      .custom-add {
+          margin-top: 30rpx;
+          padding-left: 16rpx;
+          color: $orange-color;
+          @include flex();
+
+          .custom-add-icon {
+            @include backgroundImg('../../assets/images/icon_add_child.png');
+            width: 32rpx;
+            height: 32rpx;
+          }
+        }
     }
 
     .payment-footer {

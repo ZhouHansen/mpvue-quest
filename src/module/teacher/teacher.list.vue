@@ -3,6 +3,9 @@
     <hoo-teacher-item></hoo-teacher-item>
     <hoo-teacher-item></hoo-teacher-item>
     <hoo-teacher-item></hoo-teacher-item>
+    <hoo-teacher-item></hoo-teacher-item>
+    <hoo-teacher-item></hoo-teacher-item>
+    <hoo-teacher-item></hoo-teacher-item>
   </div>
 </template>
 <script>

@@ -7,10 +7,8 @@
     "pages/teacher/index",
     "pages/account/index",
     "pages/search/index",
-    "pages/index/section.detail",
-    "pages/index/select.time.purchases",
-    "pages/index/section.submit.order",
-    "pages/payment/payment.result"
+    "pages/payment/payment.result",
+    "pages/teacher/teacher.detail"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -19,6 +17,24 @@
     "navigationBarTextStyle": "black",
     "onReachBottomDistance": 50
   },
+  "subPackages": [
+    {
+      "root": "pages/home",
+      "pages": [
+        "section.detail",
+        "select.time.purchases",
+        "section.submit.order",
+        "section.submit.order.book",
+        "custom.signature"
+      ]
+    },
+    {
+      "root": "pages/organization.packages",
+      "pages": [
+        "organi.detail"
+      ]
+    }
+  ],
   "tabBar": {
     "color": "#454545",
     "borderStyle": "black",

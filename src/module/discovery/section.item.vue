@@ -28,12 +28,10 @@
       return {
       };
     },
-    mounted () {
-      this.$store.commit(MutationsType.SET_CHOOSE_ACTIVITY, this.sectionData);
-    },
     methods: {
       goDetail () {
-        this.$router.push('/pages/index/section.detail');
+        this.$store.commit(MutationsType.SET_CHOOSE_ACTIVITY, this.sectionData);
+        this.$router.push('/pages/home/section.detail');
       }
     }
   };

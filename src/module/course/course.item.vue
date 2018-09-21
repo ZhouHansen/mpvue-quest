@@ -5,7 +5,7 @@
       <div class="course-title">{{courseData.title}}</div>
       <hoo-label :type-text="teacherLabelTypeText" :label-arr="teacherLabelArr"></hoo-label>
     </div>
-    <div class="course-join">{{courseData.num}}人想买</div>
+    <div class="course-join">{{courseData.num}}人想参加</div>
   </div>
 </template>
 <script>

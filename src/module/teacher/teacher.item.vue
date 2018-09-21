@@ -1,15 +1,16 @@
 <template>
-  <div class="teacher-container">
+  <div class="teacher-container" @click="viewTeacherDetail">
     <div class="teacher-avatar">
       <hoo-avatar></hoo-avatar>
     </div>
     <div class="teacher-inf">
       <div class="teacher-name flex-row-start ">
         <span class="teacher-name-text">冯老师</span>
-        <div class="teacher-auth">
+        <!-- <div class="teacher-auth">
           <span class="teacher-auth-icon"></span>
           <span class="teacher-auth-text">已认证</span>
-        </div>
+        </div> -->
+        <hoo-auth></hoo-auth>
       </div>
       <div class="tearch-label">
         <hoo-label :type-text="teacherLabelTypeText" :label-arr="teacherLabelArr"></hoo-label>
@@ -25,18 +26,24 @@
   import hooLabel from '@/components/label';
   import hooAvatar from '@/components/avatar';
   import hooScore from '@/components/score';
-
+  import hooAuth from '@/components/auth';
   export default {
     components: {
       hooLabel,
       hooAvatar,
-      hooScore
+      hooScore,
+      hooAuth
     },
     data () {
       return {
         teacherLabelTypeText: '数学',
         teacherLabelArr: ['蜗牛英语']
       };
+    },
+    methods: {
+      viewTeacherDetail () {
+        this.$router.push('/pages/teacher/teacher.detail');
+      }
     }
   };
 </script>
@@ -64,24 +71,24 @@
           font-weight: bold;
         }
 
-        .teacher-auth {
-          display: inline-block;
-          font-size: 12px;
-          color: $topic-color;
+        // .teacher-auth {
+        //   display: inline-block;
+        //   font-size: 12px;
+        //   color: $topic-color;
 
-          .teacher-auth-icon {
-            background: url('../../assets/images/check-circle-fill.png') no-repeat 50% 50%;
-            background-size: contain;
-            display: inline-block;
-            width: 28rpx;
-            height: 28rpx;
-            vertical-align:text-top;
-          }
+        //   .teacher-auth-icon {
+        //     background: url('../../assets/images/check-circle-fill.png') no-repeat 50% 50%;
+        //     background-size: contain;
+        //     display: inline-block;
+        //     width: 28rpx;
+        //     height: 28rpx;
+        //     vertical-align:text-top;
+        //   }
 
-          .teacher-auth-text {
-            vertical-align:middle;
-          }
-        }
+        //   .teacher-auth-text {
+        //     vertical-align:middle;
+        //   }
+        // }
       }
 
       .teacher-label {

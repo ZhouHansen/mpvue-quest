@@ -29,6 +29,10 @@
     width: calc(100vw - 160rpx);
     left: 40rpx;
     overflow-y: scroll;
+    z-index: -1;
+
+    visibility: hidden;
+    display: none;
 
     .title {
       border-left: 8rpx solid $topic-color;

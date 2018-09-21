@@ -32,6 +32,7 @@
       <div class="section-nav-item">
         <div class="section-nav-detail" v-if="chooseNavIndex === '0'">
           详情
+          <wx-parse :content="article"></wx-parse>
         </div>
         <div class="section-nav-appraise" v-if="chooseNavIndex === '1'">
           <appra-list></appra-list>
@@ -40,7 +41,7 @@
     </div>
     <div class="section-order">
       <div class="go-to-order" @click="goToOrder"><span>直接下单</span><span class="order-cost">¥268</span></div>
-      <div class="group-order" @click="groupToOrder"><span>拼团购买</span></div>
+      <div class="group-order" @click="groupOrder"><span>拼团购买</span></div>
     </div>
     <group-order></group-order>
     <bind-phone></bind-phone>
@@ -49,6 +50,8 @@
 </template>
 <script>
   import * as MutationType from '@/store/mutation.type';
+  import wxParse from 'mpvue-wxparse';
+
   import hooLabel from '@/components/label';
   import hooIconButton from '@/components/have.icon.btn';
   import hooLeftBorderTitle from '@/components/left.border.title';
@@ -63,6 +66,7 @@
   import bindPhone from '@/module/base/bindphone/bindphone';
   export default {
     components: {
+      wxParse,
       hooLabel,
       hooIconButton,
       hooLeftBorderTitle,
@@ -77,6 +81,7 @@
     },
     data () {
       return {
+        article: '<div>我是HTML代码</div>',
         cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
         labelTypeText: '多动',
         labelArr: ['5-10岁', '109元'],
@@ -91,10 +96,15 @@
       },
 
       goToOrder () {
-        this.$router.push('/pages/index/select.time.purchases');
+        console.log(this.$store.state.discovery.activity);
+        if (this.$store.state.discovery.activity.type === 'commodity') {
+          this.$router.push('/pages/home/section.submit.order.book');
+        } else {
+          this.$router.push('/pages/home/select.time.purchases');
+        }
       },
 
-      groupToOrder () {
+      groupOrder () {
         // this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, bindPhone: true});
         this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, feedback: true});
       }
@@ -102,6 +112,7 @@
   };
 </script>
 <style lang="scss" scoped>
+  @import url("~mpvue-wxparse/src/wxParse.css");
   @import '../../assets/style/variables.scss';
 
   .section-detail-container {

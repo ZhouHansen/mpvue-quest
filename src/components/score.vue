@@ -1,9 +1,9 @@
 <template>
   <div class="score-container">
     <div v-if="type === 'show'">
-      <span class="score-item selected" v-for="(item, index) in selectedNum" :key="index"></span>
-      <span class="score-item half-selected" v-if="haveSalf"></span>
-      <span class="score-item unselected" v-for="(item, index) in unSelectedNUm" :key="index"></span>
+      <span class="score-item selected" :class="iconSize" v-for="(item, index) in selectedNum" :key="index"></span>
+      <span class="score-item half-selected" :class="iconSize" v-if="haveSalf"></span>
+      <span class="score-item unselected" :class="iconSize" v-for="(item, index) in unSelectedNUm" :key="index"></span>
     </div>
     <div v-if="type === 'set'">
       <span class="score-item"
@@ -18,7 +18,7 @@
  * 评价分数: :type="'set'" , @setScore
 */
 export default {
-  props: ['score', 'type'],
+  props: ['score', 'type', 'size'],
   computed: {
     haveSalf () {
       if (this.score % 1 > 0) {
@@ -33,6 +33,13 @@ export default {
         return 4 - this.selectedNum;
       } else {
         return 5 - this.selectedNum;
+      }
+    },
+    iconSize () {
+      if (this.size === 'small') {
+        return 'small';
+      } else {
+        return 'big';
       }
     }
   },
@@ -57,10 +64,18 @@ export default {
     @include flex(flex-start);
 
     .score-item {
-      width: 36rpx;
-      height: 36rpx;
       display: inline-block;
       margin-right: 10rpx;
+    }
+
+    .small {
+      width: 24rpx;
+      height: 24rpx;
+    }
+
+    .big {
+      width: 36rpx;
+      height: 36rpx;
     }
 
     .selected {

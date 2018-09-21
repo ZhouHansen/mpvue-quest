@@ -1,10 +1,22 @@
 <template>
-  <div class="teacher-container">这是老师</div>
+  <div class="teacher-container">
+    <hoo-nav :tabs="navData"></hoo-nav>
+    <teacher-list></teacher-list>
+  </div>
 </template>
 <script>
+import hooNav from '@/components/nav';
+import teacherList from '@/module/teacher/teacher.list';
+
 export default {
+  components: {
+    hooNav,
+    teacherList
+  },
   data () {
-    return {};
+    return {
+      navData: ['全部', '美术', '英文', '中文', '数学']
+    };
   }
 };
 </script>
@@ -12,6 +24,5 @@ export default {
   @import '../../assets/style/variables.scss';
 
   .teacher-container {
-    color: $topic-color;
   }
 </style>

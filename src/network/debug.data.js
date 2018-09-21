@@ -15,7 +15,8 @@ const Data = {
       id: '1111',
       label_type: '课程',
       label_arr: ['5-10岁', '¥198/人', '9月11-9月20', '9月11-9月20', '9月11-9月20', '9月11-9月20'],
-      cost: '198'
+      cost: '198',
+      type: 'activity'
     },
     {
       avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
@@ -26,7 +27,8 @@ const Data = {
       id: '2222',
       label_type: '课程',
       label_arr: ['5-10岁', '¥198/人', '9月11-9月20'],
-      cost: '198'
+      cost: '198',
+      type: 'activity'
     },
     {
       avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
@@ -36,7 +38,9 @@ const Data = {
       cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
       id: '3333',
       label_type: '活动',
-      label_arr: ['5-10岁', '¥198/人', '9月11-9月20']
+      label_arr: ['5-10岁', '¥198/人', '9月11-9月20'],
+      cose: '239',
+      type: 'activity'
     },
     {
       avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_170849.403868.png',
@@ -47,7 +51,8 @@ const Data = {
       id: '4444',
       label_type: '活动',
       label_arr: ['5-10岁', '¥198/人', '9月11-9月20'],
-      cost: '198'
+      cost: '198',
+      type: 'commodity'
     },
     {
       avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_170849.403868.png',
@@ -57,7 +62,8 @@ const Data = {
       id: '5555',
       label_type: '商品',
       label_arr: ['¥198/人'],
-      cost: '198'
+      cost: '198',
+      type: 'commodity'
     }
   ],
 
