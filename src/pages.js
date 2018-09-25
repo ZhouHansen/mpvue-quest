@@ -8,6 +8,7 @@ module.exports = [
   'pages/account/index',
   'pages/account.packages/user.inf',
   'pages/account.packages/childrens',
+  'pages/account.packages/childrens.add',
   'pages/account.packages/collection',
   'pages/account.packages/course.calendar',
   'pages/account.packages/purchase.goods',

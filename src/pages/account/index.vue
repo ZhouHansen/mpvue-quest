@@ -11,7 +11,7 @@
       </div>
       <div class="account-arrow"></div>
     </div>
-    <div class="section">
+    <div class="section" @click="visitChildren">
       <div class="section-left">
         <div class="section-icon children"></div>
         <div class="section-text">
@@ -21,7 +21,7 @@
       </div>
       <div class="account-arrow"></div>
     </div>
-    <div class="section">
+    <div class="section" @click="visitCourseCalendar">
       <div class="section-left">
         <div class="section-icon course"></div>
         <div class="section-text">
@@ -31,7 +31,7 @@
       </div>
       <div class="account-arrow"></div>
     </div>
-    <div class="section">
+    <div class="section" @click="visitPurchaseGoods">
       <div class="section-left">
         <div class="section-icon buy"></div>
         <div class="section-text">
@@ -41,7 +41,7 @@
       </div>
       <div class="account-arrow"></div>
     </div>
-    <div class="section">
+    <div class="section" @click="visitCollection">
       <div class="section-left">
         <div class="section-icon collection"></div>
         <div class="section-text">
@@ -51,7 +51,7 @@
       </div>
       <div class="account-arrow"></div>
     </div>
-    <div class="section">
+    <div class="section" @click="visitSetting">
       <div class="section-left">
         <div class="section-icon setting"></div>
         <div class="section-text">
@@ -73,6 +73,26 @@ export default {
   methods: {
     visitUserInf () {
       this.$router.push('/pages/account.packages/user.inf');
+    },
+
+    visitChildren () {
+      this.$router.push('/pages/account.packages/childrens');
+    },
+
+    visitCourseCalendar () {
+      this.$router.push('/pages/account.packages/course.calendar');
+    },
+
+    visitPurchaseGoods () {
+      this.$router.push('/pages/account.packages/purchase.goods');
+    },
+
+    visitCollection () {
+      this.$router.push('/pages/account.packages/collection');
+    },
+
+    visitSetting () {
+      this.$router.push('/pages/account.packages/setting');
     }
   }
 };

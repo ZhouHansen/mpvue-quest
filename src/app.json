@@ -39,6 +39,7 @@
       "pages": [
         "user.inf",
         "childrens",
+        "childrens.add",
         "collection",
         "course.calendar",
         "purchase.goods",
