@@ -74,6 +74,17 @@ const toast = ({title, icon = 'none', hide}) => {
   }
 };
 
+const showModal = obj => {
+  return new Promise((resolve, reject) => {
+    wx.showModal({
+      title: obj.title,
+      success (res) {
+        resolve(res);
+      }
+    });
+  });
+};
+
 const download = ({url}) => {
   return new Promise((resolve, reject) => {
     wx.downloadFile({
@@ -112,6 +123,7 @@ export default {
   callPhone,
   loading,
   toast,
+  showModal,
   download,
   setNavTitle,
   chooseImg
