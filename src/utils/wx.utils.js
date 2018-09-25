@@ -91,6 +91,20 @@ const setNavTitle = text => {
   });
 };
 
+const chooseImg = () => {
+  return new Promise((resolve, reject) => {
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success (res) {
+        // tempFilePath可以作为img标签的src属性显示图片
+        resolve(res);
+      }
+    });
+  });
+};
+
 export default {
   getPagesLength,
   getUserInfo,
@@ -99,5 +113,6 @@ export default {
   loading,
   toast,
   download,
-  setNavTitle
+  setNavTitle,
+  chooseImg
 };

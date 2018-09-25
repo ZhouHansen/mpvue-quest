@@ -33,6 +33,18 @@
       "pages": [
         "organi.detail"
       ]
+    },
+    {
+      "root": "pages/account.packages",
+      "pages": [
+        "user.inf",
+        "childrens",
+        "collection",
+        "course.calendar",
+        "purchase.goods",
+        "setting",
+        "bind.phone"
+      ]
     }
   ],
   "tabBar": {

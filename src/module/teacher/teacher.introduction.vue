@@ -3,7 +3,9 @@
     <div class="introduce-video">
       <hoo-have-left-border-title :title="'课程演示'"></hoo-have-left-border-title>
       <div class="video-content">
-        <video :src="'http://ofqz9brr6.bkt.clouddn.com/6421a883db3e42c7b50d762d94930d6b.mp4'"></video>
+        <video :src="'http://ofqz9brr6.bkt.clouddn.com/6421a883db3e42c7b50d762d94930d6b.mp4'" :objectFit="'contain'">
+          <cover-view class="cover-view"></cover-view>
+        </video>
       </div>
     </div>
     <div class="insert"></div>
@@ -82,6 +84,13 @@ export default {
           width: 100%;
           height: calc((100vw - 80rpx) / 2);
           border-radius: 16rpx;
+        }
+
+        .cover-view {
+          width: 100%;
+          height: 100%;
+          border: 4rpx solid #ffffff;
+          border-radius: 5rpx;
         }
       }
     }

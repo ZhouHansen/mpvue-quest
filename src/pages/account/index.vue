@@ -1,6 +1,6 @@
 <template>
   <div class="account-container">
-    <div class="account-header">
+    <div class="account-header" @click="visitUserInf">
       <div class="account-header-left">
         <div class="account-avatar" :style="{background: 'url(' + avatar + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
         <div class="account-header-text">
@@ -69,6 +69,11 @@ export default {
     return {
       avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png'
     };
+  },
+  methods: {
+    visitUserInf () {
+      this.$router.push('/pages/account.packages/user.inf');
+    }
   }
 };
 </script>
