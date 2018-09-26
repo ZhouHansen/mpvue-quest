@@ -17,6 +17,7 @@ module.exports = [
   'pages/account.packages/purchase.goods/purchase.detail',
   'pages/account.packages/setting',
   'pages/account.packages/setting/setting.address',
+  'pages/account.packages/setting/setting.address.add',
   'pages/account.packages/bind.phone',
   'pages/search/index',
   'pages/home/section.detail',

@@ -48,7 +48,8 @@
         "course.calendar/course.order",
         "course.calendar/course.history",
         "purchase.goods/purchase.detail",
-        "setting/setting.address"
+        "setting/setting.address",
+        "setting/setting.address.add"
       ]
     }
   ],

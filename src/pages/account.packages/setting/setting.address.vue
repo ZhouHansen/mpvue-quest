@@ -17,7 +17,7 @@
               <span class="address-item-default">默认</span>
             </div>
           </div>
-          <div class="address-item-ctrl">
+          <div class="address-item-ctrl" @click="editAddress(1)">
             <span class="address-item-icon"></span>
           </div>
         </div>
@@ -39,14 +39,14 @@
               <span class="address-item-default">默认</span>
             </div>
           </div>
-          <div class="address-item-ctrl">
+          <div class="address-item-ctrl" @click="editAddress(2)">
             <span class="address-item-icon"></span>
           </div>
         </div>
         <div class="address-item-delete" @click="deleteItem">删除</div>
       </div>
     </div>
-    <div class="add-address">添加地址</div>
+    <div class="add-address" @click="editAddress">添加地址</div>
     <hoo-empty :text="'～还没有地址～'" :type="'normal'" v-if="addressList.length === 0"></hoo-empty>
   </div>
 </template>
@@ -71,6 +71,9 @@ export default {
       disX: 0, // 移动距离
       deleteSlider: '' // 滑动时的效果
     };
+  },
+  mounted () {
+    this.$wxUtils.setNavTitle('地址列表');
   },
   methods: {
     touchstartItem (e) {
@@ -130,6 +133,14 @@ export default {
       this.$wxUtils.showModal({title: '确定删除？'}).then(res => {
         console.log(res);
       });
+    },
+
+    editAddress (e) {
+      if (e) {
+        this.$router.push({path: '/pages/account.packages/setting/setting.address.add', query: {id: e}});
+      } else {
+        this.$router.push('/pages/account.packages/setting/setting.address.add');
+      }
     }
   }
 };
@@ -170,10 +181,28 @@ export default {
           transition: 0.3s;
           @include flex();
 
+          .address-item-content {
+            .address-item-title {
+              font-size: 18px;
+              font-weight: bold;
+              color: #000000;
+            }
+
+            .address-item-phone {
+              color: #bababa;
+              padding: 0 30rpx;
+            }
+
+            .address-item-default {
+              color: $topic-color;
+            }
+          }
+
           .address-item-ctrl {
             flex-shrink: 0;
             padding: 22rpx 0 22rpx 40rpx;
             text-align: center;
+            border-left: 1rpx solid #ececec;
 
             .address-item-icon {
               display: inline-block;

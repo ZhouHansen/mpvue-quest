@@ -149,6 +149,7 @@ export default {
             height: 24rpx;
             display: inline-block;
             margin-right: 16rpx;
+            flex-shrink: 0;
             @include backgroundImg('../../assets/images/arrows_search.png');
           }
         }
