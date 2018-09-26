@@ -21,7 +21,7 @@
     </div>
     <div class="user-detail">
       <hoo-left-border-title :title="'参加信息'"></hoo-left-border-title>
-      <div class="user-content">
+      <!-- <div class="user-content">
         <div class="parent">
           <div class="user-title">家长信息</div>
           <div class="parent-inf">
@@ -43,7 +43,8 @@
             <span class="child-add-icon"></span>
           </div>
         </div>
-      </div>
+      </div> -->
+      <join-user-inf :type="'edit'"></join-user-inf>
     </div>
     <div class="activity-detail">
       <hoo-left-border-title :title="'活动详情'"></hoo-left-border-title>
@@ -73,11 +74,13 @@
 </template>
 <script>
   import hooLeftBorderTitle from '@/components/left.border.title';
+  import joinUserInf from '@/module/base/join.user.inf';
 
   export default {
     // props: ['type'],
     components: {
-      hooLeftBorderTitle
+      hooLeftBorderTitle,
+      joinUserInf
     },
     mounted () {
       this.$wxUtils.setNavTitle('确认订单');
@@ -207,72 +210,72 @@
     .user-detail {
       @include sectionStyle();
 
-      .user-content {
-        padding-left: 26rpx;
+    //   .user-content {
+    //     padding-left: 26rpx;
 
-        .user-title {
-          font-size: 18px;
-          color: #000000;
-          font-weight: bold;
-        }
-        .parent {
-          margin-top: 30rpx;
-          padding-bottom: 30rpx;
+    //     .user-title {
+    //       font-size: 18px;
+    //       color: #000000;
+    //       font-weight: bold;
+    //     }
+    //     .parent {
+    //       margin-top: 30rpx;
+    //       padding-bottom: 30rpx;
 
-          .parent-inf {
-            margin-top: 12rpx;
+    //       .parent-inf {
+    //         margin-top: 12rpx;
 
-            .parent-name {
-              margin-right: 30rpx;
-            }
-          }
-        }
-        .child {
-          padding-top: 30rpx;
-          border-top: 1rpx solid #efefef;
+    //         .parent-name {
+    //           margin-right: 30rpx;
+    //         }
+    //       }
+    //     }
+    //     .child {
+    //       padding-top: 30rpx;
+    //       border-top: 1rpx solid #efefef;
 
-          .child-section {
-            margin-top: 12rpx;
-            @include flex();
+    //       .child-section {
+    //         margin-top: 12rpx;
+    //         @include flex();
 
-            .child-name {
-              margin-right: 10rpx;
-            }
+    //         .child-name {
+    //           margin-right: 10rpx;
+    //         }
 
-            .child-icon {
-              width: 22rpx;
-              height: 22rpx;
-              display:inline-block;
-            }
+    //         .child-icon {
+    //           width: 22rpx;
+    //           height: 22rpx;
+    //           display:inline-block;
+    //         }
 
-            .man {
-              @include backgroundImg('../../assets/images/man.png');
-            }
+    //         .man {
+    //           @include backgroundImg('../../assets/images/man.png');
+    //         }
 
-            .woman {
-              @include backgroundImg('../../assets/images/woman.png');
-            }
+    //         .woman {
+    //           @include backgroundImg('../../assets/images/woman.png');
+    //         }
 
-            .child-ctrl {
-              @include backgroundImg('../../assets/images/write.png');
-              width: 32rpx;
-              height: 32rpx;
-            }
-          }
+    //         .child-ctrl {
+    //           @include backgroundImg('../../assets/images/write.png');
+    //           width: 32rpx;
+    //           height: 32rpx;
+    //         }
+    //       }
 
-          .child-add {
-            margin-top: 30rpx;
-            color: $orange-color;
-            @include flex();
+    //       .child-add {
+    //         margin-top: 30rpx;
+    //         color: $orange-color;
+    //         @include flex();
 
-            .child-add-icon {
-              @include backgroundImg('../../assets/images/icon_add_child.png');
-              width: 32rpx;
-              height: 32rpx;
-            }
-          }
-        }
-      }
+    //         .child-add-icon {
+    //           @include backgroundImg('../../assets/images/icon_add_child.png');
+    //           width: 32rpx;
+    //           height: 32rpx;
+    //         }
+    //       }
+    //     }
+    //   }
     }
 
     .activity-detail {

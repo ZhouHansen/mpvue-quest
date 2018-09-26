@@ -30,6 +30,8 @@ export default {
     .normal {
       color: #000000;
       background-color: #ffffff;
+      border: 1rpx solid #ededed;
+      box-shadow: 0 4rpx 8rpx #e3e3e3;
     }
 
     .topic {

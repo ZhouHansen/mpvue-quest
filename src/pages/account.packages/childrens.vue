@@ -41,14 +41,16 @@
       </div>
     </div>
     <div class="add-childrebn" @click="editChildrenInf()">添加孩子信息</div>
-    <div class="children-empty" v-if="childrenList.length === 0">
-      <img src="../../assets/images/ic_empty.png" :mode="'aseptFill'" class="empty-icon">
-      <div class="empty-text">～还没有添加孩子信息～</div>
-    </div>
+    <hoo-empty :text="'～还没有添加孩子信息～'" :type="'normal'" v-if="childrenList.length === 0"></hoo-empty>
   </div>
 </template>
 <script>
+import hooEmpty from '@/components/empty';
+
 export default {
+  components: {
+    hooEmpty
+  },
   props: [],
   data () {
     return {
@@ -212,22 +214,6 @@ export default {
       color: $orange-color;
       background-color: #ffffff;
       border-top: 1rpx solid #ededed;
-    }
-
-    .children-empty {
-      text-align: center;
-      margin-top: 200rpx;
-
-      .empty-icon {
-        width: 424rpx;
-        height: 276rpx;
-      }
-
-      .empty-text {
-        font-size: 16px;
-        color: #9f9f9f;
-        margin-top: 40rpx;
-      }
     }
   }
 </style>

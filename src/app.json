@@ -44,7 +44,9 @@
         "course.calendar",
         "purchase.goods",
         "setting",
-        "bind.phone"
+        "bind.phone",
+        "course.calendar/course.order",
+        "course.calendar/course.history"
       ]
     }
   ],

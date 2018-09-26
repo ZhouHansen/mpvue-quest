@@ -11,6 +11,8 @@ module.exports = [
   'pages/account.packages/childrens.add',
   'pages/account.packages/collection',
   'pages/account.packages/course.calendar',
+  'pages/account.packages/course.calendar/course.order',
+  'pages/account.packages/course.calendar/course.history',
   'pages/account.packages/purchase.goods',
   'pages/account.packages/setting',
   'pages/account.packages/bind.phone',
