@@ -21,29 +21,6 @@
     </div>
     <div class="user-detail">
       <hoo-left-border-title :title="'参加信息'"></hoo-left-border-title>
-      <!-- <div class="user-content">
-        <div class="parent">
-          <div class="user-title">家长信息</div>
-          <div class="parent-inf">
-            <span class="parent-name">孙俪</span>
-            <span class="parent-phone">13304482010</span>
-          </div>
-        </div>
-        <div class="child">
-          <div class="user-title">孩子信息</div>
-          <div class="child-section">
-            <div class="child-inf">
-              <span class="child-name">张爱玲</span>
-              <span class="child-icon man"></span>
-            </div>
-            <div class="child-ctrl"></div>
-          </div>
-          <div class="child-add">
-            <span>添加</span>
-            <span class="child-add-icon"></span>
-          </div>
-        </div>
-      </div> -->
       <join-user-inf :type="'edit'"></join-user-inf>
     </div>
     <div class="activity-detail">
@@ -86,6 +63,11 @@
       this.$wxUtils.setNavTitle('确认订单');
       // console.log(this.$store.state.discovery.order);
       // console.log(this.$store.state.discovery.activity);
+    },
+    watch: {
+      $route (to, from) {
+        console.log('1');
+      }
     },
     data () {
       return {

@@ -70,6 +70,9 @@ export default {
       avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png'
     };
   },
+  mounted () {
+    this.$wxUtils.setNavTitle('我的');
+  },
   methods: {
     visitUserInf () {
       this.$router.push('/pages/account.packages/user.inf');

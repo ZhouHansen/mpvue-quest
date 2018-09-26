@@ -14,9 +14,9 @@
             <span class="child-name">张爱玲</span>
             <span class="child-icon man"></span>
           </div>
-          <div class="child-ctrl" v-if="type === 'edit'"></div>
+          <div class="child-ctrl" v-if="type === 'edit'" @click="editChild(2)"></div>
         </div>
-        <div class="child-add" v-if="type === 'edit'">
+        <div class="child-add" @click="editChild" v-if="type === 'edit'">
           <span>添加</span>
           <span class="child-add-icon"></span>
         </div>
@@ -26,8 +26,14 @@
 <script>
 export default {
   props: ['type'], // 'edit or unedit',
-  mounted () {
-
+  methods: {
+    editChild (e) {
+      if (e) {
+        this.$router.push({path: '/pages/account.packages/childrens.add', query: {id: e}});
+      } else {
+        this.$router.push('/pages/account.packages/childrens.add');
+      }
+    }
   }
 };
 </script>

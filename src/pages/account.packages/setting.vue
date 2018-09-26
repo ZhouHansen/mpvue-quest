@@ -9,7 +9,7 @@
         <div class="setting-item-icon"></div>
       </div>
 
-      <div class="setting-item">
+      <div class="setting-item" @click="visitFeedback">
         <div class="setting-item-content">
           <div class="setting-item-title">意见反馈</div>
           <div class="setting-item-value">任何疑问请留言</div>
@@ -28,6 +28,10 @@ export default {
   methods: {
     visitAddress () {
       this.$router.push('/pages/account.packages/setting/setting.address');
+    },
+
+    visitFeedback () {
+      this.$router.push('/pages/account.packages/feedback');
     }
   }
 };

@@ -45,6 +45,7 @@
         "purchase.goods",
         "setting",
         "bind.phone",
+        "feedback",
         "course.calendar/course.order",
         "course.calendar/course.history",
         "purchase.goods/purchase.detail",
