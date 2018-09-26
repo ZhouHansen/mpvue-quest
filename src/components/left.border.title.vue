@@ -1,5 +1,6 @@
 <template>
   <div class="have-left-topic-border-container">
+    <span></span>
     <div class="content">{{title}}</div>
   </div>
 </template>
@@ -12,8 +13,18 @@ export default {
   @import '../assets/style/variables.scss';
 
   .have-left-topic-border-container {
+    @include flex(flex-start);
+
+    span {
+      display: inline-block;
+      width: 6rpx;
+      height: 20rpx;
+      background-color: #32DA31;
+      margin-top: -5rpx;
+    }
+
     .content {
-      border-left: 6rpx solid $topic-color;
+      // border-left: 6rpx solid $topic-color;
       padding-left: 16rpx;
     }
   }
