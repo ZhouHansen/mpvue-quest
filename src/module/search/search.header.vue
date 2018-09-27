@@ -40,6 +40,10 @@
       this.selectText = this.array[0].text;
       this.$emit('chooseFilterType', this.array[0].type);
     },
+    onShow () {
+      this.selectText = this.array[0].text;
+      this.$emit('chooseFilterType', this.array[0].type);
+    },
     methods: {
       inputTyping (e) {
         this.inputVal = e.mp.detail.value;

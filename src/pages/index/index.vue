@@ -37,7 +37,7 @@ export default {
   onReady () {
     // 调用应用实例的方法获取全局数据
     WxUtils.getUserInfo();
-    console.log(this.$store.state);
+    // console.log(this.$store.state);
     this.getDiscovery();
   },
   mounted () {

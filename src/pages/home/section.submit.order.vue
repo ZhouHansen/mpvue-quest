@@ -64,11 +64,6 @@
       // console.log(this.$store.state.discovery.order);
       // console.log(this.$store.state.discovery.activity);
     },
-    watch: {
-      $route (to, from) {
-        console.log('1');
-      }
-    },
     data () {
       return {
         cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_170849.403868.png',

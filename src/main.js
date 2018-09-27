@@ -13,6 +13,8 @@ import '@/utils/wx.onlanch';
 import '@/assets/style/weui.scss';
 import '@/assets/style/base.scss';
 
+import Hack from './plugs/hack';
+
 Vue.config.productionTip = false;
 App.mpType = 'app';
 
@@ -27,6 +29,7 @@ Vue.prototype.$storage = Storage;
 Vue.prototype.$storageTypeName = StorageTypeName;
 Vue.prototype.$wxUtils = WxUtils;
 Vue.use(MpvueRouterPatch);
+Vue.use(Hack);
 
 export default {
   config: {

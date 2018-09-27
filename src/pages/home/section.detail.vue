@@ -14,6 +14,16 @@
     computed: mapState([
       'overflowHiddenStatus'
     ]),
+    // 监听,当路由发生变化的时候执行
+    watch: {
+      $route: {
+        handler: function (val, oldVal) {
+          console.log(val);
+        },
+        // 深度观察监听
+        deep: true
+      }
+    },
     onShareAppMessage (res) {
       if (res.from === 'button') {
         // 来自页面内转发按钮

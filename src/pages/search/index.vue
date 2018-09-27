@@ -45,7 +45,7 @@
     },
     computed: {
       isOverflow: function () {
-        console.log(this.$store.state);
+        console.log(this.$store);
         return this.$store.state.search.isOverFlowStatu;
       }
     },
@@ -81,6 +81,7 @@
       },
 
       filterType (e) {
+        console.log(e);
         this.filterTypeVal = e;
       }
     }
