@@ -65,6 +65,9 @@
         chooseNavNumber: '0'
       };
     },
+    onShow () {
+      this.chooseNavNumber = '0';
+    },
     mounted () {
       this.$wxUtils.setNavTitle('老师详情');
     },

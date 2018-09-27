@@ -31,6 +31,9 @@
         chooseNavIndex: '0'
       };
     },
+    onShow () {
+      this.chooseNavIndex = '0';
+    },
     methods: {
       chooseNav (e) {
         console.log('接收到点击的nav', e);

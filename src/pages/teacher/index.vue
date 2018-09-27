@@ -17,6 +17,9 @@ export default {
     return {
       navData: ['全部', '美术', '英文', '中文', '数学']
     };
+  },
+  onShow () {
+    // 初始化的搜索老师条件。
   }
 };
 </script>

@@ -21,6 +21,9 @@ export default {
       activeIndex: 0
     };
   },
+  onShow () {
+    this.activeIndex = 0;
+  },
   computed: {
     navbarLeft () {
       return ((100 / this.tabs.length) - 10) / 2;

@@ -1,5 +1,5 @@
 <template>
-  <div class="course-item-container">
+  <div class="course-item-container" @click="visitCourseDetail">
     <div class="course-cover" :style="{background: 'url(' + courseData.avatar + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
     <div class="course-inf">
       <div class="course-title">{{courseData.title}}</div>
@@ -21,6 +21,11 @@
         teacherLabelTypeText: '活动',
         teacherLabelArr: ['蜗牛英语', '9月11日-9月20日']
       };
+    },
+    methods: {
+      visitCourseDetail () {
+        this.$router.push({path: '/pages/home/section.detail', query: {id: 123123}});
+      }
     }
   };
 </script>

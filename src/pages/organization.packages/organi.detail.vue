@@ -53,6 +53,9 @@
         chooseNavNumber: '0'
       };
     },
+    onShow () {
+      this.chooseNavNumber = '0';
+    },
     mounted () {
       console.log(this.$route.query);
     },
