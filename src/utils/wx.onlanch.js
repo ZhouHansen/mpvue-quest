@@ -87,3 +87,9 @@ wx.getSetting({
     }
   }
 });
+
+let systemData = Storage.get(StorageTypeName['system']);
+
+if (!systemData) {
+  Storage.set(StorageTypeName['system'], wx.getSystemInfoSync());
+}

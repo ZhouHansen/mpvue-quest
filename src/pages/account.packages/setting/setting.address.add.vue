@@ -35,7 +35,7 @@
         <div class="item-label">设置</div>
         <div class="item-input set-address" @click="tapSetDefaultAddress">
           <div class="item-input-icon" :class="defaultAddressStatus?'checked':'default'"></div>
-          <div class="item-input-value">默认未收货地址</div>
+          <div class="item-input-value">默认为收货地址</div>
         </div>
       </div>
     </div>
@@ -51,12 +51,11 @@ export default {
   components: {
     hooButton
   },
-  props: [],
   data () {
     return {
       id: null,
       telephone: null,
-      areaValue: [],
+      areaValue: ['辽宁省', '大连市', '高新园区'],
       name: null,
       address: null,
 
@@ -65,6 +64,7 @@ export default {
   },
   mounted () {
     this.id = this.$route.query.id;
+    console.log(this.id);
     if (this.id) {
       this.$wxUtils.setNavTitle('编辑地址');
     } else {

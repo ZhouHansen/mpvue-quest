@@ -1,33 +1,14 @@
 <template>
-  <cover-view class="organi-filter-container" :class="data.type">
-    <cover-view class="filter-item" @click="tapFilter(1)">大连</cover-view>
-    <cover-view class="line"></cover-view>
-    <cover-view class="filter-item" @click="tapFilter(2)">北京</cover-view>
-    <cover-view class="line"></cover-view>
-    <cover-view class="filter-item" @click="tapFilter(3)">哈尔滨</cover-view>
-    <cover-view class="line"></cover-view>
-    <cover-view class="filter-item" @click="tapFilter(4)">大连</cover-view>
-    <cover-view class="line"></cover-view>
-    <cover-view class="filter-item" @click="tapFilter(5)">北京</cover-view>
-    <cover-view class="line"></cover-view>
-    <cover-view class="filter-item" @click="tapFilter(6)">哈尔滨</cover-view>
-    <cover-view class="line"></cover-view>
-    <cover-view class="filter-item" @click="tapFilter(7)">大连</cover-view>
-    <cover-view class="line"></cover-view>
-    <cover-view class="filter-item" @click="tapFilter(8)">北京</cover-view>
-    <cover-view class="line"></cover-view>
-    <cover-view class="filter-item" @click="tapFilter(9)">哈尔滨</cover-view>
-    <cover-view class="line"></cover-view>
-    <cover-view class="filter-item" @click="tapFilter(10)">大连</cover-view>
-    <cover-view class="line"></cover-view>
-    <cover-view class="filter-item" @click="tapFilter(11)">北京</cover-view>
-    <cover-view class="line"></cover-view>
-    <cover-view class="filter-item" @click="tapFilter(12)">哈尔滨</cover-view>
+  <cover-view class="organi-filter-container" :class="type">
+    <cover-view v-for="(item, index) in data" :key="index">
+      <cover-view class="filter-item" @click="tapFilter(item.id)">{{item.text}}</cover-view>
+      <cover-view class="line" v-if="index !== data.length - 1"></cover-view>
+    </cover-view>
   </cover-view>
 </template>
 <script>
 export default {
-  props: ['data'],
+  props: ['data', 'type'],
   methods: {
     tapFilter (e) {
       this.$emit('tapFilter', e);
@@ -42,7 +23,7 @@ export default {
     position: fixed;
     top: 130rpx;
     z-index: 99;
-    max-height: calc(100vh - 170rpx);
+    max-height: calc(80vh - 170rpx);
     overflow-y: scroll;
     padding: 6rpx 26rpx;
     border-radius: 16rpx;
@@ -84,7 +65,7 @@ export default {
 
   .type {
     left: 208rpx;
-    width: calc(100vw - 264rpx);
+    width: calc(100vw - (2 * 208rpx));
   }
 
   .city {

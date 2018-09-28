@@ -24,11 +24,11 @@
             <span class="address-name">张爱玲</span>
             <span class="address-phone">12341325534</span>
           </div>
-          <div class="address-edit">
+          <div class="address-edit" @click="editAddress(2)">
             <div class="address-ctrl"></div>
           </div>
         </div>
-        <div class="address-add">
+        <div class="address-add" @click="editAddress('add')">
           <span>添加收货地址</span>
           <span class="address-add-icon"></span>
         </div>
@@ -144,6 +144,14 @@
 
       editSignature () {
         this.$router.push('/pages/home/custom.signature');
+      },
+
+      editAddress (e) {
+        if (e !== 'add') {
+          this.$router.push({path: '/pages/account.packages/setting/setting.address.add', query: {id: '123'}});
+        } else {
+          this.$router.push('/pages/account.packages/setting/setting.address.add');
+        }
       }
     }
   };

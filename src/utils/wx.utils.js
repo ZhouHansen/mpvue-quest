@@ -91,6 +91,9 @@ const download = ({url}) => {
       url: url,
       success: (res) => {
         resolve(res.tempFilePath);
+      },
+      fail: (res) => {
+        reject(res);
       }
     });
   });

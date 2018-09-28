@@ -79,6 +79,9 @@ export default {
   mounted () {
     this.$wxUtils.setNavTitle('个人信息');
   },
+  onUnload () {
+    console.log('离开页面');
+  },
   methods: {
     editAvatar () {
       this.$wxUtils.chooseImg().then(res => {

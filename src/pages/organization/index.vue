@@ -9,18 +9,28 @@
       bindmarkertap="markertap"
       bindregionchange="regionchange"
       show-location style="width: 100%; height:{{mapHeight}}px;"></map> -->
-      <map v-if="markers" :markers="markers" @markertap="markertap" :show-location="'true'" :longitude="'121.541557'" :latitude="'38.860103'" :style="'width: 100%; height: 100vh;'">
+      <map v-if="markers" :markers="markers"
+        @markertap="markertap"
+        @tap="tapMap"
+        @regionchange="regionMap"
+        :show-location="'true'"
+        :longitude="'121.541557'"
+        :latitude="'38.860103'"
+        :class="showRecommend?'unfill-height': 'fill-height'">
         <organi-filter-button :data="{type: 'city', text: '大连'}" @filterButton="tapFilterButton"></organi-filter-button>
         <organi-filter-button :data="{type: 'type', text: '全部'}" @filterButton="tapFilterButton"></organi-filter-button>
-        <organi-filter :data="{type: 'city'}" @tapFilter="chooseFilter" v-if="showFilterList"></organi-filter>
-        <recommend-organi></recommend-organi>
+        <organi-filter :type="filterType" :data="filter" @tapFilter="chooseFilter" v-if="showFilterList"></organi-filter>
+        <cover-view class="show-recommend" v-if="!showRecommend" @click="toggleRecommend">显示推荐机构</cover-view>
       </map>
+      <div class="" :class="showRecommend?'recommend-body':'hide-recommend'" v-if="markers">
+        <div class="recommend-ctrl" @click="toggleRecommend"><span></span></div>
+        <recommend-organi v-if="showRecommend"></recommend-organi>
+      </div>
   </div>
 </template>
 <script>
 import _ from 'lodash';
-import WxUtils from '@/utils/wx.utils';
-import recommendOrgani from '@/module/organization/coverView/recommend.organi';
+import recommendOrgani from '@/module/organization/recommend.organi';
 import organiFilter from '@/module/organization/coverView/organi.filter';
 import organiFilterButton from '@/module/organization/coverView/organi.filter.button';
 
@@ -32,6 +42,7 @@ export default {
   },
   data () {
     return {
+      showRecommend: true,
       showFilterList: false,
       markers: null,
       markersData: [
@@ -47,7 +58,21 @@ export default {
           }
         }
       ],
-      url: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg'
+      filter: [],
+      filterType: '',
+      filterCity: [
+        {id: 'asdh1', text: '大连'},
+        {id: 'asdh2', text: '沈阳'},
+        {id: 'asdh3', text: '鞍山'},
+        {id: 'asdh4', text: '营口'},
+        {id: 'asdh5', text: '朝阳'}
+      ],
+      filterTypeData: [
+        {id: 'all', text: '全部'},
+        {id: 'course', text: '课程'},
+        {id: 'activity', text: '活动'}
+      ],
+      url: 'http://ofqz9brr6.bkt.clouddn.com/avatar.jpg'
     };
   },
   mounted () {
@@ -55,8 +80,26 @@ export default {
     this.getCityList();
   },
   methods: {
+    tapMap () {
+      this.showRecommend = false;
+      this.showFilterList = false;
+    },
+
+    regionMap (e) {
+      console.log(e);
+      this.showRecommend = false;
+      this.showFilterList = false;
+    },
+
+    toggleRecommend () {
+      this.showFilterList = false;
+      this.showRecommend = !this.showRecommend;
+    },
+
     setMarkerIcon () {
-      WxUtils.download({url: this.url}).then(res => {
+      this.$wxUtils.download({url: this.url}).then(res => {
+        console.log(res);
+
         this.markersData[0].iconPath = res;
         this.markers = this.markersData;
       });
@@ -67,17 +110,31 @@ export default {
     },
 
     tapFilterButton (e) {
-      this.showFilterList = !this.showFilterList;
+      this.showRecommend = false;
+      if (this.filterType === e) {
+        this.showFilterList = !this.showFilterList;
+      } else {
+        this.showFilterList = true;
+      }
+
+      this.filterType = e;
+
+      if (e === 'city') {
+        this.filter = this.filterCity;
+      } else
+      if (e === 'type') {
+        this.filter = this.filterTypeData;
+      }
     },
 
     chooseFilter (e) {
       console.log(e);
       this.showFilterList = false;
       this.markers = null;
-      WxUtils.loading({title: '查找中...'});
-      WxUtils.download({url: this.url}).then(res => {
+      this.$wxUtils.loading({title: '查找中...'});
+      this.$wxUtils.download({url: this.url}).then(res => {
         setTimeout(() => {
-          WxUtils.loading({show: false});
+          this.$wxUtils.loading({show: false});
           this.markers = [{
             iconPath: res,
             id: 2,
@@ -116,6 +173,58 @@ export default {
   @import '../../assets/style/variables.scss';
 
   .organization-container {
-    color: $topic-color;
+    height: 100vh;
+    overflow: hidden;
+
+    .unfill-height {
+      width: 100%;
+      height: 65vh;
+    }
+
+    .fill-height {
+      width: 100%;
+      height: 100vh;
+    }
+
+    .recommend-body {
+      height: 35vh;
+      overflow: hidden;
+    }
+
+    .show-recommend {
+      position: absolute;
+      bottom: 30rpx;
+      right: 10rpx;
+      padding: 8rpx 10rpx;
+      background-color: #ffffff;
+      color: $topic-color;
+      border-radius: 4px;
+    }
+
+    .recommend-ctrl {
+      text-align: center;
+
+      span {
+        @include backgroundImg('../../assets/images/hide_ic.png');
+        display: inline-block;
+        width: 48rpx;
+        height: 48rpx;
+        animation: tips 5s infinite;
+      }
+    }
+
+    @keyframes tips {
+      0% {
+        transform: translate3d(0, 0%, 0);
+      }
+
+      50% {
+        transform: translate3d(0, 50%, 0);
+      }
+
+      100% {
+        transform: translate3d(0, 0%, 0);
+      }
+    }
   }
 </style>
