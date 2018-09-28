@@ -66,8 +66,9 @@ export default {
   props: [],
   data () {
     return {
+      wxUserInf: this.$storage.get(this.$storageTypeName['wxUserInf']),
       avatar: '',
-      nickname: '一块饼干',
+      nickname: '',
       name: '王岩',
       area: '大连',
       phoneVal: 17645091513,
@@ -78,11 +79,20 @@ export default {
   },
   mounted () {
     this.$wxUtils.setNavTitle('个人信息');
+    this.getUserInf();
   },
   onUnload () {
     console.log('离开页面');
   },
   methods: {
+    getUserInf () {
+      // 如果获取的用户信息没有这个参数，就默认填上。用户保存时一块上传到后台
+
+      this.avatar = this.wxUserInf.avatarUrl;
+      this.nickname = this.wxUserInf.nickName;
+      this.genderValue = this.wxUserInf.gender - 1;
+    },
+
     editAvatar () {
       this.$wxUtils.chooseImg().then(res => {
         console.log(this.$wxNetwork);

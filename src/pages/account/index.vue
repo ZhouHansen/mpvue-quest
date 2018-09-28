@@ -1,15 +1,19 @@
 <template>
   <div class="account-container">
-    <div class="account-header" @click="visitUserInf">
-      <div class="account-header-left">
-        <div class="account-avatar" :style="{background: 'url(' + avatar + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
-        <div class="account-header-text">
-          <div class="account-header-text-name">冯老师</div>
-          <div class="account-header-text-unbind">未绑定手机号</div>
-          <div class="account-header-text-phone">手机号：12312378791</div>
+    <div>
+      <button :open-type="'getUserInfo'" :hover-stay-time="0" :hover-start-time="0" :lang="zh_CN" :plain="'true'" @getuserinfo="getUserInfo">
+        <div class="account-header">
+            <div class="account-header-left">
+              <div class="account-avatar" :style="{background: 'url(' + avatar + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+              <div class="account-header-text">
+                <div class="account-header-text-name">冯老师</div>
+                <div class="account-header-text-unbind">未绑定手机号</div>
+                <div class="account-header-text-phone">手机号：12312378791</div>
+              </div>
+            </div>
+            <div class="account-arrow"></div>
         </div>
-      </div>
-      <div class="account-arrow"></div>
+      </button>
     </div>
     <div class="section" @click="visitChildren">
       <div class="section-left">
@@ -67,14 +71,20 @@
 export default {
   data () {
     return {
-      avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png'
+      avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png',
+      wxUserInf: this.$storage.get(this.$storageTypeName['wxUserInf'])
     };
   },
   mounted () {
     this.$wxUtils.setNavTitle('我的');
   },
   methods: {
-    visitUserInf () {
+    getUserInfo (e) {
+      if (!this.wxUserInf) {
+        console.log(e);
+        this.$storage.set(this.$storageTypeName['wxUserInf'], e.mp.detail.userInfo);
+      }
+
       this.$router.push('/pages/account.packages/user.inf');
     },
 
@@ -104,10 +114,25 @@ export default {
   @import '../../assets/style/variables.scss';
 
   .account-container {
+    button {
+      font-size: 14px;
+      box-sizing: normal;
+      padding: 0;
+      margin: 0;
+      display: inline-block;
+      width: 100%;
+      line-height: normal;
+      text-align: left;
+      border: 0;
+      background-color: #fff;
+      outline: 0;
+      box-shadow: 0;
+      border-radius: 0;
+    }
     .account-header {
-      @include flex();
       padding: 80rpx 40rpx;
       border-top: 1rpx solid #e8e8e8;
+      @include flex();
 
       .account-header-left {
         @include flex(flex-start);
