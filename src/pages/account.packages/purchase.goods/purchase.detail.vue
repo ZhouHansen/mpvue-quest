@@ -79,7 +79,7 @@
         <hoo-button :text="'查看物流'" :type="'normal'"></hoo-button>
         <hoo-button :text="'确认收货'" :type="'topic'"></hoo-button>
       </div>
-      <hoo-button :text="'去评价'" :type="'topic'" v-if="orderStatus.ctrl === 'appraisal'"></hoo-button>
+      <hoo-button :text="'去评价'" :type="'topic'" v-if="orderStatus.ctrl === 'appraisal'" @tapButton="visitAppraisal"></hoo-button>
       <hoo-button :text="'联系客服'" :type="'normal'" v-if="orderStatus.ctrl === 'customerServer'"></hoo-button>
     </div>
   </div>
@@ -100,13 +100,18 @@ export default {
   data () {
     return {
       cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png',
-      orderStatus: PurchaseStatus[1]
+      orderStatus: PurchaseStatus[4]
     };
   },
   mounted () {
-    this.$wxUtils.setNavTitle('课程订单详情');
+    this.$wxUtils.setNavTitle('商品订单详情');
   },
   computed: {
+  },
+  methods: {
+    visitAppraisal () {
+      this.$router.push('/pages/account.packages/purchase.goods/purchase.appraisal');
+    }
   }
 };
 </script>

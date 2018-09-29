@@ -50,6 +50,7 @@
         "course.calendar/course.appraisal",
         "course.calendar/course.history",
         "purchase.goods/purchase.detail",
+        "purchase.goods/purchase.appraisal",
         "setting/setting.address",
         "setting/setting.address.add"
       ]
