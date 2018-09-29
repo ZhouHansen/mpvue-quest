@@ -9,7 +9,7 @@
     </div>
     <div class="section-label">
       <hoo-label :type-text="sectionData.label_type" :label-arr="sectionData.label_arr"></hoo-label>
-      <div class="section-distance" v-if="sectionData.distance">{{sectionData.distance}}km</div>
+      <div class="section-distance" v-if="distanceToSection">{{distanceToSection}}</div>
     </div>
     <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.cover + ') no-repeat 50% 50%; background-size: cover;'"></div>
     <div class="section-desc">{{sectionData.desc}}</div>
@@ -18,6 +18,7 @@
 <script>
   import * as MutationsType from '@/store/mutation.type';
   import hooLabel from '@/components/label';
+  import Utils from '@/utils/index';
 
   export default {
     props: ['sectionData'],
@@ -26,7 +27,22 @@
     },
     data () {
       return {
+        location: this.$storage.get(this.$storageTypeName['location'])
       };
+    },
+    computed: {
+      distanceToSection () {
+        if (this.sectionData.distance) {
+          return Utils.backDistance({
+            lat1: this.location.latitude,
+            lng1: this.location.longitude,
+            lat2: this.sectionData.distance.lat,
+            lng2: this.sectionData.distance.lng
+          });
+        } else {
+          return false;
+        }
+      }
     },
     methods: {
       goDetail () {
@@ -73,10 +89,7 @@
 
     .section-label {
       margin-top: 8rpx;
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: space-between;
-      align-items: flex-start;
+      @include flex(space-between, flex-end);
 
       .section-distance {
         flex-shrink: 0;

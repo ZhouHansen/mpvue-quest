@@ -6,7 +6,7 @@
       <span class="score-item unselected" :class="iconSize" v-for="(item, index) in unSelectedNUm" :key="index"></span>
     </div>
     <div v-if="type === 'set'">
-      <span class="score-item"
+      <span class="score-item big"
         :class="{'unselected': index + 1 > chooseScore, 'unselected': chooseScore === 0, 'selected': index + 1 <= chooseScore}"
         v-for="(item, index) in fillScore" :key="index" @click="tapChooseScore(index + 1)"></span>
     </div>
@@ -18,7 +18,7 @@
  * 评价分数: :type="'set'" , @setScore
 */
 export default {
-  props: ['score', 'type', 'size'],
+  props: ['score', 'type', 'size', 'id'],
   computed: {
     haveSalf () {
       if (this.score % 1 > 0) {
@@ -45,14 +45,20 @@ export default {
   },
   data () {
     return {
-      chooseScore: 0,
+      chooseScore: 1,
       fillScore: 5
     };
   },
   methods: {
     tapChooseScore (e) {
       this.chooseScore = e;
-      this.$emit('setScore', e);
+      let result = {};
+      if (this.id) {
+        result['id'] = this.id;
+      }
+
+      result['score'] = e;
+      this.$emit('setScore', result);
     }
   }
 };
@@ -65,7 +71,7 @@ export default {
 
     .score-item {
       display: inline-block;
-      margin-right: 10rpx;
+      padding-right: 16rpx;
     }
 
     .small {

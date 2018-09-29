@@ -30,12 +30,14 @@ const getLocation = () => {
   let timestamp = parseInt(new Date() / 1000);
   let time = 5 * 60;
   return new Promise((resolve, reject) => {
-    if (location && timestamp - location.timestamp < time) {
+    if (location && (timestamp - location.timestamp < time)) {
+      console.log('getlocation storage', location);
       resolve(location);
     } else {
       wx.getLocation({
         type: 'gcj02',
         success: (res) => {
+          console.log('getlocation wx', res);
           res.timestamp = timestamp;
           Storage.set(StorageTypeName.location, res);
           resolve(res);
@@ -105,14 +107,14 @@ const setNavTitle = text => {
   });
 };
 
-const chooseImg = () => {
+const chooseImg = ({num = 1}) => {
   return new Promise((resolve, reject) => {
     wx.chooseImage({
-      count: 1,
+      count: num,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success (res) {
-        // tempFilePath可以作为img标签的src属性显示图片
+        // tempFilePaths 可以作为img标签的src属性显示图片
         resolve(res);
       }
     });

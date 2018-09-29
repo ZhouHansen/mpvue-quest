@@ -12,6 +12,7 @@ module.exports = [
   'pages/account.packages/collection',
   'pages/account.packages/course.calendar',
   'pages/account.packages/course.calendar/course.order',
+  'pages/account.packages/course.calendar/course.appraisal',
   'pages/account.packages/course.calendar/course.history',
   'pages/account.packages/purchase.goods',
   'pages/account.packages/purchase.goods/purchase.detail',

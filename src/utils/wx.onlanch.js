@@ -87,7 +87,7 @@ wx.getSetting({
       });
     } else {
       Utils.getLocation().then(res => {
-        console.log(res);
+        // console.log(res);
       });
     }
   }

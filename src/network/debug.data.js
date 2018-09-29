@@ -10,43 +10,55 @@ const Data = {
       avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
       title: '2018招牌通识营-在创造中原力觉醒时,在创造中原力觉醒时在创造中原力觉醒时',
       desc: '教育机构名称',
-      distance: '2.4',
       cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
       id: '1111',
       label_type: '课程',
       label_arr: ['5-10岁', '¥198/人', '9月11-9月20', '9月11-9月20', '9月11-9月20', '9月11-9月20'],
       cost: '198',
-      type: 'activity'
+      type: 'activity',
+      lat: '38.860103',
+      lng: '121.541557',
+      distance: {
+        lat: '38.860103',
+        lng: '121.541557'
+      }
     },
     {
       avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
       title: '暑期儿童编程入门',
       desc: '教育机构名称',
-      distance: '2.4',
       cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
       id: '2222',
       label_type: '课程',
       label_arr: ['5-10岁', '¥198/人', '9月11-9月20'],
       cost: '198',
-      type: 'activity'
+      type: 'activity',
+      lat: '38.860103',
+      lng: '121.541557',
+      distance: {
+        lat: '38.860103',
+        lng: '121.541557'
+      }
     },
     {
       avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
       title: '暑期儿童编程入门',
       desc: '教育机构名称',
-      distance: 2.4,
       cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
       id: '3333',
       label_type: '活动',
       label_arr: ['5-10岁', '¥198/人', '9月11-9月20'],
       cose: '239',
-      type: 'activity'
+      type: 'activity',
+      distance: {
+        lat: '38.860103',
+        lng: '121.541557'
+      }
     },
     {
       avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_170849.403868.png',
       title: '暑期儿童编程入门',
       desc: '教育机构名称',
-      distance: 2.4,
       cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_170849.403868.png',
       id: '4444',
       label_type: '活动',

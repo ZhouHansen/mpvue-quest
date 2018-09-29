@@ -68,7 +68,9 @@
     </div>
 
     <div class="footer">
-      <hoo-button :text="footerText" :type="footerType"></hoo-button>
+      <!-- <hoo-button :text="'取消订单'" :type="'normal'"></hoo-button> -->
+      <hoo-button :text="'去评价'" :type="'topic'" @tapButton="visitAppraisal"></hoo-button>
+      <!-- <hoo-button :text="'联系客服'" :type="'normal'"></hoo-button> -->
     </div>
   </div>
 </template>
@@ -95,6 +97,12 @@ export default {
   },
   mounted () {
     this.$wxUtils.setNavTitle('课程订单详情');
+  },
+  methods: {
+    visitAppraisal () {
+      console.log('去评价');
+      this.$router.push('/pages/account.packages/course.calendar/course.appraisal');
+    }
   }
 };
 </script>
