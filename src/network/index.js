@@ -10,11 +10,15 @@ import {
 import base from './network.base';
 import search from './network.search';
 import discovery from './network.discovery';
+import organi from './network.organi';
+import teacher from './network.teacher';
 
 const networkActions = {
   base,
   search,
-  discovery
+  discovery,
+  organi,
+  teacher
 };
 
 class Network {

@@ -17,7 +17,7 @@
         <hoo-arrange></hoo-arrange>
       </div>
       <div class="section-content-location">
-        <hoo-location></hoo-location>
+        <hoo-location :data="distance"></hoo-location>
       </div>
     </div>
     <div class="section-organi">
@@ -86,7 +86,12 @@
         labelTypeText: '多动',
         labelArr: ['5-10岁', '109元'],
         tabData: ['详情', '评价'],
-        chooseNavIndex: '0'
+        chooseNavIndex: '0',
+
+        distance: {
+          lat: '38.862103',
+          lng: '121.541557'
+        }
       };
     },
     onShow () {

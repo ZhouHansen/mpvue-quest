@@ -42,6 +42,21 @@ export default {
       openid: [NetworkParamType.string]
     },
     debug: DebugData.getOpenid
+  },
+
+  /**
+   * 使用下单的id获取支付配置，然后进行支付
+   * network.wx.js 中保存微信支付请求
+  */
+  getWxPaymentParams: {
+    url: 'user',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    params: {
+      id: [NetworkParamType.string],
+      openid: [NetworkParamType.string]
+    },
+    debug: DebugData.getOpenid
   }
 
 };

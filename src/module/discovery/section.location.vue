@@ -5,7 +5,7 @@
         <span class="location-icon"></span>
         <span class="location-text line-clamp-2">北京市朝阳区望京soho231</span>
       </div>
-      <div class="location-distance">231m</div>
+      <div class="location-distance">{{distanceToSection}}</div>
     </div>
     <div class="location-ctrl">
       <image :src="'/img/direction.png'" :mode="asceptFill" />
@@ -13,7 +13,29 @@
   </div>
 </template>
 <script>
+import Utils from '@/utils/index';
+
 export default {
+  props: ['data'],
+  data () {
+    return {
+      location: this.$storage.get(this.$storageTypeName['location'])
+    };
+  },
+  computed: {
+    distanceToSection () {
+      if (this.data) {
+        return Utils.backDistance({
+          lat1: this.location.latitude,
+          lng1: this.location.longitude,
+          lat2: this.data.lat,
+          lng2: this.data.lng
+        });
+      } else {
+        return false;
+      }
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

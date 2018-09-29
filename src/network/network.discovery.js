@@ -63,7 +63,7 @@ export default {
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
     params: {
-      id: '123'
+      id: [NetworkParamType.string]
     },
     debug: DebugData.setCollection
   },
@@ -76,20 +76,20 @@ export default {
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
     params: {
-      id: '123'
+      id: [NetworkParamType.string]
     },
     debug: DebugData.cancelCollection
   },
 
   /**
-   * 参加活动、课程
+   * 报名参加活动、课程
   */
   joinActivity: {
     url: 'acityvity/join',
     method: 'post',
     apiVersion: NetworkAPIVersion.v1_version,
     params: {
-      id: '123'
+      id: [NetworkParamType.string]
     },
     debug: DebugData.joinActivity
   },
@@ -102,7 +102,7 @@ export default {
     method: 'post',
     apiVersion: NetworkAPIVersion.v1_version,
     params: {
-      id: '123'
+      id: [NetworkParamType.string]
     },
     debug: DebugData.cancelJoinActivity
   },
@@ -114,7 +114,27 @@ export default {
     method: 'post',
     apiVersion: NetworkAPIVersion.v1_version,
     params: {
-      id: '123'
+      id: [NetworkParamType.string]
+    },
+    debug: DebugData.getSelectDate
+  },
+
+  /**
+   * 商品、活动、课程 下单
+   * @id: 商品、活动、课程的id
+   * @children: 孩子信息
+   * @number: 订单数量
+   * @address: 地址 只有购买商品时需要
+  */
+  submitOrder: {
+    url: '',
+    method: 'post',
+    apiVersion: NetworkAPIVersion.v1_version,
+    params: {
+      id: [NetworkParamType.string],
+      children: [NetworkParamType.string],
+      number: [NetworkParamType.number],
+      address: [NetworkParamType.address]
     },
     debug: DebugData.getSelectDate
   }

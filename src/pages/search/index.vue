@@ -72,7 +72,7 @@
 
       sendSearchRequest (params) {
         // WxUtils.loading({show: true, title: '查找中...'});
-        this.$network.search.search({type: 'a'}).then(res => {
+        this.$network.search.searchCourse({type: 'a'}).then(res => {
           this.alreadyUseSearch = true;
           console.log('返回模拟查找数据', res);
         }).catch(err => {

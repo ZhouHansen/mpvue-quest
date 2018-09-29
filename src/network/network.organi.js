@@ -3,10 +3,9 @@ import DebugData from './debug.data';
 
 export default {
   /**
-   * 获取课程列表数据
-   * 需要根据学科，价格，日期，适龄进行过滤。
+   * 获取地图机构的城市列表
   */
-  searchCourse: {
+  getFilterByMapCity: {
     url: 'search',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
@@ -18,10 +17,9 @@ export default {
   },
 
   /**
-   * 获取老师列表数据
-   * 根据学科，认证，好评 进行过滤。
+   * 获取地图推荐机构
   */
-  searchSearch: {
+  getRecommendOrgani: {
     url: 'search',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
@@ -32,15 +30,30 @@ export default {
     debug: DebugData.search
   },
 
-  /*
-  * 获取机构列表数据
-  * 根据附近和认证 进行过滤。
+  /**
+   * 获取机构详情信息
   */
-  searchOrgani: {
+  getOrganiDetail: {
     url: 'search',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
     params: {
+      id: [NetworkParamType.string],
+      limit: [NetworkParamType.number],
+      offset: [NetworkParamType.number]
+    },
+    debug: DebugData.search
+  },
+
+  /*
+  * 获取机构下的课程, 老师, 评价
+  */
+  getNavDataByOrgani: {
+    url: 'search',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    params: {
+      id: [NetworkParamType.string],
       limit: [NetworkParamType.number],
       offset: [NetworkParamType.number]
     },

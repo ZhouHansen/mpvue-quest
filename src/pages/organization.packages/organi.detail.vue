@@ -70,7 +70,8 @@
         console.log(res.target);
       }
       return {
-        title: '机构详情'
+        title: '娱乐完教育机构详情...',
+        path: '/pages/organization.packages/organi.detail?id=123'
       };
     }
   };

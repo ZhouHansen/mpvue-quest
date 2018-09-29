@@ -19,7 +19,7 @@ const Data = {
       lat: '38.860103',
       lng: '121.541557',
       distance: {
-        lat: '38.860103',
+        lat: '38.862103',
         lng: '121.541557'
       }
     },
@@ -33,7 +33,7 @@ const Data = {
       label_arr: ['5-10岁', '¥198/人', '9月11-9月20'],
       cost: '198',
       type: 'activity',
-      lat: '38.860103',
+      lat: '38.760103',
       lng: '121.541557',
       distance: {
         lat: '38.860103',
@@ -52,7 +52,7 @@ const Data = {
       type: 'activity',
       distance: {
         lat: '38.860103',
-        lng: '121.541557'
+        lng: '121.841557'
       }
     },
     {

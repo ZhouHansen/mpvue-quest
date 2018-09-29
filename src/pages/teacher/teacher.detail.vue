@@ -24,10 +24,10 @@
       </div>
       <hoo-nav :tabs="navData" @tapNavItem="chooseNav"></hoo-nav>
       <div class="tearcher-detail-course" v-if="chooseNavNumber === '0'">
-        <course-list></course-list>
+        <teacher-introduction></teacher-introduction>
       </div>
       <div class="teacher-detail-text" v-if="chooseNavNumber === '1'">
-        <teacher-introduction></teacher-introduction>
+        <course-list></course-list>
       </div>
       <div class="teacher-detail-appraise" v-if="chooseNavNumber === '2'">
         <appra-list></appra-list>

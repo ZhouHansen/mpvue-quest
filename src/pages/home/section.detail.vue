@@ -30,8 +30,9 @@
         console.log(res.target);
       }
       return {
-        title: '自定义转发标题',
-        path: '/page/user?id=123'
+        title: '学课程，拿奖学金，学习乐翻天！',
+        path: '/pages/home/section.detail?id=123'
+        // imageUrl: ''
       };
     }
   };
