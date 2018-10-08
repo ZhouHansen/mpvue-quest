@@ -1,6 +1,6 @@
 <template>
   <div class="order-container">
-    <div class="group-tips" v-if="type === 'group' && showGroupTips">
+    <div class="group-tips" v-if="group && showGroupTips">
       <span>拼团在24小时内无法成团将自动退款！</span>
       <span class="group-tips-icon" @click="hideGroupTips"></span>
     </div>
@@ -21,7 +21,29 @@
     </div>
     <div class="user-detail">
       <hoo-left-border-title :title="'参加信息'"></hoo-left-border-title>
-      <join-user-inf :type="'edit'"></join-user-inf>
+      <div class="user-content">
+        <div class="parent">
+          <div class="user-title">家长信息</div>
+          <div class="parent-inf">
+            <span class="parent-name">孙俪</span>
+            <span class="parent-phone">13304482010</span>
+          </div>
+        </div>
+        <div class="child">
+          <div class="user-title">孩子信息</div>
+          <div class="child-section">
+            <div class="child-inf">
+              <span class="child-name">张爱玲</span>
+              <span class="child-icon man"></span>
+            </div>
+            <div class="child-ctrl"></div>
+          </div>
+          <div class="child-add">
+            <span>添加</span>
+            <span class="child-add-icon"></span>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="activity-detail">
       <hoo-left-border-title :title="'活动详情'"></hoo-left-border-title>
@@ -51,16 +73,18 @@
 </template>
 <script>
   import hooLeftBorderTitle from '@/components/left.border.title';
-  import joinUserInf from '@/module/base/join.user.inf';
 
   export default {
-    // props: ['type'],
     components: {
-      hooLeftBorderTitle,
-      joinUserInf
+      hooLeftBorderTitle
     },
     mounted () {
       this.$wxUtils.setNavTitle('确认订单');
+      this.setApp = this.$storage.get(this.$storageTypeName.setApp);
+      if (this.setApp && this.setApp.unShowOrderTips) {
+        this.showGroupTips = false;
+      }
+      this.group = this.$store.state.discovery.order && this.$store.state.discovery.order.group ? this.$store.state.discovery.order.group : false;
       // console.log(this.$store.state.discovery.order);
       // console.log(this.$store.state.discovery.activity);
     },
@@ -69,8 +93,9 @@
         cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_170849.403868.png',
         price: 128,
         priceNumber: 1,
-        type: 'group',
-        showGroupTips: true
+        group: false,
+        showGroupTips: true,
+        setApp: {}
       };
     },
     computed: {
@@ -96,6 +121,10 @@
       },
 
       hideGroupTips () {
+        let setApp = {
+          unShowOrderTips: true
+        };
+        this.$storage.set(this.$storageTypeName.setApp, setApp);
         this.showGroupTips = false;
       }
     }
@@ -187,72 +216,72 @@
     .user-detail {
       @include sectionStyle();
 
-    //   .user-content {
-    //     padding-left: 26rpx;
+      .user-content {
+        padding-left: 26rpx;
 
-    //     .user-title {
-    //       font-size: 18px;
-    //       color: #000000;
-    //       font-weight: bold;
-    //     }
-    //     .parent {
-    //       margin-top: 30rpx;
-    //       padding-bottom: 30rpx;
+        .user-title {
+          font-size: 18px;
+          color: #000000;
+          font-weight: bold;
+        }
+        .parent {
+          margin-top: 30rpx;
+          padding-bottom: 30rpx;
 
-    //       .parent-inf {
-    //         margin-top: 12rpx;
+          .parent-inf {
+            margin-top: 12rpx;
 
-    //         .parent-name {
-    //           margin-right: 30rpx;
-    //         }
-    //       }
-    //     }
-    //     .child {
-    //       padding-top: 30rpx;
-    //       border-top: 1rpx solid #efefef;
+            .parent-name {
+              margin-right: 30rpx;
+            }
+          }
+        }
+        .child {
+          padding-top: 30rpx;
+          border-top: 1rpx solid #efefef;
 
-    //       .child-section {
-    //         margin-top: 12rpx;
-    //         @include flex();
+          .child-section {
+            margin-top: 12rpx;
+            @include flex();
 
-    //         .child-name {
-    //           margin-right: 10rpx;
-    //         }
+            .child-name {
+              margin-right: 10rpx;
+            }
 
-    //         .child-icon {
-    //           width: 22rpx;
-    //           height: 22rpx;
-    //           display:inline-block;
-    //         }
+            .child-icon {
+              width: 22rpx;
+              height: 22rpx;
+              display:inline-block;
+            }
 
-    //         .man {
-    //           @include backgroundImg('../../assets/images/man.png');
-    //         }
+            .man {
+              @include backgroundImg('../../assets/images/man.png');
+            }
 
-    //         .woman {
-    //           @include backgroundImg('../../assets/images/woman.png');
-    //         }
+            .woman {
+              @include backgroundImg('../../assets/images/woman.png');
+            }
 
-    //         .child-ctrl {
-    //           @include backgroundImg('../../assets/images/write.png');
-    //           width: 32rpx;
-    //           height: 32rpx;
-    //         }
-    //       }
+            .child-ctrl {
+              @include backgroundImg('../../assets/images/write.png');
+              width: 32rpx;
+              height: 32rpx;
+            }
+          }
 
-    //       .child-add {
-    //         margin-top: 30rpx;
-    //         color: $orange-color;
-    //         @include flex();
+          .child-add {
+            margin-top: 30rpx;
+            color: $orange-color;
+            @include flex();
 
-    //         .child-add-icon {
-    //           @include backgroundImg('../../assets/images/icon_add_child.png');
-    //           width: 32rpx;
-    //           height: 32rpx;
-    //         }
-    //       }
-    //     }
-    //   }
+            .child-add-icon {
+              @include backgroundImg('../../assets/images/icon_add_child.png');
+              width: 32rpx;
+              height: 32rpx;
+            }
+          }
+        }
+      }
     }
 
     .activity-detail {

@@ -31,6 +31,7 @@
 <style lang="scss" scope>
   @import '../assets/style/variables.scss';
   .feedback-container {
+    animation: fadeIn 0.1s;
     .feedback-content {
       position: fixed;
       width: calc(60vw - 200rpx);

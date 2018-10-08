@@ -3,7 +3,8 @@ const StorageTypeName = {
   openid: 'openid',
   location: 'location',
   system: 'system',
-  wxUserInf: 'wxUserInf'
+  wxUserInf: 'wxUserInf',
+  setApp: 'setApp' // 设置应用中的状态 'unShowOrderTips'
 };
 
 export default StorageTypeName;

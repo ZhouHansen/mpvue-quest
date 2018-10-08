@@ -1,7 +1,6 @@
 // pages.js
 module.exports = [
   'pages/index/index',
-  'pages/counter/index',
   'pages/organization/index',
   'pages/organization.packages/organi.detail',
   'pages/teacher/index',
@@ -29,5 +28,5 @@ module.exports = [
   'pages/home/section.submit.order.book',
   'pages/home/custom.signature',
   'pages/payment/payment.result',
-  'pages/teacher/teacher.detail'
+  'pages/teacher.packages/teacher.detail'
 ];

@@ -42,7 +42,7 @@
     },
     methods: {
       viewTeacherDetail () {
-        this.$router.push('/pages/teacher/teacher.detail');
+        this.$router.push('/pages/teacher.packages/teacher.detail');
       }
     }
   };

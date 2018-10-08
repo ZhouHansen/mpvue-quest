@@ -1,14 +1,10 @@
 {
-  "这是注释": "现在tabBar的图片是直接复制到dist文件夹的",
+  "这是注释": "现在tabBar的图片是直接复制到dist/img文件夹的",
   "pages": [
     "pages/index/index",
-    "pages/counter/index",
     "pages/organization/index",
     "pages/teacher/index",
-    "pages/account/index",
-    "pages/search/index",
-    "pages/payment/payment.result",
-    "pages/teacher/teacher.detail"
+    "pages/account/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -18,6 +14,18 @@
     "onReachBottomDistance": 50
   },
   "subPackages": [
+    {
+      "root": "pages/search",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "root": "pages/payment",
+      "pages": [
+        "payment.result"
+      ]
+    },
     {
       "root": "pages/home",
       "pages": [
@@ -32,6 +40,12 @@
       "root": "pages/organization.packages",
       "pages": [
         "organi.detail"
+      ]
+    },
+    {
+      "root": "pages/teacher.packages",
+      "pages": [
+        "teacher.detail"
       ]
     },
     {

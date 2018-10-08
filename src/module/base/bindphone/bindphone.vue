@@ -61,6 +61,7 @@ export default {
   @import '../../../assets/style/variables.scss';
 
   .bindphone-container {
+    animation: fadeIn 0.1s;
     .bindphone-content {
       position: fixed;
       width: calc(90vw - 80rpx);

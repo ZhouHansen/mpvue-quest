@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash/core';
 import * as MutationsType from './mutation.type';
 
 const Search = {

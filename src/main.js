@@ -44,28 +44,7 @@ export default {
       color: '#454545',
       borderStyle: 'white',
       selectedColor: '#32DA31',
-      position: 'bottom',
-      list: [{
-        pagePath: 'pages/index/index',
-        text: '发现',
-        iconPath: '/assets/images/ic_tab_see_off.png',
-        selectedIconPath: '/assets/images/ic_tab_see_on.png'
-      }, {
-        pagePath: 'pages/counter/index',
-        text: '机构',
-        iconPath: '/assets/images/ic_tab_org_off.png',
-        selectedIconPath: '/assets/images/ic_tab_org_on.png'
-      }, {
-        pagePath: 'pages/counter/index',
-        text: '老师',
-        iconPath: '/assets/images/ic_tab_teacher_off.png',
-        selectedIconPath: '/assets/images/ic_tab_teacher_on.png'
-      }, {
-        pagePath: 'pages/counter/index',
-        text: '我的',
-        iconPath: '/assets/images/ic_tab_me_off.png',
-        selectedIconPath: '/assets/images/ic_tab_me_on.png'
-      }]
+      position: 'bottom'
     }
   }
 };

@@ -42,6 +42,9 @@
 <style lang="scss" scope>
   @import '../../assets/style/variables.scss';
   .group-order-container {
+
+    animation: fadeIn 0.1s;
+
     .group-order-section {
       position: fixed;
       width: calc(90vw - 80rpx);

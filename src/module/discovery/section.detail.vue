@@ -123,7 +123,12 @@
         if (this.$store.state.discovery.activity.type === 'commodity') {
           this.$router.push('/pages/home/section.submit.order.book');
         } else {
-          this.$router.push('/pages/home/select.time.purchases');
+          let order = {
+            group: true
+          };
+
+          this.$store.commit(MutationType.SET_ORDER_PARAMS, order);
+          this.$router.push({path: '/pages/home/select.time.purchases'});
         }
       }
     }

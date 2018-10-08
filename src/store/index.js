@@ -4,7 +4,7 @@ import state from './state';
 import mutations from './mutation';
 
 import createPersistedState from 'vuex-persistedstate';
-import Module from './search.module';
+import Module from './module';
 
 Vue.use(Vuex);
 

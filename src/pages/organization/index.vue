@@ -52,10 +52,7 @@ export default {
           latitude: '38.860103',
           longitude: '121.541557',
           width: 40,
-          height: 40,
-          label: {
-            content: '那都是'
-          }
+          height: 40
         }
       ],
       filter: [],

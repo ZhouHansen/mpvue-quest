@@ -65,7 +65,7 @@
 
       submit () {
         this.$store.commit(MutationsType.SET_ORDER_PARAMS, {date: this.chooseTimestamp});
-        console.log(this.$store.state.discovery.order);
+        // console.log(this.$store.state.discovery.order);
         this.$router.push('/pages/home/section.submit.order');
       }
     }

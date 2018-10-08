@@ -16,7 +16,6 @@ $labelCommonBackgroundColor: #FFFAF0;
 $searchItemTopBorder: 1rpx solid #bfbfbf;
 $searchTitleColor: #46311E;
 
-
 @mixin backgroundImg ($url) {
   background: url($url) no-repeat 50% 50%;
   background-size: contain;
@@ -27,4 +26,14 @@ $searchTitleColor: #46311E;
   justify-content: $justify;
   align-items: $align;
   flex-flow: $flow;
+}
+
+@keyframes fadeIn  {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

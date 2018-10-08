@@ -3,6 +3,7 @@
     <div class="title">推荐品牌机构</div>
     <div class="recommend-scroll">
       <scroll-view class="recommend-list" :scroll-x="'true'" :scroll-with-animation="'true'">
+        <div class="recommend-item none"><span>暂无推荐</span></div>
         <div class="recommend-item"
           v-for="(item, index) in items" :key="index" @click="visitOrgani(index)"
           :style="{background: 'url(' + avatar + ') no-repeat 50% 50%', backgroundSize: 'cover'}"
@@ -69,6 +70,19 @@
 
         &:last-child {
           margin-right: 40rpx;
+        }
+      }
+
+      .none {
+        border: 1rpx dashed #d3d3d3;
+        text-align: center;
+        line-height: 25vw;
+        vertical-align: top;
+
+        span {
+          color: #b4b4b4;
+          font-size: 12px;
+          border-bottom: 1rpx dashed #d3d3d3;
         }
       }
     }
