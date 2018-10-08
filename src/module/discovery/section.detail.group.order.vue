@@ -4,11 +4,11 @@
       <div class="group-title">发起拼团课程</div>
       <div class="group-desc">发起拼团课程后，可选择拼团方式，系统会自动匹配，请先支付订单，若最终不能拼团，则自动退款！</div>
       <div class="group-ctrl">
-        <div class="first-ctrl ctrl-item">
+        <div class="first-ctrl ctrl-item" id="2" @click="chooseOrderType">
           <span>2人团</span>
           <span>¥198/张</span>
         </div>
-        <div class="second-ctrl ctrl-item">
+        <div class="second-ctrl ctrl-item" id="3" @click="chooseOrderType">
           <span>3人团</span>
           <span>¥195/张</span>
         </div>
@@ -19,9 +19,11 @@
 </template>
 <script>
   import { mapState } from 'vuex';
+  import * as MutationType from '@/store/mutation.type';
   import hooDialogBg from '@/components/dialog.bg';
 
   export default {
+    props: ['data'], // 用于显示团购价格
     computed: mapState([
       // 映射 this.showDialogStatus 为 store.state.showDialogStatus
       'showDialogStatus'
@@ -30,6 +32,10 @@
       hooDialogBg
     },
     methods: {
+      chooseOrderType (e) {
+        this.$emit('chooseGroupType', e.mp.target.id);
+        this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: false, groupOrder: false});
+      }
     }
   };
 </script>

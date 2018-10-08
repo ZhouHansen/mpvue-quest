@@ -43,7 +43,7 @@
       <div class="go-to-order" @click="goToOrder"><span>直接下单</span><span class="order-cost">¥268</span></div>
       <div class="group-order" @click="groupOrder"><span>拼团购买</span></div>
     </div>
-    <group-order></group-order>
+    <group-order @chooseGroupType="sendGroupOrder"></group-order>
     <bind-phone></bind-phone>
     <hoo-feedback :text="'评价成功'"></hoo-feedback>
   </div>
@@ -114,7 +114,17 @@
 
       groupOrder () {
         // this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, bindPhone: true});
-        this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, feedback: true});
+        this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, groupOrder: true});
+      },
+
+      sendGroupOrder (e) {
+        console.log(e);
+
+        if (this.$store.state.discovery.activity.type === 'commodity') {
+          this.$router.push('/pages/home/section.submit.order.book');
+        } else {
+          this.$router.push('/pages/home/select.time.purchases');
+        }
       }
     }
   };
