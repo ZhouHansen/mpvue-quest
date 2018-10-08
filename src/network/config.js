@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import _ from 'lodash/core';
+import MapKeys from 'lodash/mapKeys';
 
 const NetworkAPIVersion = {
   v1_version: '/api/v1/'
@@ -41,14 +42,14 @@ const NetworkParamType = {
 const _filterValidateParams = (actionParams, requestParams) => {
   let filteredParams = {};
 
-  _.mapKeys(actionParams, (paramValue, paramName) => {
+  MapKeys(actionParams, (paramValue, paramName) => {
     if (!_.isUndefined(requestParams[paramName])) {
       filteredParams[paramName] = requestParams[paramName];
     }
   });
 
   // make exceptions for files
-  // _.mapKeys(requestParams, (value, key) => {
+  // MapKeys(requestParams, (value, key) => {
   //   if (value instanceof File) {
   //     filteredParams[key] = value;
   //   }

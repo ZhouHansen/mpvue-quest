@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import _ from 'lodash';
+import _ from 'lodash/core';
 import recommendOrgani from '@/module/organization/recommend.organi';
 import organiFilter from '@/module/organization/coverView/organi.filter';
 import organiFilterButton from '@/module/organization/coverView/organi.filter.button';

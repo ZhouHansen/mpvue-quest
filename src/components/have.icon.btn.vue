@@ -25,35 +25,34 @@
   </div>
 </template>
 <script>
-import WxUtils from '@/utils/wx.utils';
 
 export default {
   props: ['type', 'personNum', 'id'],
   methods: {
     setCollect () {
       this.$network.discovery.setCollection({id: this.id ? this.id : '123'}).then(res => {
-        WxUtils.toast({title: res.message});
+        this.$wxUtils.toast({title: res.message});
         this.type = 'collection_already';
       });
     },
 
     cancelCollect () {
       this.$network.discovery.cancelCollection({id: this.id ? this.id : '123'}).then(res => {
-        WxUtils.toast({title: res.message});
+        this.$wxUtils.toast({title: res.message});
         this.type = 'collection';
       });
     },
 
     setJoinActivity () {
       this.$network.discovery.joinActivity({id: this.id ? this.id : '123'}).then(res => {
-        WxUtils.toast({title: res.message});
+        this.$wxUtils.toast({title: res.message});
         this.type = 'activity_already';
       });
     },
 
     cancelJoinActivity () {
       this.$network.discovery.cancelJoinActivity({id: this.id ? this.id : '123'}).then(res => {
-        WxUtils.toast({title: res.message});
+        this.$wxUtils.toast({title: res.message});
         this.type = 'activity';
       });
     },

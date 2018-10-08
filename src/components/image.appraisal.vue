@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import _ from 'lodash';
+import _ from 'lodash/core';
 
 export default {
   props: ['id'], // id 返回数据时携带，可以直接传给指定的对象

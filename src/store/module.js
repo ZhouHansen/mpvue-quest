@@ -1,4 +1,4 @@
-import _ from 'lodash/core';
+import MapKeys from 'lodash/mapKeys';
 import * as MutationsType from './mutation.type';
 
 const Search = {
@@ -19,7 +19,7 @@ const Discovery = {
   },
   mutations: {
     [MutationsType.SET_ORDER_PARAMS] (state, params) {
-      _.mapKeys(params, (value, key) => {
+      MapKeys(params, (value, key) => {
         state.order[key] = value;
       });
     },

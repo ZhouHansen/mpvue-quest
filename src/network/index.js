@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Fly from 'flyio/dist/npm/wx';
-import _ from 'lodash';
+import _ from 'lodash/core';
+import MapKeys from 'lodash/mapKeys';
+
 import {
   NetworkAPIHost,
   NetworkAPIVersion,
@@ -24,8 +26,8 @@ const networkActions = {
 class Network {
   constructor () {
     let self = this;
-    _.mapKeys(networkActions, (collection, collectionKey) => {
-      _.mapKeys(collection, (request, requestKey) => {
+    MapKeys(networkActions, (collection, collectionKey) => {
+      MapKeys(collection, (request, requestKey) => {
         collection[requestKey] = transformNetworkActionToHttpRequest(request);
       });
       self[collectionKey] = collection;
