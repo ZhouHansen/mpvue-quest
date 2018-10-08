@@ -1,6 +1,11 @@
 <template>
   <div class="search-container" :class="{'overflow-hidden':isOverflow}">
-    <search-header @startSearchEvent="startSearch" @chooseFilterType="filterType" :input-val="inputVal" :input-val-enter="inputVal"></search-header>
+    <search-header
+      @startSearchEvent="startSearch"
+      @chooseFilterType="filterType"
+      @inputFocus="inputFocus"
+      :input-val="inputVal"
+      :input-val-enter="inputVal"></search-header>
     <div class="search-history-list" v-if="!alreadyUseSearch">
       <div class="title">
         <have-topic-title :title="'搜索历史'"></have-topic-title>
@@ -10,17 +15,16 @@
       </div>
     </div>
     <!-- Course -->
-    <search-course v-if="alreadyUseSearch && filterTypeVal === 'course'"></search-course>
+    <search-course v-if="alreadyUseSearch && filterTypeVal === 'course'" :filter-object="filterObject"></search-course>
 
     <!-- organization -->
-    <search-organization v-if="alreadyUseSearch && filterTypeVal === 'organi'"></search-organization>
+    <search-organization v-if="alreadyUseSearch && filterTypeVal === 'organi'" :filter-object="filterObject"></search-organization>
 
     <!-- teacher -->
-    <search-teacher v-if="alreadyUseSearch && filterTypeVal === 'teacher'"></search-teacher>
+    <search-teacher v-if="alreadyUseSearch && filterTypeVal === 'teacher'" :filter-object="filterObject"></search-teacher>
   </div>
 </template>
 <script>
-  // import WxUtils from '@/utils/wx.utils';
   import haveTopicTitle from '@/components/left.border.title';
   import searchHeader from '@/module/search/search.header';
   import searchCourse from '@/module/search/search.course';
@@ -38,15 +42,20 @@
     data () {
       return {
         alreadyUseSearch: false,
-        inputVal: '',
         history: [],
+        inputVal: '',
         filterTypeVal: ''
       };
     },
     computed: {
       isOverflow: function () {
-        console.log(this.$store);
         return this.$store.state.search.isOverFlowStatu;
+      },
+      filterObject: function () {
+        return {
+          inputVal: this.inputVal ? false : this.inputVal,
+          filterTypeVal: this.filterTypeVal ? false : this.filterTypeVal
+        };
       }
     },
     onReady () {
@@ -58,31 +67,27 @@
       startSearch (e) {
         this.inputVal = e;
         this.getSearchHistory();
-        this.sendSearchRequest(e);
+        this.alreadyUseSearch = true;
       },
 
       useHistorySearch (e) {
         this.inputVal = e;
-        this.sendSearchRequest(e);
+        this.alreadyUseSearch = true;
       },
 
       getSearchHistory () {
         this.history = this.$storage.get(this.$storageTypeName.hr_search_history);
       },
 
-      sendSearchRequest (params) {
-        // WxUtils.loading({show: true, title: '查找中...'});
-        this.$network.search.searchCourse({type: 'a'}).then(res => {
-          this.alreadyUseSearch = true;
-          console.log('返回模拟查找数据', res);
-        }).catch(err => {
-          console.log(err);
-        });
-      },
-
       filterType (e) {
         console.log(e);
+        this.inputVal = '';
         this.filterTypeVal = e;
+      },
+
+      inputFocus () {
+        this.inputVal = '';
+        this.alreadyUseSearch = false;
       }
     }
   };

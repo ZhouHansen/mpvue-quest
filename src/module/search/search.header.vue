@@ -8,7 +8,13 @@
               <hoo-select :filter="{text: selectText}"></hoo-select>
             </picker>
           </div>
-          <input type="text" class="weui-search-bar__input ellipsis" placeholder="搜索课程、活动、老师、学校" :placeholder-class="'input-placeholder'" v-model="inputVal" @input="inputTyping" :focus="'true'"/>
+          <input type="text" class="weui-search-bar__input ellipsis"
+            placeholder="搜索课程、活动、老师、学校"
+            :placeholder-class="'input-placeholder'"
+            v-model="inputVal"
+            @input="inputTyping"
+            @focus="inputFocus"
+            :focus="'true'"/>
         </div>
       </div>
       <div class="start-search weui-search-bar__cancel-btn" @click="startSearch">搜索</div>
@@ -47,6 +53,10 @@
     methods: {
       inputTyping (e) {
         this.inputVal = e.mp.detail.value;
+      },
+
+      inputFocus (e) {
+        this.$emit('inputFocus');
       },
 
       startSearch () {

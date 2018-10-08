@@ -27,6 +27,7 @@ import hooOrganiList from '@/module/organization/organization.list';
 import searchEmpty from '@/module/search/search.empty';
 
 export default {
+  props: ['filterObject'],
   components: {
     hooSelect,
     filterList,
@@ -52,6 +53,9 @@ export default {
       chooseFilterData: null,
       checkedFilter: {}
     };
+  },
+  mounted () {
+    this.sendSearchRequest();
   },
   methods: {
     chooseFilter (e) {
@@ -93,6 +97,23 @@ export default {
         this.checkedFilter[this.chooseFilterType] = null;
       }
       this.showFilterItemDesc = false;
+
+      this.sendSearchRequest();
+    },
+
+    sendSearchRequest () {
+      this.$wxUtils.loading({title: '查找中...'});
+      let params = Object.assign(this.filterObject, this.checkedFilter);
+      console.log('查找过滤的参数 机构', params);
+      this.$network.search.searchCourse({params: params}).then(res => {
+        this.alreadyUseSearch = true;
+        console.log('返回模拟查找数据', res);
+        setTimeout(() => {
+          this.$wxUtils.loading({show: false});
+        }, 2000);
+      }).catch(err => {
+        console.log(err);
+      });
     }
   }
 };
