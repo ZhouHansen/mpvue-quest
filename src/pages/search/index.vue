@@ -86,7 +86,7 @@
       },
 
       inputFocus () {
-        this.inputVal = '';
+        // this.inputVal = ''; // 清除输入的的查找内容
         this.alreadyUseSearch = false;
       }
     }

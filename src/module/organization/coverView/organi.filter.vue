@@ -1,7 +1,7 @@
 <template>
   <cover-view class="organi-filter-container" :class="type">
     <cover-view v-for="(item, index) in data" :key="index">
-      <cover-view class="filter-item" @click="tapFilter(item.id)">{{item.text}}</cover-view>
+      <cover-view class="filter-item" @click="tapFilter(item)">{{item.text}}</cover-view>
       <cover-view class="line" v-if="index !== data.length - 1"></cover-view>
     </cover-view>
   </cover-view>

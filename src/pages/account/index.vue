@@ -82,7 +82,7 @@ export default {
     getUserInfo (e) {
       if (!this.wxUserInf) {
         console.log(e);
-        this.$storage.set(this.$storageTypeName['wxUserInf'], e.mp.detail.userInfo);
+        this.$storage.set(this.$storageTypeName.wxUserInf, e.mp.detail.userInfo);
       }
 
       this.$router.push('/pages/account.packages/user.inf');

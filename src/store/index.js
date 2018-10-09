@@ -22,7 +22,9 @@ export default new Vuex.Store({
           wx.getStorageSync(key);
         },
         setItem: (key, value) => {
-          wx.setStorageSync(key, value);
+          if (value) {
+            wx.setStorageSync(key, value);
+          }
         },
         removeItem: key => {
           // wx.removeStorageSync(key);

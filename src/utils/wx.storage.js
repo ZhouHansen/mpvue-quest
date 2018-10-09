@@ -1,15 +1,17 @@
 class Storage {
   static set (key, val) {
-    return wx.setStorageSync(key, val);
+    if (val) {
+      return wx.setStorage({
+        key: key,
+        data: val
+      });
+    } else {
+      console.log('保存storage错误', val);
+    }
   }
 
   static get (key) {
-    let result = wx.getStorageSync(key);
-    if (result) {
-      return result;
-    } else {
-      return null;
-    }
+    return wx.getStorageSync(key);
   }
 
   static remove (key) {

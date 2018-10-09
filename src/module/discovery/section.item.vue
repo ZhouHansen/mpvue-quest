@@ -21,13 +21,12 @@
   import Utils from '@/utils/index';
 
   export default {
-    props: ['sectionData'],
+    props: ['sectionData', 'location'],
     components: {
       hooLabel
     },
     data () {
       return {
-        location: this.$storage.get(this.$storageTypeName['location'])
       };
     },
     computed: {

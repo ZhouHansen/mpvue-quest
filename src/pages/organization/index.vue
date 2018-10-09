@@ -13,12 +13,13 @@
         @markertap="markertap"
         @tap="tapMap"
         @regionchange="regionMap"
+        :scale="18"
         :show-location="'true'"
         :longitude="'121.541557'"
         :latitude="'38.860103'"
         :class="showRecommend?'unfill-height': 'fill-height'">
-        <organi-filter-button :data="{type: 'city', text: '大连'}" @filterButton="tapFilterButton"></organi-filter-button>
-        <organi-filter-button :data="{type: 'type', text: '全部'}" @filterButton="tapFilterButton"></organi-filter-button>
+        <organi-filter-button :data="chooseFilterCity" @filterButton="tapFilterButton"></organi-filter-button>
+        <organi-filter-button :data="chooseFilterType" @filterButton="tapFilterButton"></organi-filter-button>
         <organi-filter :type="filterType" :data="filter" @tapFilter="chooseFilter" v-if="showFilterList"></organi-filter>
         <cover-view class="show-recommend" v-if="!showRecommend" @click="toggleRecommend">显示推荐机构</cover-view>
       </map>
@@ -58,21 +59,26 @@ export default {
       filter: [],
       filterType: '',
       filterCity: [
-        {id: 'asdh1', text: '大连'},
-        {id: 'asdh2', text: '沈阳'},
-        {id: 'asdh3', text: '鞍山'},
-        {id: 'asdh4', text: '营口'},
-        {id: 'asdh5', text: '朝阳'}
+        {id: 'asdh1', type: 'city', text: '大连'},
+        {id: 'asdh2', type: 'city', text: '沈阳'},
+        {id: 'asdh3', type: 'city', text: '鞍山'},
+        {id: 'asdh4', type: 'city', text: '营口'},
+        {id: 'asdh5', type: 'city', text: '朝阳'}
       ],
+      chooseFilterCity: {},
       filterTypeData: [
-        {id: 'all', text: '全部'},
-        {id: 'course', text: '课程'},
-        {id: 'activity', text: '活动'}
+        {id: 'all', type: 'type', text: '全部'},
+        {id: 'course', type: 'type', text: '课程'},
+        {id: 'activity', type: 'type', text: '活动'}
       ],
+      chooseFilterType: {},
       url: 'http://ofqz9brr6.bkt.clouddn.com/avatar.jpg'
     };
   },
   mounted () {
+    this.chooseFilterCity = this.filterCity[0];
+    this.chooseFilterType = this.filterTypeData[0];
+
     this.setMarkerIcon();
     this.getCityList();
   },
@@ -126,30 +132,33 @@ export default {
 
     chooseFilter (e) {
       console.log(e);
-      this.showFilterList = false;
-      this.markers = null;
+      if (e.type === 'type') {
+        this.chooseFilterType = e;
+      } else {
+        this.chooseFilterCity = e;
+      }
       this.$wxUtils.loading({title: '查找中...'});
       this.$wxUtils.download({url: this.url}).then(res => {
-        setTimeout(() => {
-          this.$wxUtils.loading({show: false});
-          this.markers = [{
-            iconPath: res,
-            id: 2,
-            latitude: '38.865103',
-            longitude: '121.541557',
-            width: 40,
-            height: 40
-          },
-          {
-            iconPath: res,
-            id: 3,
-            latitude: '38.869103',
-            longitude: '121.541557',
-            width: 40,
-            height: 40
-          }
-          ];
-        }, 2000);
+        this.showFilterList = false;
+        this.markers = null;
+        this.$wxUtils.loading({show: false});
+        this.markers = [{
+          iconPath: res,
+          id: 2,
+          latitude: '38.865103',
+          longitude: '121.541557',
+          width: 40,
+          height: 40
+        },
+        {
+          iconPath: res,
+          id: 3,
+          latitude: '38.869103',
+          longitude: '121.541557',
+          width: 40,
+          height: 40
+        }
+        ];
       });
     },
 

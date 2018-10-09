@@ -13,14 +13,13 @@
 
     <div class="section-list">
       <div class="section-item" v-for="item in sections" :key="item.id">
-        <hoo-section :section-data="item"></hoo-section>
+        <hoo-section :section-data="item" :location="location" v-if="(item.distance && location) || !item.distance"></hoo-section>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import WxUtils from '@/utils/wx.utils';
 import hooSection from '@/module/discovery/section.item';
 
 export default {
@@ -29,18 +28,26 @@ export default {
   },
   data () {
     return {
-      sections: null
+      sections: null,
+      location: null
     };
   },
   created () {
   },
   onReady () {
     // 调用应用实例的方法获取全局数据
-    WxUtils.getUserInfo();
+    this.$wxUtils.getUserInfo();
     // console.log(this.$store.state);
     this.getDiscovery();
   },
   mounted () {
+    this.$wxUtils.getLocation().then(res => {
+      this.location = res;
+    });
+  },
+  onShow () {
+    this.location = this.$storage.get(this.$storageTypeName.location);
+    console.log(this.location);
   },
   methods: {
     goSearchPage () {
