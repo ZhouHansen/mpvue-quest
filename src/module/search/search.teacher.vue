@@ -27,8 +27,8 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="teacher-list">
-        <hoo-teacher-list></hoo-teacher-list>
-        <!-- <search-empty></search-empty> -->
+        <hoo-teacher-list :params="teacherData" v-if="teacherData"></hoo-teacher-list>
+        <search-empty v-if="!teacherData"></search-empty>
       </div>
     </div>
   </div>
@@ -50,10 +50,10 @@
     },
     data () {
       return {
+        teacherData: null,
         showFilterItemDesc: false,
         chooseFilterType: '',
         orderContrl: 'normal',
-
         filterData: {
           teacher_type: [
             {text: '全部', id: '1'},
@@ -147,12 +147,11 @@
         this.$wxUtils.loading({title: '查找中...'});
         let params = Object.assign(this.filterObject, this.checkedFilter);
         console.log('查找过滤的参数 老师', params);
-        this.$network.search.searchCourse({params: params}).then(res => {
+        this.$network.search.searchTearch({params: params}).then(res => {
           this.alreadyUseSearch = true;
-          console.log('返回模拟查找数据', res);
-          setTimeout(() => {
-            this.$wxUtils.loading({show: false});
-          }, 2000);
+          console.log('返回查找老师数据', res);
+          this.$wxUtils.loading({show: false});
+          this.teacherData = res.data;
         }).catch(err => {
           console.log(err);
         });

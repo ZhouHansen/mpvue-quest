@@ -7,9 +7,9 @@
     <div class="payment-detail">
       <hoo-left-border-title :title="'购买内容'"></hoo-left-border-title>
       <div class="payment-detail-content">
-        <div class="activity-cover" :style="{background: 'url(' + cover + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+        <div class="activity-cover" :style="{background: 'url(' + sectionData.coverfile + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
         <div class="payment-inf">
-          <div class="activity-title">2018招牌通识营-在创造中原力觉醒</div>
+          <div class="activity-title">{{sectionData.name}}</div>
           <div class="payment-price"><span>¥{{price}}</span> (单人)</div>
           <div class="payment-ctrl">
             <span class="ctrl-less" @click="chagePriceNUmber('less')"></span>
@@ -31,14 +31,14 @@
         </div>
         <div class="child">
           <div class="user-title">孩子信息</div>
-          <div class="child-section">
+          <div class="child-section" @click="editChildren" v-if="children">
             <div class="child-inf">
-              <span class="child-name">张爱玲</span>
-              <span class="child-icon man"></span>
+              <span class="child-name">{{children.name}}</span>
+              <span class="child-icon man" :class="children.gender === '男'? 'man' : 'woman'"></span>
             </div>
             <div class="child-ctrl"></div>
           </div>
-          <div class="child-add">
+          <div class="child-add" @click="editChildren" v-if="!children">
             <span>添加</span>
             <span class="child-add-icon"></span>
           </div>
@@ -53,12 +53,12 @@
           <span class="activity-item-value">9月11日-9月20日</span>
         </div>
         <div class="activity-item">
-          <span class="activity-item-name">活动时间</span>
+          <span class="activity-item-name">活动对象</span>
           <span class="activity-item-value">9月11日-9月20日</span>
         </div>
         <div class="activity-item">
-          <span class="activity-item-name">活动时间</span>
-          <span class="activity-item-value">9月11日-9月20日</span>
+          <span class="activity-item-name">活动地点</span>
+          <span class="activity-item-value">{{sectionData.address}}</span>
         </div>
       </div>
     </div>
@@ -90,18 +90,30 @@
     },
     data () {
       return {
+        sectionData: null,
         cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_170849.403868.png',
-        price: 128,
+        price: 0,
         priceNumber: 1,
         group: false,
         showGroupTips: true,
-        setApp: {}
+        setApp: {},
+        children: null,
+        orderParams: null
       };
     },
     computed: {
       totalMoney () {
         return this.price * this.priceNumber;
       }
+    },
+    onShow () {
+      this.sectionData = this.$store.state.discovery.activity;
+      this.price = parseInt(this.sectionData.price / 100);
+
+      this.orderParams = this.$store.state.discovery.order;
+      this.children = this.orderParams ? this.orderParams.children : null;
+      console.log('discovery', this.$store.state.discovery);
+      console.log('设置的孩子信息', this.children);
     },
     methods: {
       chagePriceNUmber (e) {
@@ -126,6 +138,14 @@
         };
         this.$storage.set(this.$storageTypeName.setApp, setApp);
         this.showGroupTips = false;
+      },
+
+      editChildren () {
+        if (this.children) {
+          this.$router.push({path: '/pages/account.packages/childrens.add', query: {id: this.children.id, type: 'order'}});
+        } else {
+          this.$router.push({path: '/pages/account.packages/childrens.add', query: {type: 'order'}});
+        }
       }
     }
   };

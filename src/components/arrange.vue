@@ -46,6 +46,12 @@ export default {
         margin-top: 4rpx;
       }
 
+      .arrange-text {
+        flex-shrink: 0;
+        width: calc(100% - 40rpx);
+        word-break: break-all;
+      }
+
       .time {
         background: url('../assets/images/time.png') no-repeat 50% 50%;
         background-size: contain;

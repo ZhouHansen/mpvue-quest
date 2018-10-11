@@ -3,9 +3,9 @@
     <div class="payment-detail">
       <hoo-left-border-title :title="'购买内容'"></hoo-left-border-title>
       <div class="payment-detail-content">
-        <div class="activity-cover" :style="{background: 'url(' + cover + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+        <div class="activity-cover" :style="{background: 'url(' + sectionData.coverfile + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
         <div class="payment-inf">
-          <div class="activity-title">2018招牌通识营-在创造中原力觉醒</div>
+          <div class="activity-title">{{sectionData.name}}</div>
           <div class="payment-price"><span>¥{{price}}</span> (单人)</div>
           <div class="payment-ctrl">
             <span class="ctrl-less" @click="chagePriceNUmber('less')"></span>
@@ -18,17 +18,17 @@
     <div class="user-detail">
       <hoo-left-border-title :title="'收货地址'"></hoo-left-border-title>
       <div class="user-content">
-        <div class="address-section">
+        <div class="address-section" v-if="address">
           <div class="address-inf">
-            <div class="user-title">北京朝阳区蓝河大厦23号</div>
-            <span class="address-name">张爱玲</span>
-            <span class="address-phone">12341325534</span>
+            <div class="user-title">{{address.address}}</div>
+            <span class="address-name">{{address.name}}</span>
+            <span class="address-phone">{{address.phone}}</span>
           </div>
-          <div class="address-edit" @click="editAddress(2)">
+          <div class="address-edit" @click="editAddress()">
             <div class="address-ctrl"></div>
           </div>
         </div>
-        <div class="address-add" @click="editAddress('add')">
+        <div class="address-add" v-if="!address" @click="editAddress()">
           <span>添加收货地址</span>
           <span class="address-add-icon"></span>
         </div>
@@ -64,17 +64,9 @@
     <div class="activity-detail">
       <hoo-left-border-title :title="'活动详情'"></hoo-left-border-title>
       <div class="activity-inf">
-        <div class="activity-item" @click="editSignature">
-          <span class="activity-item-name">活动时间</span>
-          <span class="activity-item-value">9月11日-9月20日</span>
-        </div>
         <div class="activity-item">
-          <span class="activity-item-name">活动时间</span>
-          <span class="activity-item-value">9月11日-9月20日</span>
-        </div>
-        <div class="activity-item">
-          <span class="activity-item-name">活动时间</span>
-          <span class="activity-item-value">9月11日-9月20日</span>
+          <span class="activity-item-name">商品规格</span>
+          <span class="activity-item-value">{{sectionData.brief}}</span>
         </div>
       </div>
     </div>
@@ -91,7 +83,6 @@
   import hooLeftBorderTitle from '@/components/left.border.title';
 
   export default {
-    // props: ['type'],
     components: {
       hooLeftBorderTitle
     },
@@ -103,11 +94,14 @@
     },
     data () {
       return {
-        cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_170849.403868.png',
-        price: 128,
+        // cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_170849.403868.png',
+        price: 0,
         priceNumber: 1,
         type: 'group',
-        showGroupTips: true
+        showGroupTips: true,
+        sectionData: null,
+        address: null,
+        customSign: null
       };
     },
     computed: {
@@ -120,6 +114,16 @@
       section () {
         return this.$store.state.discovery.activity;
       }
+    },
+    onShow () {
+      this.sectionData = this.$store.state.discovery.activity;
+      this.price = parseInt(this.sectionData.price / 100);
+
+      this.orderParams = this.$store.state.discovery.order;
+      this.address = this.orderParams ? this.orderParams.address : null;
+      this.customSign = this.$store.state.discovery.order.customSign;
+      console.log('discovery', this.$store.state.discovery);
+      console.log('设置的地址信息', this.address);
     },
     methods: {
       chagePriceNUmber (e) {
@@ -146,9 +150,9 @@
         this.$router.push('/pages/home/custom.signature');
       },
 
-      editAddress (e) {
-        if (e !== 'add') {
-          this.$router.push({path: '/pages/account.packages/setting/setting.address.add', query: {id: '123'}});
+      editAddress () {
+        if (this.address) {
+          this.$router.push({path: '/pages/account.packages/setting/setting.address.add', query: {id: this.address.id}});
         } else {
           this.$router.push('/pages/account.packages/setting/setting.address.add');
         }

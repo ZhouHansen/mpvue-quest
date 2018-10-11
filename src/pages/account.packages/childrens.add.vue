@@ -54,6 +54,7 @@
   </div>
 </template>
 <script>
+import * as MutationType from '@/store/mutation.type';
 import Utils from '@/utils/index';
 import hooButton from '@/components/button';
 import hooTips from '@/components/tips';
@@ -63,7 +64,6 @@ export default {
     hooButton,
     hooTips
   },
-  props: [],
   data () {
     return {
       id: null,
@@ -107,6 +107,14 @@ export default {
     },
 
     submit () {
+      if (this.$route.query.type === 'order') {
+        this.$store.commit(MutationType.SET_ORDER_PARAMS, {children: {
+          name: '琪琪',
+          gender: '女',
+          id: '123'
+        }});
+      }
+
       this.$router.back();
     }
   }

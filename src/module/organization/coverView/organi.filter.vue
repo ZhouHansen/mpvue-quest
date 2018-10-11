@@ -25,7 +25,7 @@ export default {
     z-index: 99;
     max-height: calc(80vh - 170rpx);
     overflow-y: scroll;
-    padding: 6rpx 26rpx;
+    // padding: 6rpx 26rpx;
     border-radius: 16rpx;
     border: 1rpx solid #e6e6e6;
     // box-shadow: 0 4rpx 8rpx #bfbfbf; 不支持
@@ -49,17 +49,22 @@ export default {
       padding: 20rpx 0;
       // border-top: 1rpx solid #eaeaea; 不支持
       color: #454545;
-      width: 100%;
+      margin: 0 26rpx;
 
       &:first-child {
         border: 0;
+        margin-top: 6rpx;
+      }
+
+      &:last-child {
+        margin-bottom: 6rpx;
       }
     }
 
     .line {
       height: 2rpx;
       background-color: #bfbfbf;
-      width: 100%;
+      margin: 0 26rpx;
     }
   }
 

@@ -39,6 +39,7 @@ export default {
   created () {
   },
   mounted () {
+    this.$wxUtils.loading({title: '加载中...'});
     // 调用应用实例的方法获取全局数据
     this.$wxUtils.getUserInfo();
     // console.log(this.$store.state);
@@ -50,8 +51,16 @@ export default {
     });
   },
   onShow () {
-    this.location = this.$storage.get(this.$storageTypeName.location);
-    console.log(this.location);
+    if (!this.location) {
+      this.location = this.$storage.get(this.$storageTypeName.location);
+      // console.log(this.location);
+    }
+  },
+  onPullDownRefresh () {
+    console.log('下拉');
+    this.$wxUtils.loading({title: '加载中...'});
+    this.getDiscovery();
+    this.getProduct();
   },
   methods: {
     goSearchPage () {
@@ -60,7 +69,8 @@ export default {
 
     getDiscovery () {
       this.$network.discovery.getDiscovery().then(res => {
-        console.log(res);
+        // console.log(res);
+        this.$wxUtils.loading({show: false});
         this.sections = res.data;
       }).catch(err => {
         console.log(err);

@@ -28,18 +28,22 @@
     },
     methods: {
       getActivityDetail () {
+        this.$wxUtils.loading({title: '加载中...'});
         this.$network.discovery.getActivityDetail({}, null, 'weapp/lesson/' + this.$route.query.id).then(res => {
           // console.log(res.data);
           this.sectionData = res.data;
+          this.$wxUtils.loading({show: false});
         }).catch(err => {
           console.log(err);
         });
       },
 
       getProductDetail () {
+        this.$wxUtils.loading({title: '加载中...'});
         this.$network.discovery.getProductDetail({}, null, 'weapp/product/' + this.$route.query.id).then(res => {
           // console.log(res.data);
           this.sectionData = res.data;
+          this.$wxUtils.loading({show: false});
         }).catch(err => {
           console.log(err);
         });

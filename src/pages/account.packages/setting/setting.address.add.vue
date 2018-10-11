@@ -45,6 +45,7 @@
   </div>
 </template>
 <script>
+import * as MutationType from '@/store/mutation.type';
 import hooButton from '@/components/button';
 
 export default {
@@ -82,7 +83,14 @@ export default {
     },
 
     submit () {
+      this.$store.commit(MutationType.SET_ORDER_PARAMS, {address: {
+        address: '高新园',
+        name: '莉莉',
+        phone: '21239999',
+        id: '2311'
+      }});
 
+      this.$router.back();
     }
   }
 };

@@ -1,11 +1,11 @@
 <template>
   <div class="course-item-container" @click="visitCourseDetail">
-    <div class="course-cover" :style="{background: 'url(' + courseData.avatar + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+    <div class="course-cover" :style="{background: 'url(' + courseData.coverfile + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
     <div class="course-inf">
-      <div class="course-title">{{courseData.title}}</div>
+      <div class="course-title">{{courseData.name}}</div>
       <hoo-label :type-text="teacherLabelTypeText" :label-arr="teacherLabelArr"></hoo-label>
     </div>
-    <div class="course-join">{{courseData.num}}人想参加</div>
+    <div class="course-join">{{courseData.favorcount}}人想参加</div>
   </div>
 </template>
 <script>
@@ -18,13 +18,13 @@
     },
     data () {
       return {
-        teacherLabelTypeText: ['活动'],
-        teacherLabelArr: ['蜗牛英语', '9月11日-9月20日']
+        teacherLabelTypeText: [this.courseData.subject],
+        teacherLabelArr: this.courseData.tagslist
       };
     },
     methods: {
       visitCourseDetail () {
-        this.$router.push({path: '/pages/home/section.detail', query: {id: 123123}});
+        this.$router.push({path: '/pages/home/section.detail', query: {id: this.courseData.id}});
       }
     }
   };

@@ -27,8 +27,8 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="course-list">
-        <hoo-course-list></hoo-course-list>
-        <search-empty></search-empty>
+        <hoo-course-list :params="resultData" v-if="resultData"></hoo-course-list>
+        <search-empty v-if="!resultData"></search-empty>
       </div>
     </div>
   </div>
@@ -50,6 +50,7 @@
     },
     data () {
       return {
+        resultData: null,
         showFilterItemDesc: false,
         chooseFilterType: '',
         filterData: {
@@ -145,10 +146,9 @@
         console.log('查找过滤的参数 课程', params);
         this.$network.search.searchCourse({params: params}).then(res => {
           this.alreadyUseSearch = true;
-          console.log('返回模拟查找数据', res);
-          setTimeout(() => {
-            this.$wxUtils.loading({show: false});
-          }, 2000);
+          // console.log('返回查找课程数据', res);
+          this.$wxUtils.loading({show: false});
+          this.resultData = res.data;
         }).catch(err => {
           console.log(err);
         });

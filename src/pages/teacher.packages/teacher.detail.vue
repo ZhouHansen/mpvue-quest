@@ -24,7 +24,7 @@
       </div>
       <hoo-nav :tabs="navData" :unOnShowDefault="'true'"  @tapNavItem="chooseNav"></hoo-nav>
       <div class="tearcher-detail-course" v-if="chooseNavNumber === '0'">
-        <course-list></course-list>
+        <course-list :params="courseData" v-if="courseData"></course-list>
       </div>
       <div class="teacher-detail-text" v-if="chooseNavNumber === '1'">
         <teacher-introduction :params="teacherData"></teacher-introduction>
@@ -63,7 +63,8 @@
         teacherLabelArr: null,
         navData: ['课程', '老师介绍', '评价'],
         chooseNavNumber: '0',
-        teacherData: null
+        teacherData: null,
+        courseData: null
       };
     },
     onShow () {
@@ -79,21 +80,32 @@
 
       getTeacherDetail () {
         this.$network.teacher.getTeacherDetail({}, null, 'weapp/teacher/' + this.$route.query.id).then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           this.teacherData = res.data;
           this.teacherLabelTypeText = res.data.subjectslist;
           this.teacherLabelArr = res.data.tagslist;
+
+          this.getTeacherCourseList();
+        });
+      },
+
+      getTeacherCourseList () {
+        this.$network.search.searchCourse({}).then(res => {
+          this.courseData = res.data;
+        }).catch(err => {
+          console.log(err);
         });
       }
     },
     onShareAppMessage (res) {
       if (res.from === 'button') {
         // 来自页面内转发按钮
-        console.log(res.target);
+        // console.log(res.target);
       }
       return {
-        title: '老师详情',
-        path: '/page/user?id=123'
+        title: 'Hooray - ' + this.teacherData.name,
+        path: '/pages/teacher.packages/teacher.detail?id=' + this.teacherData.id,
+        imageUrl: this.teacherData.avatarurl
       };
     }
   };

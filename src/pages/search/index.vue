@@ -53,8 +53,8 @@
       },
       filterObject: function () {
         return {
-          inputVal: this.inputVal ? false : this.inputVal,
-          filterTypeVal: this.filterTypeVal ? false : this.filterTypeVal
+          inputVal: this.inputVal ? this.inputVal : false,
+          filterTypeVal: this.filterTypeVal ? this.filterTypeVal : false
         };
       }
     },

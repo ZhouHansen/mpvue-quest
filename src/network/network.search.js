@@ -1,5 +1,4 @@
 import {NetworkAPIVersion, NetworkParamType} from './config';
-import DebugData from './debug.data';
 
 export default {
   /**
@@ -7,29 +6,29 @@ export default {
    * 需要根据学科，价格，日期，适龄进行过滤。
   */
   searchCourse: {
-    url: 'search',
+    url: 'weapp/lesson',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
     params: {
       limit: [NetworkParamType.number],
       offset: [NetworkParamType.number]
-    },
-    debug: DebugData.search
+    }
   },
 
   /**
    * 获取老师列表数据
    * 根据学科，认证，好评 进行过滤。
   */
-  searchSearch: {
-    url: 'search',
+  searchTearch: {
+    url: 'weapp/teacher',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
     params: {
       limit: [NetworkParamType.number],
       offset: [NetworkParamType.number]
-    },
-    debug: DebugData.search
+    }
   },
 
   /*
@@ -37,13 +36,13 @@ export default {
   * 根据附近和认证 进行过滤。
   */
   searchOrgani: {
-    url: 'search',
+    url: 'weapp/inst',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
     params: {
       limit: [NetworkParamType.number],
       offset: [NetworkParamType.number]
-    },
-    debug: DebugData.search
+    }
   }
 };

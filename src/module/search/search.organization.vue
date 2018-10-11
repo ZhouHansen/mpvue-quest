@@ -17,8 +17,8 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="organi-list">
-        <hoo-organi-list></hoo-organi-list>
-        <!-- <search-empty></search-empty> -->
+        <hoo-organi-list v-if="organiData" :params="organiData"></hoo-organi-list>
+        <search-empty v-if="!organiData"></search-empty>
       </div>
     </div>
   </div>
@@ -40,6 +40,7 @@ export default {
   },
   data () {
     return {
+      organiData: null,
       showFilterItemDesc: false,
       chooseFilterType: '',
       filterData: {
@@ -109,12 +110,11 @@ export default {
       this.$wxUtils.loading({title: '查找中...'});
       let params = Object.assign(this.filterObject, this.checkedFilter);
       console.log('查找过滤的参数 机构', params);
-      this.$network.search.searchCourse({params: params}).then(res => {
+      this.$network.search.searchOrgani({params: params}).then(res => {
         this.alreadyUseSearch = true;
-        console.log('返回模拟查找数据', res);
-        setTimeout(() => {
-          this.$wxUtils.loading({show: false});
-        }, 2000);
+        console.log('返回查找机构数据', res);
+        this.$wxUtils.loading({show: false});
+        this.organiData = res.data;
       }).catch(err => {
         console.log(err);
       });

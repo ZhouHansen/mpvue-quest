@@ -29,7 +29,7 @@
       };
     },
     mounted () {
-      console.log('活动数据', this.sectionData);
+      // console.log('活动数据', this.sectionData);
     },
     computed: {
       distanceToSection () {
@@ -48,7 +48,11 @@
     methods: {
       goDetail () {
         this.$store.commit(MutationsType.SET_CHOOSE_ACTIVITY, this.sectionData);
-        this.$router.push({path: '/pages/home/section.detail', query: {id: this.sectionData.id, type: 'product'}});
+        if (this.sectionData.ltype) {
+          this.$router.push({path: '/pages/home/section.detail', query: {id: this.sectionData.id, type: 'lesson'}});
+        } else {
+          this.$router.push({path: '/pages/home/section.detail', query: {id: this.sectionData.id, type: 'product'}});
+        }
       }
     }
   };

@@ -46,9 +46,9 @@
       this.selectText = this.array[0].text;
       this.$emit('chooseFilterType', this.array[0].type);
     },
-    onShow () {
+    onUnload () {
+      console.log('卸载');
       this.selectText = this.array[0].text;
-      this.$emit('chooseFilterType', this.array[0].type);
     },
     methods: {
       inputTyping (e) {

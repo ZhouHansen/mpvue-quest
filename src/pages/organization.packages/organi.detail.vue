@@ -19,8 +19,8 @@
     <div class="organi-content">
       <hoo-nav :tabs="navData" @tapNavItem="chooseNav"></hoo-nav>
       <div class="organi-nav-inf">
-        <course-list v-if="chooseNavNumber === '0'"></course-list>
-        <teacher-list v-if="chooseNavNumber === '1'"></teacher-list>
+        <course-list v-if="chooseNavNumber === '0' && courseData" :params="courseData"></course-list>
+        <teacher-list v-if="chooseNavNumber === '1' && teacherData" :params="teacherData"></teacher-list>
         <appraisal-list v-if="chooseNavNumber === '2'"></appraisal-list>
         <organi-desc v-if="chooseNavNumber === '3'" :params="organiData"></organi-desc>
       </div>
@@ -50,7 +50,9 @@
       return {
         navData: ['课程', '老师', '评价', '关于机构'],
         chooseNavNumber: '0',
-        organiData: {}
+        organiData: {},
+        courseData: null,
+        teacherData: null
       };
     },
     onShow () {
@@ -62,12 +64,36 @@
     methods: {
       chooseNav (e) {
         this.chooseNavNumber = e;
+
+        if (e === '1' && !this.teacherData) {
+          this.getOrganiTeacherList();
+        }
       },
 
       getOrganiDetail () {
         this.$network.organi.getOrganiDetail({}, null, 'weapp/inst/' + this.$route.query.id).then(res => {
           // console.log(res.data);
           this.organiData = res.data;
+
+          this.getOrganiCourseList();
+        });
+      },
+
+      getOrganiCourseList () {
+        this.$network.search.searchCourse({}).then(res => {
+          console.log('返回查找课程数据', res);
+          this.courseData = res.data;
+        }).catch(err => {
+          console.log(err);
+        });
+      },
+
+      getOrganiTeacherList () {
+        this.$network.search.searchTearch({}).then(res => {
+          console.log('返回查找老师数据', res);
+          this.teacherData = res.data;
+        }).catch(err => {
+          console.log(err);
         });
       }
     },
@@ -77,8 +103,9 @@
         console.log(res.target);
       }
       return {
-        title: '娱乐完教育机构详情...',
-        path: '/pages/organization.packages/organi.detail?id=123'
+        title: 'Hooray - ' + this.organiData.name,
+        path: '/pages/organization.packages/organi.detail?id=' + this.organiData.id,
+        imageUrl: this.organiData.coverfile
       };
     }
   };

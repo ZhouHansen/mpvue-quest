@@ -7,10 +7,10 @@
   import hooTeacherItem from '@/module/teacher/teacher.item';
 
   export default {
+    props: ['params'],
     components: {
       hooTeacherItem
-    },
-    props: ['params']
+    }
   };
 </script>
 <style lang="scss" scoped>

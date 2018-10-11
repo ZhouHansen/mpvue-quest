@@ -1,20 +1,20 @@
 <template>
-  <div class="organi-container">
+  <div class="organi-container" @click="visitOrganiDetail">
     <div class="organi-avatar">
-      <hoo-avatar></hoo-avatar>
+      <hoo-avatar :avatar="organiData.coverfile2"></hoo-avatar>
     </div>
     <div class="organi-inf">
-      <div class="organi-title">娱乐网</div>
-      <div class="organi-desc line-clamp-3">寓乐湾成立以来已获得27项机器人、创客类寓乐湾成立以来已获得27项机器人、创客类寓乐湾成立以来已获得27项机器人、创客类寓乐湾成立以来已获得27项机器人、创客类</div>
+      <div class="organi-title">{{organiData.name}}</div>
+      <div class="organi-desc line-clamp-3">{{organiData.brief}}</div>
 
       <!-- 显示可选的 -->
       <div class="organi-total">
         <div class="organi-total-type">
-          <span class="organi-total-num">52</span>
+          <span class="organi-total-num">{{organiData.lessons}}</span>
           <span>老师</span>
         </div>
         <div class="organi-total-type">
-          <span class="organi-total-num">52</span>
+          <span class="organi-total-num">{{organiData.teachers}}</span>
           <span>课程</span>
         </div>
       </div>
@@ -27,9 +27,14 @@
   import hooAvatar from '@/components/avatar';
 
   export default {
-    props: ['organData'],
+    props: ['organiData'],
     components: {
       hooAvatar
+    },
+    methods: {
+      visitOrganiDetail () {
+        this.$router.push({path: '/pages/organization.packages/organi.detail', query: {id: this.organiData.id}});
+      }
     }
   };
 </script>
@@ -50,6 +55,7 @@
     }
 
     .organi-inf {
+      width: 100%;
 
       .organi-title {
         font-size: 18px;
