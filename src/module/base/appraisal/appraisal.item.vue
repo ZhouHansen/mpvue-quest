@@ -9,7 +9,7 @@
         <span class="appra-date">9月2日</span>
       </div>
       <hoo-score :type="'show'" :score="4.2"></hoo-score>
-      <div class="appra-img-list">
+      <div class="appra-img-list" @click="previewImg">
         <div class="appra-img-item" :style="'background: url(' + cover + ') no-repeat 50% 50%; background-size: cover;'"></div>
         <div class="appra-img-item" :style="'background: url(' + cover + ') no-repeat 50% 50%; background-size: cover;'"></div>
         <div class="appra-img-item" :style="'background: url(' + cover + ') no-repeat 50% 50%; background-size: cover;'"></div>
@@ -32,6 +32,13 @@
       return {
         cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_170849.403868.png'
       };
+    },
+    methods: {
+      previewImg () {
+        this.$wxUtils.previewImage({
+          urls: [this.cover, this.cover, this.cover]
+        });
+      }
     }
   };
 </script>

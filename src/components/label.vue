@@ -1,12 +1,12 @@
 <template>
   <div class="label-container">
-    <span class="label-header">{{typeText}}</span>
-    <span class="label-span" v-for="(item, index) in labelArr" :key="index">{{item}}</span>
+    <span class="label-header" v-for="(item, index) in typeText" :key="index">{{item}}</span>
+    <span class="label-span" v-if="labelArr[0] !== ''" v-for="(item, index) in labelArr" :key="index">{{item}}</span>
   </div>
 </template>
 <script>
 export default {
-  props: ['typeText', 'labelArr'],
+  props: ['typeText', 'labelArr', 'type'],
   data () {
     return {
 

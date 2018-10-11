@@ -13,7 +13,7 @@
         @markertap="markertap"
         @tap="tapMap"
         @regionchange="regionMap"
-        :scale="18"
+        :scale="16"
         :show-location="'true'"
         :longitude="'121.541557'"
         :latitude="'38.860103'"
@@ -25,7 +25,7 @@
       </map>
       <div class="" :class="showRecommend?'recommend-body':'hide-recommend'" v-if="markers">
         <div class="recommend-ctrl" @click="toggleRecommend"><span></span></div>
-        <recommend-organi v-if="showRecommend"></recommend-organi>
+        <recommend-organi v-if="showRecommend" :params="recommendData"></recommend-organi>
       </div>
   </div>
 </template>
@@ -44,18 +44,10 @@ export default {
   data () {
     return {
       showRecommend: true,
+      recommendData: [],
       showFilterList: false,
       markers: null,
-      markersData: [
-        {
-          iconPath: '',
-          id: 1,
-          latitude: '38.860103',
-          longitude: '121.541557',
-          width: 40,
-          height: 40
-        }
-      ],
+      markersData: [],
       filter: [],
       filterType: '',
       filterCity: [
@@ -76,11 +68,16 @@ export default {
     };
   },
   mounted () {
+    this.$wxUtils.loading({title: '加载中...'});
     this.chooseFilterCity = this.filterCity[0];
     this.chooseFilterType = this.filterTypeData[0];
 
     this.setMarkerIcon();
     this.getCityList();
+    this.getRecommendList();
+  },
+  onShow () {
+    // this.getRecommendList();
   },
   methods: {
     tapMap () {
@@ -99,17 +96,43 @@ export default {
       this.showRecommend = !this.showRecommend;
     },
 
-    setMarkerIcon () {
-      this.$wxUtils.download({url: this.url}).then(res => {
-        console.log(res);
+    getCityList () {
 
-        this.markersData[0].iconPath = res;
-        this.markers = this.markersData;
+    },
+
+    // 下载图片到微信临时文件，在显示到地图中
+    setMarkerIcon (data) {
+      return new Promise((resolve, reject) => {
+        this.$wxUtils.download({url: data.markerfile}).then(res => {
+          // console.log(res);
+          this.markersData.push({
+            iconPath: res,
+            id: data.id,
+            latitude: data.xlat,
+            longitude: data.xlng,
+            width: 40,
+            height: 40
+          });
+          resolve();
+        });
       });
     },
 
-    getCityList () {
+    getRecommendList () {
+      this.$network.organi.getFilterByMapCity().then(res => {
+        // console.log(res.data);
+        this.recommendData = res.data;
 
+        let promiseArr = [];
+        res.data.forEach((item, index) => {
+          promiseArr[index] = this.setMarkerIcon(item);
+        });
+
+        Promise.all(promiseArr).then(result => {
+          this.markers = this.markersData;
+          this.$wxUtils.loading({show: false});
+        });
+      });
     },
 
     tapFilterButton (e) {
@@ -131,7 +154,7 @@ export default {
     },
 
     chooseFilter (e) {
-      console.log(e);
+      // console.log(e);
       if (e.type === 'type') {
         this.chooseFilterType = e;
       } else {
@@ -163,14 +186,14 @@ export default {
     },
 
     markertap (e) {
-      console.log(e);
+      // console.log(e);
       let id = e.mp.markerId;
       let result = _.find(this.markers, (object) => {
         return object.id === id;
       });
 
-      console.log(result);
-      this.$router.push({path: '/pages/organization.packages/organi.detail', query: {id: 1}});
+      // console.log(result); // 返回的结果是mark对象数据
+      this.$router.push({path: '/pages/organization.packages/organi.detail', query: {id: result.id}});
     }
   }
 };

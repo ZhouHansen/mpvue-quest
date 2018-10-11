@@ -6,14 +6,14 @@ export default {
    * 获取地图机构的城市列表
   */
   getFilterByMapCity: {
-    url: 'search',
+    url: 'weapp/inst',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
     params: {
       limit: [NetworkParamType.number],
       offset: [NetworkParamType.number]
-    },
-    debug: DebugData.search
+    }
   },
 
   /**
@@ -34,15 +34,12 @@ export default {
    * 获取机构详情信息
   */
   getOrganiDetail: {
-    url: 'search',
+    url: 'weapp/inst/:id',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
     params: {
-      id: [NetworkParamType.string],
-      limit: [NetworkParamType.number],
-      offset: [NetworkParamType.number]
-    },
-    debug: DebugData.search
+    }
   },
 
   /*

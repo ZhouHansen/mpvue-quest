@@ -2,13 +2,13 @@
   <div class="have-icon-btn-container">
     <span class="activity btn-item" v-if="type === 'activity'" @click="setJoinActivity">
       <span class="icon hand"></span>
-      <span>{{personNum}}人想参加</span>
+      <span>{{personNum}}{{joinText || '人想参加'}}</span>
     </span>
      <span class="activity btn-item" v-if="type === 'activity_already'" @click="cancelJoinActivity">
       <span class="icon hand_already"></span>
-      <span>{{personNum}}人想参加</span>
+      <span>{{personNum}}{{joinText || '人想参加'}}</span>
     </span>
-    <span v-if="type === 'share'" @click="share">
+    <span v-if="type === 'share'">
       <button :open-type="'share'" :plain="'true'">
         <span class="icon share"></span>
         <span>分享</span>
@@ -27,7 +27,7 @@
 <script>
 
 export default {
-  props: ['type', 'personNum', 'id'],
+  props: ['type', 'personNum', 'joinText', 'id'],
   methods: {
     setCollect () {
       this.$network.discovery.setCollection({id: this.id ? this.id : '123'}).then(res => {
@@ -55,10 +55,6 @@ export default {
         this.$wxUtils.toast({title: res.message});
         this.type = 'activity';
       });
-    },
-
-    share () {
-
     }
   }
 };

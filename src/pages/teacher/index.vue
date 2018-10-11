@@ -4,7 +4,7 @@
       <hoo-nav :tabs="navData" @tapNavItem="chooseNav"></hoo-nav>
     </div>
     <div class="teacher-list-body">
-      <teacher-list></teacher-list>
+      <teacher-list :params="teacherListData"></teacher-list>
     </div>
   </div>
 </template>
@@ -20,22 +20,39 @@ export default {
   data () {
     return {
       navData: ['全部', '美术', '英文', '中文', '数学', '音乐'],
-      chooseNavIndex: 0
+      chooseNavIndex: 0,
+      teacherListData: [],
+      limit: 15,
+      offset: 0,
+      total: 0
     };
   },
+  mounted () {
+  },
   onShow () {
+    this.getTeacherList();
     // 初始化的搜索老师条件。
   },
   onReachBottom () {
-    console.log('到底了');
+    if (this.total > this.limit) {
+      this.offset = this.offset + 15;
+      this.getTeacherList();
+    }
   },
   methods: {
     chooseNav (e) {
       this.chooseNavIndex = e;
+      this.getTeacherList();
+    },
+
+    getTeacherList () {
       this.$wxUtils.loading({title: '加载中...'});
-      setTimeout(() => {
+      this.$network.teacher.getTeacherList({offset: this.offset, limit: this.limit}).then(res => {
+        // console.log(res);
         this.$wxUtils.loading({show: false});
-      }, 3000);
+        this.teacherListData = Object.assign(this.teacherListData, res.data);
+        this.total = res.total;
+      });
     }
   }
 };
@@ -44,13 +61,5 @@ export default {
   @import '../../assets/style/variables.scss';
 
   .teacher-container {
-    // .nav-body {
-    //   border-bottom: 1rpx solid #bfbfbf;
-    // }
-
-    // .teacher-list-body {
-    //   height: calc(100vh - 96rpx);
-    //   overflow-y: auto;
-    // }
   }
 </style>

@@ -19,27 +19,25 @@ export default {
    * 获取老师列表，通过科目过滤
   */
   getTeacherList: {
-    url: 'user',
+    url: 'weapp/teacher',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
     params: {
       limit: [NetworkParamType.number],
       offset: [NetworkParamType.number]
-    },
-    debug: DebugData.getOpenid
+    }
   },
   /**
    * 获取老师详情
   */
   getTeacherDetail: {
-    url: 'user',
+    url: 'weapp/teacher/:id',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
     params: {
-      limit: [NetworkParamType.number],
-      offset: [NetworkParamType.number]
-    },
-    debug: DebugData.getOpenid
+    }
   },
   /**
    * 获取老师的课程

@@ -3,30 +3,47 @@ import DebugData from './debug.data';
 
 export default {
   /**
+   * 获取发现首页的商品
+   * */
+  getProduct: {
+    url: 'weapp/product',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
+    params: {}
+  },
+
+  /**
+   * 获取商品的详情
+  */
+  getProductDetail: {
+    url: 'weapp/product/:id',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true
+  },
+
+  /**
    * 获取发现首页的列表数据，需要根据用户位置信息来获取（除了商品以外）
   */
   getDiscovery: {
-    url: 'discovery',
+    url: 'weapp/lesson',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
     params: {
-      limit: [NetworkParamType.number],
-      offset: [NetworkParamType.number]
-    },
-    debug: DebugData.discovery
+    }
   },
 
   /**
    * 通过id获取课程、活动、商品的详情
   */
   getActivityDetail: {
-    url: 'discovery',
+    url: 'weapp/lesson/:id',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      id: [NetworkParamType.string]
-    },
-    debug: DebugData.discovery
+    authorization: true,
+    params: {}
   },
 
   /**

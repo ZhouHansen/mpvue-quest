@@ -1,6 +1,5 @@
 <template>
   <div class="organi-desc-container">
-    这里是富文本编辑器的内容
     <wx-parse :content="article"></wx-parse>
   </div>
 </template>
@@ -8,13 +7,13 @@
   import wxParse from 'mpvue-wxparse';
 
   export default {
-    props: [''],
+    props: ['params'],
     components: {
       wxParse
     },
     data () {
       return {
-        article: '<div>我是HTML代码</div>'
+        article: this.params.htmlabout ? this.params.htmlabout : '机构介绍正在添加中.'
       };
     }
   };

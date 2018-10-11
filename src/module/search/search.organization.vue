@@ -1,11 +1,15 @@
 <template>
   <div class="search-organization-container">
     <div class="organi-filter-list">
-      <div class="organi-filter-item">
-        <hoo-select :filter="{text:'附近', event: 'organ_nearby'}" @filterEvent="chooseFilter"></hoo-select>
+      <div class="organi-filter-item" @click="chooseFilter('organ_nearby')">
+        <div class="filter-item-select">
+          <hoo-select :filter="{text:'附近', event: 'organ_nearby'}"></hoo-select>
+        </div>
       </div>
-      <div class="organi-filter-item">
-        <hoo-select :filter="{text: '认证', event: 'organ_auth'}" @filterEvent="chooseFilter"></hoo-select>
+      <div class="organi-filter-item" @click="chooseFilter('organ_auth')">
+        <div class="filter-item-select">
+          <hoo-select :filter="{text: '认证', event: 'organ_auth'}"></hoo-select>
+        </div>
       </div>
     </div>
     <div class="organi-content">
@@ -119,22 +123,25 @@ export default {
 };
 </script>
 <style lang="scss" scope>
+  @import '../../assets/style/variables.scss';
+
   .search-organization-container {
     width: 100%;
     .organi-filter-list {
-      display:flex;
-      flex-flow:row nowrap;
-      justify-content:space-between;
-      align-items:center;
-      padding:24rpx 20rpx;
+      @include flex(space-between, center);
+      padding: 0 20rpx;
 
 
       .organi-filter-item {
-        width: 43%;
-        padding: 0 4%;
-        border-right: 1rpx solid #f2f2f2;
+        width: 50%;
+        padding: 24rpx 0;
 
-        &:last-child {
+        .filter-item-select {
+          padding: 0 8vw;
+          border-right: 1rpx solid #f2f2f2;
+        }
+
+        &:last-child .filter-item-select {
           border: 0;
         }
       }

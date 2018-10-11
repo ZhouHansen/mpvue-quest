@@ -121,6 +121,12 @@ const chooseImg = ({num = 1}) => {
   });
 };
 
+const previewImage = ({urls}) => {
+  wx.previewImage({
+    urls: urls
+  });
+};
+
 export default {
   getPagesLength,
   getUserInfo,
@@ -131,5 +137,6 @@ export default {
   showModal,
   download,
   setNavTitle,
-  chooseImg
+  chooseImg,
+  previewImage
 };

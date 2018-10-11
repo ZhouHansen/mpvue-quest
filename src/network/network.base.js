@@ -12,8 +12,31 @@ export default {
     params: {
       limit: [NetworkParamType.number],
       offset: [NetworkParamType.number]
-    },
-    debug: DebugData.getOpenid
+    }
+  },
+
+  /**
+   * 登录
+   * **/
+  login: {
+    url: 'login',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
+    params: {
+      code: [NetworkParamType.string]
+    }
+  },
+
+  /**
+   * 获取用户信息
+   */
+
+  getUserInf: {
+    url: 'profile',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true
   },
 
   /**

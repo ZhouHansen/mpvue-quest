@@ -15,14 +15,14 @@
       </div>
       <div class="arrange-item">
         <div class="arrange-icon info"></div>
-        <div class="arrange-text">活动早上9:00入场，请购票后等待主办方活动早上9:00入场，请购票后等待主办方活动早上9:00入场，请购票后等待主办方</div>
+        <div class="arrange-text">{{arrangeParams.brief}}</div>
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  props: ['data']
+  props: ['arrangeParams']
 };
 </script>
 <style lang="scss" scoped>

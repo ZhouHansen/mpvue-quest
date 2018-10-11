@@ -13,7 +13,10 @@
 
     <div class="section-list">
       <div class="section-item" v-for="item in sections" :key="item.id">
-        <hoo-section :section-data="item" :location="location" v-if="(item.distance && location) || !item.distance"></hoo-section>
+        <hoo-section :section-data="item" :location="location" v-if="(item.xlat && item.xlng && location) || !(item.xlat && item.xlng)"></hoo-section>
+      </div>
+      <div class="section-item" v-for="item in productData" :key="item.id">
+        <hoo-section :section-data="item"></hoo-section>
       </div>
     </div>
   </div>
@@ -29,18 +32,19 @@ export default {
   data () {
     return {
       sections: null,
-      location: null
+      location: null,
+      productData: null
     };
   },
   created () {
   },
-  onReady () {
+  mounted () {
     // 调用应用实例的方法获取全局数据
     this.$wxUtils.getUserInfo();
     // console.log(this.$store.state);
     this.getDiscovery();
-  },
-  mounted () {
+    this.getProduct();
+
     this.$wxUtils.getLocation().then(res => {
       this.location = res;
     });
@@ -55,13 +59,21 @@ export default {
     },
 
     getDiscovery () {
-      this.$network.discovery.getDiscovery({limit: 1, offset: 2}).then(res => {
+      this.$network.discovery.getDiscovery().then(res => {
         console.log(res);
-        this.sections = res;
+        this.sections = res.data;
       }).catch(err => {
         console.log(err);
       });
+    },
+
+    getProduct () {
+      this.$network.discovery.getProduct().then(res => {
+        // console.log(res.data);
+        this.productData = res.data;
+      });
     }
+
   }
 };
 </script>

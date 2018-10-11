@@ -1,19 +1,19 @@
 <template>
-  <div class="teacher-detail-container">
+  <div class="teacher-detail-container" v-if="teacherData">
       <div class="teacher-detail-header">
         <div class="detail-left">
           <div class="detail-left-avatar">
-            <hoo-avatar :type="'big'"></hoo-avatar>
+            <hoo-avatar :type="'big'" :avatar="teacherData.avatarurl"></hoo-avatar>
           </div>
-          <hoo-score :score="2.5" :type="'show'" :size="'small'"></hoo-score>
+          <hoo-score :score="teacherData.star" :type="'show'" :size="'small'"></hoo-score>
         </div>
         <div class="detail-right">
           <div class="detail-right-name">
-            <span class="detail-right-name-text">冯老师</span>
-            <hoo-auth></hoo-auth>
+            <span class="detail-right-name-text">{{teacherData.name}}</span>
+            <hoo-auth v-if="teacherData.endorsed"></hoo-auth>
           </div>
-          <div class="detail-deucation">清华大学/经济学博士</div>
-          <hoo-label :type-text="teacherLabelTypeText" :label-arr="teacherLabelArr"></hoo-label>
+          <div class="detail-deucation">{{teacherData.education}}</div>
+          <hoo-label :type-text="teacherLabelTypeText" :label-arr="teacherLabelArr" :type="'teacher'"></hoo-label>
           <div class="detail-ctrl">
             <div class="collect-btn">
               <hoo-have-icon-btn :type="'collection'"></hoo-have-icon-btn>
@@ -22,12 +22,12 @@
           </div>
         </div>
       </div>
-      <hoo-nav :tabs="navData" @tapNavItem="chooseNav"></hoo-nav>
+      <hoo-nav :tabs="navData" :unOnShowDefault="'true'"  @tapNavItem="chooseNav"></hoo-nav>
       <div class="tearcher-detail-course" v-if="chooseNavNumber === '0'">
-        <teacher-introduction></teacher-introduction>
+        <course-list></course-list>
       </div>
       <div class="teacher-detail-text" v-if="chooseNavNumber === '1'">
-        <course-list></course-list>
+        <teacher-introduction :params="teacherData"></teacher-introduction>
       </div>
       <div class="teacher-detail-appraise" v-if="chooseNavNumber === '2'">
         <appra-list></appra-list>
@@ -59,21 +59,31 @@
     },
     data () {
       return {
-        teacherLabelTypeText: '数学',
-        teacherLabelArr: ['蜗牛英语'],
+        teacherLabelTypeText: null,
+        teacherLabelArr: null,
         navData: ['课程', '老师介绍', '评价'],
-        chooseNavNumber: '0'
+        chooseNavNumber: '0',
+        teacherData: null
       };
     },
     onShow () {
-      this.chooseNavNumber = '0';
     },
     mounted () {
       this.$wxUtils.setNavTitle('老师详情');
+      this.getTeacherDetail();
     },
     methods: {
       chooseNav (e) {
         this.chooseNavNumber = e;
+      },
+
+      getTeacherDetail () {
+        this.$network.teacher.getTeacherDetail({}, null, 'weapp/teacher/' + this.$route.query.id).then(res => {
+          console.log(res.data);
+          this.teacherData = res.data;
+          this.teacherLabelTypeText = res.data.subjectslist;
+          this.teacherLabelArr = res.data.tagslist;
+        });
       }
     },
     onShareAppMessage (res) {

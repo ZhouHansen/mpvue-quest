@@ -1,9 +1,9 @@
 <template>
-  <div class="organi-container">
+  <div class="organi-container" v-if="params">
     <div class="organi-inf">
-      <div class="organi-avatar" :style="'background: url(' + avatar + ') no-repeat 50% 50%; background-size: cover;'"></div>
+      <div class="organi-avatar" :style="'background: url(' + params.coverfile2 + ') no-repeat 50% 50%; background-size: cover;'"></div>
       <div class="organi-title">
-        <div class="organi-title-text ellipsis">优贝乐英语培训机构</div>
+        <div class="organi-title-text ellipsis">{{params.name}}</div>
         <div class="organi-title-auth">
           <div class="organi-title-auth-icon"></div>
           <div class="organi-title-auth-text">学了么认证</div>
@@ -15,7 +15,7 @@
         <div class="organi-btn-icon phone"></div>
         <div class="organi-btn-text">电话咨询</div>
       </div>
-       <div class="organi-btn" @click="georganiDetail">
+       <div class="organi-btn" @click="visitOrganiDetail">
         <div class="organi-btn-icon detail"></div>
         <div class="organi-btn-text">查看机构</div>
       </div>
@@ -29,20 +29,27 @@
     props: ['organiData'],
     data () {
       return {
-        avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg'
+        avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
+        params: null
       };
     },
     mounted () {
-
+      this.getOrganiDetail();
     },
     methods: {
+      getOrganiDetail () {
+        this.$network.organi.getOrganiDetail({}, null, 'weapp/inst/' + this.organiData.instid).then(res => {
+          console.log(res.data);
+          this.params = res.data;
+        });
+      },
+
       callPhone () {
         WxUtils.callPhone({phone: '17645091513'});
       },
 
-      georganiDetail () {
-        console.log('查看机构');
-        this.$router.push({path: '/pages/organization.packages/organi.detail', query: {id: '123123'}});
+      visitOrganiDetail () {
+        this.$router.push({path: '/pages/organization.packages/organi.detail', query: {id: this.params.id}});
       }
     }
   };

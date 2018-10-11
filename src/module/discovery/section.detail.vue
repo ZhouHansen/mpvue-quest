@@ -1,12 +1,13 @@
 <template>
   <!-- 课程，活动，商品 -->
   <div class="section-detail-container">
-    <div class="section-cover" :style="'background: url(' + cover + ') no-repeat 50% 50%; background-size: cover;'"></div>
+    <div class="section-cover" :style="'background: url(' + params.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
     <div class="section-title">
-      <div class="section-title-text ellipsis">2018招牌通识营-在创造中原力觉醒</div>
+      <div class="section-title-text ellipsis">{{params.name}}</div>
       <hoo-label :type-text="labelTypeText" :label-arr="labelArr"></hoo-label>
       <div class="section-title-ctrl">
-        <hoo-icon-button :type="'activity_already'" :person-num="'123'"></hoo-icon-button>
+        <hoo-icon-button :type="'activity_already'" :person-num="params.favorcount" v-if="params.ltype === 'lesson'"></hoo-icon-button>
+        <hoo-icon-button :type="'activity_already'" :person-num="params.favorcount" :join-text="'人想买'" v-if="!params.ltype"></hoo-icon-button>
         <hoo-icon-button :type="'collection_already'"></hoo-icon-button>
         <hoo-icon-button :type="'share'"></hoo-icon-button>
       </div>
@@ -14,25 +15,24 @@
     <div class="section-content">
       <hoo-left-border-title :title="'活动信息'"></hoo-left-border-title>
       <div class="section-content-arrange">
-        <hoo-arrange></hoo-arrange>
+        <hoo-arrange :arrange-params="params"></hoo-arrange>
       </div>
-      <div class="section-content-location">
+      <div class="section-content-location" v-if="params.xlat && params.xlng">
         <hoo-location :data="distance"></hoo-location>
       </div>
     </div>
-    <div class="section-organi">
+    <div class="section-organi" v-if="params.instid !== 0">
       <left-border-title :title="'机构信息'"></left-border-title>
       <div class="section-organi-content">
-        <hoo-organi></hoo-organi>
+        <hoo-organi :organi-data="params"></hoo-organi>
       </div>
     </div>
     <div class="section-nav">
-      <hoo-nav @tapNavItem="chooseNav" :tabs="tabData"></hoo-nav>
+      <hoo-nav @tapNavItem="chooseNav" :unOnShowDefault="'true'" :tabs="tabData"></hoo-nav>
 
       <div class="section-nav-item">
         <div class="section-nav-detail" v-if="chooseNavIndex === '0'">
-          详情
-          <wx-parse :content="article"></wx-parse>
+          <wx-parse :content="params.htmlabout"></wx-parse>
         </div>
         <div class="section-nav-appraise" v-if="chooseNavIndex === '1'">
           <appra-list></appra-list>
@@ -79,33 +79,36 @@
       groupOrder,
       bindPhone
     },
+    props: ['params'],
     data () {
       return {
-        article: '<div>我是HTML代码</div>',
-        cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
-        labelTypeText: '多动',
-        labelArr: ['5-10岁', '109元'],
+        labelTypeText: this.params.subjectslist,
+        labelArr: this.params.tagslist,
         tabData: ['详情', '评价'],
         chooseNavIndex: '0',
 
         distance: {
-          lat: '38.862103',
-          lng: '121.541557'
+          lat: this.params.xlat,
+          lng: this.params.xlng,
+          address: this.params.address
         }
       };
     },
     onShow () {
-      this.chooseNavIndex = '0';
+      // this.chooseNavIndex = '0';
+    },
+    mounted () {
+      console.log('活动数据', this.params);
     },
     methods: {
       chooseNav (e) {
-        console.log('接收到点击的nav', e);
+        // console.log('接收到点击的nav', e);
         this.chooseNavIndex = e;
       },
 
       goToOrder () {
         console.log(this.$store.state.discovery.activity);
-        if (this.$store.state.discovery.activity.type === 'commodity') {
+        if (this.$store.state.discovery.activity.ltype !== 'lesson') {
           this.$router.push('/pages/home/section.submit.order.book');
         } else {
           this.$router.push('/pages/home/select.time.purchases');
@@ -118,9 +121,9 @@
       },
 
       sendGroupOrder (e) {
-        console.log(e);
+        // console.log(e);
 
-        if (this.$store.state.discovery.activity.type === 'commodity') {
+        if (this.$store.state.discovery.activity.ltype !== 'lesson') {
           this.$router.push('/pages/home/section.submit.order.book');
         } else {
           let order = {
@@ -191,7 +194,7 @@
 
     .section-nav {
       border-top: 20rpx solid #f9f9f9;
-      margin-bottom: 10vh;
+      margin-bottom: 15vh;
     }
 
     .section-order {

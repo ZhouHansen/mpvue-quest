@@ -3,7 +3,7 @@
     <div class="location-inf">
       <div class="location-title">
         <span class="location-icon"></span>
-        <span class="location-text line-clamp-2">北京市朝阳区望京soho231</span>
+        <span class="location-text line-clamp-2">{{data.address}}</span>
       </div>
       <div class="location-distance">{{distanceToSection}}</div>
     </div>

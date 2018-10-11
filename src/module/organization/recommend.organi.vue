@@ -3,10 +3,11 @@
     <div class="title">推荐品牌机构</div>
     <div class="recommend-scroll">
       <scroll-view class="recommend-list" :scroll-x="'true'" :scroll-with-animation="'true'">
-        <div class="recommend-item none"><span>暂无推荐</span></div>
+        <div class="recommend-item none" v-if="params.length === 0"><span>暂无推荐</span></div>
         <div class="recommend-item"
-          v-for="(item, index) in items" :key="index" @click="visitOrgani(index)"
-          :style="{background: 'url(' + avatar + ') no-repeat 50% 50%', backgroundSize: 'cover'}"
+          v-if="params.length > 0"
+          v-for="(item, index) in params" :key="index" @click="visitOrgani(item.id)"
+          :style="{background: 'url(' + item.coverfile + ') no-repeat 50% 50%', backgroundSize: 'cover'}"
           ></div>
       </scroll-view>
     </div>
@@ -14,21 +15,14 @@
 </template>
 <script>
   export default {
+    props: ['params'],
     data () {
       return {
-        items: [
-          {id: 23},
-          {id: 23},
-          {id: 23},
-          {id: 23},
-          {id: 23}
-        ],
-        avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-28_130413.371841.jpeg'
       };
     },
     methods: {
       visitOrgani (e) {
-        console.log(e);
+        // console.log(e);
         this.$router.push({path: '/pages/organization.packages/organi.detail', query: {id: e}});
       }
     }

@@ -1,17 +1,25 @@
 <template>
   <div class="search-course-container">
     <div class="course-filter-list">
-      <div class="course-filter-item">
-        <hoo-select :filter="{text:'学科', event: 'course_type'}" @filterEvent="chooseFilter"></hoo-select>
+      <div class="course-filter-item" @click="chooseFilter('course_type')">
+        <div class="filter-item-select">
+          <hoo-select :filter="{text:'学科', event: 'course_type'}"></hoo-select>
+        </div>
       </div>
-      <div class="course-filter-item">
-        <hoo-select :filter="{text:'价格', event: 'course_price'}" @filterEvent="chooseFilter"></hoo-select>
+      <div class="course-filter-item" @click="chooseFilter('course_price')">
+        <div class="filter-item-select">
+          <hoo-select :filter="{text:'价格', event: 'course_price'}"></hoo-select>
+        </div>
       </div>
-      <div class="course-filter-item">
-        <hoo-select :filter="{text:'时间', event: 'course_time'}" @filterEvent="chooseFilter"></hoo-select>
+      <div class="course-filter-item" @click="chooseFilter('course_time')">
+        <div class="filter-item-select">
+          <hoo-select :filter="{text:'时间', event: 'course_time'}"></hoo-select>
+        </div>
       </div>
-      <div class="course-filter-item">
-        <hoo-select :filter="{text: '适龄', event: 'course_age'}" @filterEvent="chooseFilter"></hoo-select>
+      <div class="course-filter-item" @click="chooseFilter('course_age')">
+        <div class="filter-item-select">
+          <hoo-select :filter="{text: '适龄', event: 'course_age'}"></hoo-select>
+        </div>
       </div>
     </div>
     <div class="course-content">
@@ -149,23 +157,26 @@
   };
 </script>
 <style lang="scss" scope>
+  @import '../../assets/style/variables.scss';
+
   .search-course-container {
     width: 100%;
 
     .course-filter-list {
-      display:flex;
-      flex-flow:row nowrap;
-      justify-content:space-between;
-      align-items:center;
-      padding:24rpx 20rpx;
+      @include flex(space-between, center);
+      padding: 0 20rpx;
 
 
       .course-filter-item {
-        width: 20%;
-        padding: 0 2%;
-        border-right: 1rpx solid #f2f2f2;
+        width: 25%;
+        padding: 24rpx 0;
 
-        &:last-child {
+        .filter-item-select {
+          padding: 0 4vw;
+          border-right: 1rpx solid #f2f2f2;
+        }
+
+        &:last-child .filter-item-select {
           border: 0;
         }
       }

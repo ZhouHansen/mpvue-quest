@@ -19,7 +19,7 @@
 </template>
 <script>
 export default {
-  props: ['tabs'],
+  props: ['tabs', 'checkIndex', 'unOnShowDefault'],
   data () {
     return {
       // tabs: ['选项一', '选项二', '选项三', '选项四'],
@@ -27,10 +27,14 @@ export default {
     };
   },
   onShow () {
-    this.activeIndex = 0;
+    if (!this.unOnShowDefault) {
+      this.activeIndex = 0;
+    }
   },
   mounted () {
-
+    if (this.checkIndex) {
+      this.activeIndex = parseInt(this.checkIndex);
+    }
   },
   computed: {
     scrollLeft () {

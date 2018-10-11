@@ -5,7 +5,7 @@ const NetworkAPIVersion = {
   v1_version: '/api/v1/'
 };
 
-const NetworkAPIHost = 'https://w.w.w';
+const NetworkAPIHost = 'https://h.dyglxt.com';
 
 class NetworkParamTypeClass {
   constructor (type) {

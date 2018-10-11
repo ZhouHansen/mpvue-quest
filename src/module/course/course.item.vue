@@ -18,7 +18,7 @@
     },
     data () {
       return {
-        teacherLabelTypeText: '活动',
+        teacherLabelTypeText: ['活动'],
         teacherLabelArr: ['蜗牛英语', '9月11日-9月20日']
       };
     },

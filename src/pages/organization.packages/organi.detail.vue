@@ -2,11 +2,11 @@
   <div class="organi-detail-container">
     <div class="organi-header">
       <div class="organi-avatar">
-        <hoo-avatar></hoo-avatar>
+        <hoo-avatar :avatar="organiData.coverfile2"></hoo-avatar>
       </div>
       <div class="organi-header-content">
-        <div class="organi-header-title">娱乐完</div>
-        <div class="organi-header-text line-clamp-3 ">娱乐完娱乐完娱乐完娱乐完娱乐完娱乐完娱乐完娱乐完娱乐完</div>
+        <div class="organi-header-title">{{organiData.name}}</div>
+        <div class="organi-header-text line-clamp-3 ">{{organiData.brief}}</div>
         <div class="organi-header-ctrl">
           <div class="organi-header-ctrl-item">
             <hoo-have-icon-btn :type="'collection'"></hoo-have-icon-btn>
@@ -22,7 +22,7 @@
         <course-list v-if="chooseNavNumber === '0'"></course-list>
         <teacher-list v-if="chooseNavNumber === '1'"></teacher-list>
         <appraisal-list v-if="chooseNavNumber === '2'"></appraisal-list>
-        <organi-desc v-if="chooseNavNumber === '3'"></organi-desc>
+        <organi-desc v-if="chooseNavNumber === '3'" :params="organiData"></organi-desc>
       </div>
     </div>
   </div>
@@ -37,7 +37,6 @@
   import organiDesc from '@/module/organization/organization.desc';
 
   export default {
-    props: [],
     components: {
       hooAvatar,
       hooHaveIconBtn,
@@ -50,18 +49,26 @@
     data () {
       return {
         navData: ['课程', '老师', '评价', '关于机构'],
-        chooseNavNumber: '0'
+        chooseNavNumber: '0',
+        organiData: {}
       };
     },
     onShow () {
       this.chooseNavNumber = '0';
     },
     mounted () {
-      console.log(this.$route.query);
+      this.getOrganiDetail();
     },
     methods: {
       chooseNav (e) {
         this.chooseNavNumber = e;
+      },
+
+      getOrganiDetail () {
+        this.$network.organi.getOrganiDetail({}, null, 'weapp/inst/' + this.$route.query.id).then(res => {
+          // console.log(res.data);
+          this.organiData = res.data;
+        });
       }
     },
     onShareAppMessage (res) {
@@ -81,7 +88,7 @@
 
   .organi-detail-container {
     .organi-header {
-      @include flex(space-between, flex-start);
+      @include flex(flex-start, flex-start);
       padding: 40rpx;
 
       .organi-avatar {

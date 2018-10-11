@@ -1,11 +1,6 @@
 <template>
   <div class="teacher-list-container">
-    <hoo-teacher-item></hoo-teacher-item>
-    <hoo-teacher-item></hoo-teacher-item>
-    <hoo-teacher-item></hoo-teacher-item>
-    <hoo-teacher-item></hoo-teacher-item>
-    <hoo-teacher-item></hoo-teacher-item>
-    <hoo-teacher-item></hoo-teacher-item>
+    <hoo-teacher-item v-for="item in params" :key="item.id" :params="item"></hoo-teacher-item>
   </div>
 </template>
 <script>
@@ -14,7 +9,8 @@
   export default {
     components: {
       hooTeacherItem
-    }
+    },
+    props: ['params']
   };
 </script>
 <style lang="scss" scoped>

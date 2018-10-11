@@ -1,11 +1,15 @@
 <template>
   <div class="search-teacher-container">
     <div class="teacher-filter-list">
-      <div class="teacher-filter-item">
-        <hoo-select :filter="{text: '学科', event: 'teacher_type'}" @filterEvent="chooseFilter"></hoo-select>
+      <div class="teacher-filter-item" @click="chooseFilter('teacher_type')">
+        <div class="filter-item-select">
+          <hoo-select :filter="{text: '学科', event: 'teacher_type'}"></hoo-select>
+        </div>
       </div>
-      <div class="teacher-filter-item">
-        <hoo-select :filter="{text:'认证', event: 'teacher_auth'}" @filterEvent="chooseFilter"></hoo-select>
+      <div class="teacher-filter-item" @click="chooseFilter('teacher_auth')">
+        <div class="filter-item-select">
+          <hoo-select :filter="{text:'认证', event: 'teacher_auth'}"></hoo-select>
+        </div>
       </div>
       <div class="teacher-filter-item" @click="getOrderList">
         <div class="teacher-praise">
@@ -157,31 +161,30 @@
   };
 </script>
 <style lang="scss" scope>
+
+  @import '../../assets/style/variables.scss';
+
   .search-teacher-container {
     width: 100%;
 
     .teacher-filter-list {
-      display:flex;
-      flex-flow:row nowrap;
-      justify-content:space-between;
-      align-items:center;
-      padding:24rpx 20rpx;
+      @include flex(space-between, center);
+      padding: 0 20rpx;
 
 
       .teacher-filter-item {
-        width: 26%;
-        padding: 0 6%;
-        border-right: 1rpx solid #f2f2f2;
+        width: 34%;
+        padding: 24rpx 0;
 
-        &:last-child {
-          border: 0;
+        .filter-item-select {
+          padding: 0 6vw;
+          border-right: 1rpx solid #f2f2f2;
         }
 
         .teacher-praise {
-          display: flex;
-          flex-flow: row nowrap;
-          justify-content: space-between;
-          align-items: center;
+          @include flex(space-between, center);
+          padding: 0 6vw;
+
 
           .teacher-praise-icon {
             width: 24rpx;

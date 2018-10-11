@@ -63,10 +63,14 @@ class Network {
           // 是否自动将Content-Type为“application/json”的响应数据转化为JSON对象，默认为true
           parseJson: true,
           timeout: 5 * 60000,
-          baseURL: BASICURL
+          baseURL: BASICURL,
+          headers: {
+          }
         };
         if (networkAction.authorization) {
-          options.header['Authorization'] = self.authorizationHeader();
+          // options.header['Authorization'] = self.authorizationHeader();
+          options.headers['token'] = 'THIS_IS_DUMMY_OPENID';
+          console.log(options);
         }
 
         console.log(

@@ -1,18 +1,17 @@
 <template>
   <div class="section-container" @click="goDetail">
     <div class="section-title">
-      <div class="section-avatar" :style="'background: url(' + sectionData.avatar + ') no-repeat 50% 50%; background-size: cover;'"></div>
+      <div class="section-avatar" :style="'background: url(' + sectionData.coverfile2 + ') no-repeat 50% 50%; background-size: cover;'"></div>
       <div class="section-inf">
-        <div class="section-inf-title line-clamp-2">{{sectionData.title}}</div>
-        <!-- <div class="section-inf-desc">{{sectionData.desc}}</div> -->
+        <div class="section-inf-title line-clamp-2">{{sectionData.name}}</div>
       </div>
     </div>
     <div class="section-label">
-      <hoo-label :type-text="sectionData.label_type" :label-arr="sectionData.label_arr"></hoo-label>
+      <hoo-label :type-text="sectionData.subjectslist" :label-arr="sectionData.tagslist"></hoo-label>
       <div class="section-distance" v-if="distanceToSection">{{distanceToSection}}</div>
     </div>
-    <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.cover + ') no-repeat 50% 50%; background-size: cover;'"></div>
-    <div class="section-desc">{{sectionData.desc}}</div>
+    <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
+    <!-- <div class="section-desc">{{sectionData.organi}}</div> -->
   </div>
 </template>
 <script>
@@ -29,14 +28,17 @@
       return {
       };
     },
+    mounted () {
+      console.log('活动数据', this.sectionData);
+    },
     computed: {
       distanceToSection () {
-        if (this.sectionData.distance) {
+        if (this.sectionData.xlng && this.sectionData.xlat) {
           return Utils.backDistance({
             lat1: this.location.latitude,
             lng1: this.location.longitude,
-            lat2: this.sectionData.distance.lat,
-            lng2: this.sectionData.distance.lng
+            lat2: this.sectionData.xlat,
+            lng2: this.sectionData.xlng
           });
         } else {
           return false;
@@ -46,7 +48,7 @@
     methods: {
       goDetail () {
         this.$store.commit(MutationsType.SET_CHOOSE_ACTIVITY, this.sectionData);
-        this.$router.push('/pages/home/section.detail');
+        this.$router.push({path: '/pages/home/section.detail', query: {id: this.sectionData.id, type: 'product'}});
       }
     }
   };

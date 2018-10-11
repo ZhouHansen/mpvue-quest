@@ -4,13 +4,13 @@ export default {
   /**
    * 上传文件
   */
-  uploadFile ({url = '', name = '', data = {}}) {
+  uploadFile ({url, name, data = {}}) {
     console.log('uploadfile');
     return new Promise((resolve, reject) => {
       wx.uploadFile({
-        url: Config.NetworkAPIHost + Config.NetworkAPIVersion + '/upload', // 仅为示例，非真实的接口地址
+        url: Config.NetworkAPIHost + '/api/image/upload',
         filePath: url,
-        name: name,
+        name: 'imgfile',
         formData: data,
         success (res) {
           resolve(res.data);

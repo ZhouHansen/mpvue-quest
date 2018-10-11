@@ -94,10 +94,10 @@ export default {
     },
 
     editAvatar () {
-      this.$wxUtils.chooseImg().then(res => {
-        console.log(this.$wxNetwork);
-        this.$wxNetwork.uploadFile({}).then(res => {
-          console.log(res);
+      this.$wxUtils.chooseImg({num: 1}).then(res => {
+        console.log('选择图片', res);
+        this.$wxNetwork.uploadFile({url: res.tempFilePaths[0]}).then(res => {
+          console.log('图片上传成功', res);
         });
         this.avatar = res.tempFilePaths[0];
       });

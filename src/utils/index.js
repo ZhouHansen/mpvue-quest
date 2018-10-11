@@ -55,7 +55,11 @@ const sumLocation = ({lat1, lng1, lat2, lng2}) => {
 };
 
 const backDistance = ({lat1, lng1, lat2, lng2}) => {
-  let result = sumLocation({'lat1': lat1, 'lng1': lng1, 'lat2': lat2, 'lng2': lng2});
+  console.log(parseFloat(lat1));
+  console.log(parseFloat(lng1));
+  console.log(lat2);
+  console.log(parseFloat(lng2));
+  let result = sumLocation({'lat1': parseFloat(lat1), 'lng1': parseFloat(lng1), 'lat2': parseFloat(lat2), 'lng2': parseFloat(lng2)});
   let callback = '';
   if (result.km) {
     if (result.km > 50) {

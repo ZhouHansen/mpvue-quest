@@ -1,23 +1,19 @@
 <template>
   <div class="teacher-container" @click="viewTeacherDetail">
     <div class="teacher-avatar">
-      <hoo-avatar></hoo-avatar>
+      <hoo-avatar :avatar="params.avatarurl"></hoo-avatar>
     </div>
     <div class="teacher-inf">
       <div class="teacher-name flex-row-start ">
-        <span class="teacher-name-text">冯老师</span>
-        <!-- <div class="teacher-auth">
-          <span class="teacher-auth-icon"></span>
-          <span class="teacher-auth-text">已认证</span>
-        </div> -->
-        <hoo-auth></hoo-auth>
+        <span class="teacher-name-text">{{params.name}}</span>
+        <hoo-auth v-if="params.endorsed"></hoo-auth>
       </div>
       <div class="tearch-label">
         <hoo-label :type-text="teacherLabelTypeText" :label-arr="teacherLabelArr"></hoo-label>
       </div>
-      <div class="teacher-education">北京大学/历史学博士</div>
+      <div class="teacher-education">{{params.education}}</div>
       <div class="teacher-score">
-        <hoo-score :score="2.5" :type="'show'"></hoo-score>
+        <hoo-score :score="params.star" :type="'show'"></hoo-score>
       </div>
     </div>
   </div>
@@ -34,15 +30,16 @@
       hooScore,
       hooAuth
     },
+    props: ['params'],
     data () {
       return {
-        teacherLabelTypeText: '数学',
-        teacherLabelArr: ['蜗牛英语']
+        teacherLabelTypeText: this.params.subjectslist,
+        teacherLabelArr: this.params.tagslist
       };
     },
     methods: {
       viewTeacherDetail () {
-        this.$router.push('/pages/teacher.packages/teacher.detail');
+        this.$router.push({path: '/pages/teacher.packages/teacher.detail', query: {id: this.params.id}});
       }
     }
   };

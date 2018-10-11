@@ -1,9 +1,9 @@
 <template>
   <div class="teacher-introduction-container">
-    <div class="introduce-video">
+    <div class="introduce-video" v-if="params.videourl">
       <hoo-have-left-border-title :title="'课程演示'"></hoo-have-left-border-title>
       <div class="video-content">
-        <video :src="'http://ofqz9brr6.bkt.clouddn.com/6421a883db3e42c7b50d762d94930d6b.mp4'" :objectFit="'contain'">
+        <video :src="params.videourl" :objectFit="'contain'">
         </video>
       </div>
     </div>
@@ -13,32 +13,38 @@
       <div class="introduce-base-list">
         <div class="introduce-base-item">
           <div class="introduce-base-title">姓名</div>
-          <div class="introduce-base-text">冯仑</div>
+          <div class="introduce-base-text">{{params.name}}</div>
+        </div>
+        <div class="introduce-base-item" v-if="params.age">
+          <div class="introduce-base-title">年龄</div>
+          <div class="introduce-base-text">{{params.age}}</div>
+        </div>
+        <div class="introduce-base-item">
+          <div class="introduce-base-title">地区</div>
+          <div class="introduce-base-text">{{params.city}}</div>
         </div>
       </div>
     </div>
-    <div class="insert"></div>
-    <div class="teacher-auth">
+    <div class="insert" v-if="params.endorsed"></div>
+    <div class="teacher-auth" v-if="params.endorsed">
       <hoo-have-left-border-title :title="'资历认证'"></hoo-have-left-border-title>
       <div class="auth-list">
         <div class="auth-item">
           <span class="auth-icon"></span>
-          <span class="auth-text">教师资格证</span>
+          <span class="auth-text">{{params.endorsed}}</span>
         </div>
       </div>
     </div>
     <div class="insert"></div>
     <div class="teacher-desc">
       <hoo-have-left-border-title :title="'基本信息'"></hoo-have-left-border-title>
-      <div class="teacher-desc-text">
-        教学经验丰富，专业知识扎实，授课体系清晰，善于学科之间联系及应用，深知学生所需，能够将内容前后联系，不断带领学生复习巩固，提倡边学边掌握，带领学生运用理解掌握法，深受学员信赖和喜爱。
-      </div>
+      <div class="teacher-desc-text">{{params.brief?params.brief:'还没有介绍'}}</div>
     </div>
     <div class="insert"></div>
     <div class="teacher-organization">
-      <hoo-have-left-border-title :title="'基本信息'"></hoo-have-left-border-title>
+      <hoo-have-left-border-title :title="'所在机构'"></hoo-have-left-border-title>
       <div class="teacher-organization-content">
-        <hoo-organization></hoo-organization>
+        <hoo-organization :organiData="params"></hoo-organization>
       </div>
     </div>
   </div>
@@ -48,14 +54,14 @@ import hooHaveLeftBorderTitle from '@/components/left.border.title';
 import hooOrganization from '@/components/organization';
 
 export default {
-  props: ['data'],
+  props: ['params'],
   components: {
     hooHaveLeftBorderTitle,
     hooOrganization
   },
   data () {
     return {
-
+      // videoUrl: 'http://ofqz9brr6.bkt.clouddn.com/6421a883db3e42c7b50d762d94930d6b.mp4',
     };
   }
 };
