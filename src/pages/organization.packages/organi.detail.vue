@@ -52,8 +52,53 @@
         chooseNavNumber: '0',
         organiData: {},
         courseData: null,
-        teacherData: null
+        teacherData: null,
+        appraData: null,
+        request: {
+          course: {
+            limit: 15,
+            offset: 0,
+            total: 0
+          },
+          teacher: {
+            limit: 15,
+            offset: 0,
+            total: 0
+          },
+          appra: {
+            limit: 15,
+            offset: 0,
+            total: 0
+          }
+        }
       };
+    },
+    onReachBottom () {
+      let type = '';
+      switch (this.chooseNavNumber) {
+      case '0':
+        type = 'course';
+        break;
+      case '1':
+        type = 'teacher';
+        break;
+      case '2':
+        type = 'appra';
+        break;
+      };
+
+      if (this.request[type].total > this.request[type].limit) {
+        this.request[type].limit = this.request[type].limit + 15;
+        if (type === 'course') {
+          this.getOrganiCourseList();
+        } else
+        if (type === 'teacher') {
+          this.getOrganiTeacherList();
+        } else
+        if (type === 'appra') {
+          this.getOrganiAppraList();
+        }
+      }
     },
     onShow () {
       this.chooseNavNumber = '0';
@@ -67,6 +112,9 @@
 
         if (e === '1' && !this.teacherData) {
           this.getOrganiTeacherList();
+        } else
+        if (e === '2' && !this.appraData) {
+          this.getOrganiAppraList();
         }
       },
 
@@ -74,27 +122,51 @@
         this.$network.organi.getOrganiDetail({}, null, 'weapp/inst/' + this.$route.query.id).then(res => {
           // console.log(res.data);
           this.organiData = res.data;
-
           this.getOrganiCourseList();
         });
       },
 
       getOrganiCourseList () {
-        this.$network.search.searchCourse({}).then(res => {
+        let requestParams = {
+          instid: this.$route.query.id,
+          limit: this.request.course.limit,
+          offset: this.request.course.offset
+        };
+
+        this.$network.search.searchCourse(requestParams).then(res => {
           console.log('返回查找课程数据', res);
           this.courseData = res.data;
+          this.request.course.total = res.total;
         }).catch(err => {
           console.log(err);
         });
       },
 
       getOrganiTeacherList () {
-        this.$network.search.searchTearch({}).then(res => {
+        let requestParams = {
+          instid: this.$route.query.id,
+          limit: this.request.teacher.limit,
+          offset: this.request.teacher.offset
+        };
+        this.$network.search.searchTearch(requestParams).then(res => {
           console.log('返回查找老师数据', res);
           this.teacherData = res.data;
+          this.request.teacher.total = res.total;
         }).catch(err => {
           console.log(err);
         });
+      },
+
+      getOrganiAppraList () {
+        let requestParams = {
+          instid: this.$route.query.id,
+          limit: this.request.appra.limit,
+          offset: this.request.appra.offset
+        };
+
+        this.request.appra.total = 30;
+
+        console.log(requestParams);
       }
     },
     onShareAppMessage (res) {

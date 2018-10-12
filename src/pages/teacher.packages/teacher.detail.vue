@@ -64,7 +64,12 @@
         navData: ['课程', '老师介绍', '评价'],
         chooseNavNumber: '0',
         teacherData: null,
-        courseData: null
+        courseData: null,
+        course: {
+          limit: 15,
+          offset: 0,
+          total: 0
+        }
       };
     },
     onShow () {
@@ -90,11 +95,24 @@
       },
 
       getTeacherCourseList () {
-        this.$network.search.searchCourse({}).then(res => {
+        let requestParams = {
+          tid: this.$route.query.id,
+          limit: this.course.limit,
+          offset: this.course.offset
+        };
+
+        this.$network.search.searchCourse(requestParams).then(res => {
           this.courseData = res.data;
+          this.course.total = res.total;
         }).catch(err => {
           console.log(err);
         });
+      }
+    },
+    onReachBottom () {
+      if (this.course.total > this.course.limit) {
+        this.course.limit = this.course.limit + 15;
+        this.getTeacherCourseList();
       }
     },
     onShareAppMessage (res) {

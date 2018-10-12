@@ -49,6 +49,7 @@
     onUnload () {
       console.log('卸载');
       this.selectText = this.array[0].text;
+      this.inputValEnter = null;
     },
     methods: {
       inputTyping (e) {
@@ -60,7 +61,8 @@
       },
 
       startSearch () {
-        if (this.inputVal !== this.inputValEnter && this.inputVal !== '') {
+        // && this.inputVal !== ''
+        if (this.inputVal !== this.inputValEnter) {
           this.inputValEnter = this.inputVal;
           this.setSearchHistoryStorage();
           this.$emit('startSearchEvent', this.inputVal);
@@ -68,6 +70,10 @@
       },
 
       setSearchHistoryStorage () {
+        if (!this.inputVal) {
+          return;
+        }
+
         let search = {
           name: this.inputVal
         };
@@ -97,6 +103,7 @@
         this.indexPicker = index;
 
         this.$emit('chooseFilterType', this.array[index].type);
+        this.$emit('startSearchEvent', null);
       }
     }
   };

@@ -20,6 +20,7 @@ export default {
 
   .search-empty-container {
     text-align: center;
+    margin-top:20vh;
 
     .saerch-empty-icon {
       img {

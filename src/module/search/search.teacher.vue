@@ -1,9 +1,9 @@
 <template>
   <div class="search-teacher-container">
     <div class="teacher-filter-list">
-      <div class="teacher-filter-item" @click="chooseFilter('teacher_type')">
+      <div class="teacher-filter-item" @click="chooseFilter('course_type')">
         <div class="filter-item-select">
-          <hoo-select :filter="{text: '学科', event: 'teacher_type'}"></hoo-select>
+          <hoo-select :filter="{text: '学科', event: 'course_type'}"></hoo-select>
         </div>
       </div>
       <div class="teacher-filter-item" @click="chooseFilter('teacher_auth')">
@@ -27,8 +27,8 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="teacher-list">
-        <hoo-teacher-list :params="teacherData" v-if="teacherData"></hoo-teacher-list>
-        <search-empty v-if="!teacherData"></search-empty>
+        <hoo-teacher-list :params="teacherData" v-if="teacherData.length > 0"></hoo-teacher-list>
+        <search-empty v-if="teacherData.length === 0"></search-empty>
       </div>
     </div>
   </div>
@@ -50,16 +50,31 @@
     },
     data () {
       return {
-        teacherData: null,
+        paging: {
+          total: 0,
+          limit: 15,
+          offset: 0
+        },
+        teacherData: [],
         showFilterItemDesc: false,
         chooseFilterType: '',
         orderContrl: 'normal',
         filterData: {
-          teacher_type: [
-            {text: '全部', id: '1'},
-            {text: '数学', id: '2'},
-            {text: '英文', id: '3'},
-            {text: '美术', id: '4'}
+          course_type: [
+            {text: '美术', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '1'},
+            {text: '英语', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '2'},
+            {text: '中文', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '3'},
+            {text: '音乐', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '4'},
+            {text: '数学', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '5'},
+            {text: '自然', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '6'},
+            {text: '托管', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '7'},
+            {text: '学前', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '8'},
+            {text: '营地', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '9'},
+            {text: '演讲', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '10'},
+            {text: '工作坊', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '11'},
+            {text: '游学', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '12'},
+            {text: '机器人', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '13'},
+            {text: '全部', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '14'}
           ],
           teacher_auth: [
             {text: '全部', id: '1'},
@@ -77,6 +92,9 @@
     },
     methods: {
       chooseFilter (e) {
+        this.paging.limit = 15;
+        this.paging.total = 0;
+
         if (this.chooseFilterType === '') {
           this.chooseFilterType = e;
           if (!this.showFilterItemDesc) {
@@ -109,14 +127,15 @@
 
       doneChooseFilter (e) {
         console.log('接收到的过滤参数', e);
-        if (this.checkedFilter[this.chooseFilterType].id !== e) {
-          let params = {
-            id: e,
-            type: this.chooseFilterType
-          };
+        let params = {
+          type: this.chooseFilterType
+        };
+
+        if (this.checkedFilter[this.chooseFilterType].id !== e.id) {
+          params = Object.assign(params, e);
           this.checkedFilter[this.chooseFilterType] = params;
         } else {
-          this.checkedFilter[this.chooseFilterType] = null;
+          this.checkedFilter[this.chooseFilterType] = params;
         }
         this.showFilterItemDesc = false;
 
@@ -124,22 +143,30 @@
       },
 
       getOrderList () {
-        console.log('修改排序');
         if (this.showFilterItemDesc) {
           this.showFilterItemDesc = false;
           this.$store.commit(MutationsType.TOGGLE_SEARCH_OVERFLOW, false);
         }
 
+        let orderby = '';
+
         if (this.orderContrl === 'normal') {
           this.orderContrl = 'positive';
+          orderby = 'asc';
         } else
         if (this.orderContrl === 'positive') {
           this.orderContrl = 'negative';
+          orderby = 'desc';
         } else {
           this.orderContrl = 'normal';
+          orderby = undefined;
         }
 
-        this.checkedFilter.orderContrl = this.orderContrl;
+        this.paging.limit = 15;
+        this.paging.total = 0;
+
+        this.checkedFilter.sort = 'favorcount';
+        this.checkedFilter.orderby = orderby;
         this.sendSearchRequest();
       },
 
@@ -147,14 +174,30 @@
         this.$wxUtils.loading({title: '查找中...'});
         let params = Object.assign(this.filterObject, this.checkedFilter);
         console.log('查找过滤的参数 老师', params);
-        this.$network.search.searchTearch({params: params}).then(res => {
+        let requestParams = {
+          name: 'inputVal' in params && params.inputVal ? params.inputVal : undefined,
+          limit: this.paging.limit,
+          offset: this.paging.offset,
+          sort: 'sort' in params && params.sort ? params.sort : undefined,
+          order: 'orderby' in params && params.orderby ? params.orderby : undefined,
+          subjects: 'course_type' in params && params.course_type ? params.course_type.text : undefined
+        };
+
+        this.$network.search.searchTearch(requestParams).then(res => {
           this.alreadyUseSearch = true;
           console.log('返回查找老师数据', res);
           this.$wxUtils.loading({show: false});
           this.teacherData = res.data;
+          this.paging.total = res.total;
         }).catch(err => {
           console.log(err);
         });
+      }
+    },
+    onReachBottom () {
+      if (this.paging.total > this.paging.limit) {
+        this.paging.limit = this.paging.limit + 15;
+        this.sendSearchRequest();
       }
     }
   };

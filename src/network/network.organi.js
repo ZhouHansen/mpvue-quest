@@ -40,20 +40,5 @@ export default {
     authorization: true,
     params: {
     }
-  },
-
-  /*
-  * 获取机构下的课程, 老师, 评价
-  */
-  getNavDataByOrgani: {
-    url: 'search',
-    method: 'get',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      id: [NetworkParamType.string],
-      limit: [NetworkParamType.number],
-      offset: [NetworkParamType.number]
-    },
-    debug: DebugData.search
   }
 };

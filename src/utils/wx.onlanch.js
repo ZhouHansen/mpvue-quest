@@ -3,17 +3,15 @@ import Storage from '@/utils/wx.storage';
 import StorageTypeName from '@/utils/storage.typename';
 import Utils from '@/utils/wx.utils';
 
-var user = wx.getStorageSync('openid') || null;
+var openid = Storage.get(StorageTypeName.openid);
 // 取出storage 如果不存在，就执行登录请求，获取openid。
-if (user === null) { // && (!user.api_key || !user.username)
+if (!openid) { // && (!user.api_key || !user.username)
 // 登录
   wx.login({
     success: res => {
-      console.log(res);
-      // Network.base.getOpenid({ 'code': res.code }).then(res => {
-      // Storage.set(StorageTypeName.openid, res.openid);
-
+      // console.log(res);
       Network.base.login({code: res.code}).then(res => {
+        Storage.set(StorageTypeName.openid, res.data);
         // console.log('登录返回信息', res);
       });
       // });

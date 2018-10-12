@@ -1,18 +1,11 @@
 <template>
   <div class="organization-container">
-    <!-- <map id="cabinetMap" wx:if="{{initMap}}"
-     longitude="{{map.lngLat.longitude}}"
-     latitude="{{map.lngLat.latitude}}"
-     scale="14" controls="{{map.controls}}"
-      bindcontroltap="controltap"
-      markers="{{map.markers}}"
-      bindmarkertap="markertap"
-      bindregionchange="regionchange"
-      show-location style="width: 100%; height:{{mapHeight}}px;"></map> -->
       <map v-if="markers" :markers="markers"
         @markertap="markertap"
         @tap="tapMap"
         @regionchange="regionMap"
+        @begin="regionMapBegin"
+        @end="regionMapEnd"
         :scale="16"
         :show-location="'true'"
         :longitude="'121.541557'"
@@ -21,7 +14,9 @@
         <organi-filter-button :data="chooseFilterCity" @filterButton="tapFilterButton"></organi-filter-button>
         <organi-filter-button :data="chooseFilterType" @filterButton="tapFilterButton"></organi-filter-button>
         <organi-filter :type="filterType" :data="filter" @tapFilter="chooseFilter" v-if="showFilterList"></organi-filter>
-        <cover-view class="show-recommend" v-if="!showRecommend" @click="toggleRecommend">显示推荐机构</cover-view>
+        <cover-view class="show-recommend" v-if="!showRecommend" @click="toggleRecommend">
+          <cover-view class="show-recommend-text">显示推荐机构</cover-view>
+        </cover-view>
       </map>
       <div class="" :class="showRecommend?'recommend-body':'hide-recommend'" v-if="markers">
         <div class="recommend-ctrl" @click="toggleRecommend"><span></span></div>
@@ -64,7 +59,7 @@ export default {
         {id: 'activity', type: 'type', text: '活动'}
       ],
       chooseFilterType: {},
-      url: 'http://ofqz9brr6.bkt.clouddn.com/avatar.jpg'
+      dragMapParam: null
     };
   },
   mounted () {
@@ -87,8 +82,20 @@ export default {
 
     regionMap (e) {
       console.log(e);
-      this.showRecommend = false;
+    },
+
+    regionMapBegin (e) {
       this.showFilterList = false;
+      if (this.dragMapParam !== null) {
+        clearTimeout(this.dragMapParam);
+      }
+    },
+
+    regionMapEnd () {
+      this.dragMapParam = setTimeout(() => {
+        // console.log(e)
+        this.getCityList();
+      }, 2000);
     },
 
     toggleRecommend () {
@@ -97,7 +104,7 @@ export default {
     },
 
     getCityList () {
-
+      console.log('获取机构数据');
     },
 
     // 下载图片到微信临时文件，在显示到地图中
@@ -222,12 +229,15 @@ export default {
 
     .show-recommend {
       position: absolute;
-      bottom: 30rpx;
+      bottom: 10rpx;
       right: 10rpx;
-      padding: 8rpx 10rpx;
-      background-color: #ffffff;
-      color: $topic-color;
+      background-color: $topic-color;
+      color: #ffffff;
       border-radius: 4px;
+
+      .show-recommend-text {
+        margin: 18rpx 16rpx;
+      }
     }
 
     .recommend-ctrl {

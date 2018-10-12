@@ -12,7 +12,15 @@ export default {
     authorization: true,
     params: {
       limit: [NetworkParamType.number],
-      offset: [NetworkParamType.number]
+      offset: [NetworkParamType.number],
+      order: [NetworkParamType.string],
+      name: [NetworkParamType.string],
+      instid: [NetworkParamType.number],
+      city: [NetworkParamType.string],
+      ltype: [NetworkParamType.string],
+      prov: [NetworkParamType.string],
+      subject: [NetworkParamType.sting],
+      tid: [NetworkParamType.number]
     }
   },
 
@@ -27,7 +35,12 @@ export default {
     authorization: true,
     params: {
       limit: [NetworkParamType.number],
-      offset: [NetworkParamType.number]
+      offset: [NetworkParamType.number],
+      instid: [NetworkParamType.number],
+      name: [NetworkParamType.string],
+      order: [NetworkParamType.string],
+      subjects: [NetworkParamType.string],
+      sort: [NetworkParamType.string]
     }
   },
 
@@ -42,7 +55,11 @@ export default {
     authorization: true,
     params: {
       limit: [NetworkParamType.number],
-      offset: [NetworkParamType.number]
+      offset: [NetworkParamType.number],
+      city: [NetworkParamType.sting],
+      name: [NetworkParamType.string],
+      order: [NetworkParamType.string],
+      prov: [NetworkParamType.string]
     }
   }
 };

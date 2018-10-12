@@ -78,6 +78,7 @@ export default {
   @import '../assets/style/variables.scss';
 
   .nav-container {
+    border-bottom: 1rpx solid #efefef;
 
     .weui-navbar {
       position: relative;

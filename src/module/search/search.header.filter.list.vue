@@ -1,6 +1,6 @@
 <template>
   <div class="search-filter-container">
-    <div class="filter-list" v-if="!checkedFilter || checkedFilter.type !== 'course_type'">
+    <div class="filter-list" v-if="checkedFilter && checkedFilter.type !== 'course_type'">
       <div class="filter-item" v-for="(item, index) in filter" :key="index"
        :class="{'filter-checked': checkedFilter && checkedFilter.id === item.id}" @click="chooseFilterParam(item.id)">{{item.text}}</div>
     </div>
@@ -24,10 +24,12 @@ export default {
   },
   methods: {
     chooseFilterParam (e) {
-      console.log(this.checkedFilter);
       this.$store.commit(MutationsType.TOGGLE_SEARCH_OVERFLOW, false);
-      console.log('发送的过滤参数', e);
-      this.$emit('chooseFilterDone', e);
+      // console.log('发送的过滤参数', e);
+      let commitData = this.filter.filter((item, index) => {
+        return item.id === e;
+      });
+      this.$emit('chooseFilterDone', commitData[0]);
     }
   }
 };

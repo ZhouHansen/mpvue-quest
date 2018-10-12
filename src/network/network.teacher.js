@@ -25,7 +25,11 @@ export default {
     authorization: true,
     params: {
       limit: [NetworkParamType.number],
-      offset: [NetworkParamType.number]
+      offset: [NetworkParamType.number],
+      instid: [NetworkParamType.number],
+      name: [NetworkParamType.string],
+      order: [NetworkParamType.string],
+      subjects: [NetworkParamType.sting]
     }
   },
   /**
@@ -39,21 +43,9 @@ export default {
     params: {
     }
   },
+
   /**
-   * 获取老师的课程
-  */
-  getCourseByTeacher: {
-    url: 'user',
-    method: 'get',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      limit: [NetworkParamType.number],
-      offset: [NetworkParamType.number]
-    },
-    debug: DebugData.getOpenid
-  },
-  /**
-   * 获取老师的课程
+   * 获取老师的评论
   */
   getAppraisalByTeacher: {
     url: 'user',

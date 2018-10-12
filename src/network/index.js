@@ -64,9 +64,11 @@ class Network {
           parseJson: true,
           timeout: 5 * 60000,
           baseURL: BASICURL,
+          params: filteredParam,
           headers: {
           }
         };
+
         if (networkAction.authorization) {
           // options.header['Authorization'] = self.authorizationHeader();
           options.headers['token'] = 'THIS_IS_DUMMY_OPENID';
@@ -93,7 +95,7 @@ class Network {
             // return Promise.resolve();
           }
         );
-        return fly.request(options.url, filteredParam, options);
+        return fly.request(options.url, null, options);
       };
     }
   }

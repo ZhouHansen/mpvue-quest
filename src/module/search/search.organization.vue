@@ -17,8 +17,8 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="organi-list">
-        <hoo-organi-list v-if="organiData" :params="organiData"></hoo-organi-list>
-        <search-empty v-if="!organiData"></search-empty>
+        <hoo-organi-list v-if="organiData.length > 0" :params="organiData"></hoo-organi-list>
+        <search-empty v-if="organiData.length === 0"></search-empty>
       </div>
     </div>
   </div>
@@ -40,7 +40,12 @@ export default {
   },
   data () {
     return {
-      organiData: null,
+      paging: {
+        total: 0,
+        limit: 15,
+        offset: 0
+      },
+      organiData: [],
       showFilterItemDesc: false,
       chooseFilterType: '',
       filterData: {
@@ -64,6 +69,9 @@ export default {
   },
   methods: {
     chooseFilter (e) {
+      this.paging.limit = 15;
+      this.paging.total = 0;
+
       if (this.chooseFilterType === '') {
         this.chooseFilterType = e;
         this.showFilterItemDesc = true;
@@ -92,14 +100,14 @@ export default {
 
     doneChooseFilter (e) {
       console.log('接收到的过滤参数', e);
-      if (this.checkedFilter[this.chooseFilterType].id !== e) {
-        let params = {
-          id: e,
-          type: this.chooseFilterType
-        };
+      let params = {
+        type: this.chooseFilterType
+      };
+      if (this.checkedFilter[this.chooseFilterType].id !== e.id) {
+        params = Object.assign(params, e);
         this.checkedFilter[this.chooseFilterType] = params;
       } else {
-        this.checkedFilter[this.chooseFilterType] = null;
+        this.checkedFilter[this.chooseFilterType] = params;
       }
       this.showFilterItemDesc = false;
 
@@ -110,14 +118,26 @@ export default {
       this.$wxUtils.loading({title: '查找中...'});
       let params = Object.assign(this.filterObject, this.checkedFilter);
       console.log('查找过滤的参数 机构', params);
-      this.$network.search.searchOrgani({params: params}).then(res => {
+      let requestParams = {
+        name: 'inputVal' in params && params.inputVal ? params.inputVal : undefined,
+        limit: this.paging.limit,
+        offset: this.paging.offset
+      };
+      this.$network.search.searchOrgani(requestParams).then(res => {
         this.alreadyUseSearch = true;
         console.log('返回查找机构数据', res);
         this.$wxUtils.loading({show: false});
         this.organiData = res.data;
+        this.paging.total = res.total;
       }).catch(err => {
         console.log(err);
       });
+    }
+  },
+  onReachBottom () {
+    if (this.paging.total > this.paging.limit) {
+      this.paging.limit = this.paging.limit + 15;
+      this.sendSearchRequest();
     }
   }
 };

@@ -27,8 +27,8 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="course-list">
-        <hoo-course-list :params="resultData" v-if="resultData"></hoo-course-list>
-        <search-empty v-if="!resultData"></search-empty>
+        <hoo-course-list :params="resultData" v-if="resultData.length > 0"></hoo-course-list>
+        <search-empty v-if="resultData.length === 0"></search-empty>
       </div>
     </div>
   </div>
@@ -50,7 +50,12 @@
     },
     data () {
       return {
-        resultData: null,
+        paging: {
+          total: 0,
+          limit: 15,
+          offset: 0
+        },
+        resultData: [],
         showFilterItemDesc: false,
         chooseFilterType: '',
         filterData: {
@@ -99,6 +104,9 @@
     },
     methods: {
       chooseFilter (e) {
+        this.paging.limit = 15;
+        this.paging.total = 0;
+
         if (this.chooseFilterType === '') {
           this.chooseFilterType = e;
           this.showFilterItemDesc = true;
@@ -127,14 +135,15 @@
 
       doneChooseFilter (e) {
         console.log('接收到的过滤参数', e);
-        if (this.checkedFilter[this.chooseFilterType].id !== e) {
-          let params = {
-            id: e,
-            type: this.chooseFilterType
-          };
+        let params = {
+          type: this.chooseFilterType
+        };
+
+        if (this.checkedFilter[this.chooseFilterType].id !== e.id) {
+          params = Object.assign(params, e);
           this.checkedFilter[this.chooseFilterType] = params;
         } else {
-          this.checkedFilter[this.chooseFilterType] = null;
+          this.checkedFilter[this.chooseFilterType] = params;
         }
         this.showFilterItemDesc = false;
         this.sendSearchRequest();
@@ -144,14 +153,29 @@
         this.$wxUtils.loading({title: '查找中...'});
         let params = Object.assign(this.filterObject, this.checkedFilter);
         console.log('查找过滤的参数 课程', params);
-        this.$network.search.searchCourse({params: params}).then(res => {
+        let requestParams = {
+          name: 'inputVal' in params && params.inputVal ? params.inputVal : undefined,
+          subject: 'course_type' in params && params.course_type ? params.course_type.text : undefined,
+          limit: this.paging.limit,
+          offset: this.paging.offset
+        };
+
+        this.$network.search.searchCourse(requestParams).then(res => {
           this.alreadyUseSearch = true;
           // console.log('返回查找课程数据', res);
           this.$wxUtils.loading({show: false});
           this.resultData = res.data;
+          this.paging.total = res.total;
         }).catch(err => {
           console.log(err);
         });
+      }
+    },
+    onReachBottom () {
+      console.log('111');
+      if (this.paging.total > this.paging.limit) {
+        this.paging.limit = this.paging.limit + 15;
+        this.sendSearchRequest();
       }
     }
   };

@@ -1,7 +1,7 @@
 <template>
   <div class="teacher-container">
     <div class="nav-body">
-      <hoo-nav :tabs="navData" @tapNavItem="chooseNav"></hoo-nav>
+      <hoo-nav :tabs="navData" @tapNavItem="chooseNav" :unOnShowDefault="true"></hoo-nav>
     </div>
     <div class="teacher-list-body">
       <teacher-list :params="teacherListData"></teacher-list>
@@ -35,22 +35,29 @@ export default {
   },
   onReachBottom () {
     if (this.total > this.limit) {
-      this.offset = this.offset + 15;
+      this.limit = this.limit + 15;
       this.getTeacherList();
     }
   },
   methods: {
     chooseNav (e) {
+      this.limit = 15;
       this.chooseNavIndex = e;
       this.getTeacherList();
     },
 
     getTeacherList () {
       this.$wxUtils.loading({title: '加载中...'});
-      this.$network.teacher.getTeacherList({offset: this.offset, limit: this.limit}).then(res => {
+      let requestParams = {
+        limit: this.limit,
+        offset: this.offset,
+        subjects: this.chooseNavIndex > 0 ? this.navData[this.chooseNavIndex] : undefined
+      };
+
+      this.$network.teacher.getTeacherList(requestParams).then(res => {
         // console.log(res);
         this.$wxUtils.loading({show: false});
-        this.teacherListData = Object.assign(this.teacherListData, res.data);
+        this.teacherListData = res.data;
         this.total = res.total;
       });
     }

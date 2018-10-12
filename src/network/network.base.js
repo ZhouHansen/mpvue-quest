@@ -19,10 +19,9 @@ export default {
    * 登录
    * **/
   login: {
-    url: 'login',
-    method: 'get',
+    url: 'weapp/login',
+    method: 'post',
     apiVersion: NetworkAPIVersion.v1_version,
-    authorization: true,
     params: {
       code: [NetworkParamType.string]
     }
@@ -33,7 +32,7 @@ export default {
    */
 
   getUserInf: {
-    url: 'profile',
+    url: 'weapp/profile',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true

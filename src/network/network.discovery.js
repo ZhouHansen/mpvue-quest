@@ -10,7 +10,14 @@ export default {
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true,
-    params: {}
+    params: {
+      limit: [NetworkParamType.number],
+      offset: [NetworkParamType.number],
+      ages: [NetworkParamType.string],
+      order: [NetworkParamType.string],
+      name: [NetworkParamType.string],
+      subjects: [NetworkParamType.sting]
+    }
   },
 
   /**
@@ -32,6 +39,16 @@ export default {
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true,
     params: {
+      limit: [NetworkParamType.number],
+      offset: [NetworkParamType.number],
+      order: [NetworkParamType.string],
+      name: [NetworkParamType.string],
+      instid: [NetworkParamType.number],
+      city: [NetworkParamType.string],
+      ltype: [NetworkParamType.string],
+      prov: [NetworkParamType.string],
+      subject: [NetworkParamType.sting],
+      tid: [NetworkParamType.number]
     }
   },
 

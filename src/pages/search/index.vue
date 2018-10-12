@@ -80,7 +80,7 @@
       },
 
       filterType (e) {
-        console.log(e);
+        // console.log(e);
         this.inputVal = '';
         this.filterTypeVal = e;
       },
