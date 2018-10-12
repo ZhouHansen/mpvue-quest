@@ -78,23 +78,23 @@
     "list": [{
       "pagePath": "pages/index/index",
       "text": "发现",
-      "iconPath": "img/ic_tab_see_off.png",
-      "selectedIconPath": "img/ic_tab_see_on.png"
+      "iconPath": "img/ic_see_off_tab.png",
+      "selectedIconPath": "img/ic_see_on_tab.png"
     }, {
       "pagePath": "pages/organization/index",
       "text": "机构",
-      "iconPath": "img/ic_tab_org_off.png",
-      "selectedIconPath": "img/ic_tab_org_on.png"
+      "iconPath": "img/ic_org_off_tab.png",
+      "selectedIconPath": "img/ic_org_on_tab.png"
     }, {
       "pagePath": "pages/teacher/index",
       "text": "老师",
-      "iconPath": "img/ic_tab_teacher_off.png",
-      "selectedIconPath": "img/ic_tab_teacher_on.png"
+      "iconPath": "img/ic_teacher_off_tab.png",
+      "selectedIconPath": "img/ic_teacher_on_tab.png"
     }, {
       "pagePath": "pages/account/index",
       "text": "我的",
-      "iconPath": "img/ic_tab_me_off.png",
-      "selectedIconPath": "img/ic_tab_me_on.png"
+      "iconPath": "img/ic_me_off_tab.png",
+      "selectedIconPath": "img/ic_me_on_tab.png"
     }]
   }
 }
