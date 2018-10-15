@@ -90,7 +90,18 @@ export default {
     },
 
     submit () {
-      this.$router.back();
+      let img = ['http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg', 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg', 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg'];
+      console.log('debug');
+      this.$network.base.commentOrder({
+        content: '测试评价',
+        imgjson: JSON.stringify(img),
+        star: 4
+      }, null, 'weapp/comment/lesson/1').then(res => {
+        if (res.e === 0) {
+          this.wxUtils.toast({title: '提交评论成功'});
+        }
+      });
+      // this.$router.back();
     }
   }
 };

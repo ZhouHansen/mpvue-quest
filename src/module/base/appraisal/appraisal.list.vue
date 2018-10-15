@@ -1,6 +1,6 @@
 <template>
   <div class="appra-list-container">
-    <hoo-appra-item v-if="params && params.length > 0"></hoo-appra-item>
+    <hoo-appra-item v-if="params && params.length > 0" :params-detail="params"></hoo-appra-item>
     <hoo-empty :text="'还没有评价~'" v-if="!params || params.length === 0"></hoo-empty>
   </div>
 </template>

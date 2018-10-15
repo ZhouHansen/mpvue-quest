@@ -45,6 +45,7 @@ const _filterValidateParams = (actionParams, requestParams) => {
   MapKeys(actionParams, (paramValue, paramName) => {
     if (!_.isUndefined(requestParams[paramName])) {
       filteredParams[paramName] = requestParams[paramName];
+      console.log(filteredParams);
     }
   });
 

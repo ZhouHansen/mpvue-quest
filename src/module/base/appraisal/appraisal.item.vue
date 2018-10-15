@@ -1,20 +1,18 @@
 <template>
   <div class="appraisal-container">
     <div class="appra-avatar">
-      <hoo-avatar></hoo-avatar>
+      <hoo-avatar :avatar="paramsDetail.avatarfile"></hoo-avatar>
     </div>
     <div class="appra-content">
       <div class="appra-title">
         <span class="appra-name">张晓</span>
-        <span class="appra-date">9月2日</span>
+        <span class="appra-date">{{paramsDetail.pubat}}</span>
       </div>
-      <hoo-score :type="'show'" :score="4.2"></hoo-score>
+      <hoo-score :type="'show'" :score="paramsDetail.extra.star"></hoo-score>
       <div class="appra-img-list" @click="previewImg">
-        <div class="appra-img-item" :style="'background: url(' + cover + ') no-repeat 50% 50%; background-size: cover;'"></div>
-        <div class="appra-img-item" :style="'background: url(' + cover + ') no-repeat 50% 50%; background-size: cover;'"></div>
-        <div class="appra-img-item" :style="'background: url(' + cover + ') no-repeat 50% 50%; background-size: cover;'"></div>
+        <div class="appra-img-item" v-for="(item, index) in paramsDetail.extra.images" :key="index" :style="'background: url(' + item + ') no-repeat 50% 50%; background-size: cover;'"></div>
       </div>
-      <div class="appra-desc">重视对学生活动过程的评价，注重评价学生在重视对学生活动过程的评价，注重评价学生在重视对学生活动过程的评价，注重评价学生在</div>
+      <div class="appra-desc">{{paramsDetail.extra.content}}</div>
     </div>
   </div>
 </template>
@@ -23,10 +21,13 @@
   import hooScore from '@/components/score';
 
   export default {
-    props: [''],
+    props: ['paramsDetail'],
     components: {
       hooAvatar,
       hooScore
+    },
+    mounted () {
+      console.log(this.paramsDetail);
     },
     data () {
       return {

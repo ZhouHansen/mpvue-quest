@@ -27,20 +27,26 @@
 <script>
 
 export default {
-  props: ['type', 'personNum', 'joinText', 'id'],
+  props: ['type', 'personNum', 'joinText', 'id', 'subject'], // subject 要收藏的类型，课程、商品、机构、老师
   methods: {
     setCollect () {
-      this.$network.discovery.setCollection({id: this.id ? this.id : '123'}).then(res => {
-        this.$wxUtils.toast({title: res.message});
+      this.$network.base.setCollection({}, null, 'weapp/favor/' + this.subject + '/' + this.id).then(res => {
+        console.log(res);
+
+        if (res.e === 0) {
+          this.$wxUtils.toast({title: '收藏成功'});
+        } else {
+          this.$wxUtils.toast({title: res.msg, icon: 'none'});
+        }
         this.type = 'collection_already';
       });
     },
 
     cancelCollect () {
-      this.$network.discovery.cancelCollection({id: this.id ? this.id : '123'}).then(res => {
-        this.$wxUtils.toast({title: res.message});
-        this.type = 'collection';
-      });
+      // this.$network.discovery.cancelCollection({id: this.id ? this.id : '123'}).then(res => {
+      //   this.$wxUtils.toast({title: res.message});
+      //   this.type = 'collection';
+      // });
     },
 
     setJoinActivity () {

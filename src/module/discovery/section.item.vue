@@ -48,11 +48,7 @@
     methods: {
       goDetail () {
         this.$store.commit(MutationsType.SET_CHOOSE_ACTIVITY, this.sectionData);
-        if (this.sectionData.ltype) {
-          this.$router.push({path: '/pages/home/section.detail', query: {id: this.sectionData.id, type: 'lesson'}});
-        } else {
-          this.$router.push({path: '/pages/home/section.detail', query: {id: this.sectionData.id, type: 'product'}});
-        }
+        this.$router.push({path: '/pages/home/section.detail', query: {id: this.sectionData.id, type: this.sectionData.mname}});
       }
     }
   };

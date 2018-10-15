@@ -79,6 +79,52 @@ export default {
       openid: [NetworkParamType.string]
     },
     debug: DebugData.getOpenid
-  }
+  },
 
+  /**
+   * 设置活动课程、商品、机构、老师的收藏
+  */
+  setCollection: {
+    url: 'weapp/favor/{lesson / product / teacher / institution}/:id',
+    method: 'post',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true
+  },
+
+  /**
+   * 记录活动课程、商品、机构、老师的分享
+  */
+  recordShare: {
+    url: 'weapp/share/{lesson / product / teacher / institution}/:id',
+    method: 'post',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true
+  },
+
+  /**
+   * 评论活动课程、商品、机构、老师
+  */
+  commentOrder: {
+    url: 'weapp/comment/{lesson / product / teacher / institution}/:id',
+    method: 'post',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
+    params: {
+      content: [NetworkParamType.string],
+      imgjson: [NetworkParamType.string],
+      star: [NetworkParamType.number]
+    }
+  },
+
+  /**
+   * 评论活动课程、商品、机构、老师
+  */
+  getCommentList: {
+    url: 'weapp/comments/{lesson / product / teacher / institution}/:id',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
+    params: {
+    }
+  }
 };

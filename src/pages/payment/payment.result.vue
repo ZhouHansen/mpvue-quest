@@ -1,7 +1,7 @@
 <template>
   <div class="payment-result-container">
     <div class="result-content">
-      <div class="result-icon" :style="{background: 'url(' + iconUrl + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+      <image :src="iconUrl" :mode="'aspectFit'" class="result-icon" />
       <div class="result-type">{{type === 'success'? '支付成功' : '网络出错'}}</div>
       <div class="result-tips" v-if="type === 'success'">请您提前联系机构了解相关课程准备，祝您学习愉快！</div>
       <div class="result-tips" v-if="type === 'wrong'">请确保手机连接网络或Wi-Fi，并刷新重试！</div>

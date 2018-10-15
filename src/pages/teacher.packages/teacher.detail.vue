@@ -16,7 +16,7 @@
           <hoo-label :type-text="teacherLabelTypeText" :label-arr="teacherLabelArr" :type="'teacher'"></hoo-label>
           <div class="detail-ctrl">
             <div class="collect-btn">
-              <hoo-have-icon-btn :type="'collection'"></hoo-have-icon-btn>
+              <hoo-have-icon-btn :type="'collection'" :id="teacherData.id" :subject="'teacher'"></hoo-have-icon-btn>
             </div>
             <hoo-have-icon-btn :type="'share'"></hoo-have-icon-btn>
           </div>
@@ -119,6 +119,7 @@
       if (res.from === 'button') {
         // 来自页面内转发按钮
         // console.log(res.target);
+        this.$network.base.recordShare({}, null, 'weapp/share/teacher/' + this.$route.query.id);
       }
       return {
         title: 'Hooray - ' + this.teacherData.name,

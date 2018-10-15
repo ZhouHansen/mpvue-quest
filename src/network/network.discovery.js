@@ -64,19 +64,6 @@ export default {
   },
 
   /**
-   * 通过id 获取课程、活动、商品的拼团价格
-  */
-  getActivityGroupPrice: {
-    url: 'discovery',
-    method: 'get',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      id: [NetworkParamType.string]
-    },
-    debug: DebugData.discovery
-  },
-
-  /**
    * 通过id 获取课程、活动、商品的评价
   */
   getActivityAppraisal: {
@@ -87,19 +74,6 @@ export default {
       id: [NetworkParamType.string]
     },
     debug: DebugData.discovery
-  },
-
-  /**
-   * 设置活动、课程者商品的收藏
-  */
-  setCollection: {
-    url: 'collection/set',
-    method: 'get',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      id: [NetworkParamType.string]
-    },
-    debug: DebugData.setCollection
   },
 
   /**

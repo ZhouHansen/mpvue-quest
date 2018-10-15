@@ -57,7 +57,7 @@ export default {
           height: 36rpx;
           vertical-align: middle;
           margin-right: 10rpx;
-          background: url('../../assets/images/locate.png') no-repeat 50% 50%;
+          background: url('../../assets/images/direction.png') no-repeat 50% 50%;
           background-size: contain;
           flex-shrink: 0;
           margin-top:4rpx;

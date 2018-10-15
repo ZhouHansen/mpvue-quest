@@ -8,7 +8,7 @@
       <div class="section-title-ctrl">
         <hoo-icon-button :type="'activity_already'" :person-num="params.favorcount" v-if="params.ltype === 'lesson'"></hoo-icon-button>
         <hoo-icon-button :type="'activity_already'" :person-num="params.favorcount" :join-text="'人想买'" v-if="!params.ltype"></hoo-icon-button>
-        <hoo-icon-button :type="'collection_already'"></hoo-icon-button>
+        <hoo-icon-button :type="'collection'" :id="params.id" :subject="params.subject_type"></hoo-icon-button>
         <hoo-icon-button :type="'share'"></hoo-icon-button>
       </div>
     </div>
@@ -35,12 +35,12 @@
           <wx-parse :content="params.htmlabout"></wx-parse>
         </div>
         <div class="section-nav-appraise" v-if="chooseNavIndex === '1'">
-          <appra-list></appra-list>
+          <appra-list :params="appraListData"></appra-list>
         </div>
       </div>
     </div>
     <div class="section-order">
-      <div class="go-to-order" @click="goToOrder"><span>直接下单</span><span class="order-cost">¥268</span></div>
+      <div class="go-to-order" @click="goToOrder"><span>直接下单</span><span class="order-cost">¥{{params.price / 100}}</span></div>
       <div class="group-order" @click="groupOrder"><span>拼团购买</span></div>
     </div>
     <group-order @chooseGroupType="sendGroupOrder"></group-order>
@@ -86,6 +86,7 @@
         labelArr: this.params.tagslist,
         tabData: ['详情', '评价'],
         chooseNavIndex: '0',
+        appraListData: null,
 
         distance: {
           lat: this.params.xlat,
@@ -99,11 +100,19 @@
     },
     mounted () {
       console.log('活动数据', this.params);
+      if (this.params.ltype) {
+        this.params['subject_type'] = 'lesson';
+      } else {
+        this.params['subject_type'] = 'product';
+      }
     },
     methods: {
       chooseNav (e) {
         // console.log('接收到点击的nav', e);
         this.chooseNavIndex = e;
+        if (e === '1') {
+          this.getAppraList();
+        }
       },
 
       goToOrder () {
@@ -118,6 +127,13 @@
       groupOrder () {
         // this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, bindPhone: true});
         this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, groupOrder: true});
+      },
+
+      getAppraList () {
+        this.$network.base.getCommentList({}, null, 'weapp/comments/lesson/' + this.params.id).then(res => {
+          console.log(res);
+          this.appraListData = res.data;
+        });
       },
 
       sendGroupOrder (e) {

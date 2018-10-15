@@ -39,13 +39,6 @@ class Network {
           params = {};
         }
 
-        // /* debug */
-        if (!_.isUndefined(networkAction.debug)) {
-          return new Promise((resolve, reject) => {
-            resolve(networkAction.debug);
-          });
-        }
-
         let BASICURL = NetworkAPIHost;
         let filteredParam = _filterValidateParams(networkAction.params, params);
         if (_.isUndefined(networkAction.apiVersion)) {
@@ -95,6 +88,14 @@ class Network {
             // return Promise.resolve();
           }
         );
+
+        // /* debug */
+        if (!_.isUndefined(networkAction.debug)) {
+          return new Promise((resolve, reject) => {
+            resolve(networkAction.debug);
+          });
+        }
+
         return fly.request(options.url, null, options);
       };
     }

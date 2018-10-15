@@ -13,13 +13,16 @@
     },
     data () {
       return {
-        sectionData: null
+        sectionData: null,
+        shareType: '' // 转发类型lesson  or  product
       };
     },
     computed: mapState([
       'overflowHiddenStatus'
     ]),
     mounted () {
+      this.shareType = this.$route.query.type;
+
       if (this.$route.query.type === 'product') {
         this.getProductDetail();
       } else {
@@ -52,7 +55,8 @@
     onShareAppMessage (res) {
       if (res.from === 'button') {
         // 来自页面内转发按钮
-        console.log(res.target);
+        console.log('转发参数', res);
+        this.$network.base.recordShare({}, null, 'weapp/share/' + this.shareType + '/' + this.$route.query.id);
       }
       return {
         title: '学课程，拿奖学金，学习乐翻天！',

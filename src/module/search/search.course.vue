@@ -35,6 +35,7 @@
 </template>
 <script>
   import * as MutationsType from '@/store/mutation.type';
+  import {SubjectsFilterData, AgeFilterData, TimeFilterData, PriceFilterData} from '@/utils/default.data';
   import hooSelect from '@/components/select';
   import filterList from '@/module/search/search.header.filter.list';
   import hooCourseList from '@/module/course/course.list';
@@ -59,41 +60,10 @@
         showFilterItemDesc: false,
         chooseFilterType: '',
         filterData: {
-          course_type: [
-            {text: '美术', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '1'},
-            {text: '英语', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '2'},
-            {text: '中文', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '3'},
-            {text: '音乐', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '4'},
-            {text: '数学', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '5'},
-            {text: '自然', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '6'},
-            {text: '托管', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '7'},
-            {text: '学前', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '8'},
-            {text: '营地', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '9'},
-            {text: '演讲', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '10'},
-            {text: '工作坊', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '11'},
-            {text: '游学', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '12'},
-            {text: '机器人', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '13'},
-            {text: '全部', icon: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png', id: '14'}
-          ],
-          course_price: [
-            {text: '全部', id: '0'},
-            {text: '免费', id: '1'},
-            {text: '50-100', id: '2'},
-            {text: '100-300', id: '3'},
-            {text: '300以上', id: '4'}
-          ],
-          course_time: [
-            {text: '全部', id: '0'},
-            {text: '近3天', id: '1'},
-            {text: '一周内', id: '2'},
-            {text: '一月内', id: '3'}
-          ],
-          course_age: [
-            {text: '全部', id: '0'},
-            {text: '幼儿园', id: '1'},
-            {text: '小学生', id: '2'},
-            {text: '初中生', id: '3'}
-          ]
+          course_type: SubjectsFilterData,
+          course_price: PriceFilterData,
+          course_time: TimeFilterData,
+          course_age: AgeFilterData
         },
         chooseFilterData: null,
         checkedFilter: {}

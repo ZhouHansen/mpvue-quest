@@ -1,7 +1,7 @@
 <template>
   <div class="teacher-list-container">
     <hoo-teacher-item v-if="params && params.length > 0" v-for="item in params" :key="item.id" :params="item"></hoo-teacher-item>
-    <hoo-empty :type="'normal'" :text="'未找到老师信息~'" v-if="params.length === 0 || !params"></hoo-empty>
+    <hoo-empty :type="'normal'" :text="'~未找到老师信息~'" v-if="params.length === 0 || !params"></hoo-empty>
   </div>
 </template>
 <script>

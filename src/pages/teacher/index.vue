@@ -9,6 +9,7 @@
   </div>
 </template>
 <script>
+import {SubjectsFilterData} from '@/utils/default.data';
 import hooNav from '@/components/nav';
 import teacherList from '@/module/teacher/teacher.list';
 
@@ -19,7 +20,7 @@ export default {
   },
   data () {
     return {
-      navData: ['全部', '美术', '英文', '中文', '数学', '音乐'],
+      navData: [],
       chooseNavIndex: 0,
       teacherListData: [],
       limit: 15,
@@ -28,6 +29,9 @@ export default {
     };
   },
   mounted () {
+    SubjectsFilterData.forEach((item, index) => {
+      this.navData.push(item.text);
+    });
   },
   onShow () {
     this.getTeacherList();

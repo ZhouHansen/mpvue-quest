@@ -2,13 +2,13 @@
   <div class="collection-container">
       <hoo-nav @tapNavItem="chooseNav" :tabs="tabData"></hoo-nav>
       <div class="show-content" v-if="chooseNavIndex === '0'">
-        <course-list></course-list>
+        <course-list :params="collectionData"></course-list>
       </div>
       <div class="show-content" v-if="chooseNavIndex === '1'">
-        <teacher-list></teacher-list>
+        <teacher-list :params="collectionData"></teacher-list>
       </div>
       <div class="show-content" v-if="chooseNavIndex === '2'">
-        <organization-list></organization-list>
+        <organization-list :params="collectionData"></organization-list>
       </div>
   </div>
 </template>
@@ -28,7 +28,8 @@
     data () {
       return {
         tabData: ['课程', '老师', '机构'],
-        chooseNavIndex: '0'
+        chooseNavIndex: '0',
+        collectionData: []
       };
     },
     onShow () {

@@ -91,7 +91,6 @@
     data () {
       return {
         sectionData: null,
-        cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_170849.403868.png',
         price: 0,
         priceNumber: 1,
         group: false,

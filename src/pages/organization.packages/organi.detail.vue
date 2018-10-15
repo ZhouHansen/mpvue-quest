@@ -9,7 +9,7 @@
         <div class="organi-header-text line-clamp-3 ">{{organiData.brief}}</div>
         <div class="organi-header-ctrl">
           <div class="organi-header-ctrl-item">
-            <hoo-have-icon-btn :type="'collection'"></hoo-have-icon-btn>
+            <hoo-have-icon-btn :type="'collection'" :id="organiData.id" :subject="'institution'"></hoo-have-icon-btn>
           </div>
           <hoo-have-icon-btn :type="'share'"></hoo-have-icon-btn>
         </div>
@@ -173,6 +173,7 @@
       if (res.from === 'button') {
         // 来自页面内转发按钮
         console.log(res.target);
+        this.$network.base.recordShare({}, null, 'weapp/share/institution/' + this.$route.query.id);
       }
       return {
         title: 'Hooray - ' + this.organiData.name,

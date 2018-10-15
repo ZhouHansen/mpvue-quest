@@ -9,7 +9,9 @@
       <div class="course-filter-item"
         v-for="(item, index) in filter" :key="index"
         :class="{'course-filter-item-checked': checkedFilter && checkedFilter.id === item.id}" @click="chooseFilterParam(item.id)">
-        <div class="course-filter-item-icon"><span :style="'background: url('+ item.icon +') no-repeat 50% 50%; background-size: contain;'"></span></div>
+        <div class="course-filter-item-icon">
+          <img :src="item.icon" />
+        </div>
         <p class="course-filter-item-text">{{item.text}}</p>
       </div>
     </div>
@@ -80,7 +82,7 @@ export default {
         text-align: center;
 
         .course-filter-item-icon {
-          span {
+          img {
             display: inline-block;
             width: 50rpx;
             height: 50rpx;
@@ -89,7 +91,7 @@ export default {
       }
 
       .course-filter-item-checked {
-        box-shadow: 0 4rpx 20rpx #000000;
+        background-color: #fcfcfc;
       }
     }
   }

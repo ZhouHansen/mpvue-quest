@@ -69,8 +69,8 @@ export default {
       wxUserInf: this.$storage.get(this.$storageTypeName['wxUserInf']),
       avatar: '',
       nickname: '',
-      name: '王岩',
-      area: '大连',
+      name: '',
+      area: '',
       phoneVal: 17645091513,
 
       genderArray: ['男', '女'],
