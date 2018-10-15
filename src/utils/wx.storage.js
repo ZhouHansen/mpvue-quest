@@ -11,7 +11,12 @@ class Storage {
   }
 
   static get (key) {
-    return wx.getStorageSync(key);
+    let result = wx.getStorageSync(key);
+    if (result) {
+      return result;
+    } else {
+      return false;
+    }
   }
 
   static remove (key) {

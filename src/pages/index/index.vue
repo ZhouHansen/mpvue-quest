@@ -30,6 +30,7 @@ export default {
   data () {
     return {
       sections: null,
+      interval: null,
       location: null,
       limit: 15,
       offset: 0,
@@ -39,10 +40,13 @@ export default {
   created () {
   },
   mounted () {
-    // 调用应用实例的方法获取全局数据
-    this.$wxUtils.getUserInfo();
     // console.log(this.$store.state);
-    this.getDashboardData();
+    this.interval = setInterval(() => {
+      this.getDashboardData();
+      if (this.sections) {
+        clearInterval(this.interval);
+      }
+    }, 2000);
 
     this.$wxUtils.getLocation().then(res => {
       this.location = res;
@@ -55,10 +59,9 @@ export default {
     }
   },
   onPullDownRefresh () {
-    if (this.total > this.offset) {
-      this.offset = this.offset + this.limit;
-      this.getDashboardData();
-    }
+    this.offset = 0;
+    this.sections = [];
+    this.getDashboardData();
   },
   methods: {
     goSearchPage () {
@@ -74,6 +77,9 @@ export default {
       this.$wxUtils.loading({title: '加载中...'});
       this.$network.discovery.getDashboard(requestParams).then(res => {
         console.log(res);
+        if (res.e !== 0) {
+          return;
+        }
         this.$wxUtils.loading({show: false});
         this.sections = Utils.filterRepeatData(this.sections, res.data);
         this.total = res.total;
@@ -81,7 +87,15 @@ export default {
         console.log(err);
       });
     }
+  },
+
+  onReachBottom () {
+    if (this.total > this.offset + this.limit) {
+      this.offset = this.offset + this.limit;
+      this.getDashboardData();
+    }
   }
+
 };
 </script>
 

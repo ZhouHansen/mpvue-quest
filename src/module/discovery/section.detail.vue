@@ -8,7 +8,7 @@
       <div class="section-title-ctrl">
         <hoo-icon-button :type="'activity'" :person-num="params.favorcount" v-if="params.ltype === 'lesson'" :personNum="params.favorcount"></hoo-icon-button>
         <hoo-icon-button :type="'activity'" :person-num="params.favorcount" :join-text="'人想买'" v-if="!params.ltype"></hoo-icon-button>
-        <hoo-icon-button :type="'collection'" :id="params.id" :subject="params.subject_type"></hoo-icon-button>
+        <hoo-icon-button :type="params.favored === 0 ? 'collection' : 'collection_already'" :id="params.id" :subject="params.subject_type"></hoo-icon-button>
         <hoo-icon-button :type="'share'"></hoo-icon-button>
       </div>
     </div>

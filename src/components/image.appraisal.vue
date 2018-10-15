@@ -11,6 +11,7 @@
 </template>
 <script>
 import _ from 'lodash/core';
+import lodashRemove from 'lodash/remove';
 
 export default {
   props: ['id'], // id 返回数据时携带，可以直接传给指定的对象
@@ -29,7 +30,8 @@ export default {
     },
 
     deleteImg (e) {
-      this.imageList = _.remove(this.imageList, (item, index) => {
+      console.log(e);
+      this.imageList = lodashRemove(this.imageList, (item, index) => {
         return index !== e;
       });
       this.commitImageData();

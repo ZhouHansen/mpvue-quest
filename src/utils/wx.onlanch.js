@@ -3,25 +3,49 @@ import Storage from '@/utils/wx.storage';
 import StorageTypeName from '@/utils/storage.typename';
 import Utils from '@/utils/wx.utils';
 
-var openid = Storage.get(StorageTypeName.openid);
-// 取出storage 如果不存在，就执行登录请求，获取openid。
-if (!openid) { // && (!user.api_key || !user.username)
-// 登录
-  wx.login({
-    success: res => {
-      // console.log(res);
-      Network.base.login({code: res.code}).then(res => {
-        Storage.set(StorageTypeName.openid, res.data);
-        // console.log('登录返回信息', res);
-      });
-      // });
-      // 发送 res.code 到后台换取 openId, sessionKey, unionId
-    }
-  });
-};
+// var openid = Storage.get(StorageTypeName.openid);
+// // 取出storage 如果不存在，就执行登录请求，获取openid。
+// if (!openid) {
+// // 登录
+//   wx.login({
+//     success: res => {
+//       // console.log(res);
+//       Network.base.login({}, null, 'weapp/login?code=' + res.code).then(res => {
+//         Storage.set(StorageTypeName.openid, res.data);
+//         // console.log('登录返回信息', res);
+//       });
+//       // });
+//       // 发送 res.code 到后台换取 openId, sessionKey, unionId
+//     }
+//   });
+// }
 
-Network.base.getUserInf().then(res => {
-  console.log('获取用户数据', res.data);
+// if (!Storage.get(StorageTypeName.userInf)) {
+//   Network.base.getUserInf().then(res => {
+//     console.log('获取用户数据', res.data);
+//     Storage.set(StorageTypeName.userInf, res.data);
+//   });
+// }
+
+wx.clearStorageSync();
+
+wx.login({
+  success: res => {
+    // console.log(res);
+    Network.base.login({}, null, 'weapp/login?code=' + res.code).then(res => {
+      Storage.set(StorageTypeName.openid, res.data);
+      // console.log('登录返回信息', res);
+
+      setTimeout(() => {
+        Network.base.getUserInf().then(res => {
+          console.log('获取用户数据', res.data);
+          Storage.set(StorageTypeName.userInf, res.data);
+        });
+      }, 1000);
+    });
+    // });
+    // 发送 res.code 到后台换取 openId, sessionKey, unionId
+  }
 });
 
 // 获取用户授权信息

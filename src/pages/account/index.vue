@@ -1,14 +1,14 @@
 <template>
   <div class="account-container">
     <div>
-      <button :open-type="'getUserInfo'" :hover-stay-time="0" :hover-start-time="0" :lang="zh_CN" :plain="'true'" @getuserinfo="getUserInfo">
+      <button :open-type="'getUserInfo'" :hover-stay-time="0" :hover-start-time="0" :lang="zh_CN" :plain="'true'" @getuserinfo="visitUserInfo">
         <div class="account-header">
             <div class="account-header-left">
-              <div class="account-avatar" :style="{background: 'url(' + avatar + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+              <img class="account-avatar" :src="avatar">
               <div class="account-header-text">
-                <div class="account-header-text-name">冯老师</div>
-                <div class="account-header-text-unbind">未绑定手机号</div>
-                <div class="account-header-text-phone">手机号：12312378791</div>
+                <div class="account-header-text-name">{{name}}</div>
+                <div class="account-header-text-unbind" v-if="!userInf.cell">未绑定手机号</div>
+                <div class="account-header-text-phone" v-if="userInf.cell">手机号：{{userInf.cell}}</div>
               </div>
             </div>
             <div class="account-arrow"></div>
@@ -71,15 +71,43 @@
 export default {
   data () {
     return {
-      avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png',
-      wxUserInf: this.$storage.get(this.$storageTypeName['wxUserInf'])
+      wxUserInf: this.$storage.get(this.$storageTypeName['wxUserInf']),
+      userInf: this.$storage.get(this.$storageTypeName.userInf),
+      avatar: '../../img/logo.png',
+      name: ''
     };
   },
   mounted () {
     this.$wxUtils.setNavTitle('我的');
   },
+  onShow () {
+    this.getUserInf();
+  },
   methods: {
-    getUserInfo (e) {
+    getUserInf () {
+      this.$network.base.getUserInf().then(res => {
+        console.log('获取用户数据', res.data);
+        this.userInf = res.data;
+        this.$storage.set(this.$storageTypeName.userInf, res.data);
+        this.setParams();
+      });
+    },
+
+    setParams () {
+      if (this.userInf.avatar && this.userInf.avatar.indexOf('http') > -1) {
+        this.avatar = this.userInf.avatar;
+      } else {
+        this.avatar = this.wxUserInf.avatarUrl;
+      }
+
+      if (this.userInf.decodednickname) {
+        this.name = this.userInf.decodednickname;
+      } else {
+        this.name = this.wxUserInf.nickName;
+      }
+    },
+
+    visitUserInfo (e) {
       if (!this.wxUserInf) {
         console.log(e);
         this.$storage.set(this.$storageTypeName.wxUserInf, e.mp.detail.userInfo);

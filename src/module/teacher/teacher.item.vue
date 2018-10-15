@@ -1,7 +1,7 @@
 <template>
   <div class="teacher-container" @click="viewTeacherDetail">
     <div class="teacher-avatar">
-      <hoo-avatar :avatar="detail.avatarurl"></hoo-avatar>
+      <hoo-avatar :avatar="detail.avartarurl"></hoo-avatar>
     </div>
     <div class="teacher-inf">
       <div class="teacher-name flex-row-start ">

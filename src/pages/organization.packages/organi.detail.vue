@@ -9,7 +9,7 @@
         <div class="organi-header-text line-clamp-3 ">{{organiData.brief}}</div>
         <div class="organi-header-ctrl">
           <div class="organi-header-ctrl-item">
-            <hoo-have-icon-btn :type="'collection'" :id="organiData.id" :subject="'institution'"></hoo-have-icon-btn>
+            <hoo-have-icon-btn :type="organiData.favored === 0 ? 'collection' : 'collection_already'" :id="organiData.id" :subject="'institution'"></hoo-have-icon-btn>
           </div>
           <hoo-have-icon-btn :type="'share'"></hoo-have-icon-btn>
         </div>

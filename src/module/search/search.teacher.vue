@@ -165,9 +165,12 @@
           limit: this.paging.limit,
           offset: this.paging.offset,
           sort: 'sort' in params && params.sort ? params.sort : undefined,
-          order: 'orderby' in params && params.orderby ? params.orderby : undefined,
-          subjects: 'course_type' in params && params.course_type ? params.course_type.text : undefined
+          order: 'orderby' in params && params.orderby ? params.orderby : undefined
         };
+
+        if (params.course_type && params.course_type.id !== 'all') {
+          requestParams['subjects'] = params.course_type.id;
+        }
 
         this.$network.search.searchTearch(requestParams).then(res => {
           this.alreadyUseSearch = true;

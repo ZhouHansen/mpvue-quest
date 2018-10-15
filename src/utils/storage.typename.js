@@ -4,6 +4,7 @@ const StorageTypeName = {
   location: 'location',
   system: 'system',
   wxUserInf: 'wxUserInf',
+  userInf: 'userInf',
   setApp: 'setApp' // 设置应用中的状态 'unShowOrderTips'
 };
 

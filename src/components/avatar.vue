@@ -1,5 +1,6 @@
 <template>
-  <div class="avatar-container" :class="size" v-if="avatarUrl" :style="{background: 'url(' + avatarUrl + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+  <img class="avatar-container" :class="size" :src="avatarUrl" v-if="avatarUrl">
+  <!-- <div class="avatar-container" :class="size" v-if="avatarUrl" :style="{background: 'url(' + avatarUrl + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div> -->
 </template>
 
 <script>

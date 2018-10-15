@@ -16,7 +16,7 @@
           <hoo-label :type-text="teacherLabelTypeText" :label-arr="teacherLabelArr" :type="'teacher'"></hoo-label>
           <div class="detail-ctrl">
             <div class="collect-btn">
-              <hoo-have-icon-btn :type="'collection'" :id="teacherData.id" :subject="'teacher'"></hoo-have-icon-btn>
+              <hoo-have-icon-btn :type="teacherData.favored === 0 ? 'collection' : 'collection_already'" :id="teacherData.id" :subject="'teacher'"></hoo-have-icon-btn>
             </div>
             <hoo-have-icon-btn :type="'share'"></hoo-have-icon-btn>
           </div>

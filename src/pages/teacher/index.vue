@@ -47,7 +47,7 @@ export default {
     this.getTeacherList();
   },
   onReachBottom () {
-    if (this.total > this.offset) {
+    if (this.total > this.offset + this.limit) {
       this.offset = this.offset + this.limit;
       this.getTeacherList();
     }

@@ -13,7 +13,7 @@ export default {
         name: 'imgfile',
         formData: data,
         success (res) {
-          resolve(res.data);
+          resolve(JSON.parse(res.data));
         }
       });
     });

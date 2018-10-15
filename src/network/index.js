@@ -59,7 +59,6 @@ class Network {
           parseJson: true,
           timeout: 5 * 60000,
           baseURL: BASICURL,
-          params: filteredParam,
           headers: {
           }
         };
@@ -98,7 +97,7 @@ class Network {
           });
         }
 
-        return fly.request(options.url, null, options);
+        return fly.request(options.url, filteredParam, options);
       };
     }
   }

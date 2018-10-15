@@ -5,19 +5,19 @@
       <div class="section-score">
         <div class="label">星级评价</div>
         <div class="score-com">
-          <hoo-score :type="'set'" :id="'purchaseScore'" @setScore="getScore"></hoo-score>
+          <hoo-score :type="'set'" :id="'purchase.score'" @setScore="getScore"></hoo-score>
         </div>
       </div>
       <div class="section-input">
         <div class="label">评价内容</div>
         <div class="input-com">
-          <textarea id="purchaseInput" @input="appraisalDesc" placeholder="请在这里输入评价~"></textarea>
+          <textarea id="purchase.input" @input="appraisalDesc" placeholder="请在这里输入评价~"></textarea>
         </div>
       </div>
       <div class="section-images">
         <div class="label">添加图片</div>
         <div class="image-com">
-          <hoo-image-appraisal @imageData="getImageData" :id="'purchaseImageList'"></hoo-image-appraisal>
+          <hoo-image-appraisal @imageData="getImageData" :id="'purchase.imageList'"></hoo-image-appraisal>
         </div>
       </div>
     </div>
@@ -27,19 +27,19 @@
       <div class="section-score">
         <div class="label">星级评价</div>
         <div class="score-com">
-          <hoo-score :type="'set'" :id="'organiScore'" @setScore="getScore"></hoo-score>
+          <hoo-score :type="'set'" :id="'organi.score'" @setScore="getScore"></hoo-score>
         </div>
       </div>
       <div class="section-input">
         <div class="label">评价内容</div>
         <div class="input-com">
-          <textarea id="organiInput" @input="appraisalDesc" placeholder="请在这里输入评价~"></textarea>
+          <textarea id="organi.input" @input="appraisalDesc" placeholder="请在这里输入评价~"></textarea>
         </div>
       </div>
       <div class="section-images">
         <div class="label">添加图片</div>
         <div class="image-com">
-          <hoo-image-appraisal @imageData="getImageData" :id="'organiImageList'"></hoo-image-appraisal>
+          <hoo-image-appraisal @imageData="getImageData" :id="'organi.imageList'"></hoo-image-appraisal>
         </div>
       </div>
     </div>
@@ -64,13 +64,18 @@ export default {
   },
   data () {
     return {
-      score: 3.2,
-      purchaseInput: '',
-      purchaseImageList: [],
-      purchaseScore: 1,
-      organiInput: '',
-      organiImageList: [],
-      organiScore: 1
+      purchase: {
+        input: '',
+        imageList: [],
+        score: 1,
+        uploadImgUrl: []
+      },
+      organi: {
+        input: '',
+        imageList: [],
+        score: 1,
+        uploadImgUrl: []
+      }
     };
   },
   mounted () {
@@ -78,18 +83,38 @@ export default {
   },
   methods: {
     getImageData (e) {
-      this[e.id] = e.imageList;
+      console.log(e);
+      let tar = e.id.split('.');
+      this[tar[0]][tar[1]] = e.imageList;
+      console.log(this[tar[0]][tar[1]]);
     },
 
     appraisalDesc (e) {
-      this[e.mp.target.id] = e.mp.detail.value;
+      console.log(e);
+      let tar = e.mp.target.id.split('.');
+      this[tar[0]][tar[1]] = e.mp.detail.value;
     },
 
     getScore (e) {
-      this[e.id] = e.score;
+      console.log(e);
+      let tar = e.id.split('.');
+      this[tar[0]][tar[1]] = e.score;
     },
 
-    submit () {
+    uploadImg (url, type) {
+      return new Promise((resolve, reject) => {
+        this.$wxNetwork.uploadFile({url: url}).then(res => {
+          // console.log(res);
+          this[type].uploadImgPath = 'https://h.dyglxt.com' + res.url;
+          resolve();
+        }).then(res => {
+          reject(res);
+          this.$wxUtils.toast({title: '提交图片失败，请重新上传'});
+        });
+      });
+    },
+
+    sendAppraData () {
       let img = ['http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg', 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg', 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg'];
       console.log('debug');
       this.$network.base.commentOrder({
@@ -101,6 +126,22 @@ export default {
           this.wxUtils.toast({title: '提交评论成功'});
         }
       });
+    },
+
+    submit () {
+      if (this.purchase.content.length < 5 || this.organi.content < 5) {
+        this.$wxUtils.toast({title: '评论文字需要多余5个字'});
+        return;
+      };
+
+      // let request = [
+      //   {id: 'product', obj: this.purchase},
+      //   {id: 'institution', obj: this.organi}
+      // ];
+      // 先上传图片，获取图片链接。
+
+      // 分别根据不同类型发送评论。
+
       // this.$router.back();
     }
   }

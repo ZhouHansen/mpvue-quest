@@ -39,6 +39,25 @@ export default {
   },
 
   /**
+   * 更新用户信息
+   */
+
+  uploadUserInf: {
+    url: 'weapp/updateprofile',
+    method: 'post',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
+    params: {
+      avatarurl: [NetworkParamType.string],
+      city: [NetworkParamType.string],
+      cell: [NetworkParamType.string],
+      gender: [NetworkParamType.string],
+      name: [NetworkParamType.string],
+      nickname: [NetworkParamType.string]
+    }
+  },
+
+  /**
    * 发送短信
   */
   sendVerifyMessage: {

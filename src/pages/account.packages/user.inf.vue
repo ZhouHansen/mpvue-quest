@@ -22,9 +22,9 @@
       </div>
     </div>
     <div class="section">
-      <div class="section-label">注册信息</div>
+      <div class="section-label">手机号码</div>
       <div class="section-edit register-edit" v-if="phoneVal">
-        <input type="number" id="phone" placeholder="17645091513" :value="phoneVal" :placeholder-class="'input-placeholder-user'" :disabled="'true'">
+        <input type="number" id="phone" :placeholder="phoneVal" :value="phoneVal" :placeholder-class="'input-placeholder-user'" :disabled="'true'">
         <div class="section-edit-text" @click="editPhone">修改</div>
       </div>
       <div class="section-edit register-edit" v-if="!phoneVal">
@@ -34,9 +34,9 @@
     <div class="section">
       <div class="section-label">性别</div>
       <div class="section-edit">
-        <picker @change="bindGenderChange" :value="genderValue" :range="genderArray">
+        <picker @change="bindGenderChange" :value="genderValue" :range-key="'text'" :range="genderArray">
           <div class="gender-edit">
-            <span>{{genderArray[genderValue]}}</span>
+            <span>{{genderArray[genderValue].text}}</span>
             <span class="section-icon"></span>
           </div>
         </picker>
@@ -50,7 +50,7 @@
     </div>
 
     <div class="footer">
-      <hoo-button :text="'保存'" :type="'topic'"></hoo-button>
+      <hoo-button :text="'保存'" :type="'topic'" @tapButton="submit"></hoo-button>
     </div>
   </div>
 </template>
@@ -66,20 +66,29 @@ export default {
   props: [],
   data () {
     return {
-      wxUserInf: this.$storage.get(this.$storageTypeName['wxUserInf']),
-      avatar: '',
+      wxUserInf: this.$storage.get(this.$storageTypeName.wxUserInf),
+      userInf: this.$storage.get(this.$storageTypeName.userInf),
+      avatar: '../../img/logo.png',
       nickname: '',
       name: '',
       area: '',
-      phoneVal: 17645091513,
+      phoneVal: '',
 
-      genderArray: ['男', '女'],
-      genderValue: 0
+      genderArray: [
+        {text: '女', id: 'M'},
+        {text: '男', id: 'F'}
+      ],
+      genderValue: 0,
+      chooseImgPath: '',
+      uploadImgPath: ''
     };
   },
   mounted () {
     this.$wxUtils.setNavTitle('个人信息');
+    this.$wxUtils.loading({title: '加载中...'});
     this.getUserInf();
+  },
+  onShow () {
   },
   onUnload () {
     console.log('离开页面');
@@ -87,18 +96,40 @@ export default {
   methods: {
     getUserInf () {
       // 如果获取的用户信息没有这个参数，就默认填上。用户保存时一块上传到后台
+      if (this.userInf && this.userInf.avatar && this.userInf.avatar.indexOf('http') > -1) {
+        this.avatar = this.userInf.avatar;
+      } else {
+        this.avatar = this.wxUserInf.avatarUrl;
+        this.uploadImgPath = this.wxUserInf.avatarUrl;
+      }
 
-      this.avatar = this.wxUserInf.avatarUrl;
-      this.nickname = this.wxUserInf.nickName;
-      this.genderValue = this.wxUserInf.gender - 1;
+      if (this.userInf && this.userInf.decodednickname) {
+        this.nickname = this.userInf.decodednickname;
+      } else {
+        this.nickname = this.wxUserInf.nickName;
+      }
+
+      if (this.userInf && this.userInf.gender) {
+        if (this.userInf.gender === 'F') {
+          this.genderValue = 1;
+        } else {
+          this.genderValue = 0;
+        }
+      } else {
+        this.genderValue = this.wxUserInf.gender - 1;
+      }
+
+      this.phoneVal = this.userInf.cell;
+      this.name = this.userInf.decodedname;
+      this.area = this.userInf.city;
+
+      this.$wxUtils.loading({show: false});
     },
 
     editAvatar () {
       this.$wxUtils.chooseImg({num: 1}).then(res => {
         console.log('选择图片', res);
-        this.$wxNetwork.uploadFile({url: res.tempFilePaths[0]}).then(res => {
-          console.log('图片上传成功', res);
-        });
+        this.chooseImgPath = res.tempFilePaths[0];
         this.avatar = res.tempFilePaths[0];
       });
     },
@@ -114,6 +145,62 @@ export default {
 
     editUserInf (e) {
       this[e.mp.target.id] = e.mp.detail.value;
+    },
+
+    uploadImg () {
+      return new Promise((resolve, reject) => {
+        if (this.chooseImgPath) {
+          this.$wxNetwork.uploadFile({url: this.chooseImgPath}).then(res => {
+            // console.log(res);
+            this.uploadImgPath = 'https://h.dyglxt.com' + res.url;
+            resolve();
+          }).then(res => {
+            resolve();
+          });
+        } else {
+          resolve();
+        }
+      });
+    },
+
+    uploadUserInf () {
+      let requestParams = {
+        'avatarurl': this.uploadImgPath ? this.uploadImgPath : undefined,
+        'cell': this.phoneVal,
+        'city': this.area ? this.area : undefined,
+        'gender': this.genderArray[this.genderValue].id,
+        'name': this.name ? this.name : undefined,
+        'nickname': this.nickname ? this.nickname : undefined
+        // 'province': 'string'
+      };
+
+      this.$network.base.uploadUserInf(requestParams).then(res => {
+        this.$wxUtils.loading({show: false});
+        if (res.e === 0) {
+          this.$wxUtils.toast({title: '修改成功'});
+          setTimeout(() => {
+            this.$router.back();
+          }, 2000);
+        }
+      });
+    },
+
+    submit () {
+      if (!this.phoneVal) {
+        this.$wxUtils.toast({title: '请先绑定手机号'});
+        return;
+      }
+
+      if (!this.area || !this.name || !this.nickname) {
+        this.$wxUtils.toast({title: '请将信息填写完整'});
+        return;
+      }
+
+      this.$wxUtils.loading({title: '上传中...'});
+      this.uploadImg().finally(() => {
+        console.log('继续上传参数');
+        this.uploadUserInf();
+      });
     }
   }
 };

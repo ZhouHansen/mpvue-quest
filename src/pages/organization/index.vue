@@ -1,6 +1,6 @@
 <template>
   <div class="organization-container">
-      <map v-if="markers" :markers="markers"
+      <map v-if="initMap" :markers="markers"
         @markertap="markertap"
         @tap="tapMap"
         @regionchange="regionMap"
@@ -8,8 +8,8 @@
         @end="regionMapEnd"
         :scale="16"
         :show-location="'true'"
-        :longitude="'121.541557'"
-        :latitude="'38.860103'"
+        :longitude="longitude"
+        :latitude="latitude"
         :class="showRecommend?'unfill-height': 'fill-height'">
         <organi-filter-button :data="chooseFilterCity" @filterButton="tapFilterButton"></organi-filter-button>
         <organi-filter-button :data="chooseFilterType" @filterButton="tapFilterButton"></organi-filter-button>
@@ -38,6 +38,9 @@ export default {
   },
   data () {
     return {
+      latitude: '',
+      longitude: '',
+      initMap: false,
       showRecommend: true,
       recommendData: [],
       showFilterList: false,
@@ -67,6 +70,10 @@ export default {
     this.chooseFilterCity = this.filterCity[0];
     this.chooseFilterType = this.filterTypeData[0];
 
+    this.$wxUtils.getLocation().then(res => {
+      this.latitude = res.latitude;
+      this.longitude = res.longitude;
+    });
     this.getCityList();
     this.getRecommendList();
   },
@@ -135,6 +142,7 @@ export default {
         });
 
         Promise.all(promiseArr).then(result => {
+          this.initMap = true;
           this.markers = this.markersData;
           this.$wxUtils.loading({show: false});
         });
