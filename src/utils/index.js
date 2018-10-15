@@ -1,3 +1,4 @@
+import _ from 'lodash/core';
 const formatNumber = n => {
   const str = n.toString();
   return str[1] ? str : `0${str}`;
@@ -74,11 +75,31 @@ const backDistance = ({lat1, lng1, lat2, lng2}) => {
   return callback;
 };
 
+// 过滤分页是重复的数据
+const filterRepeatData = (params1, params2) => {
+  if (!params1) {
+    params1 = [];
+  }
+
+  _.forEach(params2, (item2, index2) => {
+    let result = _.find(params1, (item1, index1) => {
+      return item1.id === item2.id && item1.name === item2.name;
+    });
+
+    if (!result) {
+      params1.push(item2);
+    }
+  });
+  // console.log(params1);
+  return params1;
+};
+
 export default {
   formatNumber,
   formatTime,
   formatDate,
   formatDateToPicker,
   sumLocation,
-  backDistance
+  backDistance,
+  filterRepeatData
 };

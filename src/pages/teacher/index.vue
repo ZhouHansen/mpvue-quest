@@ -9,7 +9,9 @@
   </div>
 </template>
 <script>
+import _ from 'lodash/core';
 import {SubjectsFilterData} from '@/utils/default.data';
+import Utils from '@/utils/index';
 import hooNav from '@/components/nav';
 import teacherList from '@/module/teacher/teacher.list';
 
@@ -20,7 +22,7 @@ export default {
   },
   data () {
     return {
-      navData: [],
+      // navData: [],
       chooseNavIndex: 0,
       teacherListData: [],
       limit: 15,
@@ -28,25 +30,33 @@ export default {
       total: 0
     };
   },
+  computed: {
+    navData () {
+      let result = [];
+      SubjectsFilterData.forEach((item, index) => {
+        result.push(item.text);
+      });
+      return result;
+    }
+  },
   mounted () {
-    SubjectsFilterData.forEach((item, index) => {
-      this.navData.push(item.text);
-    });
+
   },
   onShow () {
-    this.getTeacherList();
     // 初始化的搜索老师条件。
+    this.getTeacherList();
   },
   onReachBottom () {
-    if (this.total > this.limit) {
-      this.limit = this.limit + 15;
+    if (this.total > this.offset) {
+      this.offset = this.offset + this.limit;
       this.getTeacherList();
     }
   },
   methods: {
     chooseNav (e) {
-      this.limit = 15;
+      this.offset = 0;
       this.chooseNavIndex = e;
+      this.teacherListData = [];
       this.getTeacherList();
     },
 
@@ -54,14 +64,22 @@ export default {
       this.$wxUtils.loading({title: '加载中...'});
       let requestParams = {
         limit: this.limit,
-        offset: this.offset,
-        subjects: this.chooseNavIndex > 0 ? this.navData[this.chooseNavIndex] : undefined
+        offset: this.offset
       };
+
+      if (this.chooseNavIndex > 0) {
+        let result = _.find(SubjectsFilterData, (item, index) => {
+          return item.text === this.navData[this.chooseNavIndex];
+        });
+
+        requestParams['subjects'] = result.id;
+      }
 
       this.$network.teacher.getTeacherList(requestParams).then(res => {
         // console.log(res);
         this.$wxUtils.loading({show: false});
-        this.teacherListData = res.data;
+        this.teacherListData = Utils.filterRepeatData(this.teacherListData, res.data);
+        console.log(this.teacherListData);
         this.total = res.total;
       });
     }

@@ -3,6 +3,20 @@ import DebugData from './debug.data';
 
 export default {
   /**
+     * 获取推荐数据
+    */
+  getDashboard: {
+    url: 'weapp/dashboard',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
+    params: {
+      limit: [NetworkParamType.number],
+      offset: [NetworkParamType.number]
+    }
+  },
+
+  /**
    * 获取发现首页的商品
    * */
   getProduct: {
@@ -63,57 +77,6 @@ export default {
     params: {}
   },
 
-  /**
-   * 通过id 获取课程、活动、商品的评价
-  */
-  getActivityAppraisal: {
-    url: 'discovery',
-    method: 'get',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      id: [NetworkParamType.string]
-    },
-    debug: DebugData.discovery
-  },
-
-  /**
-   * 取消活动、课程或商品的收藏
-  */
-  cancelCollection: {
-    url: 'collection/cancel',
-    method: 'get',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      id: [NetworkParamType.string]
-    },
-    debug: DebugData.cancelCollection
-  },
-
-  /**
-   * 报名参加活动、课程
-  */
-  joinActivity: {
-    url: 'acityvity/join',
-    method: 'post',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      id: [NetworkParamType.string]
-    },
-    debug: DebugData.joinActivity
-  },
-
-  /**
-   * 取消参加课程、活动
-  */
-  cancelJoinActivity: {
-    url: 'acityvity/join/cancel',
-    method: 'post',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      id: [NetworkParamType.string]
-    },
-    debug: DebugData.cancelJoinActivity
-  },
   /**
    * 获取 课程、活动的推荐时间
   */

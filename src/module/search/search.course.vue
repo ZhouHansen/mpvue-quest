@@ -125,7 +125,7 @@
         console.log('查找过滤的参数 课程', params);
         let requestParams = {
           name: 'inputVal' in params && params.inputVal ? params.inputVal : undefined,
-          subject: 'course_type' in params && params.course_type ? params.course_type.text : undefined,
+          subject: 'course_type' in params && params.course_type ? params.course_type.id : undefined,
           limit: this.paging.limit,
           offset: this.paging.offset
         };

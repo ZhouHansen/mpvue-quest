@@ -92,6 +92,16 @@ export default {
   },
 
   /**
+   * 取消活动课程、商品、机构、老师的收藏
+  */
+  cancelCollection: {
+    url: 'weapp/favor/del/:id',
+    method: 'delete',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true
+  },
+
+  /**
    * 记录活动课程、商品、机构、老师的分享
   */
   recordShare: {
@@ -117,7 +127,7 @@ export default {
   },
 
   /**
-   * 评论活动课程、商品、机构、老师
+   * 获取评论列表  活动课程、商品、机构、老师
   */
   getCommentList: {
     url: 'weapp/comments/{lesson / product / teacher / institution}/:id',

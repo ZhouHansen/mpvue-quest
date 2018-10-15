@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="section-label">
-      <hoo-label :type-text="sectionData.subjectslist" :label-arr="sectionData.tagslist"></hoo-label>
+      <hoo-label :type-text="sectionData.tags[0]" :label-arr="tagslist"></hoo-label>
       <div class="section-distance" v-if="distanceToSection">{{distanceToSection}}</div>
     </div>
     <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
@@ -43,6 +43,9 @@
         } else {
           return false;
         }
+      },
+      tagslist () {
+        return this.sectionData.tags.slice(1);
       }
     },
     methods: {

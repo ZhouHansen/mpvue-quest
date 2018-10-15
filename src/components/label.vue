@@ -1,16 +1,27 @@
 <template>
   <div class="label-container">
-    <span class="label-header" v-for="(item, index) in typeText" :key="index">{{item}}</span>
+    <span class="label-header" v-if="headerLabelType === 'string'">{{typeText}}</span>
+    <span class="label-header" v-if="headerLabelType === 'array'" v-for="(item, index) in typeText" :key="index">{{item}}</span>
     <span class="label-span" v-if="labelArr[0] !== ''" v-for="(item, index) in labelArr" :key="index">{{item}}</span>
   </div>
 </template>
 <script>
+import _ from 'lodash/core';
 export default {
   props: ['typeText', 'labelArr', 'type'],
   data () {
     return {
 
     };
+  },
+  computed: {
+    headerLabelType () {
+      if (_.isArray(this.typeText)) {
+        return 'array';
+      } else {
+        return 'string';
+      }
+    }
   }
 };
 </script>

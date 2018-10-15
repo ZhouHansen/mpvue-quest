@@ -1,7 +1,9 @@
-import Vue from 'vue';
 import Fly from 'flyio/dist/npm/wx';
 import _ from 'lodash/core';
 import MapKeys from 'lodash/mapKeys';
+
+import Storage from '@/utils/wx.storage';
+import StorageType from '@/utils/storage.typename';
 
 import {
   NetworkAPIHost,
@@ -63,8 +65,8 @@ class Network {
         };
 
         if (networkAction.authorization) {
-          // options.header['Authorization'] = self.authorizationHeader();
-          options.headers['token'] = 'THIS_IS_DUMMY_OPENID';
+          options.headers['token'] = self.authorizationHeader();
+          // options.headers['token'] = 'THIS_IS_DUMMY_OPENID';
           console.log(options);
         }
 
@@ -102,19 +104,12 @@ class Network {
   }
   // 获取auth
   authorizationHeader () {
-    let user = Vue.prototype.$store.state.loginUser;
-    if (!user || !user.apikey) {
-      try {
-        user = null; // 获取用户信息
-      } catch (err) {
-        console.log(err);
-      }
-    }
+    let openidObj = Storage.get(StorageType.openid);
 
-    if (!user || !user.api_key) {
+    if (!openidObj || !openidObj.openid) {
       return '';
     }
-    return 'apikey ' + user.username + ':' + user.api_key;
+    return openidObj.openid;
   }
 }
 

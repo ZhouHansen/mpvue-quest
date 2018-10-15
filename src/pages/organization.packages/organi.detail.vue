@@ -17,17 +17,18 @@
     </div>
 
     <div class="organi-content">
-      <hoo-nav :tabs="navData" @tapNavItem="chooseNav"></hoo-nav>
+      <hoo-nav :tabs="navData" @tapNavItem="chooseNav" :unOnShowDefault="true"></hoo-nav>
       <div class="organi-nav-inf">
         <course-list v-if="chooseNavNumber === '0' && courseData" :params="courseData"></course-list>
         <teacher-list v-if="chooseNavNumber === '1' && teacherData" :params="teacherData"></teacher-list>
-        <appraisal-list v-if="chooseNavNumber === '2'"></appraisal-list>
+        <appraisal-list v-if="chooseNavNumber === '2'" :params="request.appra.appraListData"></appraisal-list>
         <organi-desc v-if="chooseNavNumber === '3'" :params="organiData"></organi-desc>
       </div>
     </div>
   </div>
 </template>
 <script>
+  import Utils from '@/utils/index';
   import hooAvatar from '@/components/avatar';
   import hooHaveIconBtn from '@/components/have.icon.btn';
   import hooNav from '@/components/nav';
@@ -66,6 +67,7 @@
             total: 0
           },
           appra: {
+            appraListData: null,
             limit: 15,
             offset: 0,
             total: 0
@@ -87,8 +89,8 @@
         break;
       };
 
-      if (this.request[type].total > this.request[type].limit) {
-        this.request[type].limit = this.request[type].limit + 15;
+      if (this.request[type].total > this.request[type].offset) {
+        this.request[type].offset = this.request[type].offset + this.request[type].limit;
         if (type === 'course') {
           this.getOrganiCourseList();
         } else
@@ -101,7 +103,7 @@
       }
     },
     onShow () {
-      this.chooseNavNumber = '0';
+      // this.chooseNavNumber = '0';
     },
     mounted () {
       this.getOrganiDetail();
@@ -135,7 +137,7 @@
 
         this.$network.search.searchCourse(requestParams).then(res => {
           console.log('返回查找课程数据', res);
-          this.courseData = res.data;
+          this.courseData = Utils.filterRepeatData(this.courseData, res.data);
           this.request.course.total = res.total;
         }).catch(err => {
           console.log(err);
@@ -150,7 +152,7 @@
         };
         this.$network.search.searchTearch(requestParams).then(res => {
           console.log('返回查找老师数据', res);
-          this.teacherData = res.data;
+          this.teacherData = Utils.filterRepeatData(this.teacherData, res.data);
           this.request.teacher.total = res.total;
         }).catch(err => {
           console.log(err);
@@ -159,14 +161,15 @@
 
       getOrganiAppraList () {
         let requestParams = {
-          instid: this.$route.query.id,
           limit: this.request.appra.limit,
           offset: this.request.appra.offset
         };
 
-        this.request.appra.total = 30;
-
-        console.log(requestParams);
+        this.$network.base.getCommentList(requestParams, null, 'weapp/comments/institution/' + this.$route.query.id).then(res => {
+          console.log('获取评价数据', res);
+          this.request.appra.appraListData = Utils.filterRepeatData(this.request.appra.appraListData, res.data);
+          this.request.appra.total = res.total;
+        });
       }
     },
     onShareAppMessage (res) {

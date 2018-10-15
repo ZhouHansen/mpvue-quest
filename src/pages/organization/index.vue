@@ -67,7 +67,6 @@ export default {
     this.chooseFilterCity = this.filterCity[0];
     this.chooseFilterType = this.filterTypeData[0];
 
-    this.setMarkerIcon();
     this.getCityList();
     this.getRecommendList();
   },
@@ -127,7 +126,7 @@ export default {
 
     getRecommendList () {
       this.$network.organi.getFilterByMapCity().then(res => {
-        // console.log(res.data);
+        console.log(res.data);
         this.recommendData = res.data;
 
         let promiseArr = [];

@@ -91,7 +91,7 @@ export default {
       }
 
       .course-filter-item-checked {
-        background-color: #fcfcfc;
+        background-color: #f0f0f0;
       }
     }
   }

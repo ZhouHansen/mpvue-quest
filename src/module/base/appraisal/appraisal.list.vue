@@ -1,6 +1,6 @@
 <template>
   <div class="appra-list-container">
-    <hoo-appra-item v-if="params && params.length > 0" :params-detail="params"></hoo-appra-item>
+    <hoo-appra-item v-for="item in params" :key="item.id" :params-detail="item"></hoo-appra-item>
     <hoo-empty :text="'还没有评价~'" v-if="!params || params.length === 0"></hoo-empty>
   </div>
 </template>
@@ -13,6 +13,9 @@ export default {
   components: {
     hooAppraItem,
     hooEmpty
+  },
+  mounted () {
+    console.log('评价列表', this.params);
   }
 };
 </script>

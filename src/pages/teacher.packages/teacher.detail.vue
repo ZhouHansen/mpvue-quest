@@ -30,11 +30,12 @@
         <teacher-introduction :params="teacherData"></teacher-introduction>
       </div>
       <div class="teacher-detail-appraise" v-if="chooseNavNumber === '2'">
-        <appra-list></appra-list>
+        <appra-list :params="appra.appraListData"></appra-list>
       </div>
   </div>
 </template>
 <script>
+  import Utils from '@/utils/index';
   import hooLabel from '@/components/label';
   import hooAvatar from '@/components/avatar';
   import hooScore from '@/components/score';
@@ -69,6 +70,12 @@
           limit: 15,
           offset: 0,
           total: 0
+        },
+        appra: {
+          appraListData: null,
+          limit: 15,
+          offset: 0,
+          total: 0
         }
       };
     },
@@ -81,6 +88,10 @@
     methods: {
       chooseNav (e) {
         this.chooseNavNumber = e;
+
+        if (e === '2') {
+          this.getTeacherAppraList();
+        }
       },
 
       getTeacherDetail () {
@@ -107,12 +118,34 @@
         }).catch(err => {
           console.log(err);
         });
+      },
+
+      getTeacherAppraList () {
+        let requestParams = {
+          limit: this.appra.limit,
+          offset: this.appra.offset
+        };
+
+        this.$network.base.getCommentList(requestParams, null, 'weapp/comments/institution/' + this.$route.query.id).then(res => {
+          console.log('获取评价数据', res);
+          this.appra.appraListData = Utils.filterRepeatData(this.appra.appraListData, res.data);
+          this.appra.total = res.total;
+        });
       }
     },
     onReachBottom () {
-      if (this.course.total > this.course.limit) {
-        this.course.limit = this.course.limit + 15;
-        this.getTeacherCourseList();
+      if (this.chooseNavNumber === '0') {
+        if (this.course.total > this.course.offset) {
+          this.course.offset = this.course.offset + this.course.limit;
+          this.getTeacherCourseList();
+        }
+      }
+
+      if (this.chooseNavNumber === '2') {
+        if (this.appra.total > this.appra.offset) {
+          this.appra.offset = this.appra.offset + this.appra.limit;
+          this.getTeacherAppraList();
+        }
       }
     },
     onShareAppMessage (res) {

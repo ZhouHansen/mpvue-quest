@@ -4,10 +4,10 @@
     <div class="section-cover" :style="'background: url(' + params.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
     <div class="section-title">
       <div class="section-title-text ellipsis">{{params.name}}</div>
-      <hoo-label :type-text="labelTypeText" :label-arr="labelArr"></hoo-label>
+      <hoo-label :type-text="params.tagslist[0]" :label-arr="labelArr"></hoo-label>
       <div class="section-title-ctrl">
-        <hoo-icon-button :type="'activity_already'" :person-num="params.favorcount" v-if="params.ltype === 'lesson'"></hoo-icon-button>
-        <hoo-icon-button :type="'activity_already'" :person-num="params.favorcount" :join-text="'人想买'" v-if="!params.ltype"></hoo-icon-button>
+        <hoo-icon-button :type="'activity'" :person-num="params.favorcount" v-if="params.ltype === 'lesson'" :personNum="params.favorcount"></hoo-icon-button>
+        <hoo-icon-button :type="'activity'" :person-num="params.favorcount" :join-text="'人想买'" v-if="!params.ltype"></hoo-icon-button>
         <hoo-icon-button :type="'collection'" :id="params.id" :subject="params.subject_type"></hoo-icon-button>
         <hoo-icon-button :type="'share'"></hoo-icon-button>
       </div>
@@ -34,7 +34,7 @@
         <div class="section-nav-detail" v-if="chooseNavIndex === '0'">
           <wx-parse :content="params.htmlabout"></wx-parse>
         </div>
-        <div class="section-nav-appraise" v-if="chooseNavIndex === '1'">
+        <div class="section-nav-appraise" v-if="chooseNavIndex === '1' && appraListData">
           <appra-list :params="appraListData"></appra-list>
         </div>
       </div>
@@ -51,6 +51,7 @@
 <script>
   import * as MutationType from '@/store/mutation.type';
   import wxParse from 'mpvue-wxparse';
+  import Utils from '@/utils/index';
 
   import hooLabel from '@/components/label';
   import hooIconButton from '@/components/have.icon.btn';
@@ -82,8 +83,6 @@
     props: ['params'],
     data () {
       return {
-        labelTypeText: this.params.subjectslist,
-        labelArr: this.params.tagslist,
         tabData: ['详情', '评价'],
         chooseNavIndex: '0',
         appraListData: null,
@@ -92,8 +91,19 @@
           lat: this.params.xlat,
           lng: this.params.xlng,
           address: this.params.address
+        },
+
+        appra: {
+          limit: 15,
+          offset: 0,
+          total: 0
         }
       };
+    },
+    computed: {
+      labelArr () {
+        return this.params.tagslist.slice(1);
+      }
     },
     onShow () {
       // this.chooseNavIndex = '0';
@@ -130,9 +140,18 @@
       },
 
       getAppraList () {
-        this.$network.base.getCommentList({}, null, 'weapp/comments/lesson/' + this.params.id).then(res => {
-          console.log(res);
-          this.appraListData = res.data;
+        let requestParams = {
+          limit: this.appra.limit,
+          offset: this.appra.offset
+        };
+        let requestType = 'lesson';
+        if (!this.params.xlng || !this.params.xlat) {
+          requestType = 'product';
+        }
+        this.$network.base.getCommentList(requestParams, null, 'weapp/comments/' + requestType + '/' + this.params.id).then(res => {
+          console.log('获取评价数据', res);
+          this.appraListData = Utils.filterRepeatData(this.appraListData, res.data);
+          this.appra.total = res.total;
         });
       },
 
@@ -148,6 +167,14 @@
 
           this.$store.commit(MutationType.SET_ORDER_PARAMS, order);
           this.$router.push({path: '/pages/home/select.time.purchases'});
+        }
+      }
+    },
+    onReachBottom () {
+      if (this.chooseNavIndex === '1') {
+        if (this.appra.total > this.appra.offset) {
+          this.appra.offset = this.appra.offset + this.appra.limit;
+          this.getAppraList();
         }
       }
     }

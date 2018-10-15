@@ -27,7 +27,7 @@
       hooScore
     },
     mounted () {
-      console.log(this.paramsDetail);
+      console.log('评价详情', this.paramsDetail);
     },
     data () {
       return {
@@ -37,7 +37,7 @@
     methods: {
       previewImg () {
         this.$wxUtils.previewImage({
-          urls: [this.cover, this.cover, this.cover]
+          urls: this.paramsDetail.extra.images
         });
       }
     }
@@ -57,6 +57,8 @@
     }
 
     .appra-content {
+      width: 100%;
+
       .appra-title {
         @include flex(space-between);
 

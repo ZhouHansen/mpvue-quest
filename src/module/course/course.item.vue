@@ -3,7 +3,7 @@
     <div class="course-cover" :style="{background: 'url(' + courseData.coverfile + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
     <div class="course-inf">
       <div class="course-title">{{courseData.name}}</div>
-      <hoo-label :type-text="teacherLabelTypeText" :label-arr="teacherLabelArr"></hoo-label>
+      <hoo-label :type-text="courseData.tags[0]" :label-arr="teacherLabelArr"></hoo-label>
     </div>
     <div class="course-join">{{courseData.favorcount}}人想参加</div>
   </div>
@@ -18,8 +18,7 @@
     },
     data () {
       return {
-        teacherLabelTypeText: [this.courseData.subject],
-        teacherLabelArr: this.courseData.tagslist
+        teacherLabelArr: this.courseData.tags.slice(1)
       };
     },
     methods: {

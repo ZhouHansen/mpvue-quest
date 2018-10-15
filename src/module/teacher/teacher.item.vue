@@ -1,19 +1,19 @@
 <template>
   <div class="teacher-container" @click="viewTeacherDetail">
     <div class="teacher-avatar">
-      <hoo-avatar :avatar="params.avatarurl"></hoo-avatar>
+      <hoo-avatar :avatar="detail.avatarurl"></hoo-avatar>
     </div>
     <div class="teacher-inf">
       <div class="teacher-name flex-row-start ">
-        <span class="teacher-name-text">{{params.name}}</span>
-        <hoo-auth v-if="params.endorsed"></hoo-auth>
+        <span class="teacher-name-text">{{detail.name}}</span>
+        <hoo-auth v-if="detail.endorsed"></hoo-auth>
       </div>
       <div class="tearch-label">
-        <hoo-label :type-text="teacherLabelTypeText" :label-arr="teacherLabelArr"></hoo-label>
+        <hoo-label :type-text="this.detail.tags[0]" :label-arr="teacherLabelArr"></hoo-label>
       </div>
-      <div class="teacher-education">{{params.education}}</div>
-      <div class="teacher-score">
-        <hoo-score :score="params.star" :type="'show'"></hoo-score>
+      <div class="teacher-education">{{detail.education}}</div>
+      <div class="teacher-score" v-if="detail.star">
+        <hoo-score :score="detail.star" :type="'show'"></hoo-score>
       </div>
     </div>
   </div>
@@ -30,16 +30,19 @@
       hooScore,
       hooAuth
     },
-    props: ['params'],
+    props: ['detail'],
     data () {
       return {
-        teacherLabelTypeText: this.params.subjectslist,
-        teacherLabelArr: this.params.tagslist
       };
+    },
+    computed: {
+      teacherLabelArr () {
+        return this.detail.tags.slice(1);
+      }
     },
     methods: {
       viewTeacherDetail () {
-        this.$router.push({path: '/pages/teacher.packages/teacher.detail', query: {id: this.params.id}});
+        this.$router.push({path: '/pages/teacher.packages/teacher.detail', query: {id: this.detail.id}});
       }
     }
   };

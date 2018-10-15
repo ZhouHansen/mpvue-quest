@@ -1,13 +1,13 @@
 <template>
   <div class="have-icon-btn-container">
-    <span class="activity btn-item" v-if="type === 'activity'" @click="setJoinActivity">
+    <span class="activity btn-item" v-if="type === 'activity'">
       <span class="icon hand"></span>
       <span>{{personNum}}{{joinText || '人想参加'}}</span>
     </span>
-     <span class="activity btn-item" v-if="type === 'activity_already'" @click="cancelJoinActivity">
+    <!-- <span class="activity btn-item" v-if="type === 'activity_already'" @click="cancelJoinActivity">
       <span class="icon hand_already"></span>
       <span>{{personNum}}{{joinText || '人想参加'}}</span>
-    </span>
+    </span> -->
     <span v-if="type === 'share'">
       <button :open-type="'share'" :plain="'true'">
         <span class="icon share"></span>
@@ -43,10 +43,14 @@ export default {
     },
 
     cancelCollect () {
-      // this.$network.discovery.cancelCollection({id: this.id ? this.id : '123'}).then(res => {
-      //   this.$wxUtils.toast({title: res.message});
-      //   this.type = 'collection';
-      // });
+      this.$network.base.cancelCollection({}, null, 'weapp/favor/del/' + this.id).then(res => {
+        if (res.e === 0) {
+          this.$wxUtils.toast({title: '取消收藏'});
+        } else {
+          this.$wxUtils.toast({title: res.msg, icon: 'none'});
+        }
+        this.type = 'collection';
+      });
     },
 
     setJoinActivity () {

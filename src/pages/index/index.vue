@@ -13,16 +13,14 @@
 
     <div class="section-list">
       <div class="section-item" v-for="item in sections" :key="item.id">
-        <hoo-section :section-data="item" :location="location" v-if="(item.xlat && item.xlng && location) || !(item.xlat && item.xlng)"></hoo-section>
-      </div>
-      <div class="section-item" v-for="item in productData" :key="item.id">
-        <hoo-section :section-data="item"></hoo-section>
+        <hoo-section :section-data="item" :location="location"></hoo-section>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Utils from '@/utils/index';
 import hooSection from '@/module/discovery/section.item';
 
 export default {
@@ -33,18 +31,18 @@ export default {
     return {
       sections: null,
       location: null,
-      productData: null
+      limit: 15,
+      offset: 0,
+      total: 0
     };
   },
   created () {
   },
   mounted () {
-    this.$wxUtils.loading({title: '加载中...'});
     // 调用应用实例的方法获取全局数据
     this.$wxUtils.getUserInfo();
     // console.log(this.$store.state);
-    this.getDiscovery();
-    this.getProduct();
+    this.getDashboardData();
 
     this.$wxUtils.getLocation().then(res => {
       this.location = res;
@@ -57,33 +55,32 @@ export default {
     }
   },
   onPullDownRefresh () {
-    console.log('下拉');
-    this.$wxUtils.loading({title: '加载中...'});
-    this.getDiscovery();
-    this.getProduct();
+    if (this.total > this.offset) {
+      this.offset = this.offset + this.limit;
+      this.getDashboardData();
+    }
   },
   methods: {
     goSearchPage () {
       this.$router.push('/pages/search/index');
     },
 
-    getDiscovery () {
-      this.$network.discovery.getDiscovery().then(res => {
-        // console.log(res);
+    getDashboardData () {
+      let requestParams = {
+        limit: this.limit,
+        offset: this.offset
+      };
+
+      this.$wxUtils.loading({title: '加载中...'});
+      this.$network.discovery.getDashboard(requestParams).then(res => {
+        console.log(res);
         this.$wxUtils.loading({show: false});
-        this.sections = res.data;
+        this.sections = Utils.filterRepeatData(this.sections, res.data);
+        this.total = res.total;
       }).catch(err => {
         console.log(err);
       });
-    },
-
-    getProduct () {
-      this.$network.discovery.getProduct().then(res => {
-        // console.log(res.data);
-        this.productData = res.data;
-      });
     }
-
   }
 };
 </script>
