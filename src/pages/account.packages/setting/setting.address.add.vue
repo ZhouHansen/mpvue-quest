@@ -16,19 +16,19 @@
       <div class="item">
         <div class="item-label">详细地址</div>
         <div class="item-input">
-          <input type="text" placeholder="输入详细地址" id="address" :value="address">
+          <input type="text" placeholder="输入详细地址" id="address" :value="address" @change="inputVal">
         </div>
       </div>
        <div class="item">
         <div class="item-label">姓名</div>
         <div class="item-input">
-          <input type="text" placeholder="输入姓名" id="name" :value="name">
+          <input type="text" placeholder="输入姓名" id="name" :value="name" @change="inputVal">
         </div>
       </div>
       <div class="item">
         <div class="item-label">联系方式</div>
         <div class="item-input">
-          <input type="text" id="telephone" placeholder="输入联系方式" :value="telephone">
+          <input type="text" id="telephone" placeholder="输入联系方式" :value="telephone" @change="inputVal">
         </div>
       </div>
       <div class="item">
@@ -56,7 +56,7 @@ export default {
     return {
       id: null,
       telephone: null,
-      areaValue: ['辽宁省', '大连市', '高新园区'],
+      areaValue: [],
       name: null,
       address: null,
 
@@ -64,15 +64,30 @@ export default {
     };
   },
   mounted () {
-    this.id = this.$route.query.id;
-    console.log(this.id);
-    if (this.id) {
+    if (this.$route.query.id) {
       this.$wxUtils.setNavTitle('编辑地址');
+      this.id = this.$route.query.id;
     } else {
       this.$wxUtils.setNavTitle('添加地址');
+      this.id = 0;
     }
+
+    this.getAddressDetail();
   },
   methods: {
+    inputVal (e) {
+      this[e.mp.target.id] = e.mp.detail.value;
+    },
+
+    getAddressDetail () {
+      let result = JSON.parse(this.$route.query.obj);
+      this.telephone = result.cell;
+      this.areaValue = [result.prov, result.city, result.district];
+      this.name = result.name;
+      this.address = result.address;
+      this.defaultAddressStatus = result.prim;
+    },
+
     bindAreaChange (e) {
       console.log(e);
       this.areaValue = e.mp.detail.value;
@@ -83,14 +98,38 @@ export default {
     },
 
     submit () {
-      this.$store.commit(MutationType.SET_ORDER_PARAMS, {address: {
-        address: '高新园',
-        name: '莉莉',
-        phone: '21239999',
-        id: '2311'
-      }});
+      let requestParams = {
+        'address': this.address,
+        'cell': this.telephone,
+        'city': this.areaValue[1],
+        'district': this.areaValue[2],
+        'prov': this.areaValue[0],
+        'id': this.id,
+        'name': this.name,
+        'prim': this.defaultAddressStatus ? 1 : 0
+      };
 
-      this.$router.back();
+      console.log(requestParams);
+
+      for (let i in requestParams) {
+        if (!requestParams[i] && i !== 'id' && i !== 'prim') {
+          this.$wxUtils.toast({title: '请将信息填写完整'});
+          return;
+        }
+      }
+
+      this.$network.account.postAddressInf(requestParams).then(res => {
+        if (res.e === 0) {
+          this.$wxUtils.toast({title: '提交成功'});
+
+          if (this.$route.query.type === 'order') {
+            this.$store.commit(MutationType.SET_ORDER_PARAMS, {address: requestParams});
+          }
+          setTimeout(() => {
+            this.$router.back();
+          }, 2000);
+        }
+      });
     }
   }
 };
@@ -113,7 +152,7 @@ export default {
 
         .item-label {
           font-size: 16px;
-          flex-basis: 40%;
+          flex-basis: 35%;
           flex-shrink: 0;
         }
 

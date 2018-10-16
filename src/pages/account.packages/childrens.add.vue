@@ -4,15 +4,15 @@
       <div class="item">
         <div class="item-label">孩子姓名</div>
         <div class="item-input">
-          <input type="text" placeholder="输入孩子姓名">
+          <input type="text" placeholder="输入孩子姓名" id="name" :value="name" @change="bindInput">
         </div>
       </div>
       <div class="item">
         <div class="item-label">性别</div>
         <div class="picker-contain">
-          <picker @change="bindGenderChange" :value="genderValue" :range="genderArray">
+          <picker @change="bindGenderChange" :value="genderValue" :range-key="'text'" :range="genderArray">
             <div class="item-input">
-              <span>{{genderArray[genderValue]}}</span>
+              <span>{{genderArray[genderValue].text}}</span>
               <span class="item-arrow-icon"></span>
             </div>
           </picker>
@@ -44,7 +44,7 @@
           <hoo-tips :text="'用于必要时购买保险使用！'"></hoo-tips>
         </div>
         <div class="item-input">
-          <input type="text" id="idCard" placeholder="输入身份证信息" :value="idCard">
+          <input type="text" id="idCard" placeholder="输入身份证信息" :value="idCard" @change="bindInput">
         </div>
       </div>
     </div>
@@ -67,13 +67,15 @@ export default {
   data () {
     return {
       id: null,
-
       dateVal: null,
-
-      genderArray: ['男', '女'],
+      genderArray: [
+        {text: '女', id: 'M'},
+        {text: '男', id: 'F'}
+      ],
       genderValue: 0,
-
-      ageVal: null
+      ageVal: null,
+      idCard: '',
+      name: ''
     };
   },
   computed: {
@@ -85,14 +87,24 @@ export default {
     if (this.$route.query.id) {
       this.id = this.$route.query.id;
       this.$wxUtils.setNavTitle('编辑孩子');
+
+      this.getChildernInf();
     } else {
       this.$wxUtils.setNavTitle('添加孩子');
-      this.id = null;
+      this.id = 0;
     }
-    console.log(this.id);
+    // console.log(this.id);
   },
   methods: {
     getChildernInf () {
+      // console.log(JSON.parse(this.$route.query.obj));
+      let params = JSON.parse(this.$route.query.obj);
+      this.idCard = params.ssn;
+      this.genderValue = params.gender === 'M' ? 0 : 1;
+      this.dateVal = params.birthday;
+      this.name = params.name;
+
+      this.ageVal = parseInt(this.endDate.slice(0, 5)) - parseInt(this.dateVal.slice(0, 5)) + 1;
     },
 
     bindGenderChange (e) {
@@ -100,22 +112,51 @@ export default {
     },
 
     bindDateChange (e) {
-      console.log(e);
+      // console.log(e);
       this.dateVal = e.mp.detail.value;
-
       this.ageVal = parseInt(this.endDate.slice(0, 5)) - parseInt(this.dateVal.slice(0, 5)) + 1;
     },
 
+    bindInput (e) {
+      this[e.target.id] = e.mp.detail.value;
+    },
+
     submit () {
-      if (this.$route.query.type === 'order') {
-        this.$store.commit(MutationType.SET_ORDER_PARAMS, {children: {
-          name: '琪琪',
-          gender: '女',
-          id: '123'
-        }});
+      let requestPrams = {
+        birthday: this.dateVal,
+        gender: this.genderArray[this.genderValue].id,
+        id: this.id,
+        name: this.name,
+        ssn: this.idCard
+      };
+
+      for (let i in requestPrams) {
+        // 不需要检测id ,因为不是用户输入的
+        if (!requestPrams[i] && i !== 'id') {
+          // console.log(requestPrams[i]);
+          this.$wxUtils.toast({title: '请填写全部信息'});
+          return;
+        }
       }
 
-      this.$router.back();
+      // console.log(requestPrams);
+
+      this.$network.account.postChildrenInf(requestPrams).then(res => {
+        // console.log(res);
+        if (res.e === 0) {
+          this.$wxUtils.toast({title: '提交信息成功'});
+
+          if (this.$route.query.type === 'order') {
+            this.$store.commit(MutationType.SET_ORDER_PARAMS, {children: requestPrams});
+          }
+
+          setTimeout(() => {
+            this.$router.back();
+          }, 2000);
+        } else {
+          this.$wxUtils.toast({title: '提交失败请重试'});
+        }
+      });
     }
   }
 };

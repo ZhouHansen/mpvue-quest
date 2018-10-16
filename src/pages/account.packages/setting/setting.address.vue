@@ -1,49 +1,27 @@
 <template>
   <div class="setting-address-container">
     <div class="address-list"  v-if="addressList.length !== 0">
-      <div class="address-item">
+      <div class="address-item" v-for="item in addressList" :key="item.id">
         <div class="address-item-body"
-          id="1"
+          :id="item.id"
           @touchmove="touchmoveItem"
           @touchstart="touchstartItem"
           @touchend="touchendItem"
-          :style="touchId === '1'?deleteSlider: ''"
+          :style="touchId === item.id + ''?deleteSlider: ''"
         >
           <div class="address-item-content">
-            <div class="address-item-title">北极</div>
+            <div class="address-item-title">{{item.prov}}{{item.city}}{{item.district}}</div>
             <div class="address-item-detail">
-              <span class="address-item-name">张力</span>
-              <span class="address-item-phone">123176865556</span>
-              <span class="address-item-default">默认</span>
+              <span class="address-item-name">{{item.name}}</span>
+              <span class="address-item-phone">{{item.cell}}</span>
+              <span class="address-item-default" v-if="item.prim">默认</span>
             </div>
           </div>
-          <div class="address-item-ctrl" @click="editAddress(1)">
+          <div class="address-item-ctrl" @click="editAddress(item.id)">
             <span class="address-item-icon"></span>
           </div>
         </div>
-        <div class="address-item-delete" @click="deleteItem">删除</div>
-      </div>
-      <div class="address-item">
-        <div class="address-item-body"
-          id="2"
-          @touchmove="touchmoveItem"
-          @touchstart="touchstartItem"
-          @touchend="touchendItem"
-          :style="touchId === '2'?deleteSlider: ''"
-        >
-          <div class="address-item-content">
-            <div class="address-item-title">北极</div>
-            <div class="address-item-detail">
-              <span class="address-item-name">张力</span>
-              <span class="address-item-phone">123176865556</span>
-              <span class="address-item-default">默认</span>
-            </div>
-          </div>
-          <div class="address-item-ctrl" @click="editAddress(2)">
-            <span class="address-item-icon"></span>
-          </div>
-        </div>
-        <div class="address-item-delete" @click="deleteItem">删除</div>
+        <div class="address-item-delete" @click="deleteItem(item.id)">删除</div>
       </div>
     </div>
     <div class="add-address" @click="editAddress">添加地址</div>
@@ -60,9 +38,7 @@ export default {
   props: [''],
   data () {
     return {
-      addressList: [
-        {id: 'aeqe'}
-      ],
+      addressList: [],
 
       touchId: null,
       startX: 0, // 触摸位置
@@ -75,7 +51,19 @@ export default {
   mounted () {
     this.$wxUtils.setNavTitle('地址列表');
   },
+  onShow () {
+    this.getAddressList();
+  },
   methods: {
+    getAddressList () {
+      this.$wxUtils.loading({title: '加载中...'});
+      this.$network.account.getAddressList().then(res => {
+        // console.log(res);
+        this.$wxUtils.loading({show: false});
+        this.addressList = res.data;
+      });
+    },
+
     touchstartItem (e) {
       if (e.mp.touches.length === 1) {
         // 记录开始位置
@@ -130,14 +118,25 @@ export default {
 
     deleteItem (e) {
       console.log(e);
-      this.$wxUtils.showModal({title: '确定删除？'}).then(res => {
-        console.log(res);
+      let result = this.addressList.filter((item, index) => {
+        return item.id === e;
+      });
+
+      this.$wxUtils.showModal({title: '确定删除' + result[0].name + '？'}).then(res => {
+        this.$network.account.deleteAddressInf({}, null, 'weapp/address/' + e).then(res => {
+          this.$wxUtils.toast({title: '删除成功'});
+          this.getAddressList();
+        });
       });
     },
 
     editAddress (e) {
       if (e) {
-        this.$router.push({path: '/pages/account.packages/setting/setting.address.add', query: {id: e}});
+        let result = this.addressList.filter((item, index) => {
+          return item.id === e;
+        });
+
+        this.$router.push({path: '/pages/account.packages/setting/setting.address.add', query: {id: e, obj: JSON.stringify(result[0])}});
       } else {
         this.$router.push('/pages/account.packages/setting/setting.address.add');
       }

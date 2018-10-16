@@ -6,7 +6,7 @@
       <div class="section-title-text ellipsis">{{params.name}}</div>
       <hoo-label :type-text="params.tagslist[0]" :label-arr="labelArr"></hoo-label>
       <div class="section-title-ctrl">
-        <hoo-icon-button :type="'activity'" :person-num="params.favorcount" v-if="params.ltype === 'lesson'" :personNum="params.favorcount"></hoo-icon-button>
+        <hoo-icon-button :type="'activity'" :person-num="params.favorcount" v-if="params.ltype" :personNum="params.favorcount"></hoo-icon-button>
         <hoo-icon-button :type="'activity'" :person-num="params.favorcount" :join-text="'人想买'" v-if="!params.ltype"></hoo-icon-button>
         <hoo-icon-button :type="params.favored === 0 ? 'collection' : 'collection_already'" :id="params.id" :subject="params.subject_type"></hoo-icon-button>
         <hoo-icon-button :type="'share'"></hoo-icon-button>
@@ -126,8 +126,7 @@
       },
 
       goToOrder () {
-        console.log(this.$store.state.discovery.activity);
-        if (this.$store.state.discovery.activity.ltype !== 'lesson') {
+        if (!this.params.ltype) {
           this.$router.push('/pages/home/section.submit.order.book');
         } else {
           this.$router.push('/pages/home/select.time.purchases');
@@ -145,7 +144,8 @@
           offset: this.appra.offset
         };
         let requestType = 'lesson';
-        if (!this.params.xlng || !this.params.xlat) {
+
+        if (!this.params.ltype) {
           requestType = 'product';
         }
         this.$network.base.getCommentList(requestParams, null, 'weapp/comments/' + requestType + '/' + this.params.id).then(res => {
@@ -158,7 +158,7 @@
       sendGroupOrder (e) {
         // console.log(e);
 
-        if (this.$store.state.discovery.activity.ltype !== 'lesson') {
+        if (!this.params.ltype) {
           this.$router.push('/pages/home/section.submit.order.book');
         } else {
           let order = {

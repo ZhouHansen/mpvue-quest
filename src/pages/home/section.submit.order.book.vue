@@ -80,6 +80,7 @@
   </div>
 </template>
 <script>
+  import * as MutationType from '@/store/mutation.type';
   import hooLeftBorderTitle from '@/components/left.border.title';
 
   export default {
@@ -88,9 +89,6 @@
     },
     mounted () {
       this.$wxUtils.setNavTitle('确认订单');
-
-      // console.log(this.$store.state.discovery.order.customSign);
-      // console.log(this.$store.state.discovery.activity);
     },
     data () {
       return {
@@ -100,8 +98,7 @@
         type: 'group',
         showGroupTips: true,
         sectionData: null,
-        address: null,
-        customSign: null
+        address: null
       };
     },
     computed: {
@@ -110,9 +107,6 @@
       },
       order () {
         return this.$store.state.discovery.order;
-      },
-      section () {
-        return this.$store.state.discovery.activity;
       }
     },
     onShow () {
@@ -121,9 +115,11 @@
 
       this.orderParams = this.$store.state.discovery.order;
       this.address = this.orderParams ? this.orderParams.address : null;
-      this.customSign = this.$store.state.discovery.order.customSign;
-      console.log('discovery', this.$store.state.discovery);
-      console.log('设置的地址信息', this.address);
+      if (!this.address) {
+        this.getAddress();
+      }
+      // console.log('discovery', this.$store.state.discovery);
+      // console.log('设置的地址信息', this.address);
     },
     methods: {
       chagePriceNUmber (e) {
@@ -150,9 +146,19 @@
         this.$router.push('/pages/home/custom.signature');
       },
 
+      getAddress () {
+        this.$network.account.getAddressList().then(res => {
+          console.log(res);
+          if (res.data.length > 0) {
+            this.address = res.data[0];
+            this.$store.commit(MutationType.SET_ORDER_PARAMS, {address: this.address});
+          }
+        });
+      },
+
       editAddress () {
         if (this.address) {
-          this.$router.push({path: '/pages/account.packages/setting/setting.address.add', query: {id: this.address.id}});
+          this.$router.push({path: '/pages/account.packages/setting/setting.address.add', query: {id: this.address.id, type: 'order', obj: JSON.stringify(this.address)}});
         } else {
           this.$router.push('/pages/account.packages/setting/setting.address.add');
         }

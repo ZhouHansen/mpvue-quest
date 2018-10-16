@@ -16,13 +16,15 @@ import search from './network.search';
 import discovery from './network.discovery';
 import organi from './network.organi';
 import teacher from './network.teacher';
+import account from './network.account';
 
 const networkActions = {
   base,
   search,
   discovery,
   organi,
-  teacher
+  teacher,
+  account
 };
 
 class Network {
@@ -69,13 +71,13 @@ class Network {
           console.log(options);
         }
 
-        console.log(
-          'Requesting on:',
-          // networkAction.multipart ? "Multipart" : "NonMultipart",
-          BASICURL,
-          url,
-          filteredParam
-        );
+        // console.log(
+        //   'Requesting on:',
+        //   // networkAction.multipart ? "Multipart" : "NonMultipart",
+        //   BASICURL,
+        //   url,
+        //   filteredParam
+        // );
 
         let fly = new Fly();
         fly.interceptors.response.use(

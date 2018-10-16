@@ -1,7 +1,7 @@
 <template>
   <div class="feedback-container">
-    <textarea :value="descVal" @input="inputDesc" class="desc textarea" :placeholder-style="'color: #bfbfbf;opacity: 0.4;'" :placeholder="'请填写您的问题或反馈'"></textarea>
-    <input :value="emailVal" @input="inputEmail" class="email textarea" :placeholder="'联系邮箱'" />
+    <textarea :value="descVal" @change="inputDesc" class="desc textarea" :placeholder-style="'color: #bfbfbf;opacity: 0.4;'" :placeholder="'请填写您的问题或反馈'"></textarea>
+    <input :value="emailVal" @change="inputEmail" class="email textarea" :placeholder="'联系邮箱'" />
     <div class="footer">
       <hoo-button :text="'提交'" :type="'topic'" @tapButton="submit"></hoo-button>
     </div>
@@ -42,11 +42,24 @@ export default {
         this.$wxUtils.toast({title: '请输入正确的邮箱'});
         return;
       }
-
-      this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, feedback: true});
-      setTimeout(() => {
-        this.$router.go(2);
-      }, 3000);
+      if (this.descVal === '') {
+        this.$wxUtils.toast({title: '请输入反馈描述'});
+        return;
+      }
+      let requestParams = {
+        'content': this.descVal,
+        'email': this.emailVal
+      };
+      console.log(requestParams);
+      this.$network.account.postFeedback({entity: requestParams}).then(res => {
+        console.log(res);
+        if (res.e === 0) {
+          this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, feedback: true});
+          setTimeout(() => {
+            this.$router.go(2);
+          }, 3000);
+        }
+      });
     }
   }
 };

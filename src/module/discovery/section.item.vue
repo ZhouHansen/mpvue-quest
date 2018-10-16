@@ -15,7 +15,6 @@
   </div>
 </template>
 <script>
-  import * as MutationsType from '@/store/mutation.type';
   import hooLabel from '@/components/label';
   import Utils from '@/utils/index';
 
@@ -50,7 +49,6 @@
     },
     methods: {
       goDetail () {
-        this.$store.commit(MutationsType.SET_CHOOSE_ACTIVITY, this.sectionData);
         this.$router.push({path: '/pages/home/section.detail', query: {id: this.sectionData.id, type: this.sectionData.mname}});
       }
     }

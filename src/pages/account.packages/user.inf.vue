@@ -174,7 +174,7 @@ export default {
         // 'province': 'string'
       };
 
-      this.$network.base.uploadUserInf(requestParams).then(res => {
+      this.$network.account.uploadUserInf(requestParams).then(res => {
         this.$wxUtils.loading({show: false});
         if (res.e === 0) {
           this.$wxUtils.toast({title: '修改成功'});

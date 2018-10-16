@@ -20,7 +20,7 @@
         <div class="section-icon children"></div>
         <div class="section-text">
           <div class="section-text-title">孩子信息</div>
-          <div>张海 男 8岁</div>
+          <div>{{children ? childrenText : '添加孩子信息'}}</div>
         </div>
       </div>
       <div class="account-arrow"></div>
@@ -68,28 +68,56 @@
   </div>
 </template>
 <script>
+import Utils from '@/utils/index';
 export default {
   data () {
     return {
       wxUserInf: this.$storage.get(this.$storageTypeName['wxUserInf']),
       userInf: this.$storage.get(this.$storageTypeName.userInf),
       avatar: '../../img/logo.png',
-      name: ''
+      name: '',
+      children: null
     };
+  },
+  computed: {
+    childrenText () {
+      if (this.children) {
+        let genderText = '';
+        if (this.children.gender === 'F') {
+          genderText = '男';
+        } else {
+          genderText = '女';
+        }
+
+        let age = parseInt(Utils.formatDateToPicker(new Date()).slice(0, 5)) - parseInt(this.children.birthday.slice(0, 5)) + 1;
+
+        return this.children.name + ' ' + genderText + ' ' + age + '岁';
+      }
+    }
   },
   mounted () {
     this.$wxUtils.setNavTitle('我的');
   },
   onShow () {
     this.getUserInf();
+    this.getChildren();
   },
   methods: {
     getUserInf () {
-      this.$network.base.getUserInf().then(res => {
+      this.$network.account.getUserInf().then(res => {
         console.log('获取用户数据', res.data);
         this.userInf = res.data;
         this.$storage.set(this.$storageTypeName.userInf, res.data);
         this.setParams();
+      });
+    },
+
+    getChildren () {
+      this.$network.account.getChildrensList({limit: 1, offset: 0}).then(res => {
+        console.log(res);
+        if (res.data.length > 0) {
+          this.children = res.data[0];
+        }
       });
     },
 

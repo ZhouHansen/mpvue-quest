@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+  import * as MutationsType from '@/store/mutation.type';
   import { mapState } from 'vuex';
   import sectionDetail from '@/module/discovery/section.detail';
 
@@ -36,6 +37,7 @@
           // console.log(res.data);
           this.sectionData = res.data;
           this.$wxUtils.loading({show: false});
+          this.storeSectionData();
         }).catch(err => {
           console.log(err);
         });
@@ -47,9 +49,14 @@
           // console.log(res.data);
           this.sectionData = res.data;
           this.$wxUtils.loading({show: false});
+          this.storeSectionData();
         }).catch(err => {
           console.log(err);
         });
+      },
+
+      storeSectionData () {
+        this.$store.commit(MutationsType.SET_CHOOSE_ACTIVITY, this.sectionData);
       }
     },
     onShareAppMessage (res) {

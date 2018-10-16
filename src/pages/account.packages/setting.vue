@@ -4,7 +4,7 @@
       <div class="setting-item" @click="visitAddress">
         <div class="setting-item-content">
           <div class="setting-item-title">收货地址</div>
-          <div class="setting-item-value">北京市朝阳区环与大厦2321号</div>
+          <div class="setting-item-value">{{addressData ? addressData.prov + addressData.city + addressData.district + addressData.address : '设置收货地址'}}</div>
         </div>
         <div class="setting-item-icon"></div>
       </div>
@@ -22,10 +22,23 @@
 <script>
 export default {
   props: [],
+  data () {
+    return {
+      addressData: {}
+    };
+  },
   mounted () {
     this.$wxUtils.setNavTitle('设置');
+    this.getAddressDefault();
   },
   methods: {
+    getAddressDefault () {
+      this.$network.account.getAddressList().then(res => {
+        console.log(res);
+        this.addressData = res.data[0];
+      });
+    },
+
     visitAddress () {
       this.$router.push('/pages/account.packages/setting/setting.address');
     },

@@ -8,8 +8,8 @@
         @end="regionMapEnd"
         :scale="16"
         :show-location="'true'"
-        :longitude="longitude"
-        :latitude="latitude"
+        :longitude="116.46"
+        :latitude="39.92"
         :class="showRecommend?'unfill-height': 'fill-height'">
         <organi-filter-button :data="chooseFilterCity" @filterButton="tapFilterButton"></organi-filter-button>
         <organi-filter-button :data="chooseFilterType" @filterButton="tapFilterButton"></organi-filter-button>

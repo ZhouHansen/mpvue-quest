@@ -10,11 +10,11 @@
       <!-- 显示可选的 -->
       <div class="organi-total">
         <div class="organi-total-type">
-          <span class="organi-total-num">{{organiData.lessons}}</span>
+          <span class="organi-total-num">{{organiData.lessoncnt}}</span>
           <span>老师</span>
         </div>
         <div class="organi-total-type">
-          <span class="organi-total-num">{{organiData.teachers}}</span>
+          <span class="organi-total-num">{{organiData.teachercnt}}</span>
           <span>课程</span>
         </div>
       </div>

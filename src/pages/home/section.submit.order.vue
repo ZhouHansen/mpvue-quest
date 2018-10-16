@@ -34,7 +34,7 @@
           <div class="child-section" @click="editChildren" v-if="children">
             <div class="child-inf">
               <span class="child-name">{{children.name}}</span>
-              <span class="child-icon man" :class="children.gender === '男'? 'man' : 'woman'"></span>
+              <span class="child-icon man" :class="children.gender === 'F'? 'man' : 'woman'"></span>
             </div>
             <div class="child-ctrl"></div>
           </div>
@@ -72,6 +72,7 @@
   </div>
 </template>
 <script>
+  import * as MutationType from '@/store/mutation.type';
   import hooLeftBorderTitle from '@/components/left.border.title';
 
   export default {
@@ -87,6 +88,8 @@
       this.group = this.$store.state.discovery.order && this.$store.state.discovery.order.group ? this.$store.state.discovery.order.group : false;
       // console.log(this.$store.state.discovery.order);
       // console.log(this.$store.state.discovery.activity);
+
+      this.getChildren();
     },
     data () {
       return {
@@ -111,8 +114,8 @@
 
       this.orderParams = this.$store.state.discovery.order;
       this.children = this.orderParams ? this.orderParams.children : null;
-      console.log('discovery', this.$store.state.discovery);
-      console.log('设置的孩子信息', this.children);
+      // console.log('discovery', this.$store.state.discovery);
+      // console.log('设置的孩子信息', this.children);
     },
     methods: {
       chagePriceNUmber (e) {
@@ -139,9 +142,19 @@
         this.showGroupTips = false;
       },
 
+      getChildren () {
+        this.$network.account.getChildrensList({limit: 1, offset: 0}).then(res => {
+          console.log(res);
+          if (res.data.length > 0) {
+            this.children = res.data[0];
+            this.$store.commit(MutationType.SET_ORDER_PARAMS, {children: this.children});
+          }
+        });
+      },
+
       editChildren () {
         if (this.children) {
-          this.$router.push({path: '/pages/account.packages/childrens.add', query: {id: this.children.id, type: 'order'}});
+          this.$router.push({path: '/pages/account.packages/childrens.add', query: {id: this.children.id, type: 'order', obj: JSON.stringify(this.children)}});
         } else {
           this.$router.push({path: '/pages/account.packages/childrens.add', query: {type: 'order'}});
         }

@@ -30,11 +30,12 @@ export default {
     if (!this.unOnShowDefault) {
       this.activeIndex = 0;
     }
-  },
-  mounted () {
+
     if (this.checkIndex) {
       this.activeIndex = parseInt(this.checkIndex);
     }
+  },
+  mounted () {
   },
   computed: {
     scrollLeft () {

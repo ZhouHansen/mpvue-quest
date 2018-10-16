@@ -40,10 +40,10 @@ export default {
   created () {
   },
   mounted () {
-    // console.log(this.$store.state);
     this.interval = setInterval(() => {
       this.getDashboardData();
-      if (this.sections) {
+      let obj = this.$storage.get(this.$storageTypeName.openid);
+      if (obj && obj.openid) {
         clearInterval(this.interval);
       }
     }, 2000);

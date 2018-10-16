@@ -1,43 +1,24 @@
 <template>
   <div class="children-container">
     <div class="children-list" v-if="childrenList.length > 0">
-      <div class="children-body">
-        <div class="children-item" id="1"
+      <div class="children-body" v-for="item in childrenList" :key="item.id">
+        <div class="children-item" :id="item.id"
           @touchmove="touchmoveItem"
           @touchstart="touchstartItem"
           @touchend="touchendItem"
-          :style="touchId === '1'?deleteSlider: ''">
+          :style="touchId === item.id + '' ? deleteSlider : ''">
           <div class="item-left">
-            <div class="child-name">张力</div>
+            <div class="child-name">{{item.name}}</div>
             <div class="child-inf">
-              <span class="child-gender">男孩</span>
-              <span class="child-id">2931523412431237</span>
+              <span class="child-gender">{{item.gender === 'F' ? '男' : '女'}}</span>
+              <span class="child-id">{{item.ssn}}</span>
             </div>
           </div>
-          <div class="item-right" @click="editChildrenInf(1)">
+          <div class="item-right" @click="editChildrenInf(item.id)">
             <span class="edit-child"></span>
           </div>
         </div>
-        <div class="delete-item" @click="deleteItem">删除</div>
-      </div>
-      <div class="children-body">
-        <div class="children-item" id="2"
-          @touchmove="touchmoveItem"
-          @touchstart="touchstartItem"
-          @touchend="touchendItem"
-          :style="touchId === '2'?deleteSlider: ''">
-          <div class="item-left">
-            <div class="child-name">张力</div>
-            <div class="child-inf">
-              <span class="child-gender">男孩</span>
-              <span class="child-id">2931523412431237</span>
-            </div>
-          </div>
-          <div class="item-right" @click="editChildrenInf(1)">
-            <span class="edit-child"></span>
-          </div>
-        </div>
-        <div class="delete-item" @click="deleteItem">删除</div>
+        <div class="delete-item" @click="deleteItem(item.id)">删除</div>
       </div>
     </div>
     <div class="add-childrebn" @click="editChildrenInf()">添加孩子信息</div>
@@ -55,7 +36,6 @@ export default {
   data () {
     return {
       childrenList: [
-        {id: 1}
       ],
 
       touchId: null,
@@ -66,10 +46,25 @@ export default {
       deleteSlider: '' // 滑动时的效果
     };
   },
+  onShow () {
+    this.$wxUtils.loading({title: '加载中...'});
+    this.getChildrenList();
+  },
   methods: {
+    getChildrenList () {
+      this.$network.account.getChildrensList().then(res => {
+        console.log(res);
+        this.$wxUtils.loading({show: false});
+        this.childrenList = res.data;
+      });
+    },
+
     editChildrenInf (e) {
       if (e) {
-        this.$router.push({path: '/pages/account.packages/childrens.add', query: {id: '123123'}});
+        let result = this.childrenList.filter((item, index) => {
+          return item.id === e;
+        });
+        this.$router.push({path: '/pages/account.packages/childrens.add', query: {id: e, obj: JSON.stringify(result[0])}});
       } else {
         this.$router.push({path: '/pages/account.packages/childrens.add'});
       }
@@ -93,7 +88,6 @@ export default {
 
         // 起始位置减去 实时的滑动的距离，得到手指实时偏移距离
         this.disX = this.startX - this.moveX;
-        // console.log(this.disX);
         // 如果是向右滑动或者不滑动，不改变滑块的位置
         if (this.disX < 0 || this.disX === 0) {
           this.deleteSlider = 'transform:translateX(0px)';
@@ -128,9 +122,20 @@ export default {
     },
 
     deleteItem (e) {
-      console.log(e);
-      this.$wxUtils.showModal({title: '确定删除？'}).then(res => {
-        console.log(res);
+      // console.log(e);
+      let result = this.childrenList.filter((item, index) => {
+        return item.id === e;
+      });
+
+      this.$wxUtils.showModal({title: '确定删除' + result[0].name + '？'}).then(res => {
+        this.$network.account.deleteChildrenInf({}, null, 'weapp/child/' + e).then(res => {
+          if (res.e === 0) {
+            this.$wxUtils.toast({title: '删除成功'});
+            this.getChildrenList();
+          } else {
+            this.$wxUtils.toast({title: '删除失败，请重试'});
+          }
+        });
       });
     }
   }

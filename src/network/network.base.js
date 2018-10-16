@@ -28,64 +28,6 @@ export default {
   },
 
   /**
-   * 获取用户信息
-   */
-
-  getUserInf: {
-    url: 'weapp/profile',
-    method: 'get',
-    apiVersion: NetworkAPIVersion.v1_version,
-    authorization: true
-  },
-
-  /**
-   * 更新用户信息
-   */
-
-  uploadUserInf: {
-    url: 'weapp/updateprofile',
-    method: 'post',
-    apiVersion: NetworkAPIVersion.v1_version,
-    authorization: true,
-    params: {
-      avatarurl: [NetworkParamType.string],
-      city: [NetworkParamType.string],
-      cell: [NetworkParamType.string],
-      gender: [NetworkParamType.string],
-      name: [NetworkParamType.string],
-      nickname: [NetworkParamType.string]
-    }
-  },
-
-  /**
-   * 发送短信
-  */
-  sendVerifyMessage: {
-    url: 'user',
-    method: 'post',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      phone: [NetworkParamType.string]
-    },
-    debug: DebugData.getOpenid
-  },
-
-  /**
-   * 绑定手机号
-  */
-  bindPhoneToOpenid: {
-    url: 'user',
-    method: 'post',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      phone: [NetworkParamType.string],
-      code: [NetworkParamType.string],
-      openid: [NetworkParamType.string]
-    },
-    debug: DebugData.getOpenid
-  },
-
-  /**
    * 使用下单的id获取支付配置，然后进行支付
    * network.wx.js 中保存微信支付请求
   */
@@ -98,6 +40,20 @@ export default {
       openid: [NetworkParamType.string]
     },
     debug: DebugData.getOpenid
+  },
+
+  /**
+   * 设置活动课程、商品、机构、老师的收藏
+  */
+  getCollectionList: {
+    url: 'weapp/favors/{lesson / product / teacher / institution}',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
+    params: {
+      limit: [NetworkParamType.number],
+      offset: [NetworkParamType.number]
+    }
   },
 
   /**
