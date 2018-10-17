@@ -4,13 +4,9 @@
       <div class="group-title">发起拼团课程</div>
       <div class="group-desc">发起拼团课程后，可选择拼团方式，系统会自动匹配，请先支付订单，若最终不能拼团，则自动退款！</div>
       <div class="group-ctrl">
-        <div class="first-ctrl ctrl-item" id="2" @click="chooseOrderType">
-          <span>2人团</span>
-          <span>¥198/张</span>
-        </div>
-        <div class="second-ctrl ctrl-item" id="3" @click="chooseOrderType">
-          <span>3人团</span>
-          <span>¥195/张</span>
+        <div class="first-ctrl ctrl-item" v-for="item in params" :key="item.id" :id="item.id"  @click="chooseOrderType">
+          <span>{{item.minps}}人团</span>
+          <span>¥{{item.price / 100}}/张</span>
         </div>
       </div>
     </div>
@@ -23,7 +19,7 @@
   import hooDialogBg from '@/components/dialog.bg';
 
   export default {
-    props: ['data'], // 用于显示团购价格
+    props: ['params'], // 用于显示团购价格
     computed: mapState([
       // 映射 this.showDialogStatus 为 store.state.showDialogStatus
       'showDialogStatus'

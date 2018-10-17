@@ -1,7 +1,8 @@
 <template>
   <div class="teacher-container">
     <div class="nav-body">
-      <hoo-nav :tabs="navData" @tapNavItem="chooseNav" :unOnShowDefault="true"></hoo-nav>
+      <!-- <hoo-nav :tabs="navData" @tapNavItem="chooseNav" :unOnShowDefault="true"></hoo-nav> -->
+      <span class="nav-item" :class="chooseNavIndex === index ? 'nav-item-checked' : ''" v-for="(item, index) in navData" :key="index" @click="chooseNav(index)">{{item}}</span>
     </div>
     <div class="teacher-list-body">
       <teacher-list :params="teacherListData"></teacher-list>
@@ -90,5 +91,24 @@ export default {
   @import '../../assets/style/variables.scss';
 
   .teacher-container {
+
+    .nav-body {
+      @include flex(flex-start, center, row wrap);
+      padding: 0 30rpx 10rpx;
+
+      .nav-item {
+        padding: 10rpx 20rpx;
+        border-radius: 30rpx;
+        font-size: 14px;
+        border: 1rpx solid #dcdcdc;
+        margin: 6rpx;
+      }
+
+      .nav-item-checked {
+        border: 1rpx solid $topic-color;
+        background-color: $topic-color;
+        color: #ffffff;
+      }
+    }
   }
 </style>

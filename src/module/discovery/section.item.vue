@@ -11,7 +11,7 @@
       <div class="section-distance" v-if="distanceToSection">{{distanceToSection}}</div>
     </div>
     <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
-    <!-- <div class="section-desc">{{sectionData.organi}}</div> -->
+    <div class="section-desc">机构名称</div>
   </div>
 </template>
 <script>

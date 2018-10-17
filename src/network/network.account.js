@@ -117,13 +117,14 @@ export default {
    * 获取课程列表数据
   */
   getCourseList: {
-    url: 'user',
+    url: 'weapp',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
     params: {
-      phone: [NetworkParamType.string]
-    },
-    debug: DebugData.getOpenid
+      limit: [NetworkParamType.number],
+      offset: [NetworkParamType.number]
+    }
   },
   /**
    * 获取课程详情

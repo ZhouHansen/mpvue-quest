@@ -17,7 +17,7 @@
     </div>
 
     <div class="organi-content">
-      <hoo-nav :tabs="navData" @tapNavItem="chooseNav" :unOnShowDefault="true"></hoo-nav>
+      <hoo-nav :tabs="navData" @tapNavItem="chooseNav" :checkIndex="chooseNavNumber" :unOnShowDefault="true"></hoo-nav>
       <div class="organi-nav-inf">
         <course-list v-if="chooseNavNumber === '0' && courseData" :params="courseData"></course-list>
         <teacher-list v-if="chooseNavNumber === '1' && teacherData" :params="teacherData"></teacher-list>
@@ -89,7 +89,7 @@
         break;
       };
 
-      if (this.request[type].total > this.request[type].offset) {
+      if (this.request[type].total > this.request[type].offset + this.request[type].limit) {
         this.request[type].offset = this.request[type].offset + this.request[type].limit;
         if (type === 'course') {
           this.getOrganiCourseList();
@@ -104,6 +104,9 @@
     },
     onShow () {
       // this.chooseNavNumber = '0';
+    },
+    onUnload () {
+      this.chooseNavNumber = '0';
     },
     mounted () {
       this.getOrganiDetail();

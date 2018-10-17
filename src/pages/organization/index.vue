@@ -1,6 +1,6 @@
 <template>
   <div class="organization-container">
-      <map v-if="initMap" :markers="markers"
+      <map v-if="initMap" id="map" :markers="markers"
         @markertap="markertap"
         @tap="tapMap"
         @regionchange="regionMap"
@@ -8,8 +8,8 @@
         @end="regionMapEnd"
         :scale="16"
         :show-location="'true'"
-        :longitude="116.46"
-        :latitude="39.92"
+        :longitude="longitude"
+        :latitude="latitude"
         :class="showRecommend?'unfill-height': 'fill-height'">
         <organi-filter-button :data="chooseFilterCity" @filterButton="tapFilterButton"></organi-filter-button>
         <organi-filter-button :data="chooseFilterType" @filterButton="tapFilterButton"></organi-filter-button>
@@ -17,18 +17,24 @@
         <cover-view class="show-recommend" v-if="!showRecommend" @click="toggleRecommend">
           <cover-view class="show-recommend-text">显示推荐机构</cover-view>
         </cover-view>
+        <cover-view class="back-location" @click="backLocation">
+          <cover-image :src="'../../img/location.png'"></cover-image>
+        </cover-view>
       </map>
       <div class="" :class="showRecommend?'recommend-body':'hide-recommend'" v-if="markers">
         <div class="recommend-ctrl" @click="toggleRecommend"><span></span></div>
         <recommend-organi v-if="showRecommend" :params="recommendData"></recommend-organi>
       </div>
   </div>
+  <!-- :longitude="116.46"
+        :latitude="39.92" -->
 </template>
 <script>
 import _ from 'lodash/core';
 import recommendOrgani from '@/module/organization/recommend.organi';
 import organiFilter from '@/module/organization/coverView/organi.filter';
 import organiFilterButton from '@/module/organization/coverView/organi.filter.button';
+let dragMapParam = null;
 
 export default {
   components: {
@@ -38,6 +44,7 @@ export default {
   },
   data () {
     return {
+      map: null,
       latitude: '',
       longitude: '',
       initMap: false,
@@ -50,10 +57,11 @@ export default {
       filterType: '',
       filterCity: [
         {id: 'asdh1', type: 'city', text: '大连'},
-        {id: 'asdh2', type: 'city', text: '沈阳'},
-        {id: 'asdh3', type: 'city', text: '鞍山'},
-        {id: 'asdh4', type: 'city', text: '营口'},
-        {id: 'asdh5', type: 'city', text: '朝阳'}
+        {id: 'asdh2', type: 'city', text: '北京'},
+        {id: 'asdh3', type: 'city', text: '上海'},
+        {id: 'asdh4', type: 'city', text: '广州'},
+        {id: 'asdh5', type: 'city', text: '深圳'},
+        {id: 'asdh6', type: 'city', text: '沈阳'}
       ],
       chooseFilterCity: {},
       filterTypeData: [
@@ -61,11 +69,13 @@ export default {
         {id: 'course', type: 'type', text: '课程'},
         {id: 'activity', type: 'type', text: '活动'}
       ],
-      chooseFilterType: {},
-      dragMapParam: null
+      chooseFilterType: {}
+      // dragMapParam: null
     };
   },
   mounted () {
+    this.map = wx.createMapContext('map');
+
     this.$wxUtils.loading({title: '加载中...'});
     this.chooseFilterCity = this.filterCity[0];
     this.chooseFilterType = this.filterTypeData[0];
@@ -91,16 +101,23 @@ export default {
     },
 
     regionMapBegin (e) {
-      this.showFilterList = false;
-      if (this.dragMapParam !== null) {
-        clearTimeout(this.dragMapParam);
+      // console.log(e);
+      if (dragMapParam !== null) {
+        clearTimeout(dragMapParam);
+        dragMapParam = null;
       }
     },
 
-    regionMapEnd () {
-      this.dragMapParam = setTimeout(() => {
-        // console.log(e)
+    regionMapEnd (e) {
+      if (e.mp.causedBy === 'drag') {
+        this.showFilterList = false;
+      }
+
+      dragMapParam = setTimeout(() => {
+        // console.log(e);
         this.getCityList();
+        clearTimeout(dragMapParam);
+        dragMapParam = null;
       }, 2000);
     },
 
@@ -150,6 +167,7 @@ export default {
     },
 
     tapFilterButton (e) {
+      console.log(e);
       this.showRecommend = false;
       if (this.filterType === e) {
         this.showFilterList = !this.showFilterList;
@@ -208,6 +226,10 @@ export default {
 
       // console.log(result); // 返回的结果是mark对象数据
       this.$router.push({path: '/pages/organization.packages/organi.detail', query: {id: result.id}});
+    },
+
+    backLocation () {
+      this.map.moveToLocation();
     }
   }
 };
@@ -244,6 +266,20 @@ export default {
 
       .show-recommend-text {
         margin: 18rpx 16rpx;
+      }
+    }
+
+    .back-location {
+      position: absolute;
+      bottom: 10rpx;
+      left: 20rpx;
+      background-color: #ffffff;
+      padding: 10rpx;
+      border-radius: 100%;
+
+      cover-image {
+        width: 50rpx;
+        height: 50rpx;
       }
     }
 

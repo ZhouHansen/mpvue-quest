@@ -36,6 +36,7 @@
 <script>
   import * as MutationsType from '@/store/mutation.type';
   import {SubjectsFilterData} from '@/utils/default.data';
+  import Utils from '@/utils/index';
   import hooSelect from '@/components/select';
   import filterList from '@/module/search/search.header.filter.list';
   import hooTeacherList from '@/module/teacher/teacher.list';
@@ -124,7 +125,7 @@
           this.checkedFilter[this.chooseFilterType] = params;
         }
         this.showFilterItemDesc = false;
-
+        this.teacherData = [];
         this.sendSearchRequest();
       },
 
@@ -138,21 +139,24 @@
 
         if (this.orderContrl === 'normal') {
           this.orderContrl = 'positive';
+          this.checkedFilter.sort = 'favorcount';
           orderby = 'asc';
         } else
         if (this.orderContrl === 'positive') {
           this.orderContrl = 'negative';
+          this.checkedFilter.sort = 'favorcount';
           orderby = 'desc';
         } else {
           this.orderContrl = 'normal';
+          this.checkedFilter.sort = undefined;
           orderby = undefined;
         }
 
         this.paging.limit = 15;
         this.paging.total = 0;
 
-        this.checkedFilter.sort = 'favorcount';
         this.checkedFilter.orderby = orderby;
+        this.teacherData = [];
         this.sendSearchRequest();
       },
 
@@ -176,7 +180,7 @@
           this.alreadyUseSearch = true;
           console.log('返回查找老师数据', res);
           this.$wxUtils.loading({show: false});
-          this.teacherData = res.data;
+          this.teacherData = Utils.filterRepeatData(this.teacherData, res.data);
           this.paging.total = res.total;
         }).catch(err => {
           console.log(err);
@@ -184,8 +188,8 @@
       }
     },
     onReachBottom () {
-      if (this.paging.total > this.paging.limit) {
-        this.paging.limit = this.paging.limit + 15;
+      if (this.paging.total > this.paging.limit + this.paging.offset) {
+        this.paging.offset = this.paging.offset + this.paging.limit;
         this.sendSearchRequest();
       }
     }

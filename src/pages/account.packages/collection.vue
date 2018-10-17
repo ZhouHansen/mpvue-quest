@@ -69,7 +69,7 @@
       this.chooseNavIndex = '0';
     },
     onReachBottom () {
-      if (this.collectionData[this.ogroup].total > this.collectionData[this.ogroup].offset) {
+      if (this.collectionData[this.ogroup].total > this.collectionData[this.ogroup].offset + this.collectionData[this.ogroup].limit) {
         this.collectionData[this.ogroup].offset = this.collectionData[this.ogroup].offset + this.collectionData[this.ogroup].limit;
         this.getCollectionData();
       }

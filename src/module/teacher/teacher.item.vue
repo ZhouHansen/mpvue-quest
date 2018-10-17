@@ -1,7 +1,7 @@
 <template>
   <div class="teacher-container" @click="viewTeacherDetail">
     <div class="teacher-avatar">
-      <hoo-avatar :avatar="detail.avartarurl"></hoo-avatar>
+      <hoo-avatar :avatar="detail.avartarurl" :type="'big'"></hoo-avatar>
     </div>
     <div class="teacher-inf">
       <div class="teacher-name flex-row-start ">
@@ -60,6 +60,7 @@
 
     .teacher-avatar {
       margin-right: 30rpx;
+      flex-shrink: 0;
     }
 
     .teacher-inf {
@@ -70,25 +71,6 @@
           color: $searchTitleColor;
           font-weight: bold;
         }
-
-        // .teacher-auth {
-        //   display: inline-block;
-        //   font-size: 12px;
-        //   color: $topic-color;
-
-        //   .teacher-auth-icon {
-        //     background: url('../../assets/images/check-circle-fill.png') no-repeat 50% 50%;
-        //     background-size: contain;
-        //     display: inline-block;
-        //     width: 28rpx;
-        //     height: 28rpx;
-        //     vertical-align:text-top;
-        //   }
-
-        //   .teacher-auth-text {
-        //     vertical-align:middle;
-        //   }
-        // }
       }
 
       .teacher-label {

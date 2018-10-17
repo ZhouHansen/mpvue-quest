@@ -135,14 +135,14 @@
     },
     onReachBottom () {
       if (this.chooseNavNumber === '0') {
-        if (this.course.total > this.course.offset) {
+        if (this.course.total > this.course.offset + this.course.limit) {
           this.course.offset = this.course.offset + this.course.limit;
           this.getTeacherCourseList();
         }
       }
 
       if (this.chooseNavNumber === '2') {
-        if (this.appra.total > this.appra.offset) {
+        if (this.appra.total > this.appra.offset + this.appra.limit) {
           this.appra.offset = this.appra.offset + this.appra.limit;
           this.getTeacherAppraList();
         }

@@ -24,7 +24,7 @@ export default {
   props: [],
   data () {
     return {
-      addressData: {}
+      addressData: null
     };
   },
   mounted () {

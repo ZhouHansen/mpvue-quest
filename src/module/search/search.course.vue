@@ -36,6 +36,7 @@
 <script>
   import * as MutationsType from '@/store/mutation.type';
   import {SubjectsFilterData, AgeFilterData, TimeFilterData, PriceFilterData} from '@/utils/default.data';
+  import Utils from '@/utils/index';
   import hooSelect from '@/components/select';
   import filterList from '@/module/search/search.header.filter.list';
   import hooCourseList from '@/module/course/course.list';
@@ -116,6 +117,7 @@
           this.checkedFilter[this.chooseFilterType] = params;
         }
         this.showFilterItemDesc = false;
+        this.resultData = [];
         this.sendSearchRequest();
       },
 
@@ -137,7 +139,7 @@
           this.alreadyUseSearch = true;
           // console.log('返回查找课程数据', res);
           this.$wxUtils.loading({show: false});
-          this.resultData = res.data;
+          this.resultData = Utils.filterRepeatData(this.resultData, res.data);
           this.paging.total = res.total;
         }).catch(err => {
           console.log(err);
@@ -145,9 +147,8 @@
       }
     },
     onReachBottom () {
-      console.log('111');
-      if (this.paging.total > this.paging.limit) {
-        this.paging.limit = this.paging.limit + 15;
+      if (this.paging.total > this.paging.offset + this.paging.limit) {
+        this.paging.offset = this.paging.offset + this.paging.limit;
         this.sendSearchRequest();
       }
     }

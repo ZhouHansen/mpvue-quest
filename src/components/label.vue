@@ -1,14 +1,15 @@
 <template>
   <div class="label-container">
-    <span class="label-header" v-if="headerLabelType === 'string'">{{typeText}}</span>
-    <span class="label-header" v-if="headerLabelType === 'array'" v-for="(item, index) in typeText" :key="index">{{item}}</span>
-    <span class="label-span" v-if="labelArr[0] !== ''" v-for="(item, index) in labelArr" :key="index">{{item}}</span>
+    <span class="label-header" v-if="headerLabelType === 'string' && typeText.length > 0">{{typeText}}</span>
+    <span class="label-header" v-if="headerLabelType === 'array' && typeText[0].length > 0" v-for="(item, index) in typeText" :key="index">{{item}}</span>
+    <span class="label-span" v-if="labelArr[0] && labelArr[0].length > 0" v-for="(item, index) in labelArr" :key="index">{{item}}</span>
+    <span class="label-position" v-if="position && position.length > 0">{{position}}</span>
   </div>
 </template>
 <script>
 import _ from 'lodash/core';
 export default {
-  props: ['typeText', 'labelArr', 'type'],
+  props: ['typeText', 'labelArr', 'type', 'position'],
   data () {
     return {
 
@@ -50,6 +51,10 @@ export default {
     .label-span {
       background-color: $labelCommonBackgroundColor;
       color: $labelCommonColor;
+    }
+
+    .label-position {
+      background-color: #fbfbfb;
     }
   }
 </style>

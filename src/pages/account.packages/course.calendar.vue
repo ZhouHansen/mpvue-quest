@@ -126,8 +126,15 @@ export default {
   },
   mounted () {
     this.$wxUtils.setNavTitle('课程日历');
+    this.getOrderList();
   },
   methods: {
+    getOrderList () {
+      this.$network.account.getCourseList().then(res => {
+        console.log(res);
+      });
+    },
+
     visitOrder () {
       this.$router.push('/pages/account.packages/course.calendar/course.order');
     },

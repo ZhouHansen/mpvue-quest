@@ -40,10 +40,10 @@
       </div>
     </div>
     <div class="section-order">
-      <div class="go-to-order" @click="goToOrder"><span>直接下单</span><span class="order-cost">¥{{params.price / 100}}</span></div>
-      <div class="group-order" @click="groupOrder"><span>拼团购买</span></div>
+      <div class="go-to-order" :class="params.grouplist.length > 0 ? 'group' : 'un-group'" @click="goToOrder"><span>直接下单</span><span class="order-cost">¥{{params.price / 100}}</span></div>
+      <div class="group-order" @click="groupOrder" v-if="params.grouplist.length > 0"><span>拼团购买</span></div>
     </div>
-    <group-order @chooseGroupType="sendGroupOrder"></group-order>
+    <group-order @chooseGroupType="sendGroupOrder" :params="params.grouplist"></group-order>
     <bind-phone></bind-phone>
     <hoo-feedback :text="'评价成功'"></hoo-feedback>
   </div>
@@ -172,7 +172,7 @@
     },
     onReachBottom () {
       if (this.chooseNavIndex === '1') {
-        if (this.appra.total > this.appra.offset) {
+        if (this.appra.total > this.appra.offset + this.appra.limit) {
           this.appra.offset = this.appra.offset + this.appra.limit;
           this.getAppraList();
         }
@@ -194,7 +194,7 @@
     }
 
     .section-title {
-      margin: -100rpx 40rpx 0;
+      margin: 20rpx 40rpx 0;
       background-color: #fff;
       border-radius: 16rpx;
       box-shadow: 0 4rpx 20rpx #d4d4d4;
@@ -257,7 +257,6 @@
       .go-to-order {
         background-color: $topic-color;
         font-size: 13px;
-        flex-basis: 66%;
         height: 100%;
 
         .order-cost {
@@ -265,6 +264,14 @@
           margin-left: 12rpx;
           font-weight: bold;
         }
+      }
+
+      .group {
+        flex-basis: 66%;
+      }
+
+      .un-group {
+        flex-basis: 100%;
       }
 
       .group-order {

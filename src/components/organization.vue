@@ -6,7 +6,7 @@
         <div class="organi-title-text ellipsis">{{params.name}}</div>
         <div class="organi-title-auth">
           <div class="organi-title-auth-icon"></div>
-          <div class="organi-title-auth-text">学了么认证</div>
+          <div class="organi-title-auth-text">Hooray认证</div>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@
     </div>
     <div class="appra-content">
       <div class="appra-title">
-        <span class="appra-name">张晓</span>
+        <span class="appra-name">{{paramsDetail.uname}}</span>
         <span class="appra-date">{{paramsDetail.pubat}}</span>
       </div>
       <hoo-score :type="'show'" :score="paramsDetail.extra.star"></hoo-score>

@@ -24,6 +24,7 @@
   </div>
 </template>
 <script>
+import Utils from '@/utils/index';
 import * as MutationsType from '@/store/mutation.type';
 import hooSelect from '@/components/select';
 import filterList from '@/module/search/search.header.filter.list';
@@ -110,7 +111,7 @@ export default {
         this.checkedFilter[this.chooseFilterType] = params;
       }
       this.showFilterItemDesc = false;
-
+      this.organiData = [];
       this.sendSearchRequest();
     },
 
@@ -127,7 +128,7 @@ export default {
         this.alreadyUseSearch = true;
         console.log('返回查找机构数据', res);
         this.$wxUtils.loading({show: false});
-        this.organiData = res.data;
+        this.organiData = Utils.filterRepeatData(this.organiData, res.data);
         this.paging.total = res.total;
       }).catch(err => {
         console.log(err);
@@ -135,8 +136,8 @@ export default {
     }
   },
   onReachBottom () {
-    if (this.paging.total > this.paging.limit) {
-      this.paging.limit = this.paging.limit + 15;
+    if (this.paging.total > this.paging.limit + this.paging.offset) {
+      this.paging.offset = this.paging.offset + this.paging.limit;
       this.sendSearchRequest();
     }
   }

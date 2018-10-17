@@ -14,6 +14,9 @@ export default {
         formData: data,
         success (res) {
           resolve(JSON.parse(res.data));
+        },
+        fail (res) {
+          reject(res);
         }
       });
     });

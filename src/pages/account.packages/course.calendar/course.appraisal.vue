@@ -5,19 +5,19 @@
       <div class="section-score">
         <div class="label">星级评价</div>
         <div class="score-com">
-          <hoo-score :type="'set'" :id="'courseScore'" @setScore="getScore"></hoo-score>
+          <hoo-score :type="'set'" :id="'lesson.score'" @setScore="getScore"></hoo-score>
         </div>
       </div>
       <div class="section-input">
         <div class="label">评价内容</div>
         <div class="input-com">
-          <textarea id="courseInput" @input="appraisalDesc" placeholder="请在这里输入评价~"></textarea>
+          <textarea id="lesson.input" @input="appraisalDesc" placeholder="请在这里输入评价~"></textarea>
         </div>
       </div>
       <div class="section-images">
         <div class="label">添加图片</div>
         <div class="image-com">
-          <hoo-image-appraisal @imageData="getImageData" :id="'courseImageList'"></hoo-image-appraisal>
+          <hoo-image-appraisal @imageData="getImageData" :id="'lesson.imageList'"></hoo-image-appraisal>
         </div>
       </div>
     </div>
@@ -27,19 +27,19 @@
       <div class="section-score">
         <div class="label">星级评价</div>
         <div class="score-com">
-          <hoo-score :type="'set'" :id="'teacherScore'" @setScore="getScore"></hoo-score>
+          <hoo-score :type="'set'" :id="'teacher.score'" @setScore="getScore"></hoo-score>
         </div>
       </div>
       <div class="section-input">
         <div class="label">评价内容</div>
         <div class="input-com">
-          <textarea id="teacherInput" @input="appraisalDesc" placeholder="请在这里输入评价~"></textarea>
+          <textarea id="teacher.input" @input="appraisalDesc" placeholder="请在这里输入评价~"></textarea>
         </div>
       </div>
       <div class="section-images">
         <div class="label">添加图片</div>
         <div class="image-com">
-          <hoo-image-appraisal @imageData="getImageData" :id="'teacherImageList'"></hoo-image-appraisal>
+          <hoo-image-appraisal @imageData="getImageData" :id="'teacher.imageList'"></hoo-image-appraisal>
         </div>
       </div>
     </div>
@@ -49,19 +49,19 @@
       <div class="section-score">
         <div class="label">星级评价</div>
         <div class="score-com">
-          <hoo-score :type="'set'" :id="'organiScore'" @setScore="getScore"></hoo-score>
+          <hoo-score :type="'set'" :id="'institution.score'" @setScore="getScore"></hoo-score>
         </div>
       </div>
       <div class="section-input">
         <div class="label">评价内容</div>
         <div class="input-com">
-          <textarea id="organiInput" @input="appraisalDesc" placeholder="请在这里输入评价~"></textarea>
+          <textarea id="institution.input" @input="appraisalDesc" placeholder="请在这里输入评价~"></textarea>
         </div>
       </div>
       <div class="section-images">
         <div class="label">添加图片</div>
         <div class="image-com">
-          <hoo-image-appraisal @imageData="getImageData" :id="'organiImageList'"></hoo-image-appraisal>
+          <hoo-image-appraisal @imageData="getImageData" :id="'institution.imageList'"></hoo-image-appraisal>
         </div>
       </div>
     </div>
@@ -86,16 +86,30 @@ export default {
   },
   data () {
     return {
-      score: 3.2,
-      courseInput: '',
-      courseImageList: [],
-      courseScore: 1,
-      teacherInput: '',
-      teacherImageList: [],
-      teacherScore: 1,
-      organiInput: '',
-      organiImageList: [],
-      organiScore: 1
+      lesson: {
+        type: 'lesson',
+        id: 1,
+        input: '',
+        imageList: [],
+        score: 1,
+        uploadImgPath: []
+      },
+      teacher: {
+        type: 'teacher',
+        id: 1,
+        input: '',
+        imageList: [],
+        score: 1,
+        uploadImgPath: []
+      },
+      institution: {
+        type: 'institution',
+        id: 1,
+        input: '',
+        imageList: [],
+        score: 1,
+        uploadImgPath: []
+      }
     };
   },
   mounted () {
@@ -103,19 +117,80 @@ export default {
   },
   methods: {
     getImageData (e) {
-      this[e.id] = e.imageList;
+      console.log(e);
+      let tar = e.id.split('.');
+      this[tar[0]][tar[1]] = e.imageList;
+      console.log(this[tar[0]][tar[1]]);
     },
 
     appraisalDesc (e) {
-      this[e.mp.target.id] = e.mp.detail.value;
+      console.log(e);
+      let tar = e.mp.target.id.split('.');
+      this[tar[0]][tar[1]] = e.mp.detail.value;
     },
 
     getScore (e) {
-      this[e.id] = e.score;
+      console.log(e);
+      let tar = e.id.split('.');
+      this[tar[0]][tar[1]] = e.score;
+    },
+
+    uploadImg (url, type) {
+      return new Promise((resolve, reject) => {
+        this.$wxNetwork.uploadFile({url: url}).then(res => {
+          // console.log(res);
+          this[type].uploadImgPath.push('https://h.dyglxt.com' + res.url);
+          resolve();
+        }).then(res => {
+          reject(res);
+          // this.$wxUtils.toast({title: '提交图片失败，请重新上传'});
+        });
+      });
+    },
+
+    sendAppraData (params) {
+      return new Promise((resolve, reject) => {
+        let upoadImgPromise = [];
+        if (params.imageList.length > 0) {
+          params.imageList.forEach((item, index) => {
+            upoadImgPromise.push(this.uploadImg(item, params.type));
+          });
+        }
+
+        Promise.all(upoadImgPromise).then(res => {
+          this.$network.base.commentOrder({
+            content: params.input,
+            imgjson: JSON.stringify(params.uploadImgPath),
+            star: params.score
+          }, null, 'weapp/comment/' + params.type + '/' + params.id).then(res => {
+            if (res.e === 0) {
+              resolve();
+            }
+          });
+        });
+      });
     },
 
     submit () {
-      this.$router.back();
+      if (this.lesson.input.length < 5 || this.teacher.length < 5 || this.institution.input < 5) {
+        this.$wxUtils.toast({title: '评论文字需要多余5个字'});
+        return;
+      };
+
+      let request = [this.lesson, this.teacher, this.institution];
+      let requestPromiseArr = [];
+      request.forEach((item, index) => {
+        this.sendAppraData(item);
+      });
+
+      this.$wxUtils.loading({title: '上传中...'});
+      Promise.all(requestPromiseArr).then(res => {
+        console.log('提交结束', res);
+        this.$wxUtils.loading({show: false});
+        setTimeout(() => {
+          this.$router.back();
+        }, 2000);
+      });
     }
   }
 };
