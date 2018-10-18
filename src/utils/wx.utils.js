@@ -1,10 +1,10 @@
 import StorageTypeName from './storage.typename';
 import Storage from './wx.storage';
+import UnCheckFun from './uncheck.utils';
 
 // 获取当前页面战
 const getPagesLength = () => {
-  // return getCurrentPages(); // 需要关闭eslint检查
-  return 'getCurrentPages';
+  return UnCheckFun.getPagesLength();
 };
 
 // 获取用户信息

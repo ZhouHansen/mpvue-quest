@@ -91,22 +91,42 @@ export default {
   },
 
   /**
-   * 商品、活动、课程 下单
+   * 商品、活动、课程 不拼团下单
    * @id: 商品、活动、课程的id
    * @children: 孩子信息
    * @number: 订单数量
    * @address: 地址 只有购买商品时需要
   */
   submitOrder: {
-    url: '',
+    url: 'weapp/order/place/{ptype}/{pid}', // ptype: lesson / product
     method: 'post',
     apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
     params: {
       id: [NetworkParamType.string],
       children: [NetworkParamType.string],
       number: [NetworkParamType.number],
       address: [NetworkParamType.address]
-    },
-    debug: DebugData.getSelectDate
+    }
+  },
+
+  /**
+   * 商品、活动、课程 拼团下单
+   * @id: 商品、活动、课程的id
+   * @children: 孩子信息
+   * @number: 订单数量
+   * @address: 地址 只有购买商品时需要
+  */
+  submitOrderGroup: {
+    url: 'weapp/order/joingroup/{gid}',
+    method: 'post',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
+    params: {
+      id: [NetworkParamType.string],
+      children: [NetworkParamType.string],
+      number: [NetworkParamType.number],
+      address: [NetworkParamType.address]
+    }
   }
 };

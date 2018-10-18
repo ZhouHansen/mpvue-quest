@@ -97,6 +97,7 @@ export default {
   },
   methods: {
     getChildernInf () {
+      this.$wxUtils.loading({title: '加载中...'});
       // console.log(JSON.parse(this.$route.query.obj));
       let params = JSON.parse(this.$route.query.obj);
       this.idCard = params.ssn;
@@ -105,6 +106,7 @@ export default {
       this.name = params.name;
 
       this.ageVal = parseInt(this.endDate.slice(0, 5)) - parseInt(this.dateVal.slice(0, 5)) + 1;
+      this.$wxUtils.loading({show: false});
     },
 
     bindGenderChange (e) {

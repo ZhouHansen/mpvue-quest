@@ -81,11 +81,6 @@
     },
     mounted () {
       this.$wxUtils.setNavTitle('确认订单');
-      this.setApp = this.$storage.get(this.$storageTypeName.setApp);
-      if (this.setApp && this.setApp.unShowOrderTips) {
-        this.showGroupTips = false;
-      }
-      this.group = this.$store.state.discovery.order && this.$store.state.discovery.order.group ? this.$store.state.discovery.order.group : false;
       // console.log(this.$store.state.discovery.order);
       // console.log(this.$store.state.discovery.activity);
 
@@ -100,7 +95,8 @@
         showGroupTips: true,
         setApp: {},
         children: null,
-        orderParams: null
+        orderParams: null,
+        pathObj: this.$wxUtils.getPagesLength()
       };
     },
     computed: {
@@ -109,6 +105,11 @@
       }
     },
     onShow () {
+      this.setApp = this.$storage.get(this.$storageTypeName.setApp);
+      if (this.setApp && this.setApp.unShowOrderTips) {
+        this.showGroupTips = false;
+      }
+      this.group = this.$store.state.discovery.order && this.$store.state.discovery.order.group ? this.$store.state.discovery.order.group : false;
       this.sectionData = this.$store.state.discovery.activity;
       this.price = parseInt(this.sectionData.price / 100);
 
@@ -128,10 +129,6 @@
             this.priceNumber = this.priceNumber + 1;
           }
         }
-      },
-
-      submitPayment () {
-        this.$router.push('/pages/payment/payment.result');
       },
 
       hideGroupTips () {
@@ -158,6 +155,41 @@
         } else {
           this.$router.push({path: '/pages/account.packages/childrens.add', query: {type: 'order'}});
         }
+      },
+
+      submitPayment () {
+        if (this.group) {
+          this.sendGroupOrder();
+        } else {
+          this.sendUnGroupOrder();
+        }
+        // this.$router.push('/pages/payment/payment.result');
+      },
+
+      sendUnGroupOrder () {
+        this.$network.discovery.submitOrder({}, null, 'weapp/order/place/lesson/' + this.sectionData.id).then(res => {
+          console.log(res);
+          if (res.e === 0) {
+            this.$wxUtils.toast({title: '发送成功，现在是测试'});
+            setTimeout(() => {
+              this.$router.go(this.pathObj.length - 1);
+            }, 3000);
+          };
+        });
+      },
+
+      sendGroupOrder () {
+        this.$network.discovery.submitOrderGroup({}, null, 'weapp/order/joingroup/' + this.group).then(res => {
+          console.log(res);
+          if (res.e === 0) {
+            this.$wxUtils.toast({title: '发送成功，现在是测试'});
+            this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: false});
+
+            setTimeout(() => {
+              this.$router.go(this.pathObj.length - 1);
+            }, 3000);
+          }
+        });
       }
     }
   };

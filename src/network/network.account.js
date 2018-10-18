@@ -117,7 +117,7 @@ export default {
    * 获取课程列表数据
   */
   getCourseList: {
-    url: 'weapp',
+    url: 'weapp/orders',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true,

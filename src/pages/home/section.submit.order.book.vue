@@ -98,7 +98,8 @@
         type: 'group',
         showGroupTips: true,
         sectionData: null,
-        address: null
+        address: null,
+        pathObj: this.$wxUtils.getPagesLength()
       };
     },
     computed: {
@@ -112,9 +113,9 @@
     onShow () {
       this.sectionData = this.$store.state.discovery.activity;
       this.price = parseInt(this.sectionData.price / 100);
-
       this.orderParams = this.$store.state.discovery.order;
       this.address = this.orderParams ? this.orderParams.address : null;
+      this.group = this.$store.state.discovery.order && this.$store.state.discovery.order.group ? this.$store.state.discovery.order.group : false;
       if (!this.address) {
         this.getAddress();
       }
@@ -132,10 +133,6 @@
             this.priceNumber = this.priceNumber + 1;
           }
         }
-      },
-
-      submitPayment () {
-        this.$router.push('/pages/payment/payment.result');
       },
 
       hideGroupTips () {
@@ -162,6 +159,41 @@
         } else {
           this.$router.push('/pages/account.packages/setting/setting.address.add');
         }
+      },
+
+      submitPayment () {
+        if (this.group) {
+          this.sendGroupOrder();
+        } else {
+          this.sendUnGroupOrder();
+        }
+        // this.$router.push('/pages/payment/payment.result');
+      },
+
+      sendUnGroupOrder () {
+        this.$network.discovery.submitOrder({}, null, 'weapp/order/place/product/' + this.sectionData.id).then(res => {
+          console.log(res);
+          if (res.e === 0) {
+            this.$wxUtils.toast({title: '发送成功，现在是测试'});
+            setTimeout(() => {
+              this.$router.go(this.pathObj.length - 1);
+            }, 3000);
+          };
+        });
+      },
+
+      sendGroupOrder () {
+        this.$network.discovery.submitOrderGroup({}, null, 'weapp/order/joingroup/' + this.group).then(res => {
+          console.log(res);
+          if (res.e === 0) {
+            this.$wxUtils.toast({title: '发送成功，现在是测试'});
+            this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: false});
+
+            setTimeout(() => {
+              this.$router.go(this.pathObj.length - 1);
+            }, 3000);
+          }
+        });
       }
     }
   };

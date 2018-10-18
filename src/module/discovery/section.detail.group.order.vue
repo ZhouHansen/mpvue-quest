@@ -6,7 +6,7 @@
       <div class="group-ctrl">
         <div class="first-ctrl ctrl-item" v-for="item in params" :key="item.id" :id="item.id"  @click="chooseOrderType">
           <span>{{item.minps}}人团</span>
-          <span>¥{{item.price / 100}}/张</span>
+          <span>¥{{item.price / 100}}/人</span>
         </div>
       </div>
     </div>

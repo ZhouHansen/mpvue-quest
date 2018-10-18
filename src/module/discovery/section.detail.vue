@@ -156,13 +156,11 @@
       },
 
       sendGroupOrder (e) {
-        // console.log(e);
-
         if (!this.params.ltype) {
           this.$router.push('/pages/home/section.submit.order.book');
         } else {
           let order = {
-            group: true
+            group: e
           };
 
           this.$store.commit(MutationType.SET_ORDER_PARAMS, order);

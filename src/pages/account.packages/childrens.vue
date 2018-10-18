@@ -54,8 +54,8 @@ export default {
     getChildrenList () {
       this.$network.account.getChildrensList().then(res => {
         console.log(res);
-        this.$wxUtils.loading({show: false});
         this.childrenList = res.data;
+        this.$wxUtils.loading({show: false});
       });
     },
 
