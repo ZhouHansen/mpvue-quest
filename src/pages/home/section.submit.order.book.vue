@@ -171,10 +171,42 @@
       },
 
       sendUnGroupOrder () {
-        this.$network.discovery.submitOrder({}, null, 'weapp/order/place/product/' + this.sectionData.id).then(res => {
+        let requestParams = {
+          count: this.priceNumber
+        };
+
+        if (this.order.customSign && (this.order.customSign.text || this.order.customSign.name)) {
+          let tag = {
+            tag: this.order.customSign.text,
+            to: this.order.customSign.name
+          };
+          requestParams['tag'] = tag;
+        }
+
+        console.log(this.address);
+
+        if (this.address) {
+          let address = {
+            'address': this.address.address,
+            'cell': this.address.cell,
+            'cell2': this.address.cell2,
+            'city': this.address.city,
+            'district': this.address.district,
+            'name': this.address.name,
+            'prim': this.address.prim,
+            'prov': this.address.prov
+          };
+
+          requestParams['address'] = address;
+        } else {
+          this.$wxUtils.toast({title: '请添加地址信息'});
+          return;
+        }
+
+        this.$network.discovery.submitOrder(requestParams, null, 'weapp/order/place/product/' + this.sectionData.id).then(res => {
           console.log(res);
           if (res.e === 0) {
-            this.$wxUtils.toast({title: '发送成功，现在是测试'});
+            this.$wxUtils.toast({title: '发送成功，测试时不进行支付'});
             setTimeout(() => {
               this.$router.go(this.pathObj.length - 1);
             }, 3000);
@@ -183,10 +215,40 @@
       },
 
       sendGroupOrder () {
-        this.$network.discovery.submitOrderGroup({}, null, 'weapp/order/joingroup/' + this.group).then(res => {
+        let requestParams = {
+          count: this.priceNumber
+        };
+
+        if (this.order.customSign && (this.order.customSign.text || this.order.customSign.name)) {
+          let tag = {
+            tag: this.order.customSign.text,
+            to: this.order.customSign.name
+          };
+          requestParams['tag'] = tag;
+        }
+
+        if (this.address) {
+          let address = {
+            'address': this.address.address,
+            'cell': this.address.cell,
+            'cell2': this.address.cell2,
+            'city': this.address.city,
+            'district': this.address.district,
+            'name': this.address.name,
+            'prim': this.address.prim,
+            'prov': this.address.prov
+          };
+
+          requestParams['address'] = address;
+        } else {
+          this.$wxUtils.toast({title: '请添加地址信息'});
+          return;
+        }
+
+        this.$network.discovery.submitOrderGroup(requestParams, null, 'weapp/order/joingroup/' + this.group).then(res => {
           console.log(res);
           if (res.e === 0) {
-            this.$wxUtils.toast({title: '发送成功，现在是测试'});
+            this.$wxUtils.toast({title: '发送成功，测试时不进行支付'});
             this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: false});
 
             setTimeout(() => {

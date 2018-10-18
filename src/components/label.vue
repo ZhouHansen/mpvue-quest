@@ -1,5 +1,5 @@
 <template>
-  <div class="label-container">
+  <div class="label-container" :style="type === 'center' ? 'justify-content: center;' : 'justify-content: flex-start;'">
     <span class="label-header" v-if="headerLabelType === 'string' && typeText.length > 0">{{typeText}}</span>
     <span class="label-header" v-if="headerLabelType === 'array' && typeText[0].length > 0" v-for="(item, index) in typeText" :key="index">{{item}}</span>
     <span class="label-span" v-if="labelArr[0] && labelArr[0].length > 0" v-for="(item, index) in labelArr" :key="index">{{item}}</span>
@@ -9,7 +9,7 @@
 <script>
 import _ from 'lodash/core';
 export default {
-  props: ['typeText', 'labelArr', 'type', 'position'],
+  props: ['typeText', 'labelArr', 'type', 'position'], // type center , flex-start
   data () {
     return {
 
@@ -32,7 +32,6 @@ export default {
   .label-container {
     display: flex;
     flex-flow: row wrap;
-    justify-content: flex-start;
     align-items: center;
 
     span {

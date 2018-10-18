@@ -96,7 +96,7 @@ export default {
     }
   },
   mounted () {
-    this.$wxUtils.setNavTitle('我的');
+    this.$wxUtils.setNavTitle('我');
   },
   onShow () {
     this.getUserInf();

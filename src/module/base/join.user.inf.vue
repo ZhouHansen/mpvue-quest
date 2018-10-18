@@ -3,18 +3,18 @@
       <div class="parent">
         <div class="user-title">家长信息</div>
         <div class="parent-inf">
-          <span class="parent-name">孙俪</span>
-          <span class="parent-phone">13304482010</span>
+          <span class="parent-name">{{userInf.decodedname ? userInf.decodedname : userInf.decodednickname}}</span>
+          <span class="parent-phone">{{userInf.cell}}</span>
         </div>
       </div>
-      <div class="child">
+      <div class="child" v-if="child">
         <div class="user-title">孩子信息</div>
         <div class="child-section">
           <div class="child-inf">
-            <span class="child-name">张爱玲</span>
-            <span class="child-icon man"></span>
+            <span class="child-name">{{child.name}}</span>
+            <span class="child-icon man" :class="child.gender === 'F' ? 'man' : 'woman'"></span>
           </div>
-          <div class="child-ctrl" v-if="type === 'edit'" @click="editChild(2)"></div>
+          <div class="child-ctrl" v-if="type === 'edit'" @click="editChild(child.id)"></div>
         </div>
         <div class="child-add" @click="editChild" v-if="type === 'edit'">
           <span>添加</span>
@@ -25,7 +25,12 @@
 </template>
 <script>
 export default {
-  props: ['type'], // 'edit or unedit',
+  props: ['type', 'child'], // 'edit or unedit',
+  data () {
+    return {
+      userInf: this.$storage.get(this.$storageTypeName.userInf)
+    };
+  },
   methods: {
     editChild (e) {
       if (e) {

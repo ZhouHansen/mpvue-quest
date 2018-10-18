@@ -80,7 +80,7 @@ export default {
    * 获取孩子信息
   */
   getChildrenInf: {
-    url: 'weapp/children/:id',
+    url: 'weapp/child/:id',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true
@@ -117,7 +117,7 @@ export default {
    * 获取课程列表数据
   */
   getCourseList: {
-    url: 'weapp/orders',
+    url: 'weapp/orders/lesson',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true,
@@ -180,13 +180,14 @@ export default {
    * 获取商品列表
   */
   getCommodityList: {
-    url: 'user',
+    url: 'weapp/orders/product',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
     params: {
-      phone: [NetworkParamType.string]
-    },
-    debug: DebugData.getOpenid
+      limit: [NetworkParamType.number],
+      offset: [NetworkParamType.number]
+    }
   },
   /**
    * 获取商品详情

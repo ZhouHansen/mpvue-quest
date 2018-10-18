@@ -41,7 +41,7 @@ export default {
     }
   },
   mounted () {
-
+    this.$wxUtils.setNavTitle('老师');
   },
   onShow () {
     // 初始化的搜索老师条件。

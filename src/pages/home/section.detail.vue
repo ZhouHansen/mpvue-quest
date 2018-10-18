@@ -66,7 +66,7 @@
         this.$network.base.recordShare({}, null, 'weapp/share/' + this.shareType + '/' + this.$route.query.id);
       }
       return {
-        title: '学课程，拿奖学金，学习乐翻天！',
+        title: this.sectionData.name,
         path: '/pages/home/section.detail?type=' + this.$route.query.type + '&id=' + this.$route.query.id,
         imageUrl: this.sectionData.coverfile
       };

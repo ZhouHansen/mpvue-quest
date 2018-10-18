@@ -1,59 +1,19 @@
 <template>
   <div class="purchase-container">
-    <div class="order-list">
-      <div class="order-item">
-        <div class="order-item-body" @click="visitOrderDetail">
+    <div class="order-list" v-if="goods.length > 0">
+      <div class="order-item" v-for="item in goods" :key="item.id">
+        <div class="order-item-body" @click="visitOrderDetail(item.id)">
           <div class="order-id">
             <hoo-have-left-border-title :title="'订单编号：123184'"></hoo-have-left-border-title>
           </div>
-          <div class="order-item-status">{{status}}</div>
+          <div class="order-item-status">{{item.paystate ? '已付款' : '待付款'}}</div>
           <div class="order-item-content">
-            <div class="order-item-cover" :style="{background: 'url(' + cover + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+            <div class="order-item-cover" :style="{background: 'url(' + item.product.coverfile2 + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
             <div class="order-item-detail">
-              <div class="order-item-name">书列表</div>
+              <div class="order-item-name">{{item.product.name}}</div>
               <div class="order-item-format">规格</div>
               <div class="order-item-cost">
-                <div class="order-price">¥250</div>
-                <div class="order-num">1件</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="order-item-ctrl">取消订单</div>
-      </div>
-      <div class="order-item">
-        <div class="order-item-body" @click="visitOrderDetail">
-          <div class="order-id">
-            <hoo-have-left-border-title :title="'订单编号：123184'"></hoo-have-left-border-title>
-          </div>
-          <div class="order-item-status">{{status}}</div>
-          <div class="order-item-content">
-            <div class="order-item-cover" :style="{background: 'url(' + cover + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
-            <div class="order-item-detail">
-              <div class="order-item-name">书列表</div>
-              <div class="order-item-format">规格</div>
-              <div class="order-item-cost">
-                <div class="order-price">¥250</div>
-                <div class="order-num">1件</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="order-item-ctrl">取消订单</div>
-      </div>
-      <div class="order-item">
-        <div class="order-item-body" @click="visitOrderDetail">
-          <div class="order-id">
-            <hoo-have-left-border-title :title="'订单编号：123184'"></hoo-have-left-border-title>
-          </div>
-          <div class="order-item-status">{{status}}</div>
-          <div class="order-item-content">
-            <div class="order-item-cover" :style="{background: 'url(' + cover + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
-            <div class="order-item-detail">
-              <div class="order-item-name">书列表</div>
-              <div class="order-item-format">规格</div>
-              <div class="order-item-cost">
-                <div class="order-price">¥250</div>
+                <div class="order-price">¥{{item.product.price / 100}}</div>
                 <div class="order-num">1件</div>
               </div>
             </div>
@@ -62,30 +22,46 @@
         <div class="order-item-ctrl">取消订单</div>
       </div>
     </div>
+    <hoo-empty v-if="goods.length === 0" :type="'normal'" :text="'没有购买信息～'"></hoo-empty>
   </div>
 </template>
 <script>
 import {PurchaseStatus} from '@/utils/order.status';
 import hooHaveLeftBorderTitle from '@/components/left.border.title';
+import hooEmpty from '@/components/empty';
 
 export default {
   components: {
-    hooHaveLeftBorderTitle
+    hooHaveLeftBorderTitle,
+    hooEmpty
   },
   props: [],
   data () {
     return {
-      cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
-      status: PurchaseStatus[0].status
+      goods: []
     };
   },
   mounted () {
     this.$wxUtils.setNavTitle('商品购买');
     console.log(PurchaseStatus[0]);
   },
+  onShow () {
+    this.getGoods();
+  },
   methods: {
-    visitOrderDetail () {
-      this.$router.push({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {id: '12313'}});
+    getGoods () {
+      this.$network.account.getCommodityList().then(res => {
+        console.log(res);
+        this.goods = res.data;
+      });
+    },
+
+    visitOrderDetail (e) {
+      let result = this.goods.filter((item, index) => {
+        return item.id === e;
+      });
+
+      this.$router.push({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {obj: JSON.stringify(result[0])}});
     }
   }
 };

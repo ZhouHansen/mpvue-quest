@@ -103,10 +103,10 @@ export default {
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true,
     params: {
-      id: [NetworkParamType.string],
-      children: [NetworkParamType.string],
-      number: [NetworkParamType.number],
-      address: [NetworkParamType.address]
+      cid: [NetworkParamType.number],
+      count: [NetworkParamType.number],
+      tag: [NetworkParamType.obj],
+      address: [NetworkParamType.obj]
     }
   },
 
@@ -123,10 +123,10 @@ export default {
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true,
     params: {
-      id: [NetworkParamType.string],
-      children: [NetworkParamType.string],
-      number: [NetworkParamType.number],
-      address: [NetworkParamType.address]
+      cid: [NetworkParamType.number],
+      count: [NetworkParamType.number],
+      tag: [NetworkParamType.obj],
+      address: [NetworkParamType.obj]
     }
   }
 };

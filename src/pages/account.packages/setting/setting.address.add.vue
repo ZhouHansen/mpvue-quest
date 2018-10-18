@@ -101,6 +101,7 @@ export default {
       let requestParams = {
         'address': this.address,
         'cell': this.telephone,
+        'cell2': undefined,
         'city': this.areaValue[1],
         'district': this.areaValue[2],
         'prov': this.areaValue[0],

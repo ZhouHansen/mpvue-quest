@@ -92,7 +92,7 @@
       "selectedIconPath": "img/ic_teacher_on_tab.png"
     }, {
       "pagePath": "pages/account/index",
-      "text": "我的",
+      "text": "我",
       "iconPath": "img/ic_me_off_tab.png",
       "selectedIconPath": "img/ic_me_on_tab.png"
     }]

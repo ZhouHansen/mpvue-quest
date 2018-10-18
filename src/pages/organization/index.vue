@@ -8,8 +8,8 @@
         @end="regionMapEnd"
         :scale="16"
         :show-location="'true'"
-        :longitude="longitude"
-        :latitude="latitude"
+        :longitude="lnglat.longitude"
+        :latitude="lnglat.latitude"
         :class="showRecommend?'unfill-height': 'fill-height'">
         <organi-filter-button :data="chooseFilterCity" @filterButton="tapFilterButton"></organi-filter-button>
         <organi-filter-button :data="chooseFilterType" @filterButton="tapFilterButton"></organi-filter-button>
@@ -23,7 +23,7 @@
       </map>
       <div class="" :class="showRecommend?'recommend-body':'hide-recommend'" v-if="markers">
         <div class="recommend-ctrl" @click="toggleRecommend"><span></span></div>
-        <recommend-organi v-if="showRecommend" :params="recommendData"></recommend-organi>
+        <recommend-organi v-if="showRecommend" :params="recommendData" :location="lnglat"></recommend-organi>
       </div>
   </div>
   <!-- :longitude="116.46"
@@ -45,6 +45,7 @@ export default {
   data () {
     return {
       map: null,
+      lnglat: {},
       latitude: '',
       longitude: '',
       initMap: false,
@@ -74,6 +75,7 @@ export default {
     };
   },
   mounted () {
+    this.$wxUtils.setNavTitle('机构');
     this.map = wx.createMapContext('map');
 
     this.$wxUtils.loading({title: '加载中...'});
@@ -81,8 +83,7 @@ export default {
     this.chooseFilterType = this.filterTypeData[0];
 
     this.$wxUtils.getLocation().then(res => {
-      this.latitude = res.latitude;
-      this.longitude = res.longitude;
+      this.lnglat = res;
     });
     this.getCityList();
     this.getRecommendList();
@@ -243,7 +244,7 @@ export default {
 
     .unfill-height {
       width: 100%;
-      height: 65vh;
+      height: 55vh;
     }
 
     .fill-height {
@@ -252,7 +253,7 @@ export default {
     }
 
     .recommend-body {
-      height: 35vh;
+      height: 45vh;
       overflow: hidden;
     }
 

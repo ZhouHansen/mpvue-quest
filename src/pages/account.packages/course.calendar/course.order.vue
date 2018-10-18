@@ -1,20 +1,20 @@
 <template>
-  <div class="course-order-container">
-    <div class="order-status">待付款</div>
+  <div class="course-order-container" v-if="orderDetail">
+    <div class="order-status">{{orderDetail.paystate ? '已付款' : '待付款'}}</div>
     <div class="order-detail">
       <hoo-have-left-border-title :title="'订单信息'"></hoo-have-left-border-title>
       <div class="order-detail-list">
         <div class="order-detail-item">
           <div class="order-detail-item-label">单人票价</div>
-          <div class="order-detail-item-text">198/人</div>
+          <div class="order-detail-item-text">{{orderDetail.price / 100}}/人</div>
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">张数</div>
-          <div class="order-detail-item-text">2张</div>
+          <div class="order-detail-item-text">1张</div>
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">总计</div>
-          <div class="order-detail-item-text">396元</div>
+          <div class="order-detail-item-text">{{orderDetail.price / 100}}元</div>
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">支付方式</div>
@@ -22,11 +22,11 @@
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">支付时间</div>
-          <div class="order-detail-item-text">2018-09-10 12:09:30</div>
+          <div class="order-detail-item-text">{{orderDetail.issueat}}</div>
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">订单编号</div>
-          <div class="order-detail-item-text">217391392193</div>
+          <div class="order-detail-item-text">{{orderDetail.orderno}}</div>
         </div>
       </div>
     </div>
@@ -36,9 +36,9 @@
       <div class="order-detail-list">
         <div class="order-detail-item">
           <div class="order-detail-item-label">
-            <div class="content-cover" :style="{background: 'url(' + cover + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+            <div class="content-cover" :style="{background: 'url(' + orderDetail.product.coverfile2 + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
           </div>
-          <div class="order-detail-item-text">2018招牌通识营-在创造中原力觉醒</div>
+          <div class="order-detail-item-text">{{orderDetail.product.name}}</div>
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">课程对象</div>
@@ -55,15 +55,15 @@
       </div>
     </div>
 
-    <div class="user-detail">
+    <div class="user-detail" v-if="child">
       <hoo-have-left-border-title :title="'参加信息'"></hoo-have-left-border-title>
-      <join-user-inf :type="'unedit'"></join-user-inf>
+      <join-user-inf :type="'unedit'" :child="child"></join-user-inf>
     </div>
 
-    <div class="organi-detail">
+    <div class="organi-detail" v-if="orderDetail.product.instid">
       <hoo-have-left-border-title :title="'机构信息'"></hoo-have-left-border-title>
       <div class="organi-content">
-        <organi-item></organi-item>
+        <organi-item :organiData="orderDetail.product"></organi-item>
       </div>
     </div>
 
@@ -92,13 +92,30 @@ export default {
     return {
       cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png',
       footerText: '取消订单',
-      footerType: 'normal'
+      footerType: 'normal',
+      orderDetail: null,
+      child: null
     };
   },
   mounted () {
     this.$wxUtils.setNavTitle('课程订单详情');
+    this.getOrderDetail();
   },
   methods: {
+    getOrderDetail () {
+      this.orderDetail = JSON.parse(this.$route.query.obj);
+      console.log(this.orderDetail);
+      if (this.orderDetail.cid) {
+        this.getChildDetail(this.orderDetail.cid);
+      }
+    },
+
+    getChildDetail (id) {
+      this.$network.account.getChildrenInf({}, null, 'weapp/child/' + id).then(res => {
+        this.child = res.data;
+      });
+    },
+
     visitAppraisal () {
       console.log('去评价');
       this.$router.push('/pages/account.packages/course.calendar/course.appraisal');

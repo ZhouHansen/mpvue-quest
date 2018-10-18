@@ -11,11 +11,6 @@
         <div class="payment-inf">
           <div class="activity-title">{{sectionData.name}}</div>
           <div class="payment-price"><span>¥{{price}}</span> (单人)</div>
-          <div class="payment-ctrl">
-            <span class="ctrl-less" @click="chagePriceNUmber('less')"></span>
-            <span class="ctrl-number">{{priceNumber}}</span>
-            <span class="ctrl-add" @click="chagePriceNUmber('add')"></span>
-          </div>
         </div>
       </div>
     </div>
@@ -167,7 +162,7 @@
       },
 
       sendUnGroupOrder () {
-        this.$network.discovery.submitOrder({}, null, 'weapp/order/place/lesson/' + this.sectionData.id).then(res => {
+        this.$network.discovery.submitOrder({cid: this.children.id}, null, 'weapp/order/place/lesson/' + this.sectionData.id).then(res => {
           console.log(res);
           if (res.e === 0) {
             this.$wxUtils.toast({title: '发送成功，现在是测试'});
@@ -179,7 +174,7 @@
       },
 
       sendGroupOrder () {
-        this.$network.discovery.submitOrderGroup({}, null, 'weapp/order/joingroup/' + this.group).then(res => {
+        this.$network.discovery.submitOrderGroup({cid: this.children.id}, null, 'weapp/order/joingroup/' + this.group).then(res => {
           console.log(res);
           if (res.e === 0) {
             this.$wxUtils.toast({title: '发送成功，现在是测试'});

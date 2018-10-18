@@ -7,91 +7,9 @@
         </div>
         <div class="date-total">共3节课</div>
         <div class="course-list">
-          <div class="course-item" @click="visitOrder">
+          <div class="course-item" v-for="item in courseList" :key="item.id" @click="visitOrder(item.id)">
             <div class="course-item-time">10:30-12:00</div>
-            <div class="course-item-name ellipsis">美术绘画</div>
-            <div class="course-item-visit">
-              <span>查看</span>
-              <span class="course-item-visit-icon"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="date-item">
-        <div class="date-title">
-          <hoo-have-left-border-title :title="'今天（7月1日）'"></hoo-have-left-border-title>
-        </div>
-        <div class="date-total">共3节课</div>
-        <div class="course-list">
-          <div class="course-item">
-            <div class="course-item-time">10:30-12:00</div>
-            <div class="course-item-name ellipsis">美术绘画</div>
-            <div class="course-item-visit">
-              <span>查看</span>
-              <span class="course-item-visit-icon"></span>
-            </div>
-          </div>
-          <div class="course-item">
-            <div class="course-item-time">10:30-12:00</div>
-            <div class="course-item-name ellipsis">美术绘画</div>
-            <div class="course-item-visit">
-              <span>查看</span>
-              <span class="course-item-visit-icon"></span>
-            </div>
-          </div>
-          <div class="course-item">
-            <div class="course-item-time">10:30-12:00</div>
-            <div class="course-item-name ellipsis">美术绘画</div>
-            <div class="course-item-visit">
-              <span>查看</span>
-              <span class="course-item-visit-icon"></span>
-            </div>
-          </div>
-          <div class="course-item">
-            <div class="course-item-time">10:30-12:00</div>
-            <div class="course-item-name ellipsis">美术绘画</div>
-            <div class="course-item-visit">
-              <span>查看</span>
-              <span class="course-item-visit-icon"></span>
-            </div>
-          </div>
-          <div class="course-item">
-            <div class="course-item-time">10:30-12:00</div>
-            <div class="course-item-name ellipsis">美术绘画</div>
-            <div class="course-item-visit">
-              <span>查看</span>
-              <span class="course-item-visit-icon"></span>
-            </div>
-          </div>
-          <div class="course-item">
-            <div class="course-item-time">10:30-12:00</div>
-            <div class="course-item-name ellipsis">美术绘画</div>
-            <div class="course-item-visit">
-              <span>查看</span>
-              <span class="course-item-visit-icon"></span>
-            </div>
-          </div>
-          <div class="course-item">
-            <div class="course-item-time">10:30-12:00</div>
-            <div class="course-item-name ellipsis">美术绘画</div>
-            <div class="course-item-visit">
-              <span>查看</span>
-              <span class="course-item-visit-icon"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="date-item">
-        <div class="date-title">
-          <hoo-have-left-border-title :title="'今天（7月1日）'"></hoo-have-left-border-title>
-        </div>
-        <div class="date-total">共3节课</div>
-        <div class="course-list">
-          <div class="course-item">
-            <div class="course-item-time">10:30-12:00</div>
-            <div class="course-item-name ellipsis">美术绘画</div>
+            <div class="course-item-name ellipsis">{{item.product ? item.product.name: ''}}</div>
             <div class="course-item-visit">
               <span>查看</span>
               <span class="course-item-visit-icon"></span>
@@ -119,9 +37,7 @@ export default {
   props: [],
   data () {
     return {
-      courseList: [
-        {id: 1}
-      ]
+      courseList: []
     };
   },
   mounted () {
@@ -130,13 +46,20 @@ export default {
   },
   methods: {
     getOrderList () {
+      this.$wxUtils.loading({title: '加载中...'});
       this.$network.account.getCourseList().then(res => {
         console.log(res);
+        this.courseList = res.data;
+        this.$wxUtils.loading({show: false});
       });
     },
 
-    visitOrder () {
-      this.$router.push('/pages/account.packages/course.calendar/course.order');
+    visitOrder (e) {
+      let result = this.courseList.filter((item, index) => {
+        return e === item.id;
+      });
+
+      this.$router.push({path: '/pages/account.packages/course.calendar/course.order', query: {obj: JSON.stringify(result[0])}});
     },
 
     visitCourseHistory () {

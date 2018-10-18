@@ -1,13 +1,13 @@
 <template>
-  <div class="course-order-container">
+  <div class="course-order-container" v-if="orderDetail">
     <div class="order-status">{{orderStatus.status}}</div>
     <div class="address-detail">
       <hoo-have-left-border-title :title="'收货地址'"></hoo-have-left-border-title>
       <div class="address-content">
-        <div class="address-title">北京朝阳区蓝河大厦23号</div>
+        <div class="address-title">{{orderDetail.address.prov}}{{orderDetail.address.city}}{{orderDetail.address.district}}{{orderDetail.address.address}}</div>
         <div class="address-inf">
-          <span class="address-name">孙俪</span>
-          <span class="address-phone">17645091513</span>
+          <span class="address-name">{{orderDetail.address.name}}</span>
+          <span class="address-phone">{{orderDetail.address.cell}}</span>
         </div>
       </div>
     </div>
@@ -24,15 +24,15 @@
       <div class="order-detail-list">
         <div class="order-detail-item">
           <div class="order-detail-item-label">单价</div>
-          <div class="order-detail-item-text">¥198</div>
+          <div class="order-detail-item-text">¥{{orderDetail.price / 100}}</div>
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">数量</div>
-          <div class="order-detail-item-text">x2</div>
+          <div class="order-detail-item-text">x{{orderDetail.count}}</div>
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">总计</div>
-          <div class="order-detail-item-text">396元</div>
+          <div class="order-detail-item-text">{{orderDetail.price * orderDetail.count / 100}}元</div>
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">支付方式</div>
@@ -40,11 +40,11 @@
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">支付时间</div>
-          <div class="order-detail-item-text">2018-09-10 12:09:30</div>
+          <div class="order-detail-item-text">{{orderDetail.issueat}}</div>
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">订单编号</div>
-          <div class="order-detail-item-text">217391392193</div>
+          <div class="order-detail-item-text">{{orderDetail.orderno}}</div>
         </div>
       </div>
     </div>
@@ -54,9 +54,9 @@
       <div class="order-detail-list">
         <div class="order-detail-item">
           <div class="order-detail-item-label">
-            <div class="content-cover" :style="{background: 'url(' + cover + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+            <div class="content-cover" :style="{background: 'url(' + orderDetail.product.coverfile2 + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
           </div>
-          <div class="order-detail-item-text">2018招牌通识营-在创造中原力觉醒</div>
+          <div class="order-detail-item-text">{{orderDetail.product.name}}</div>
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">产品规格</div>
@@ -65,10 +65,10 @@
       </div>
     </div>
 
-    <div class="organi-detail">
+    <div class="organi-detail" v-if="orderDetail.product.instid">
       <hoo-have-left-border-title :title="'机构信息'"></hoo-have-left-border-title>
       <div class="organi-content">
-        <organi-item></organi-item>
+        <organi-item :organiData="orderDetail.product"></organi-item>
       </div>
     </div>
 
@@ -100,15 +100,33 @@ export default {
   data () {
     return {
       cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png',
-      orderStatus: PurchaseStatus[4]
+      orderStatus: {},
+      orderDetail: null
     };
   },
   mounted () {
     this.$wxUtils.setNavTitle('商品订单详情');
+    this.getOrderDetail();
   },
   computed: {
   },
   methods: {
+    getOrderDetail () {
+      let firstFormat = JSON.parse(this.$route.query.obj);
+
+      firstFormat.address = JSON.parse(firstFormat.address);
+
+      if (firstFormat.extra) {
+        firstFormat.extra = JSON.parse(firstFormat.address);
+      }
+
+      this.orderDetail = firstFormat;
+
+      // this.orderStatus = PurchaseStatus[this.orderDetail.paystate];
+      this.orderStatus = PurchaseStatus[0];
+      console.log(this.orderDetail);
+    },
+
     visitAppraisal () {
       this.$router.push('/pages/account.packages/purchase.goods/purchase.appraisal');
     }

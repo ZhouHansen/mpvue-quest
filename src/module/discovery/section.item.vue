@@ -1,7 +1,10 @@
 <template>
   <div class="section-container" @click="goDetail">
     <div class="section-title">
-      <div class="section-avatar" :style="'background: url(' + sectionData.coverfile2 + ') no-repeat 50% 50%; background-size: cover;'"></div>
+      <div class="section-title-left">
+        <div class="section-avatar" :style="'background: url(' + sectionData.coverfile2 + ') no-repeat 50% 50%; background-size: cover;'"></div>
+        <div class="section-desc ellipsis">机构名称</div>
+      </div>
       <div class="section-inf">
         <div class="section-inf-title line-clamp-2">{{sectionData.name}}</div>
       </div>
@@ -11,7 +14,6 @@
       <div class="section-distance" v-if="distanceToSection">{{distanceToSection}}</div>
     </div>
     <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
-    <div class="section-desc">机构名称</div>
   </div>
 </template>
 <script>
@@ -67,6 +69,10 @@
       justify-content: flex-start;
       align-items: center;
 
+      .section-title-left {
+        width: 122rpx;
+      }
+
       .section-avatar {
         width: 88rpx;
         height: 88rpx;
@@ -114,6 +120,7 @@
     .section-desc {
       color: #9f9f9f;
       margin-top:10rpx;
+      font-size:12px;
     }
   }
 </style>

@@ -62,6 +62,7 @@
       this.getSearchHistory();
     },
     mounted () {
+      this.$wxUtils.setNavTitle('搜索');
     },
     methods: {
       startSearch (e) {

@@ -21,6 +21,35 @@
         <hoo-location :data="distance"></hoo-location>
       </div>
     </div>
+
+    <div class="section-teacher">
+      <hoo-left-border-title :title="'参与教师'"></hoo-left-border-title>
+      <div class="teacher-list">
+        <div class="teacher-item">
+          <hoo-avatar></hoo-avatar>
+          <div class="teacher-name">老师姓名</div>
+          <div class="teacher-label">
+            <hoo-label :type-text="'测试'" :label-arr="labelArr" :type="'center'"></hoo-label>
+          </div>
+        </div>
+        <div class="teacher-item">
+          <hoo-avatar></hoo-avatar>
+          <div class="teacher-name">老师姓名</div>
+          <hoo-label :type-text="'测试'" :label-arr="labelArr" :type="'center'"></hoo-label>
+        </div>
+        <div class="teacher-item">
+          <hoo-avatar></hoo-avatar>
+          <div class="teacher-name">老师姓名</div>
+          <hoo-label :type-text="'测试'" :label-arr="labelArr" :type="'center'"></hoo-label>
+        </div>
+        <div class="teacher-item">
+          <hoo-avatar></hoo-avatar>
+          <div class="teacher-name">老师姓名</div>
+          <hoo-label :type-text="'测试'" :label-arr="labelArr" :type="'center'"></hoo-label>
+        </div>
+      </div>
+    </div>
+
     <div class="section-organi" v-if="params.instid !== 0">
       <left-border-title :title="'机构信息'"></left-border-title>
       <div class="section-organi-content">
@@ -61,6 +90,7 @@
   import hooOrgani from '@/components/organization';
   import hooNav from '@/components/nav';
   import hooFeedback from '@/components/feedback';
+  import hooAvatar from '@/components/avatar';
 
   import appraList from '@/module/base/appraisal/appraisal.list';
   import groupOrder from '@/module/discovery/section.detail.group.order';
@@ -72,6 +102,7 @@
       hooIconButton,
       hooLeftBorderTitle,
       hooArrange,
+      hooAvatar,
       hooLocation,
       hooOrgani,
       hooNav,
@@ -129,7 +160,7 @@
         if (!this.params.ltype) {
           this.$router.push('/pages/home/section.submit.order.book');
         } else {
-          this.$router.push('/pages/home/select.time.purchases');
+          this.$router.push('/pages/home/section.submit.order');
         }
       },
 
@@ -164,7 +195,7 @@
           };
 
           this.$store.commit(MutationType.SET_ORDER_PARAMS, order);
-          this.$router.push({path: '/pages/home/select.time.purchases'});
+          this.$router.push({path: '/pages/home/section.submit.order'});
         }
       }
     },
@@ -221,6 +252,28 @@
         margin-left: 20rpx;
         padding-top: 30rpx;
         border-top: 1rpx solid #efefef;
+      }
+    }
+
+    .section-teacher {
+      padding: 40rpx;
+
+      .teacher-list {
+        @include flex(flex-start, center, row wrap);
+
+        .teacher-item {
+          flex-basis: calc(30% - 12rpx);
+          margin-right: calc(4% - 3rpx);
+          border: 1rpx dashed #dfdfdf;
+          text-align: center;
+          margin-top: 20rpx;
+          padding: 10rpx 6rpx;
+
+
+          &:nth-child(3n) {
+            margin-right: 0;
+          }
+        }
       }
     }
 
