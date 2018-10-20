@@ -86,15 +86,16 @@ export default {
   mounted () {
     this.$wxUtils.setNavTitle('个人信息');
     this.$wxUtils.loading({title: '加载中...'});
-    this.getUserInf();
+    this.setParams();
   },
   onShow () {
+    this.getUserInf();
   },
   onUnload () {
     console.log('离开页面');
   },
   methods: {
-    getUserInf () {
+    setParams () {
       // 如果获取的用户信息没有这个参数，就默认填上。用户保存时一块上传到后台
       if (this.userInf && this.userInf.avatar && this.userInf.avatar.indexOf('http') > -1) {
         this.avatar = this.userInf.avatar;
@@ -124,6 +125,16 @@ export default {
       this.area = this.userInf.city;
 
       this.$wxUtils.loading({show: false});
+    },
+
+    getUserInf () {
+      this.$network.account.getUserInf().then(res => {
+        console.log('获取用户数据', res.data);
+        this.$storage.set(this.$storageTypeName.userInf, res.data);
+        this.userInf = res.data;
+
+        this.setParams();
+      });
     },
 
     editAvatar () {

@@ -39,14 +39,20 @@ export default {
 
     getCode () {
       if ((this.phone + '').length === 11) {
-        this.interval = setInterval(() => {
-          this.time = this.time - 1;
-          if (this.time === 0) {
-            clearInterval(this.interval);
-            this.interval = null;
-            this.time = 60;
+        this.$network.account.sendVerifyMessage({}, null, 'weapp/verifycode/' + this.phone).then(res => {
+          console.log(res);
+          if (res.e === 0) {
+            this.$wxUtils.toast({title: '发送成功'});
+            this.interval = setInterval(() => {
+              this.time = this.time - 1;
+              if (this.time === 0) {
+                clearInterval(this.interval);
+                this.interval = null;
+                this.time = 60;
+              }
+            }, 1000);
           }
-        }, 1000);
+        });
       } else {
         this.$wxUtils.toast({title: '请输入正确的电话号码'});
       }
@@ -55,7 +61,21 @@ export default {
     submit () {
       console.log(this.phone);
       console.log(this.code);
-      this.$router.back();
+
+      if ((this.phone + '').length !== 11 || !this.code) {
+        this.$wxUtils.toast({title: '请输入正确的电话号和验证码'});
+        return;
+      }
+
+      this.$network.account.bindPhoneToOpenid({}, null, 'weapp/bindingcell/' + this.phone + '/' + this.code).then(res => {
+        console.log(res);
+        if (res.e === 0) {
+          this.$wxUtils.toast({title: '提交成功'});
+          setTimeout(() => {
+            this.$router.back();
+          }, 2000);
+        }
+      });
     }
   }
 };

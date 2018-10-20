@@ -43,6 +43,8 @@ import hooSelect from '@/components/select';
 import hooSection from '@/module/discovery/section.item';
 import filterList from '@/module/search/search.header.filter.list';
 
+import QQMapWX from '@/plugs/qqmap-wx-jssdk.js';
+let qqMap = null;
 export default {
   components: {
     hooSection,
@@ -71,6 +73,11 @@ export default {
   created () {
   },
   mounted () {
+    // 注册腾讯地图
+    qqMap = new QQMapWX({
+      key: 'IZ2BZ-TY3Y6-DZRSY-MGSVW-5TWKO-BMBQ2'
+    });
+
     this.$wxUtils.setNavTitle('发现');
 
     this.interval = setInterval(() => {
@@ -83,6 +90,7 @@ export default {
 
     this.$wxUtils.getLocation().then(res => {
       this.location = res;
+      this.getCityInfUseLnglat();
     });
   },
   onShow () {
@@ -110,8 +118,22 @@ export default {
       this.$router.push('/pages/search/index');
     },
 
+    // 通过用户的定位获取当前城市
+    getCityInfUseLnglat () {
+      qqMap.reverseGeocoder({
+        location: {
+          latitude: this.location.latitude,
+          longitude: this.location.longitude
+        },
+        complete: res => {
+          console.log(res);
+          this.$storage.set(this.$storageTypeName.address, res);
+        }
+      });
+    },
+
     chooseFilter (e) {
-      this.limit = 15;
+      this.offset = 0;
       this.total = 0;
 
       if (this.chooseFilterType === '') {

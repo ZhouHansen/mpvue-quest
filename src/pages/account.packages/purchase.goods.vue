@@ -4,7 +4,7 @@
       <div class="order-item" v-for="item in goods" :key="item.id">
         <div class="order-item-body" @click="visitOrderDetail(item.id)">
           <div class="order-id">
-            <hoo-have-left-border-title :title="'订单编号：123184'"></hoo-have-left-border-title>
+            <hoo-have-left-border-title :title="'订单编号：' + item.orderno"></hoo-have-left-border-title>
           </div>
           <div class="order-item-status">{{item.paystate ? '已付款' : '待付款'}}</div>
           <div class="order-item-content">
@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-        <div class="order-item-ctrl">取消订单</div>
+        <div class="order-item-ctrl" @clik="cancelOrder(item.id)">取消订单</div>
       </div>
     </div>
     <hoo-empty v-if="goods.length === 0" :type="'normal'" :text="'没有购买信息～'"></hoo-empty>
@@ -53,6 +53,17 @@ export default {
       this.$network.account.getCommodityList().then(res => {
         console.log(res);
         this.goods = res.data;
+      });
+    },
+
+    cancelOrder (e) {
+      this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + e).then(res => {
+        if (res.e === 0) {
+          this.$wxUtils.toast({title: '取消成功'});
+          this.getGoods();
+        } else {
+          this.$wxUtils.toast(res.message);
+        }
       });
     },
 

@@ -74,7 +74,7 @@
 
     <div class="footer">
       <hoo-button :text="'去付款'" :type="'topic'" v-if="orderStatus.ctrl === 'payment'"></hoo-button>
-      <hoo-button :text="'取消订单'" :type="'normal'" v-if="orderStatus.ctrl === 'cancel'"></hoo-button>
+      <hoo-button :text="'取消订单'" :type="'normal'" v-if="orderStatus.ctrl === 'cancel'" @click="cancelOrder"></hoo-button>
       <div class="footer-list" v-if="orderStatus.ctrl === 'confirm'">
         <hoo-button :text="'查看物流'" :type="'normal'"></hoo-button>
         <hoo-button :text="'确认收货'" :type="'topic'"></hoo-button>
@@ -125,6 +125,19 @@ export default {
       // this.orderStatus = PurchaseStatus[this.orderDetail.paystate];
       this.orderStatus = PurchaseStatus[0];
       console.log(this.orderDetail);
+    },
+
+    cancelOrder () {
+      this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + this.orderDetail.id).then(res => {
+        if (res.e === 0) {
+          this.$wxUtils.toast({title: '取消成功'});
+          setTimeout(() => {
+            this.$router.back();
+          }, 2000);
+        } else {
+          this.$wxUtils.toast(res.message);
+        }
+      });
     },
 
     visitAppraisal () {

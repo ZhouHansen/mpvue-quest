@@ -24,11 +24,11 @@ const getUserInfo = () => {
 };
 
 // 获取用户位置信息.
-// 保存在Storage, 超过5分钟重新获取
+// 保存在Storage, 超过20分钟重新获取
 const getLocation = () => {
   let location = Storage.get(StorageTypeName.location);
   let timestamp = parseInt(new Date() / 1000);
-  let time = 5 * 60;
+  let time = 20 * 60;
   return new Promise((resolve, reject) => {
     if (location && (timestamp - location.timestamp < time)) {
       console.log('getlocation storage', location);

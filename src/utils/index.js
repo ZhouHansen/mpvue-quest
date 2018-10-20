@@ -37,6 +37,7 @@ const formatDate = date => {
 };
 
 const sumLocation = ({lat1, lng1, lat2, lng2}) => {
+  // console.log(lat1, lng1, lat2, lng2);
   let radLat1 = lat1 * Math.PI / 180.0;
   let radLat2 = lat2 * Math.PI / 180.0;
   let a = radLat1 - radLat2;
@@ -46,17 +47,17 @@ const sumLocation = ({lat1, lng1, lat2, lng2}) => {
   s = Math.round(s * 10000) / 10000;
 
   let result = {};
-
+  result['s'] = Number((s * 1000).toFixed(1)); // 单位 m
   if (s > 1) {
     result['km'] = s.toFixed(1);
   } else {
     result['m'] = (s * 1000).toFixed(1);
   }
+
   return result;
 };
 
 const backDistance = ({lat1, lng1, lat2, lng2}) => {
-  console.log(arguments);
   let result = sumLocation({'lat1': parseFloat(lat1), 'lng1': parseFloat(lng1), 'lat2': parseFloat(lat2), 'lng2': parseFloat(lng2)});
   let callback = '';
   if (result.km) {
@@ -72,7 +73,6 @@ const backDistance = ({lat1, lng1, lat2, lng2}) => {
       callback = result.m + 'm';
     }
   }
-  console.log(callback);
   return callback;
 };
 

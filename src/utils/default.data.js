@@ -54,7 +54,7 @@ const TypeFilterData = [
   {text: '研学', id: 'r1'},
   {text: '营地', id: 'r1'},
   {text: '游学', id: 'r2'},
-  {text: '初中STEM生', id: 'r3'}
+  {text: 'STEM', id: 'r3'}
 ];
 
 export {

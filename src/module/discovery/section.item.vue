@@ -3,14 +3,16 @@
     <div class="section-title">
       <div class="section-title-left">
         <div class="section-avatar" :style="'background: url(' + sectionData.coverfile2 + ') no-repeat 50% 50%; background-size: cover;'"></div>
-        <div class="section-desc ellipsis">机构名称</div>
       </div>
       <div class="section-inf">
         <div class="section-inf-title line-clamp-2">{{sectionData.name}}</div>
       </div>
     </div>
     <div class="section-label">
-      <hoo-label :type-text="sectionData.tags[0]" :label-arr="tagslist"></hoo-label>
+      <div class="section-label-left">
+        <div class="section-desc ellipsis">{{instname}}</div>
+        <hoo-label :type-text="sectionData.tags[0]" :label-arr="tagslist"></hoo-label>
+      </div>
       <div class="section-distance" v-if="distanceToSection">{{distanceToSection}}</div>
     </div>
     <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
@@ -47,6 +49,9 @@
       },
       tagslist () {
         return this.sectionData.tags.slice(1);
+      },
+      instname () {
+        return this.sectionData.instname.substr(0, 4);
       }
     },
     methods: {
@@ -64,10 +69,7 @@
     border-top: 20rpx solid #f9f9f9;
 
     .section-title {
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: flex-start;
-      align-items: center;
+      @include flex(flex-start, flex-start);
 
       .section-title-left {
         width: 122rpx;
@@ -88,16 +90,25 @@
           font-size: 16px;
           color: #46311E;
         }
-
-        .section-inf-desc {
-          color: #9f9f9f;
-        }
       }
     }
 
     .section-label {
       margin-top: 8rpx;
       @include flex(space-between, flex-end);
+
+      .section-label-left {
+        @include flex(flex-start, flex-start);
+        width: 80%;
+
+        .section-desc {
+          display: inline-block;
+          width: 120rpx;
+          color: #9f9f9f;
+          margin-top: 12rpx;
+          font-size: 12px;
+        }
+      }
 
       .section-distance {
         flex-shrink: 0;
@@ -117,10 +128,6 @@
       border-radius: 20rpx;
     }
 
-    .section-desc {
-      color: #9f9f9f;
-      margin-top:10rpx;
-      font-size:12px;
-    }
+
   }
 </style>

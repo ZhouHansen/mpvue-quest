@@ -4,11 +4,12 @@
       <div class="title">绑定手机号</div>
       <div class="desc">绑定手机号，奖励5元奖学金！</div>
       <div class="phone">
-        <input type="number" placeholder="请输入手机号" :value="bindPhone" id="phone" @input="setInputValue">
+        <input type="number" placeholder="请输入手机号" :value="phone" id="phone" @input="setInputValue">
       </div>
       <div class="verify-code">
-        <input type="number" placeholder="请输入验证码" :value="bindCode" id="code" @input="setInputValue">
-        <span>获取验证码</span>
+        <input type="number" placeholder="请输入验证码" :value="code" id="code" @input="setInputValue">
+        <span class="topic" v-if="!interval" @click="getCode">获取验证码</span>
+        <span v-if="interval">{{time}}s</span>
       </div>
       <div class="submit-button">
         <hoo-button :type="'topic'" :text="'提交'" @tapButton="submitBindPhone"></hoo-button>
@@ -19,6 +20,7 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import * as MutationType from '@/store/mutation.type';
 import hooDialogBg from '@/components/dialog.bg';
 import hooButton from '@/components/button';
 
@@ -33,8 +35,10 @@ export default {
   },
   data () {
     return {
-      bindPhone: '',
-      bindCode: ''
+      phone: '',
+      code: '',
+      time: 60,
+      interval: null
     };
   },
   methods: {
@@ -43,16 +47,57 @@ export default {
       let value = e.mp.detail.value;
 
       if (id === 'phone') {
-        this.bindPhone = value;
+        this.phone = value;
       } else
       if (id === 'code') {
-        this.bindCode = value;
+        this.code = value;
+      }
+    },
+
+    getCode () {
+      if ((this.phone + '').length === 11) {
+        this.$network.account.sendVerifyMessage({}, null, 'weapp/verifycode/' + this.phone).then(res => {
+          console.log(res);
+          if (res.e === 0) {
+            this.$wxUtils.toast({title: '发送成功'});
+            this.interval = setInterval(() => {
+              this.time = this.time - 1;
+              if (this.time === 0) {
+                clearInterval(this.interval);
+                this.interval = null;
+                this.time = 60;
+              }
+            }, 1000);
+          }
+        });
+      } else {
+        this.$wxUtils.toast({title: '请输入正确的电话号码'});
       }
     },
 
     submitBindPhone () {
-      console.log(this.bindPhone);
-      console.log('提交绑定手机号');
+      console.log(this.phone);
+      console.log(this.code);
+
+      if ((this.phone + '').length !== 11 || !this.code) {
+        this.$wxUtils.toast({title: '请输入正确的电话号和验证码'});
+        return;
+      }
+
+      this.$network.account.bindPhoneToOpenid({}, null, 'weapp/bindingcell/' + this.phone + '/' + this.code).then(res => {
+        console.log(res);
+        if (res.e === 0) {
+          this.$wxUtils.toast({title: '提交成功'});
+          this.getUserInf();
+          this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: false, bindPhone: false});
+        }
+      });
+    },
+
+    getUserInf () {
+      this.$network.account.getUserInf().then(res => {
+        this.$storage.set(this.$storageTypeName.userInf, res.data);
+      });
     }
   }
 };
@@ -110,9 +155,12 @@ export default {
         span {
           display: inline-block;
           width: 36%;
-          color: $topic-color;
           text-align: center;
           vertical-align: center;
+        }
+
+        .topic {
+          color: $topic-color;
         }
       }
 

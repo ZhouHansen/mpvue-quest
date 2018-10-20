@@ -23,7 +23,7 @@
     </div>
 
     <div class="section-teacher">
-      <hoo-left-border-title :title="'参与教师'"></hoo-left-border-title>
+      <hoo-left-border-title :title="'教师'"></hoo-left-border-title>
       <div class="teacher-list">
         <div class="teacher-item">
           <hoo-avatar></hoo-avatar>
@@ -137,7 +137,6 @@
       }
     },
     onShow () {
-      // this.chooseNavIndex = '0';
     },
     mounted () {
       console.log('活动数据', this.params);
@@ -157,6 +156,12 @@
       },
 
       goToOrder () {
+        if (!this.$storage.get(this.$storageTypeName.userInf).cell) {
+          console.log(this.$storage.get(this.$storageTypeName.userInf).cell);
+          this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, bindPhone: true});
+          return;
+        }
+
         if (!this.params.ltype) {
           this.$router.push('/pages/home/section.submit.order.book');
         } else {
@@ -165,7 +170,12 @@
       },
 
       groupOrder () {
-        // this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, bindPhone: true});
+        if (!this.$storage.get(this.$storageTypeName.userInf).cell) {
+          console.log(this.$storage.get(this.$storageTypeName.userInf).cell);
+          this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, bindPhone: true});
+          return;
+        }
+
         this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, groupOrder: true});
       },
 

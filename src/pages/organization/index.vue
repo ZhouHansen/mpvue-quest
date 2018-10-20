@@ -8,8 +8,8 @@
         @end="regionMapEnd"
         :scale="16"
         :show-location="'true'"
-        :longitude="lnglat.longitude"
-        :latitude="lnglat.latitude"
+        :longitude="location.longitude"
+        :latitude="location.latitude"
         :class="showRecommend?'unfill-height': 'fill-height'">
         <organi-filter-button :data="chooseFilterCity" @filterButton="tapFilterButton"></organi-filter-button>
         <organi-filter-button :data="chooseFilterType" @filterButton="tapFilterButton"></organi-filter-button>
@@ -23,14 +23,13 @@
       </map>
       <div class="" :class="showRecommend?'recommend-body':'hide-recommend'" v-if="markers">
         <div class="recommend-ctrl" @click="toggleRecommend"><span></span></div>
-        <recommend-organi v-if="showRecommend" :params="recommendData" :location="lnglat"></recommend-organi>
+        <recommend-organi v-if="showRecommend" :params="recommendData" :location="location"></recommend-organi>
       </div>
   </div>
-  <!-- :longitude="116.46"
-        :latitude="39.92" -->
 </template>
 <script>
 import _ from 'lodash/core';
+import Utils from '@/utils/index';
 import recommendOrgani from '@/module/organization/recommend.organi';
 import organiFilter from '@/module/organization/coverView/organi.filter';
 import organiFilterButton from '@/module/organization/coverView/organi.filter.button';
@@ -45,9 +44,10 @@ export default {
   data () {
     return {
       map: null,
-      lnglat: {},
-      latitude: '',
-      longitude: '',
+      location: null,
+      fixedPoint: null,
+      searchMarkLnglat: {}, // 记录搜索机构的经纬度，用于计算拖动距离，大于searchMarkLimit才进行查找
+      searchMarkLimit: 5000, // 单位 m
       initMap: false,
       showRecommend: true,
       recommendData: [],
@@ -71,8 +71,10 @@ export default {
         {id: 'activity', type: 'type', text: '活动'}
       ],
       chooseFilterType: {}
-      // dragMapParam: null
     };
+  },
+  onLoad () {
+    this.getLnglat();
   },
   mounted () {
     this.$wxUtils.setNavTitle('机构');
@@ -82,16 +84,25 @@ export default {
     this.chooseFilterCity = this.filterCity[0];
     this.chooseFilterType = this.filterTypeData[0];
 
-    this.$wxUtils.getLocation().then(res => {
-      this.lnglat = res;
-    });
     this.getCityList();
     this.getRecommendList();
   },
   onShow () {
-    // this.getRecommendList();
   },
   methods: {
+    initLocation () {
+      this.searchMarkLnglat = this.fixedPoint;
+      this.location = this.fixedPoint;
+    },
+
+    getLnglat () {
+      this.$wxUtils.getLocation().then(res => {
+        this.fixedPoint = res;
+        this.location = res;
+        this.searchMarkLnglat = res;
+      });
+    },
+
     tapMap () {
       this.showRecommend = false;
       this.showFilterList = false;
@@ -110,12 +121,12 @@ export default {
     },
 
     regionMapEnd (e) {
+      // console.log(e);
       if (e.mp.causedBy === 'drag') {
         this.showFilterList = false;
       }
 
       dragMapParam = setTimeout(() => {
-        // console.log(e);
         this.getCityList();
         clearTimeout(dragMapParam);
         dragMapParam = null;
@@ -128,7 +139,12 @@ export default {
     },
 
     getCityList () {
-      console.log('获取机构数据');
+      this.judgeGetMarkerDataStatu().then(res => {
+        if (res) {
+          this.location = this.searchMarkLnglat;
+          console.log('获取机构数据');
+        }
+      });
     },
 
     // 下载图片到微信临时文件，在显示到地图中
@@ -145,13 +161,15 @@ export default {
             height: 40
           });
           resolve();
+        }).then(res => {
+          reject(res);
         });
       });
     },
 
     getRecommendList () {
       this.$network.organi.getFilterByMapCity().then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         this.recommendData = res.data;
 
         let promiseArr = [];
@@ -229,8 +247,43 @@ export default {
       this.$router.push({path: '/pages/organization.packages/organi.detail', query: {id: result.id}});
     },
 
+    judgeGetMarkerDataStatu () {
+      return new Promise((resolve, reject) => {
+        this.getCenterLnglat().then(res => {
+          let distance = Utils.sumLocation({lat1: this.searchMarkLnglat.latitude, lng1: this.searchMarkLnglat.longitude, lat2: res.latitude, lng2: res.longitude});
+          if (distance.s > this.searchMarkLimit) {
+            this.searchMarkLnglat = res;
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        }).then(res => {
+          resolve(true); // 如果不能获取到地图中心点的经纬度，直接可以查找
+        });
+      });
+    },
+
     backLocation () {
       this.map.moveToLocation();
+      this.initLocation();
+    },
+
+    getCenterLnglat () {
+      return new Promise((resolve, reject) => {
+        this.map.getCenterLocation({
+          success: res => {
+            // console.log(res);
+            let lnglatObj = {
+              longitude: res.longitude,
+              latitude: res.latitude
+            };
+            resolve(lnglatObj);
+          },
+          fail: res => {
+            reject(res);
+          }
+        });
+      });
     }
   }
 };

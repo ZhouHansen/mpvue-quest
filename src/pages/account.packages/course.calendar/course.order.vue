@@ -68,7 +68,7 @@
     </div>
 
     <div class="footer">
-      <!-- <hoo-button :text="'取消订单'" :type="'normal'"></hoo-button> -->
+      <!-- <hoo-button :text="'取消订单'" :type="'normal'" @click="cancelOrder"></hoo-button> -->
       <hoo-button :text="'去评价'" :type="'topic'" @tapButton="visitAppraisal"></hoo-button>
       <!-- <hoo-button :text="'联系客服'" :type="'normal'"></hoo-button> -->
     </div>
@@ -113,6 +113,19 @@ export default {
     getChildDetail (id) {
       this.$network.account.getChildrenInf({}, null, 'weapp/child/' + id).then(res => {
         this.child = res.data;
+      });
+    },
+
+    cancelOrder () {
+      this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + this.orderDetail.id).then(res => {
+        if (res.e === 0) {
+          this.$wxUtils.toast({title: '取消成功'});
+          setTimeout(() => {
+            this.$router.back();
+          }, 2000);
+        } else {
+          this.$wxUtils.toast(res.message);
+        }
       });
     },
 

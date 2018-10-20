@@ -38,28 +38,20 @@ export default {
    * 发送短信
   */
   sendVerifyMessage: {
-    url: 'user',
-    method: 'post',
+    url: 'weapp/verifycode/{cell}',
+    method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      phone: [NetworkParamType.string]
-    },
-    debug: DebugData.getOpenid
+    authorization: true
   },
 
   /**
    * 绑定手机号
   */
   bindPhoneToOpenid: {
-    url: 'user',
+    url: 'weapp/bindingcell/{cell}/{vcode}',
     method: 'post',
     apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      phone: [NetworkParamType.string],
-      code: [NetworkParamType.string],
-      openid: [NetworkParamType.string]
-    },
-    debug: DebugData.getOpenid
+    authorization: true
   },
 
   /** ******孩子*********/
@@ -112,6 +104,16 @@ export default {
     authorization: true
   },
 
+  /**
+   * 取消订单
+  */
+  cancelOrder: {
+    url: 'weapp/order/cancel/:id',
+    method: 'post',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true
+  },
+
   /** ******课程*********/
   /**
    * 获取课程列表数据
@@ -130,18 +132,6 @@ export default {
    * 获取课程详情
   */
   getCourseInf: {
-    url: 'user',
-    method: 'get',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      phone: [NetworkParamType.string]
-    },
-    debug: DebugData.getOpenid
-  },
-  /**
-   * 取消课程订单
-  */
-  cancelCourseOrder: {
     url: 'user',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
@@ -195,18 +185,6 @@ export default {
   getCommodityInf: {
     url: 'user',
     method: 'get',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      phone: [NetworkParamType.string]
-    },
-    debug: DebugData.getOpenid
-  },
-  /**
-   * 取消商品订单
-  */
-  cancelOrderByCommodity: {
-    url: 'user',
-    method: 'post',
     apiVersion: NetworkAPIVersion.v1_version,
     params: {
       phone: [NetworkParamType.string]
