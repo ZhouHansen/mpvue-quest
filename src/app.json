@@ -65,6 +65,7 @@
         "course.calendar/course.history",
         "purchase.goods/purchase.detail",
         "purchase.goods/purchase.appraisal",
+        "purchase.goods/purchase.history",
         "setting/setting.address",
         "setting/setting.address.add"
       ]

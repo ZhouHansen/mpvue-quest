@@ -104,12 +104,23 @@ export default {
     authorization: true
   },
 
+  /** ******订单*********/
   /**
    * 取消订单
   */
   cancelOrder: {
     url: 'weapp/order/cancel/:id',
     method: 'post',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true
+  },
+
+  /**
+   * 取消订单
+  */
+  getOrderHIstory: {
+    url: 'weapp/closedorders/{ptype}', // lesson  product
+    method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true
   },

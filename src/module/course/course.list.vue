@@ -3,7 +3,7 @@
     <div v-for="(item, index) in params" :key="index" v-if="params && params.length > 0">
       <hoo-course-item :course-data="item"></hoo-course-item>
     </div>
-    <hoo-empty :type="'normal'" :text="'未找到课程信息~'" v-if="params.length === 0 || !params"></hoo-empty>
+    <hoo-empty :type="'normal'" :text="'没有相关数据~'" v-if="params.length === 0 || !params"></hoo-empty>
   </div>
 </template>
 <script>

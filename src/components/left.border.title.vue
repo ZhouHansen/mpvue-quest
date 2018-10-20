@@ -26,6 +26,7 @@ export default {
     .content {
       // border-left: 6rpx solid $topic-color;
       padding-left: 16rpx;
+      word-break:break-all;
     }
   }
 </style>

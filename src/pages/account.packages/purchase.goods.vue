@@ -23,6 +23,10 @@
       </div>
     </div>
     <hoo-empty v-if="goods.length === 0" :type="'normal'" :text="'没有购买信息～'"></hoo-empty>
+    <div class="puchase-footer" @click="visitCourseHistory">
+      <span>查看历史记录</span>
+      <span class="footer-icon"></span>
+    </div>
   </div>
 </template>
 <script>
@@ -73,6 +77,10 @@ export default {
       });
 
       this.$router.push({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {obj: JSON.stringify(result[0])}});
+    },
+
+    visitCourseHistory () {
+      this.$router.push('/pages/account.packages/purchase.goods/purchase.history');
     }
   }
 };
@@ -148,6 +156,26 @@ export default {
           padding: 20rpx 0;
           border-top: 1rpx solid #efefef;
         }
+      }
+    }
+
+    .puchase-footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      padding: 28rpx 0;
+      text-align: center;
+      background-color: #ffffff;
+      color: #b9b9b9;
+      border-top: 1rpx solid #efefef;
+      box-shadow: 0 4rpx 8rpx #e8e8e8;
+
+      .footer-icon {
+        width: 26rpx;
+        height: 26rpx;
+        display: inline-block;
+        margin-left: 16rpx;
+        @include backgroundImg('../../assets/images/arrow_right.png');
       }
     }
   }

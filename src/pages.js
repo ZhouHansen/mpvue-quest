@@ -16,6 +16,7 @@ module.exports = [
   'pages/account.packages/purchase.goods',
   'pages/account.packages/purchase.goods/purchase.detail',
   'pages/account.packages/purchase.goods/purchase.appraisal',
+  'pages/account.packages/purchase.goods/purchase.history',
   'pages/account.packages/setting',
   'pages/account.packages/feedback',
   'pages/account.packages/setting/setting.address',

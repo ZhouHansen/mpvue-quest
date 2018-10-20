@@ -19,7 +19,7 @@ export default {
     };
   },
   mounted () {
-    this.$wxUtils.setNavTitle('学习记录');
+    this.$wxUtils.setNavTitle('商品购买记录');
     this.getHistory();
   },
   methods: {
@@ -28,7 +28,7 @@ export default {
         limit: this.limit,
         offset: this.limit
       };
-      this.$network.account.getOrderHIstory(requestParams, null, 'weapp/closedorders/lesson').then(res => {
+      this.$network.account.getOrderHIstory(requestParams, null, 'weapp/closedorders/product').then(res => {
         console.log(res);
         res.data.forEach((item, index) => {
           this.courseList.push(item.product);
