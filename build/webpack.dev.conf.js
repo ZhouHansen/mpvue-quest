@@ -71,7 +71,7 @@ module.exports = merge(baseWebpackConfig, {
       name: 'common/module.packages', //新打包文件名
       chunks: ['common/vendor'], //拆分模块名
       minChunks: function (module, count) {
-        console.log(module.resource,`引用次数${count} -- 第三方`);
+        // console.log(module.resource,`引用次数${count} -- 第三方`);
         // 以下是拆分规则，返回true 则拆分，以下规则是将
         //  babel-runtime, mpvue-wxparse, mpvue-entry , vuex, flyio, mpvue-router-patch, vuex-persistedstate
         // 下的文件单独打包
@@ -97,7 +97,7 @@ module.exports = merge(baseWebpackConfig, {
       name: 'common/lodash', //新打包文件名
       chunks: ['common/vendor'], //拆分模块名
       minChunks: function (module, count) {
-        console.log(module.resource,`引用次数${count} -- 自定义`);
+        // console.log(module.resource,`引用次数${count} -- 自定义`);
         // 以下是拆分规则，返回true 则拆分，以下规则是将 lodash 下的文件单独打包
         return (
           module.resource &&
@@ -112,7 +112,7 @@ module.exports = merge(baseWebpackConfig, {
       name: 'common/webim', //新打包文件名
       chunks: ['common/vendor'], //拆分模块名
       minChunks: function (module, count) {
-        console.log(module.resource,`引用次数${count} -- 自定义`);
+        // console.log(module.resource,`引用次数${count} -- 自定义`);
         // 以下是拆分规则，返回true 则拆分，以下规则是将 src 下的文件单独打包
         return (
           module.resource &&
