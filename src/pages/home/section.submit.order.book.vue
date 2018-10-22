@@ -92,7 +92,6 @@
     },
     data () {
       return {
-        // cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_170849.403868.png',
         price: 0,
         priceNumber: 1,
         type: 'group',
@@ -111,14 +110,15 @@
       }
     },
     onShow () {
-      this.sectionData = this.$store.state.discovery.activity;
-      this.price = parseInt(this.sectionData.price / 100);
-      this.orderParams = this.$store.state.discovery.order;
-      this.address = this.orderParams ? this.orderParams.address : null;
-      this.group = this.$store.state.discovery.order && this.$store.state.discovery.order.group ? this.$store.state.discovery.order.group : false;
-      if (!this.address) {
-        this.getAddress();
-      }
+      // this.sectionData = this.$store.state.discovery.activity;
+      // this.price = parseInt(this.sectionData.price / 100);
+      // this.orderParams = this.$store.state.discovery.order;
+      // this.address = this.orderParams ? this.orderParams.address : null;
+      // this.group = this.$store.state.discovery.order && this.$store.state.discovery.order.group ? this.$store.state.discovery.order.group : false;
+      // if (!this.address) {
+      //   this.getAddress();
+      // }
+
       // console.log('discovery', this.$store.state.discovery);
       // console.log('设置的地址信息', this.address);
     },
@@ -143,15 +143,15 @@
         this.$router.push('/pages/home/custom.signature');
       },
 
-      getAddress () {
-        this.$network.account.getAddressList().then(res => {
-          console.log(res);
-          if (res.data.length > 0) {
-            this.address = res.data[0];
-            this.$store.commit(MutationType.SET_ORDER_PARAMS, {address: this.address});
-          }
-        });
-      },
+      // getAddress () {
+      //   this.$network.account.getDefaultAddress().then(res => {
+      //     console.log(res);
+      //     this.address = res.data;
+      //     if (res.data) {
+      //       this.$store.commit(MutationType.SET_ORDER_PARAMS, {address: this.address});
+      //     }
+      //   });
+      // },
 
       editAddress () {
         if (this.address) {

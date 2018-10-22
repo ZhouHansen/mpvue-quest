@@ -104,12 +104,15 @@
       if (this.setApp && this.setApp.unShowOrderTips) {
         this.showGroupTips = false;
       }
-      this.group = this.$store.state.discovery.order && this.$store.state.discovery.order.group ? this.$store.state.discovery.order.group : false;
-      this.sectionData = this.$store.state.discovery.activity;
-      this.price = parseInt(this.sectionData.price / 100);
 
-      this.orderParams = this.$store.state.discovery.order;
-      this.children = this.orderParams ? this.orderParams.children : null;
+      // let discovery = this.$store.state.discovery;
+      // this.sectionData = discovery.activity;
+      // this.price = parseInt(this.sectionData.price / 100);
+
+      // this.orderParams = discovery.order;
+      // this.group = this.orderParams.group ? this.orderParams.group : false;
+      // this.children = this.orderParams.children ? this.orderParams.children : null;
+
       // console.log('discovery', this.$store.state.discovery);
       // console.log('设置的孩子信息', this.children);
     },
@@ -134,15 +137,15 @@
         this.showGroupTips = false;
       },
 
-      getChildren () {
-        this.$network.account.getChildrensList({limit: 1, offset: 0}).then(res => {
-          console.log(res);
-          if (res.data.length > 0) {
-            this.children = res.data[0];
-            this.$store.commit(MutationType.SET_ORDER_PARAMS, {children: this.children});
-          }
-        });
-      },
+      // getChildren () {
+      //   this.$network.account.getChildrensList({limit: 1, offset: 0}).then(res => {
+      //     console.log(res);
+      //     if (res.data.length > 0) {
+      //       this.children = res.data[0];
+      //       this.$store.commit(MutationType.SET_ORDER_PARAMS, {children: this.children});
+      //     }
+      //   });
+      // },
 
       editChildren () {
         if (this.children) {

@@ -56,7 +56,20 @@
       },
 
       storeSectionData () {
-        this.$store.commit(MutationsType.SET_CHOOSE_ACTIVITY, this.sectionData);
+        let params = {
+          id: undefined,
+          price: undefined,
+          coverfile: undefined,
+          name: undefined,
+          address: undefined,
+          biref: undefined
+        };
+
+        for (let i in params) {
+          params[i] = this.sectionData[i];
+        }
+
+        this.$store.commit(MutationsType.SET_CHOOSE_ACTIVITY, params);
       }
     },
     onShareAppMessage (res) {

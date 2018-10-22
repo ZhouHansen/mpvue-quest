@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import state from './state';
 import mutations from './mutation';
 
-import createPersistedState from 'vuex-persistedstate';
+// import createPersistedState from 'vuex-persistedstate';
 import Module from './module';
 
 Vue.use(Vuex);
@@ -16,21 +16,21 @@ export default new Vuex.Store({
     discovery: Module.Discovery
   },
   plugins: [
-    createPersistedState({
-      storage: {
-        getItem: key => {
-          wx.getStorageSync(key);
-        },
-        setItem: (key, value) => {
-          if (value) {
-            wx.setStorageSync(key, value);
-          }
-        },
-        removeItem: key => {
-          // wx.removeStorageSync(key);
-          // console.log('removeItem');
-        }
-      }
-    })
+    // createPersistedState({
+    //   storage: {
+    //     getItem: key => {
+    //       wx.getStorageSync(key);
+    //     },
+    //     setItem: (key, value) => {
+    //       if (value) {
+    //         wx.setStorageSync(key, value);
+    //       }
+    //     },
+    //     removeItem: key => {
+    //       // wx.removeStorageSync(key);
+    //       // console.log('removeItem');
+    //     }
+    //   }
+    // })
   ]
 });

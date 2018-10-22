@@ -10,7 +10,7 @@
     </div>
     <div class="section-label">
       <div class="section-label-left">
-        <div class="section-desc ellipsis">{{instname}}</div>
+        <div class="section-desc ellipsis" v-if="sectionData.instsname">{{sectionData.instsname}}</div>
         <hoo-label :type-text="sectionData.tags[0]" :label-arr="tagslist"></hoo-label>
       </div>
       <div class="section-distance" v-if="distanceToSection">{{distanceToSection}}</div>
@@ -49,9 +49,6 @@
       },
       tagslist () {
         return this.sectionData.tags.slice(1);
-      },
-      instname () {
-        return this.sectionData.instname.substr(0, 4);
       }
     },
     methods: {

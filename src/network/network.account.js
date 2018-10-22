@@ -231,6 +231,16 @@ export default {
   /**
    * 获取地址列表
   */
+  getDefaultAddress: {
+    url: 'weapp/prim/address',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true
+  },
+
+  /**
+   * 获取地址列表
+  */
   getAddressList: {
     url: 'weapp/addresses',
     method: 'get',

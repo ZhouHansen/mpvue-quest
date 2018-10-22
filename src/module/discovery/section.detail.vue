@@ -6,8 +6,8 @@
       <div class="section-title-text ellipsis">{{params.name}}</div>
       <hoo-label :type-text="params.tagslist[0]" :label-arr="labelArr"></hoo-label>
       <div class="section-title-ctrl">
-        <hoo-icon-button :type="'activity'" :person-num="params.favorcount" v-if="params.ltype" :personNum="params.favorcount"></hoo-icon-button>
-        <hoo-icon-button :type="'activity'" :person-num="params.favorcount" :join-text="'人想买'" v-if="!params.ltype"></hoo-icon-button>
+        <hoo-icon-button :type="'activity'" :person-num="params.favorcount" v-if="params.ltypes" :personNum="params.favorcount"></hoo-icon-button>
+        <hoo-icon-button :type="'activity'" :person-num="params.favorcount" :join-text="'人想买'" v-if="!params.ltypes"></hoo-icon-button>
         <hoo-icon-button :type="params.favored === 0 ? 'collection' : 'collection_already'" :id="params.id" :subject="params.subject_type"></hoo-icon-button>
         <hoo-icon-button :type="'share'"></hoo-icon-button>
       </div>
@@ -140,7 +140,7 @@
     },
     mounted () {
       console.log('活动数据', this.params);
-      if (this.params.ltype) {
+      if (this.params.ltypes) {
         this.params['subject_type'] = 'lesson';
       } else {
         this.params['subject_type'] = 'product';
@@ -162,7 +162,7 @@
           return;
         }
 
-        if (!this.params.ltype) {
+        if (!this.params.ltypes) {
           this.$router.push('/pages/home/section.submit.order.book');
         } else {
           this.$router.push('/pages/home/section.submit.order');
@@ -186,7 +186,7 @@
         };
         let requestType = 'lesson';
 
-        if (!this.params.ltype) {
+        if (!this.params.ltypes) {
           requestType = 'product';
         }
         this.$network.base.getCommentList(requestParams, null, 'weapp/comments/' + requestType + '/' + this.params.id).then(res => {
@@ -197,7 +197,7 @@
       },
 
       sendGroupOrder (e) {
-        if (!this.params.ltype) {
+        if (!this.params.ltypes) {
           this.$router.push('/pages/home/section.submit.order.book');
         } else {
           let order = {
