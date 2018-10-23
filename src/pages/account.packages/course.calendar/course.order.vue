@@ -42,15 +42,15 @@
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">课程对象</div>
-          <div class="order-detail-item-text">儿童班</div>
+          <div class="order-detail-item-text">儿童班,需要返回数据</div>
         </div>
-        <div class="order-detail-item">
+        <div class="order-detail-item" v-if="orderDetail.product.lform && orderDetail.product.lto">
           <div class="order-detail-item-label">开课时间</div>
-          <div class="order-detail-item-text">2018年7月2日-9月2日</div>
+          <div class="order-detail-item-text">{{orderDetail.product.lform}} - {{orderDetail.product.lto}}</div>
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">上课地点</div>
-          <div class="order-detail-item-text">蘑菇街</div>
+          <div class="order-detail-item-text">{{orderDetail.product.address}}</div>
         </div>
       </div>
     </div>
@@ -103,7 +103,7 @@ export default {
   methods: {
     getOrderDetail () {
       this.orderDetail = JSON.parse(this.$route.query.obj);
-      console.log(this.orderDetail);
+      console.log('订单信息', this.orderDetail);
       if (this.orderDetail.cid) {
         this.getChildDetail(this.orderDetail.cid);
       }
@@ -129,8 +129,6 @@ export default {
     },
 
     visitAppraisal () {
-      console.log('去评价');
-
       this.$router.push({path: '/pages/account.packages/course.calendar/course.appraisal', query: {obj: JSON.stringify(this.orderDetail)}});
     }
   }

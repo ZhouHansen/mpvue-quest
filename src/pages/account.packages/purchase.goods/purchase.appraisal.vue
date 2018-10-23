@@ -134,7 +134,7 @@ export default {
         Promise.all(upoadImgPromise).then(res => {
           this.$network.base.commentOrder({
             content: params.input,
-            imgjson: JSON.stringify(params.uploadImgPath),
+            images: params.uploadImgPath,
             star: params.score
           }, null, 'weapp/comment/' + params.type + '/' + params.id).then(res => {
             if (res.e === 0) {

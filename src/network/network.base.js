@@ -96,7 +96,7 @@ export default {
     authorization: true,
     params: {
       content: [NetworkParamType.string],
-      imgjson: [NetworkParamType.string],
+      images: [NetworkParamType.array],
       star: [NetworkParamType.number]
     }
   },

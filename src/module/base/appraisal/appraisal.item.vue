@@ -1,7 +1,7 @@
 <template>
   <div class="appraisal-container">
     <div class="appra-avatar">
-      <hoo-avatar :avatar="paramsDetail.avatarfile"></hoo-avatar>
+      <hoo-avatar :avatar="paramsDetail.avartar"></hoo-avatar>
     </div>
     <div class="appra-content">
       <div class="appra-title">

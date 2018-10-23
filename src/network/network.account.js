@@ -139,42 +139,6 @@ export default {
       offset: [NetworkParamType.number]
     }
   },
-  /**
-   * 获取课程详情
-  */
-  getCourseInf: {
-    url: 'user',
-    method: 'get',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      phone: [NetworkParamType.string]
-    },
-    debug: DebugData.getOpenid
-  },
-  /**
-   * 提交课程评价
-  */
-  postCourseAppraisal: {
-    url: 'user',
-    method: 'post',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      phone: [NetworkParamType.string]
-    },
-    debug: DebugData.getOpenid
-  },
-  /**
-   * 获取课程历史记录
-  */
-  getHistoryByCourse: {
-    url: 'user',
-    method: 'get',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      phone: [NetworkParamType.string]
-    },
-    debug: DebugData.getOpenid
-  },
 
   /** ******商品*********/
   /**
@@ -206,18 +170,6 @@ export default {
    * 确认收货
   */
   confirmOrderByCommodity: {
-    url: 'user',
-    method: 'post',
-    apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      phone: [NetworkParamType.string]
-    },
-    debug: DebugData.getOpenid
-  },
-  /**
-   * 评价商品
-  */
-  postCommodityAppraisal: {
     url: 'user',
     method: 'post',
     apiVersion: NetworkAPIVersion.v1_version,

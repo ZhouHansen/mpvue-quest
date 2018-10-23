@@ -62,7 +62,8 @@
           coverfile: undefined,
           name: undefined,
           address: undefined,
-          biref: undefined
+          biref: undefined,
+          ages: undefined
         };
 
         for (let i in params) {

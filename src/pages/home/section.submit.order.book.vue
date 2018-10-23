@@ -66,7 +66,7 @@
       <div class="activity-inf">
         <div class="activity-item">
           <span class="activity-item-name">商品规格</span>
-          <span class="activity-item-value">{{sectionData.brief}}</span>
+          <span class="activity-item-value">{{sectionData.pcat}}</span>
         </div>
       </div>
     </div>
@@ -202,7 +202,7 @@
           if (res.e === 0) {
             this.$wxUtils.toast({title: '发送成功，测试时不进行支付'});
             setTimeout(() => {
-              this.$router.go(this.pathObj.length - 1);
+              this.$router.go(2);
             }, 3000);
           };
         });
@@ -246,7 +246,7 @@
             this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: false});
 
             setTimeout(() => {
-              this.$router.go(this.pathObj.length - 1);
+              this.$router.go(2);
             }, 3000);
           }
         });

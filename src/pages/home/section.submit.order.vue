@@ -47,9 +47,9 @@
           <span class="activity-item-name">活动时间</span>
           <span class="activity-item-value">{{sectionData.lfrom}} - {{sectionData.lto}}</span>
         </div>
-        <div class="activity-item" v-if="ages">
+        <div class="activity-item" v-if="sectionData.ages">
           <span class="activity-item-name">活动对象</span>
-          <span class="activity-item-value">{{ages}}</span>
+          <span class="activity-item-value">{{sectionData.ages}}</span>
         </div>
         <div class="activity-item" v-if="sectionData.address">
           <span class="activity-item-name">活动地点</span>
@@ -97,17 +97,6 @@
     computed: {
       totalMoney () {
         return this.price * this.priceNumber;
-      },
-      ages () {
-        let result = AgeFilterData.find((item, index) => {
-          return this.sectionData.ages === item.id;
-        });
-
-        if (result) {
-          return result.text;
-        } else {
-          return false;
-        }
       }
     },
     onShow () {
@@ -123,6 +112,14 @@
       this.orderParams = discovery.order;
       this.group = this.orderParams.group ? this.orderParams.group : false;
       this.children = this.orderParams.children ? this.orderParams.children : null;
+
+      let result = AgeFilterData.find((item, index) => {
+        return discovery.activity.ages === item.id;
+      });
+
+      if (result) {
+        this.sectionData.ages = result.text;
+      }
 
       // console.log('discovery', this.$store.state.discovery);
       // console.log('设置的孩子信息', this.children);
@@ -181,7 +178,7 @@
           if (res.e === 0) {
             this.$wxUtils.toast({title: '发送成功，现在是测试'});
             setTimeout(() => {
-              this.$router.go(this.pathObj.length - 1);
+              this.$router.go(2);
             }, 3000);
           };
         });
@@ -195,7 +192,7 @@
             this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: false});
 
             setTimeout(() => {
-              this.$router.go(this.pathObj.length - 1);
+              this.$router.go(2);
             }, 3000);
           }
         });
