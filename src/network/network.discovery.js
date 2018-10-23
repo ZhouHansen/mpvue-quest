@@ -12,7 +12,8 @@ export default {
     authorization: true,
     params: {
       limit: [NetworkParamType.number],
-      offset: [NetworkParamType.number]
+      offset: [NetworkParamType.number],
+      mname: [NetworkParamType.string]
     }
   },
 

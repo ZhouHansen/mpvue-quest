@@ -113,7 +113,7 @@ export default {
       console.log(requestParams);
 
       for (let i in requestParams) {
-        if (!requestParams[i] && i !== 'id' && i !== 'prim') {
+        if (!requestParams[i] && i !== 'id' && i !== 'prim' && i !== 'cell2') {
           this.$wxUtils.toast({title: '请将信息填写完整'});
           return;
         }

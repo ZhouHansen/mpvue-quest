@@ -50,11 +50,12 @@ const DateFilterData = [
 ];
 
 const TypeFilterData = [
-  {text: '全部', id: 'all'},
-  {text: '研学', id: 'r1'},
-  {text: '营地', id: 'r1'},
-  {text: '游学', id: 'r2'},
-  {text: 'STEM', id: 'r3'}
+  {text: '全部', id: undefined},
+  {text: '课程', id: 'lesson'},
+  {text: '研学', id: 'study'},
+  {text: '营地', id: 'camp'},
+  {text: '游学', id: 'travel'},
+  {text: 'STEM', id: 'STEM'}
 ];
 
 export {

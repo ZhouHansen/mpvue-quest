@@ -133,9 +133,6 @@ export default {
     },
 
     chooseFilter (e) {
-      this.offset = 0;
-      this.total = 0;
-
       if (this.chooseFilterType === '') {
         this.chooseFilterType = e;
         this.showFilterItemDesc = true;
@@ -164,6 +161,9 @@ export default {
 
     doneChooseFilter (e) {
       console.log('接收到的过滤参数', e);
+      this.offset = 0;
+      this.total = 0;
+
       let params = {
         type: this.chooseFilterType
       };
@@ -175,6 +175,8 @@ export default {
       }
       this.showFilterItemDesc = false;
       this.organiData = [];
+
+      this.getDashboardData();
     },
 
     getDashboardData () {
@@ -182,7 +184,8 @@ export default {
 
       let requestParams = {
         limit: this.limit,
-        offset: this.offset
+        offset: this.offset,
+        mname: this.checkedFilter.disc_type ? this.checkedFilter.disc_type.id : undefined
       };
 
       this.$wxUtils.loading({title: '加载中...'});

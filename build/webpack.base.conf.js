@@ -120,6 +120,13 @@ module.exports = {
         to: path.resolve(__dirname, '../dist/img'),
         flatten: true
       }
+    ]),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../src/assets/product-img/subjects/*.png'),
+        to: path.resolve(__dirname, '../dist/img/subjects'),
+        flatten: true
+      }
     ])
   ]
 }

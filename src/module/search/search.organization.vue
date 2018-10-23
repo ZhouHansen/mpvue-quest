@@ -70,9 +70,6 @@ export default {
   },
   methods: {
     chooseFilter (e) {
-      this.paging.limit = 15;
-      this.paging.total = 0;
-
       if (this.chooseFilterType === '') {
         this.chooseFilterType = e;
         this.showFilterItemDesc = true;
@@ -101,6 +98,9 @@ export default {
 
     doneChooseFilter (e) {
       console.log('接收到的过滤参数', e);
+      this.paging.limit = 15;
+      this.paging.total = 0;
+
       let params = {
         type: this.chooseFilterType
       };
