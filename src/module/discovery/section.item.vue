@@ -5,7 +5,7 @@
         <div class="section-avatar" :style="'background: url(' + sectionData.coverfile2 + ') no-repeat 50% 50%; background-size: cover;'"></div>
       </div>
       <div class="section-inf">
-        <div class="section-inf-title line-clamp-2">{{sectionData.name}}</div>
+        <text class="section-inf-title line-clamp-2">{{sectionData.name}}</text>
       </div>
     </div>
     <div class="section-label">
