@@ -301,6 +301,10 @@
       margin-bottom: 15vh;
     }
 
+    .section-nav-detail {
+      padding: 0 20rpx;
+    }
+
     .section-order {
       position: fixed;
       bottom: 60rpx;

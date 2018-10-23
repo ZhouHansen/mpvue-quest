@@ -24,5 +24,6 @@
 
   .organi-desc-container {
     border-top: $searchItemTopBorder;
+    padding: 0 20rpx;
   }
 </style>

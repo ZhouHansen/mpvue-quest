@@ -2,7 +2,7 @@
   <div class="order-container">
     <div class="payment-detail">
       <hoo-left-border-title :title="'购买内容'"></hoo-left-border-title>
-      <div class="payment-detail-content">
+      <div class="payment-detail-content" v-if="sectionData">
         <div class="activity-cover" :style="{background: 'url(' + sectionData.coverfile + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
         <div class="payment-inf">
           <div class="activity-title">{{sectionData.name}}</div>
@@ -95,10 +95,8 @@
         price: 0,
         priceNumber: 1,
         type: 'group',
-        showGroupTips: true,
         sectionData: null,
-        address: null,
-        pathObj: this.$wxUtils.getPagesLength()
+        address: null
       };
     },
     computed: {
@@ -110,14 +108,14 @@
       }
     },
     onShow () {
-      // this.sectionData = this.$store.state.discovery.activity;
-      // this.price = parseInt(this.sectionData.price / 100);
-      // this.orderParams = this.$store.state.discovery.order;
-      // this.address = this.orderParams ? this.orderParams.address : null;
-      // this.group = this.$store.state.discovery.order && this.$store.state.discovery.order.group ? this.$store.state.discovery.order.group : false;
-      // if (!this.address) {
-      //   this.getAddress();
-      // }
+      this.sectionData = this.$store.state.discovery.activity;
+      this.price = parseInt(this.sectionData.price / 100);
+      this.orderParams = this.$store.state.discovery.order;
+      this.address = this.orderParams ? this.orderParams.address : null;
+      this.group = this.$store.state.discovery.order && this.$store.state.discovery.order.group ? this.$store.state.discovery.order.group : false;
+      if (!this.address) {
+        this.getAddress();
+      }
 
       // console.log('discovery', this.$store.state.discovery);
       // console.log('设置的地址信息', this.address);
@@ -135,23 +133,19 @@
         }
       },
 
-      hideGroupTips () {
-        this.showGroupTips = false;
-      },
-
       editSignature () {
         this.$router.push('/pages/home/custom.signature');
       },
 
-      // getAddress () {
-      //   this.$network.account.getDefaultAddress().then(res => {
-      //     console.log(res);
-      //     this.address = res.data;
-      //     if (res.data) {
-      //       this.$store.commit(MutationType.SET_ORDER_PARAMS, {address: this.address});
-      //     }
-      //   });
-      // },
+      getAddress () {
+        this.$network.account.getDefaultAddress().then(res => {
+          console.log(res);
+          this.address = res.data;
+          if (res.data) {
+            this.$store.commit(MutationType.SET_ORDER_PARAMS, {address: this.address});
+          }
+        });
+      },
 
       editAddress () {
         if (this.address) {

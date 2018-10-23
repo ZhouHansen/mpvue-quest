@@ -6,7 +6,7 @@
     </div>
     <div class="payment-detail">
       <hoo-left-border-title :title="'购买内容'"></hoo-left-border-title>
-      <div class="payment-detail-content">
+      <div class="payment-detail-content" v-if="sectionData">
         <div class="activity-cover" :style="{background: 'url(' + sectionData.coverfile + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
         <div class="payment-inf">
           <div class="activity-title">{{sectionData.name}}</div>
@@ -20,8 +20,8 @@
         <div class="parent">
           <div class="user-title">家长信息</div>
           <div class="parent-inf">
-            <span class="parent-name">孙俪</span>
-            <span class="parent-phone">13304482010</span>
+            <span class="parent-name" v-if="userInf.decodedname">{{userInf.decodedname}}</span>
+            <span class="parent-phone">{{userInf.cell}}</span>
           </div>
         </div>
         <div class="child">
@@ -78,11 +78,11 @@
       this.$wxUtils.setNavTitle('确认订单');
       // console.log(this.$store.state.discovery.order);
       // console.log(this.$store.state.discovery.activity);
-
       this.getChildren();
     },
     data () {
       return {
+        userInf: this.$storage.get(this.$storageTypeName.userInf),
         sectionData: null,
         price: 0,
         priceNumber: 1,
@@ -90,8 +90,7 @@
         showGroupTips: true,
         setApp: {},
         children: null,
-        orderParams: null,
-        pathObj: this.$wxUtils.getPagesLength()
+        orderParams: null
       };
     },
     computed: {
@@ -105,13 +104,13 @@
         this.showGroupTips = false;
       }
 
-      // let discovery = this.$store.state.discovery;
-      // this.sectionData = discovery.activity;
-      // this.price = parseInt(this.sectionData.price / 100);
+      let discovery = this.$store.state.discovery;
+      this.sectionData = discovery.activity;
+      this.price = parseInt(this.sectionData.price / 100);
 
-      // this.orderParams = discovery.order;
-      // this.group = this.orderParams.group ? this.orderParams.group : false;
-      // this.children = this.orderParams.children ? this.orderParams.children : null;
+      this.orderParams = discovery.order;
+      this.group = this.orderParams.group ? this.orderParams.group : false;
+      this.children = this.orderParams.children ? this.orderParams.children : null;
 
       // console.log('discovery', this.$store.state.discovery);
       // console.log('设置的孩子信息', this.children);
@@ -137,15 +136,15 @@
         this.showGroupTips = false;
       },
 
-      // getChildren () {
-      //   this.$network.account.getChildrensList({limit: 1, offset: 0}).then(res => {
-      //     console.log(res);
-      //     if (res.data.length > 0) {
-      //       this.children = res.data[0];
-      //       this.$store.commit(MutationType.SET_ORDER_PARAMS, {children: this.children});
-      //     }
-      //   });
-      // },
+      getChildren () {
+        this.$network.account.getChildrensList({limit: 1, offset: 0}).then(res => {
+          console.log(res);
+          if (res.data.length > 0) {
+            this.children = res.data[0];
+            this.$store.commit(MutationType.SET_ORDER_PARAMS, {children: this.children});
+          }
+        });
+      },
 
       editChildren () {
         if (this.children) {
