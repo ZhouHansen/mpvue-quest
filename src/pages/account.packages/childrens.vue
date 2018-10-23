@@ -128,14 +128,16 @@ export default {
       });
 
       this.$wxUtils.showModal({title: '确定删除' + result[0].name + '？'}).then(res => {
-        this.$network.account.deleteChildrenInf({}, null, 'weapp/child/' + e).then(res => {
-          if (res.e === 0) {
-            this.$wxUtils.toast({title: '删除成功'});
-            this.getChildrenList();
-          } else {
-            this.$wxUtils.toast({title: '删除失败，请重试'});
-          }
-        });
+        if (res) {
+          this.$network.account.deleteChildrenInf({}, null, 'weapp/child/' + e).then(res => {
+            if (res.e === 0) {
+              this.$wxUtils.toast({title: '删除成功'});
+              this.getChildrenList();
+            } else {
+              this.$wxUtils.toast({title: '删除失败，请重试'});
+            }
+          });
+        }
       });
     }
   }

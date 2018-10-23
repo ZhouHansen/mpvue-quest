@@ -81,7 +81,7 @@ const showModal = obj => {
     wx.showModal({
       title: obj.title,
       success (res) {
-        resolve(res);
+        resolve(res.confirm);
       }
     });
   });

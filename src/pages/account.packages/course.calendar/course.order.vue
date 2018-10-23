@@ -1,6 +1,6 @@
 <template>
   <div class="course-order-container" v-if="orderDetail">
-    <div class="order-status">{{orderDetail.paystate ? '已付款' : '待付款'}}</div>
+    <div class="order-status">{{orderDetail.resultPayStatus.text}}</div>
     <div class="order-detail">
       <hoo-have-left-border-title :title="'订单信息'"></hoo-have-left-border-title>
       <div class="order-detail-list">
@@ -44,9 +44,9 @@
           <div class="order-detail-item-label">课程对象</div>
           <div class="order-detail-item-text">{{orderDetail.product.agesText}}</div>
         </div>
-        <div class="order-detail-item" v-if="orderDetail.product.lform && orderDetail.product.lto">
+        <div class="order-detail-item" v-if="orderDetail.product.datefrom[1] && orderDetail.product.dateto[1]">
           <div class="order-detail-item-label">开课时间</div>
-          <div class="order-detail-item-text">{{orderDetail.product.lform}} - {{orderDetail.product.lto}}</div>
+          <div class="order-detail-item-text">{{orderDetail.product.datefrom[1]}} - {{orderDetail.product.dateto[1]}}</div>
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">上课地点</div>
@@ -68,14 +68,23 @@
     </div>
 
     <div class="footer">
-      <!-- <hoo-button :text="'取消订单'" :type="'normal'" @click="cancelOrder"></hoo-button> -->
-      <hoo-button :text="'去评价'" :type="'topic'" @tapButton="visitAppraisal"></hoo-button>
-      <!-- <hoo-button :text="'联系客服'" :type="'normal'"></hoo-button> -->
+      <div class="button-item">
+        <hoo-button :text="'去付款'" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" :type="'topic'" @tapButton="payment"></hoo-button>
+      </div>
+      <div class="button-item">
+        <hoo-button :text="'取消订单'" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" :type="'normal'" @tapButton="cancelOrder"></hoo-button>
+      </div>
+      <div class="button-item">
+        <hoo-button :text="'去评价'" v-if="orderDetail.resultPayStatus.id === 'alreadyConfirm'" :type="'topic'" @tapButton="visitAppraisal"></hoo-button>
+      </div>
+      <div class="button-item">
+        <hoo-button :text="'联系客服'" v-if="orderDetail.resultPayStatus.id === 'end'" :type="'normal'"></hoo-button>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import {AgeFilterData, GetDataObjUseId} from '@/utils/default.data';
+import {AgeFilterData, CourseStatus, GetDataObjUseId} from '@/utils/default.data';
 import hooHaveLeftBorderTitle from '@/components/left.border.title';
 import hooButton from '@/components/button';
 import joinUserInf from '@/module/base/join.user.inf';
@@ -91,8 +100,6 @@ export default {
   props: [''],
   data () {
     return {
-      footerText: '取消订单',
-      footerType: 'normal',
       orderDetail: null,
       child: null
     };
@@ -114,6 +121,26 @@ export default {
       if (result) {
         this.orderDetail.product.agesText = result.text;
       }
+
+      this.setPayStatus();
+    },
+
+    setPayStatus () {
+      let payResult = null;
+      if (this.orderDetail.status === 0) {
+        if (this.orderDetail.paystate === 0) {
+          payResult = GetDataObjUseId(CourseStatus, 'waitPayment');
+        } else
+        if (this.orderDetail.paystate === 1 || this.orderDetail.paystate === 9) {
+          payResult = GetDataObjUseId(CourseStatus, 'alreadyPayWaitDelivery');
+        } else {
+          payResult = GetDataObjUseId(CourseStatus, 'alreadyConfirm');
+        }
+      } else {
+        payResult = GetDataObjUseId(CourseStatus, 'end');
+      }
+
+      this.orderDetail.resultPayStatus = payResult;
     },
 
     getChildDetail (id) {
@@ -122,15 +149,23 @@ export default {
       });
     },
 
+    payment () {
+      console.log('支付订单');
+    },
+
     cancelOrder () {
-      this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + this.orderDetail.id).then(res => {
-        if (res.e === 0) {
-          this.$wxUtils.toast({title: '取消成功'});
-          setTimeout(() => {
-            this.$router.back();
-          }, 2000);
-        } else {
-          this.$wxUtils.toast(res.message);
+      this.$wxUtils.showModal({title: '确定取消订单？'}).then(res => {
+        if (res) {
+          this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + this.orderDetail.id).then(res => {
+            if (res.e === 0) {
+              this.$wxUtils.toast({title: '取消成功'});
+              setTimeout(() => {
+                this.$router.back();
+              }, 2000);
+            } else {
+              this.$wxUtils.toast(res.message);
+            }
+          });
         }
       });
     },
@@ -211,6 +246,14 @@ export default {
       margin: 0 40rpx;
       padding: 40rpx 0;
       width: calc(100vw - 80rpx);
+
+      .button-item {
+        margin-top: 20rpx;
+
+        &:first-child {
+          margin-top: 0;
+        }
+      }
     }
   }
 </style>

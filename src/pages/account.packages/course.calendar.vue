@@ -8,7 +8,7 @@
         <div class="date-total">共3节课</div>
         <div class="course-list">
           <div class="course-item" v-for="item in courseList" :key="item.id" @click="visitOrder(item.id)">
-            <div class="course-item-time">10:30-12:00</div>
+            <div class="course-item-time" v-if="item.product.datefrom && item.product.dateto">{{item.product.datefrom[1]}} - {{item.product.dateto[1]}}</div>
             <div class="course-item-name ellipsis">{{item.product ? item.product.name: ''}}</div>
             <div class="course-item-visit">
               <span>查看</span>
@@ -48,7 +48,14 @@ export default {
     getOrderList () {
       this.$wxUtils.loading({title: '加载中...'});
       this.$network.account.getCourseList().then(res => {
-        console.log(res);
+        // console.log(res);
+        res.data.forEach((item, index) => {
+          if (item.product.lfrom && item.product.lto) {
+            item.product['datefrom'] = item.product.lfrom.split(' ');
+            item.product['dateto'] = item.product.lto.split(' ');
+          }
+        });
+
         this.courseList = res.data;
         this.$wxUtils.loading({show: false});
       });
@@ -112,6 +119,7 @@ export default {
 
             .course-item-visit {
               color: #b9b9b9;
+              flex-shrink: 0;
 
               .course-item-visit-icon {
                 width: 26rpx;

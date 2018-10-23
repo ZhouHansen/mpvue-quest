@@ -135,16 +135,18 @@ export default {
 
     cancelOrder () {
       this.$wxUtils.showModal({title: '确定取消订单？'}).then(res => {
-        this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + this.orderDetail.id).then(res => {
-          if (res.e === 0) {
-            this.$wxUtils.toast({title: '取消成功'});
-            setTimeout(() => {
-              this.$router.back();
-            }, 2000);
-          } else {
-            this.$wxUtils.toast({title: res.msg});
-          }
-        });
+        if (res) {
+          this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + this.orderDetail.id).then(res => {
+            if (res.e === 0) {
+              this.$wxUtils.toast({title: '取消成功'});
+              setTimeout(() => {
+                this.$router.back();
+              }, 2000);
+            } else {
+              this.$wxUtils.toast({title: res.msg});
+            }
+          });
+        }
       });
     },
 
