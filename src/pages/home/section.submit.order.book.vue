@@ -66,7 +66,7 @@
       <div class="activity-inf">
         <div class="activity-item">
           <span class="activity-item-name">商品规格</span>
-          <span class="activity-item-value">{{sectionData.pcat}}</span>
+          <span class="activity-item-value">{{sectionData.specText}}</span>
         </div>
       </div>
     </div>
@@ -81,6 +81,7 @@
 </template>
 <script>
   import * as MutationType from '@/store/mutation.type';
+  import {ProductSpecData, GetDataObjUseId} from '@/utils/default.data';
   import hooLeftBorderTitle from '@/components/left.border.title';
 
   export default {
@@ -115,6 +116,12 @@
       this.group = this.$store.state.discovery.order && this.$store.state.discovery.order.group ? this.$store.state.discovery.order.group : false;
       if (!this.address) {
         this.getAddress();
+      }
+
+      let result = GetDataObjUseId(ProductSpecData, this.sectionData.spec);
+
+      if (result) {
+        this.sectionData.specText = result.text;
       }
 
       // console.log('discovery', this.$store.state.discovery);

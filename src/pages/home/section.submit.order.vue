@@ -47,9 +47,9 @@
           <span class="activity-item-name">活动时间</span>
           <span class="activity-item-value">{{sectionData.lfrom}} - {{sectionData.lto}}</span>
         </div>
-        <div class="activity-item" v-if="sectionData.ages">
+        <div class="activity-item" v-if="sectionData.agesText">
           <span class="activity-item-name">活动对象</span>
-          <span class="activity-item-value">{{sectionData.ages}}</span>
+          <span class="activity-item-value">{{sectionData.agesText}}</span>
         </div>
         <div class="activity-item" v-if="sectionData.address">
           <span class="activity-item-name">活动地点</span>
@@ -68,7 +68,7 @@
 </template>
 <script>
   import * as MutationType from '@/store/mutation.type';
-  import {AgeFilterData} from '@/utils/default.data';
+  import {AgeFilterData, GetDataObjUseId} from '@/utils/default.data';
   import hooLeftBorderTitle from '@/components/left.border.title';
 
   export default {
@@ -113,12 +113,10 @@
       this.group = this.orderParams.group ? this.orderParams.group : false;
       this.children = this.orderParams.children ? this.orderParams.children : null;
 
-      let result = AgeFilterData.find((item, index) => {
-        return discovery.activity.ages === item.id;
-      });
+      let result = GetDataObjUseId(AgeFilterData, this.sectionData.ages);
 
       if (result) {
-        this.sectionData.ages = result.text;
+        this.sectionData.agesText = result.text;
       }
 
       // console.log('discovery', this.$store.state.discovery);

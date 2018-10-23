@@ -63,7 +63,8 @@
           name: undefined,
           address: undefined,
           biref: undefined,
-          ages: undefined
+          ages: undefined,
+          spec: undefined
         };
 
         for (let i in params) {
@@ -82,7 +83,7 @@
       return {
         title: this.sectionData.name,
         path: '/pages/home/section.detail?type=' + this.$route.query.type + '&id=' + this.$route.query.id,
-        imageUrl: this.sectionData.coverfile
+        imageUrl: this.sectionData.coverfile2
       };
     }
   };

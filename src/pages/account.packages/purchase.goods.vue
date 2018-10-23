@@ -2,24 +2,24 @@
   <div class="purchase-container">
     <div class="order-list" v-if="goods.length > 0">
       <div class="order-item" v-for="item in goods" :key="item.id">
-        <div class="order-item-body" @click="visitOrderDetail(item.id)">
-          <div class="order-id">
+        <div class="order-item-body">
+          <div class="order-id" @click="copyOrderNum(item.orderno)">
             <hoo-have-left-border-title :title="'订单编号：' + item.orderno"></hoo-have-left-border-title>
           </div>
-          <div class="order-item-status">{{item.paystate ? '已付款' : '待付款'}}</div>
-          <div class="order-item-content">
+          <div class="order-item-status">{{item.resultPayStatus.text}}</div>
+          <div class="order-item-content" @click="visitOrderDetail(item.id)">
             <div class="order-item-cover" :style="{background: 'url(' + item.product.coverfile2 + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
             <div class="order-item-detail">
               <div class="order-item-name">{{item.product.name}}</div>
-              <div class="order-item-format">规格</div>
+              <div class="order-item-format">{{item.product.agesText}}</div>
               <div class="order-item-cost">
                 <div class="order-price">¥{{item.product.price / 100}}</div>
-                <div class="order-num">1件</div>
+                <div class="order-num">{{item.count}}件</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="order-item-ctrl" @clik="cancelOrder(item.id)">取消订单</div>
+        <div class="order-item-ctrl" v-if="item.resultPayStatus.id === 'waitPayment'" @click="cancelOrder(item.id)">取消订单</div>
       </div>
     </div>
     <hoo-empty v-if="goods.length === 0" :type="'normal'" :text="'没有购买信息～'"></hoo-empty>
@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-import {PurchaseStatus} from '@/utils/order.status';
+import {ProductSpecData, PurchaseStatus, GetDataObjUseId} from '@/utils/default.data';
 import hooHaveLeftBorderTitle from '@/components/left.border.title';
 import hooEmpty from '@/components/empty';
 
@@ -47,7 +47,6 @@ export default {
   },
   mounted () {
     this.$wxUtils.setNavTitle('商品购买');
-    console.log(PurchaseStatus[0]);
   },
   onShow () {
     this.getGoods();
@@ -55,19 +54,39 @@ export default {
   methods: {
     getGoods () {
       this.$network.account.getCommodityList().then(res => {
-        console.log(res);
+        // console.log(res);
+        res.data.forEach((item, index) => {
+          // 设置规格
+          let result = GetDataObjUseId(ProductSpecData, item.product.spec);
+          if (result) {
+            item.product.agesText = result.text;
+          }
+
+          // 判断订单状态
+          if (item.paystate === 1 || item.paystate === 9) {
+            let payResult = GetDataObjUseId(PurchaseStatus, 'alreadyPayWaitDelivery');
+            item.resultPayStatus = payResult;
+          } else {
+            let payResult = GetDataObjUseId(PurchaseStatus, 'waitPayment');
+            item.resultPayStatus = payResult;
+          }
+        });
+
         this.goods = res.data;
       });
     },
 
     cancelOrder (e) {
-      this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + e).then(res => {
-        if (res.e === 0) {
-          this.$wxUtils.toast({title: '取消成功'});
-          this.getGoods();
-        } else {
-          this.$wxUtils.toast(res.message);
-        }
+      console.log(e);
+      this.$wxUtils.showModal({title: '确定取消订单？'}).then(res => {
+        this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + e).then(res => {
+          if (res.e === 0) {
+            this.$wxUtils.toast({title: '取消成功'});
+            this.getGoods();
+          } else {
+            this.$wxUtils.toast({titel: res.msg});
+          }
+        });
       });
     },
 
@@ -81,6 +100,10 @@ export default {
 
     visitCourseHistory () {
       this.$router.push('/pages/account.packages/purchase.goods/purchase.history');
+    },
+
+    copyOrderNum (e) {
+      this.$wxUtils.setClipboardData(e);
     }
   }
 };

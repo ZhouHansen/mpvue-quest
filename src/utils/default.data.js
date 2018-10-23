@@ -1,5 +1,4 @@
 // 固定的过滤条件数据
-
 const SubjectsFilterData = [
   {text: '全部', icon: '../../img/subjects/subject_14.png', id: 'all'},
   {text: '美术', icon: '../../img/subjects/subject_1.png', id: 'art'},
@@ -58,11 +57,84 @@ const TypeFilterData = [
   {text: 'STEM', id: 'STEM'}
 ];
 
+const ProductSpecData = [
+  {text: '单本', id: '1'},
+  {text: '套装', id: '2'},
+  {text: '期刊', id: '3'}
+];
+
+// 订单状态
+const PurchaseStatus = [
+  {
+    text: '待付款',
+    id: 'waitPayment'
+  },
+  {
+    text: '等待商家确认',
+    id: 'alreadyPayWaitDelivery'
+  },
+  {
+    text: '商家已确认，请等待发货',
+    id: 'alreadyConfirm'
+  },
+  {
+    text: '待评价',
+    id: 'waitAppraisal'
+  },
+  {
+    text: '交易结束',
+    id: 'end'
+  }
+];
+
+const CourseStatus = [
+  {
+    text: '待付款',
+    id: 'waitPayment'
+  },
+  {
+    text: '等待商家确认名额',
+    id: 'alreadyPayWaitDelivery'
+  },
+  {
+    text: '商家已确认，请按时参加',
+    id: 'alreadyConfirm'
+  },
+  {
+    text: '课程已开始，请评价',
+    id: 'waitAppraisal'
+  },
+  {
+    text: '交易结束',
+    id: 'end'
+  }
+];
+
+// 获取数据对象方法
+
+const GetDataObjUseId = (data, id) => {
+  let result = data.find((item, index) => {
+    return item.id === id;
+  });
+
+  if (result) {
+    return result;
+  } else {
+    return false;
+  }
+};
+
 export {
   SubjectsFilterData,
   AgeFilterData,
   TimeFilterData,
   PriceFilterData,
   DateFilterData,
-  TypeFilterData
+  TypeFilterData,
+  ProductSpecData,
+
+  PurchaseStatus,
+  CourseStatus,
+
+  GetDataObjUseId
 };

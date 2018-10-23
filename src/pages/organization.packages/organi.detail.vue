@@ -184,7 +184,7 @@
       return {
         title: 'Hooray - ' + this.organiData.name,
         path: '/pages/organization.packages/organi.detail?id=' + this.organiData.id,
-        imageUrl: this.organiData.coverfile
+        imageUrl: this.organiData.coverfile2
       };
     }
   };

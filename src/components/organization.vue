@@ -29,7 +29,6 @@
     props: ['organiData'],
     data () {
       return {
-        avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_133630.524091.jpeg',
         params: null
       };
     },
@@ -45,7 +44,11 @@
       },
 
       callPhone () {
-        WxUtils.callPhone({phone: '17645091513'});
+        if (this.params.phone) {
+          WxUtils.callPhone({phone: this.params.phone});
+        } else {
+          this.$wxUtils.toast({title: '机构为设置电话'});
+        }
       },
 
       visitOrganiDetail () {

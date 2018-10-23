@@ -42,7 +42,7 @@
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">课程对象</div>
-          <div class="order-detail-item-text">儿童班,需要返回数据</div>
+          <div class="order-detail-item-text">{{orderDetail.product.agesText}}</div>
         </div>
         <div class="order-detail-item" v-if="orderDetail.product.lform && orderDetail.product.lto">
           <div class="order-detail-item-label">开课时间</div>
@@ -75,6 +75,7 @@
   </div>
 </template>
 <script>
+import {AgeFilterData, GetDataObjUseId} from '@/utils/default.data';
 import hooHaveLeftBorderTitle from '@/components/left.border.title';
 import hooButton from '@/components/button';
 import joinUserInf from '@/module/base/join.user.inf';
@@ -106,6 +107,12 @@ export default {
       console.log('订单信息', this.orderDetail);
       if (this.orderDetail.cid) {
         this.getChildDetail(this.orderDetail.cid);
+      }
+
+      let result = GetDataObjUseId(AgeFilterData, this.orderDetail.product.ages);
+
+      if (result) {
+        this.orderDetail.product.agesText = result.text;
       }
     },
 

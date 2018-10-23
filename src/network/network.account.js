@@ -116,7 +116,7 @@ export default {
   },
 
   /**
-   * 取消订单
+   * 获取历史订单
   */
   getOrderHIstory: {
     url: 'weapp/closedorders/{ptype}', // lesson  product

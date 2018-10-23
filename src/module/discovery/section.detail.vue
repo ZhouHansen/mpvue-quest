@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div class="section-teacher">
+    <div class="section-teacher" v-if="params.ltypes">
       <hoo-left-border-title :title="'教师'"></hoo-left-border-title>
       <div class="teacher-list">
         <div class="teacher-item">

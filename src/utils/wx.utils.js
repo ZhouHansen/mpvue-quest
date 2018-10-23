@@ -127,6 +127,15 @@ const previewImage = ({urls}) => {
   });
 };
 
+const setClipboardData = (text) => {
+  wx.setClipboardData({
+    data: text,
+    success (res) {
+      toast({title: '复制成功！'});
+    }
+  });
+};
+
 export default {
   getPagesLength,
   getUserInfo,
@@ -138,5 +147,6 @@ export default {
   download,
   setNavTitle,
   chooseImg,
-  previewImage
+  previewImage,
+  setClipboardData
 };

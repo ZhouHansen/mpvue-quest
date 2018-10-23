@@ -47,7 +47,7 @@
       this.$emit('chooseFilterType', this.array[0].type);
     },
     onUnload () {
-      console.log('卸载');
+      // console.log('卸载');
       this.selectText = this.array[0].text;
       this.inputValEnter = null;
     },

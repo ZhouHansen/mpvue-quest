@@ -1,7 +1,7 @@
 <template>
   <div class="course-order-container" v-if="orderDetail">
-    <div class="order-status">{{orderStatus.status}}</div>
-    <div class="address-detail">
+    <div class="order-status">{{orderDetail.resultPayStatus.text}}</div>
+    <div class="address-detail" v-if="orderDetail.address">
       <hoo-have-left-border-title :title="'收货地址'"></hoo-have-left-border-title>
       <div class="address-content">
         <div class="address-title">{{orderDetail.address.prov}}{{orderDetail.address.city}}{{orderDetail.address.district}}{{orderDetail.address.address}}</div>
@@ -38,9 +38,9 @@
           <div class="order-detail-item-label">支付方式</div>
           <div class="order-detail-item-text">微信支付</div>
         </div>
-        <div class="order-detail-item">
+        <div class="order-detail-item" v-if="orderDetail.resultPayStatus.id === 'alreadyPayWaitDelivery'">
           <div class="order-detail-item-label">支付时间</div>
-          <div class="order-detail-item-text">{{orderDetail.issueat}}</div>
+          <div class="order-detail-item-text">{{orderDetail.paidat}}</div>
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">订单编号</div>
@@ -60,7 +60,7 @@
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">产品规格</div>
-          <div class="order-detail-item-text">32册</div>
+          <div class="order-detail-item-text">{{orderDetail.product.agesText}}</div>
         </div>
       </div>
     </div>
@@ -73,14 +73,26 @@
     </div>
 
     <div class="footer">
-      <hoo-button :text="'去付款'" :type="'topic'" v-if="orderStatus.ctrl === 'payment'"></hoo-button>
-      <hoo-button :text="'取消订单'" :type="'normal'" v-if="orderStatus.ctrl === 'cancel'" @click="cancelOrder"></hoo-button>
-      <div class="footer-list" v-if="orderStatus.ctrl === 'confirm'">
-        <hoo-button :text="'查看物流'" :type="'normal'"></hoo-button>
-        <hoo-button :text="'确认收货'" :type="'topic'"></hoo-button>
+      <div class='button-item'>
+        <hoo-button :text="'去付款'" :type="'topic'" v-if="orderDetail.resultPayStatus.id === 'waitPayment'"></hoo-button>
       </div>
-      <hoo-button :text="'去评价'" :type="'topic'" v-if="orderStatus.ctrl === 'appraisal'" @tapButton="visitAppraisal"></hoo-button>
-      <hoo-button :text="'联系客服'" :type="'normal'" v-if="orderStatus.ctrl === 'customerServer'"></hoo-button>
+      <div class='button-item'>
+        <hoo-button :text="'取消订单'" :type="'normal'" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" @tapButton="cancelOrder"></hoo-button>
+      </div>
+      <div class="footer-list" v-if="orderDetail.resultPayStatus.id === 'alreadyConfirm'">
+        <!-- <div class='button-item'>
+          <hoo-button :text="'查看物流'" :type="'normal'"></hoo-button>
+        </div> -->
+        <div class='button-item'>
+          <hoo-button :text="'确认收货'" :type="'topic'"></hoo-button>
+        </div>
+      </div>
+      <div class='button-item'>
+        <hoo-button :text="'去评价'" :type="'topic'" v-if="orderDetail.resultPayStatus.id === 'waitAppraisal'" @tapButton="visitAppraisal"></hoo-button>
+      </div>
+      <div class='button-item'>
+        <hoo-button :text="'联系客服'" :type="'normal'" v-if="orderDetail.resultPayStatus.id === 'end'"></hoo-button>
+      </div>
     </div>
   </div>
 </template>
@@ -88,7 +100,6 @@
 import hooHaveLeftBorderTitle from '@/components/left.border.title';
 import hooButton from '@/components/button';
 import organiItem from '@/components/organization';
-import {PurchaseStatus} from '@/utils/order.status';
 
 export default {
   components: {
@@ -99,8 +110,6 @@ export default {
   props: [''],
   data () {
     return {
-      cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png',
-      orderStatus: {},
       orderDetail: null
     };
   },
@@ -121,22 +130,21 @@ export default {
       }
 
       this.orderDetail = firstFormat;
-
-      // this.orderStatus = PurchaseStatus[this.orderDetail.paystate];
-      this.orderStatus = PurchaseStatus[0];
       console.log(this.orderDetail);
     },
 
     cancelOrder () {
-      this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + this.orderDetail.id).then(res => {
-        if (res.e === 0) {
-          this.$wxUtils.toast({title: '取消成功'});
-          setTimeout(() => {
-            this.$router.back();
-          }, 2000);
-        } else {
-          this.$wxUtils.toast(res.message);
-        }
+      this.$wxUtils.showModal({title: '确定取消订单？'}).then(res => {
+        this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + this.orderDetail.id).then(res => {
+          if (res.e === 0) {
+            this.$wxUtils.toast({title: '取消成功'});
+            setTimeout(() => {
+              this.$router.back();
+            }, 2000);
+          } else {
+            this.$wxUtils.toast({title: res.msg});
+          }
+        });
       });
     },
 
@@ -251,6 +259,14 @@ export default {
       margin: 0 40rpx;
       padding: 40rpx 0;
       width: calc(100vw - 80rpx);
+
+      .button-item {
+        margin-top: 20rpx;
+
+        &:first-child {
+          margin-top: 0;
+        }
+      }
     }
   }
 </style>

@@ -1,9 +1,9 @@
 <template>
   <div class="arrange-container">
     <div class="arrage-list">
-      <div class="arrange-item" v-if="arrangeParams.pcat">
+      <div class="arrange-item" v-if="spec">
         <div class="arrange-icon book"></div>
-        <div class="arrange-text">活动早上9:00入场，请购票后等待主办方</div>
+        <div class="arrange-text">{{spec}}</div>
       </div>
       <div class="arrange-item" v-if="arrangeParams.lfrom && arrangeParams.lto">
         <div class="arrange-icon time"></div>
@@ -21,15 +21,22 @@
   </div>
 </template>
 <script>
-import {AgeFilterData} from '@/utils/default.data';
+import {AgeFilterData, ProductSpecData, GetDataObjUseId} from '@/utils/default.data';
 
 export default {
   props: ['arrangeParams'],
   computed: {
     ages () {
-      let result = AgeFilterData.find((item, index) => {
-        return this.arrangeParams.ages === item.id;
-      });
+      let result = GetDataObjUseId(AgeFilterData, this.arrangeParams.ages);
+
+      if (result) {
+        return result.text;
+      } else {
+        return false;
+      }
+    },
+    spec () {
+      let result = GetDataObjUseId(ProductSpecData, this.arrangeParams.spec);
 
       if (result) {
         return result.text;
