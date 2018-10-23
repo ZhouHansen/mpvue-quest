@@ -36,15 +36,25 @@
     },
     computed: {
       distanceToSection () {
-        if (this.sectionData.xlng && this.sectionData.xlat) {
-          return Utils.backDistance({
-            lat1: this.location.latitude,
-            lng1: this.location.longitude,
-            lat2: this.sectionData.xlat,
-            lng2: this.sectionData.xlng
-          });
-        } else {
+        let wxAddress = this.$storage.get(this.$storageTypeName.address);
+
+        console.log(this.sectionData.city);
+        console.log(wxAddress.result.address_component.city);
+        if (!this.sectionData.city) {
           return false;
+        }
+
+        if (wxAddress.result.address_component.city.indexOf(this.sectionData.city) > -1) {
+          if (this.sectionData.xlng && this.sectionData.xlat) {
+            return Utils.backDistance({
+              lat1: this.location.latitude,
+              lng1: this.location.longitude,
+              lat2: this.sectionData.xlat,
+              lng2: this.sectionData.xlng
+            });
+          }
+        } else {
+          return this.sectionData.city;
         }
       },
       tagslist () {
