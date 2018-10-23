@@ -66,7 +66,7 @@ export default {
     return {
       product: {
         type: 'product',
-        id: 2,
+        id: 0,
         input: '',
         imageList: [],
         score: 1,
@@ -74,7 +74,7 @@ export default {
       },
       institution: {
         type: 'institution',
-        id: 1,
+        id: 0,
         input: '',
         imageList: [],
         score: 1,
@@ -84,23 +84,27 @@ export default {
   },
   mounted () {
     this.$wxUtils.setNavTitle('评价');
+    let params = JSON.parse(this.$route.query.obj);
+
+    this.product.id = params.product.id;
+    this.institution.id = params.product.instid;
   },
   methods: {
     getImageData (e) {
-      console.log(e);
+      // console.log(e);
       let tar = e.id.split('.');
       this[tar[0]][tar[1]] = e.imageList;
-      console.log(this[tar[0]][tar[1]]);
+      // console.log(this[tar[0]][tar[1]]);
     },
 
     appraisalDesc (e) {
-      console.log(e);
+      // console.log(e);
       let tar = e.mp.target.id.split('.');
       this[tar[0]][tar[1]] = e.mp.detail.value;
     },
 
     getScore (e) {
-      console.log(e);
+      // console.log(e);
       let tar = e.id.split('.');
       this[tar[0]][tar[1]] = e.score;
     },
@@ -155,8 +159,8 @@ export default {
 
       this.$wxUtils.loading({title: '上传中...'});
       Promise.all(requestPromiseArr).then(res => {
-        console.log('提交结束', res);
         this.$wxUtils.loading({show: false});
+        this.$wxUtils.toast({title: '提交成功'});
         setTimeout(() => {
           this.$router.back();
         }, 2000);

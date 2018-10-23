@@ -90,7 +90,6 @@ export default {
   props: [''],
   data () {
     return {
-      cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png',
       footerText: '取消订单',
       footerType: 'normal',
       orderDetail: null,
@@ -131,7 +130,8 @@ export default {
 
     visitAppraisal () {
       console.log('去评价');
-      this.$router.push('/pages/account.packages/course.calendar/course.appraisal');
+
+      this.$router.push({path: '/pages/account.packages/course.calendar/course.appraisal', query: {obj: JSON.stringify(this.orderDetail)}});
     }
   }
 };

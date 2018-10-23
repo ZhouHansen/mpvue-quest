@@ -38,8 +38,6 @@
       distanceToSection () {
         let wxAddress = this.$storage.get(this.$storageTypeName.address);
 
-        console.log(this.sectionData.city);
-        console.log(wxAddress.result.address_component.city);
         if (!this.sectionData.city) {
           return false;
         }

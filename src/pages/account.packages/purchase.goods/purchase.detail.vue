@@ -141,7 +141,7 @@ export default {
     },
 
     visitAppraisal () {
-      this.$router.push('/pages/account.packages/purchase.goods/purchase.appraisal');
+      this.$router.push({path: '/pages/account.packages/purchase.goods/purchase.appraisal', obj: JSON.stringify(this.orderDetail)});
     }
   }
 };

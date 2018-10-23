@@ -1,19 +1,19 @@
 <template>
   <div class="arrange-container">
     <div class="arrage-list">
-      <div class="arrange-item">
+      <div class="arrange-item" v-if="arrangeParams.pcat">
         <div class="arrange-icon book"></div>
         <div class="arrange-text">活动早上9:00入场，请购票后等待主办方</div>
       </div>
-      <div class="arrange-item">
+      <div class="arrange-item" v-if="arrangeParams.lfrom && arrangeParams.lto">
         <div class="arrange-icon time"></div>
-        <div class="arrange-text">活动早上9:00入场，请购票后等待主办方</div>
+        <div class="arrange-text">{{arrangeParams.lfrom}} - {{arrangeParams.lto}}</div>
       </div>
-      <div class="arrange-item">
+      <div class="arrange-item" v-if="ages">
         <div class="arrange-icon kidney"></div>
-        <div class="arrange-text">活动早上9:00入场，请购票后等待主办方</div>
+        <div class="arrange-text">{{ages}}</div>
       </div>
-      <div class="arrange-item">
+      <div class="arrange-item" v-if="arrangeParams.brief">
         <div class="arrange-icon info"></div>
         <div class="arrange-text">{{arrangeParams.brief}}</div>
       </div>
@@ -21,8 +21,23 @@
   </div>
 </template>
 <script>
+import {AgeFilterData} from '@/utils/default.data';
+
 export default {
-  props: ['arrangeParams']
+  props: ['arrangeParams'],
+  computed: {
+    ages () {
+      let result = AgeFilterData.find((item, index) => {
+        return this.arrangeParams.ages === item.id;
+      });
+
+      if (result) {
+        return result.text;
+      } else {
+        return false;
+      }
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

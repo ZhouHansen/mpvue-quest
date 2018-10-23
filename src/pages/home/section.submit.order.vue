@@ -43,15 +43,15 @@
     <div class="activity-detail">
       <hoo-left-border-title :title="'活动详情'"></hoo-left-border-title>
       <div class="activity-inf">
-        <div class="activity-item">
+        <div class="activity-item" v-if="sectionData.from && sectionData.lto">
           <span class="activity-item-name">活动时间</span>
-          <span class="activity-item-value">9月11日-9月20日</span>
+          <span class="activity-item-value">{{sectionData.lfrom}} - {{sectionData.lto}}</span>
         </div>
-        <div class="activity-item">
+        <div class="activity-item" v-if="ages">
           <span class="activity-item-name">活动对象</span>
-          <span class="activity-item-value">9月11日-9月20日</span>
+          <span class="activity-item-value">{{ages}}</span>
         </div>
-        <div class="activity-item">
+        <div class="activity-item" v-if="sectionData.address">
           <span class="activity-item-name">活动地点</span>
           <span class="activity-item-value">{{sectionData.address}}</span>
         </div>
@@ -68,6 +68,7 @@
 </template>
 <script>
   import * as MutationType from '@/store/mutation.type';
+  import {AgeFilterData} from '@/utils/default.data';
   import hooLeftBorderTitle from '@/components/left.border.title';
 
   export default {
@@ -96,6 +97,17 @@
     computed: {
       totalMoney () {
         return this.price * this.priceNumber;
+      },
+      ages () {
+        let result = AgeFilterData.find((item, index) => {
+          return this.sectionData.ages === item.id;
+        });
+
+        if (result) {
+          return result.text;
+        } else {
+          return false;
+        }
       }
     },
     onShow () {

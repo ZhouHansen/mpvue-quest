@@ -10,7 +10,7 @@
       </div>
       <hoo-score :type="'show'" :score="paramsDetail.extra.star"></hoo-score>
       <div class="appra-img-list" @click="previewImg">
-        <div class="appra-img-item" v-for="(item, index) in paramsDetail.extra.images" :key="index" :style="'background: url(' + item + ') no-repeat 50% 50%; background-size: cover;'"></div>
+        <div class="appra-img-item" v-if="paramsDetail.extra.images" v-for="(item, index) in paramsDetail.extra.images" :key="index" :style="'background: url(' + item + ') no-repeat 50% 50%; background-size: cover;'"></div>
       </div>
       <div class="appra-desc">{{paramsDetail.extra.content}}</div>
     </div>
@@ -27,11 +27,10 @@
       hooScore
     },
     mounted () {
-      console.log('评价详情', this.paramsDetail);
+      // console.log('评价详情', this.paramsDetail);
     },
     data () {
       return {
-        cover: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_170849.403868.png'
       };
     },
     methods: {

@@ -1,7 +1,7 @@
 <template>
   <!-- 课程，活动，商品 -->
   <div class="section-detail-container">
-    <div class="section-cover" :style="'background: url(' + params.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
+    <div class="section-cover" v-if="params" :style="'background: url(' + params.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
     <div class="section-title">
       <div class="section-title-text ellipsis">{{params.name}}</div>
       <hoo-label :type-text="params.tagslist[0]" :label-arr="labelArr"></hoo-label>
