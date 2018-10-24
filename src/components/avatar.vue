@@ -1,5 +1,5 @@
 <template>
-  <img class="avatar-container" :class="size" :src="avatarUrl" v-if="avatarUrl">
+  <img class="avatar-container" :class="size" :src="avatarUrl" v-if="avatarUrl" :mode="'aspectFill'">
   <!-- <div class="avatar-container" :class="size" v-if="avatarUrl" :style="{background: 'url(' + avatarUrl + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div> -->
 </template>
 
@@ -10,7 +10,6 @@ export default {
   },
   data () {
     return {
-      // avatar: 'http://f1-snap.oss-cn-beijing.aliyuncs.com/simditor/2018-09-10_085134.462465.png'
     };
   },
   computed: {

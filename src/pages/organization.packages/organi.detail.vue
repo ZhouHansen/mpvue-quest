@@ -2,7 +2,7 @@
   <div class="organi-detail-container">
     <div class="organi-header">
       <div class="organi-avatar">
-        <hoo-avatar :avatar="organiData.coverfile2"></hoo-avatar>
+        <hoo-avatar :avatar="organiData.coverfile"></hoo-avatar>
       </div>
       <div class="organi-header-content">
         <div class="organi-header-title">{{organiData.name}}</div>

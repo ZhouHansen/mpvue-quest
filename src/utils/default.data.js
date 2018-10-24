@@ -1,6 +1,6 @@
 // 固定的过滤条件数据
 const SubjectsFilterData = [
-  {text: '全部', icon: '../../img/subjects/subject_14.png', id: 'all'},
+  {text: '全部', icon: '../../img/subjects/subject_14.png', id: undefined},
   {text: '美术', icon: '../../img/subjects/subject_1.png', id: 'art'},
   {text: '英语', icon: '../../img/subjects/subject_2.png', id: 'english'},
   {text: '工作坊', icon: '../../img/subjects/subject_11.png', id: 'workshop'},
@@ -61,6 +61,14 @@ const ProductSpecData = [
   {text: '单本', id: '1'},
   {text: '套装', id: '2'},
   {text: '期刊', id: '3'}
+];
+
+const TeacherInfFilterData = [
+  {text: '全部', id: undefined},
+  {text: '机构', id: 'inst'},
+  {text: '科目', id: 'subject'},
+  {text: '学位', id: 'degree'},
+  {text: '教龄', id: 'teachage'}
 ];
 
 // 订单状态
@@ -132,6 +140,7 @@ export {
   DateFilterData,
   TypeFilterData,
   ProductSpecData,
+  TeacherInfFilterData,
 
   PurchaseStatus,
   CourseStatus,

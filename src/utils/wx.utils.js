@@ -136,6 +136,13 @@ const setClipboardData = (text) => {
   });
 };
 
+const pageScrollTo = (dis = 0, time = 300) => {
+  wx.pageScrollTo({
+    scrollTop: dis,
+    duration: time
+  });
+};
+
 export default {
   getPagesLength,
   getUserInfo,
@@ -148,5 +155,6 @@ export default {
   setNavTitle,
   chooseImg,
   previewImage,
-  setClipboardData
+  setClipboardData,
+  pageScrollTo
 };

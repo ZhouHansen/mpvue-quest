@@ -80,6 +80,7 @@
   </div>
 </template>
 <script>
+  import WxNetwork from '@/network/network.wx';
   import * as MutationType from '@/store/mutation.type';
   import {ProductSpecData, GetDataObjUseId} from '@/utils/default.data';
   import hooLeftBorderTitle from '@/components/left.border.title';
@@ -207,11 +208,10 @@
         this.$network.discovery.submitOrder(requestParams, null, 'weapp/order/place/product/' + this.sectionData.id).then(res => {
           console.log(res);
           if (res.e === 0) {
-            this.$wxUtils.toast({title: '发送成功，测试时不进行支付'});
-            setTimeout(() => {
-              this.$router.go(2);
-            }, 3000);
-          };
+            this.runWxPayment(res.data.prepayid);
+          } else {
+            this.$wxUtils.toast({title: res.msg});
+          }
         });
       },
 
@@ -249,14 +249,30 @@
         this.$network.discovery.submitOrderGroup(requestParams, null, 'weapp/order/joingroup/' + this.group).then(res => {
           console.log(res);
           if (res.e === 0) {
-            this.$wxUtils.toast({title: '发送成功，测试时不进行支付'});
             this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: false});
 
-            setTimeout(() => {
-              this.$router.go(2);
-            }, 3000);
+            this.runWxPayment(res.data.prepayid);
+          } else {
+            this.$wxUtils.toast({title: res.msg});
           }
         });
+      },
+
+      runWxPayment (prepayid) {
+        let params = {
+          sign: prepayid,
+          cb: this.callbackWxPayment
+        };
+        WxNetwork.wxPayment(params).then(res => {
+          console.log(res);
+          // this.$wxUtils.toast({title: '发送成功，现在是测试'});
+        }).then(res => {
+          console.log(res);
+        });
+      },
+
+      callbackWxPayment (res) {
+        this.$router.back();
       }
     }
   };

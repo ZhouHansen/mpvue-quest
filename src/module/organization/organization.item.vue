@@ -1,7 +1,7 @@
 <template>
   <div class="organi-container" @click="visitOrganiDetail">
     <div class="organi-avatar">
-      <hoo-avatar :avatar="organiData.coverfile2"></hoo-avatar>
+      <hoo-avatar :avatar="organiData.coverfile"></hoo-avatar>
     </div>
     <div class="organi-inf">
       <div class="organi-title">{{organiData.name}}</div>

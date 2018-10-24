@@ -32,6 +32,7 @@
         <hoo-section :section-data="item" :location="location"></hoo-section>
       </div>
     </div>
+    <hoo-scrolltop></hoo-scrolltop>
   </div>
 </template>
 
@@ -42,6 +43,7 @@ import Utils from '@/utils/index';
 import hooSelect from '@/components/select';
 import hooSection from '@/module/discovery/section.item';
 import filterList from '@/module/search/search.header.filter.list';
+import hooScrolltop from '@/components/scrolltop';
 
 import QQMapWX from '@/plugs/qqmap-wx-jssdk.js';
 let qqMap = null;
@@ -49,7 +51,8 @@ export default {
   components: {
     hooSection,
     filterList,
-    hooSelect
+    hooSelect,
+    hooScrolltop
   },
   data () {
     return {
@@ -75,7 +78,7 @@ export default {
   mounted () {
     // 注册腾讯地图
     qqMap = new QQMapWX({
-      key: 'IZ2BZ-TY3Y6-DZRSY-MGSVW-5TWKO-BMBQ2'
+      key: 'HUKBZ-5IIWU-NORVA-BB4KA-B7TR5-GFFH7'
     });
 
     this.$wxUtils.setNavTitle('发现');
@@ -126,7 +129,7 @@ export default {
           longitude: this.location.longitude
         },
         complete: res => {
-          console.log(res);
+          console.log('腾讯地图定位', res);
           this.$storage.set(this.$storageTypeName.address, res);
         }
       });

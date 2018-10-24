@@ -1,6 +1,6 @@
 <template>
   <div class="recommend-organi-container">
-    <div class="title">推荐品牌机构</div>
+    <div class="title">推荐教育机构</div>
     <div class="recommend-scroll">
       <scroll-view class="recommend-list" :scroll-y="'true'" :scroll-with-animation="'true'">
         <div class="recommend-item none" v-if="params.length === 0"><span>暂无推荐</span></div>

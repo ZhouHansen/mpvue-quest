@@ -86,8 +86,8 @@ export default {
     this.$wxUtils.setNavTitle('评价');
     let params = JSON.parse(this.$route.query.obj);
 
-    this.product.id = params.product.id;
-    this.institution.id = params.product.instid;
+    this.product.id = params.productId;
+    this.institution.id = params.instId;
   },
   methods: {
     getImageData (e) {

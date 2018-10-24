@@ -75,7 +75,7 @@ export default {
 
       .course-filter-item {
         flex-shrink: 0;
-        width: calc((100% - 200rpx) / 4);
+        width: calc((100% - 16% - 80rpx) / 4);
         box-shadow: 0 4rpx 20rpx #D4D4D4;
         padding: 20rpx 2%;
         margin: 10rpx 10rpx;

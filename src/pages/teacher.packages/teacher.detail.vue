@@ -176,6 +176,7 @@
 
         .detail-left-avatar {
           padding-bottom: 20rpx;
+          text-align: center;
         }
       }
 

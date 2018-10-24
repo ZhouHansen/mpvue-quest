@@ -22,6 +22,8 @@
 
     <!-- teacher -->
     <search-teacher v-if="alreadyUseSearch && filterTypeVal === 'teacher'" :filter-object="filterObject"></search-teacher>
+
+    <hoo-scrolltop></hoo-scrolltop>
   </div>
 </template>
 <script>
@@ -30,6 +32,7 @@
   import searchCourse from '@/module/search/search.course';
   import searchOrganization from '@/module/search/search.organization';
   import searchTeacher from '@/module/search/search.teacher';
+  import hooScrolltop from '@/components/scrolltop';
 
   export default {
     components: {
@@ -37,7 +40,8 @@
       haveTopicTitle,
       searchCourse,
       searchOrganization,
-      searchTeacher
+      searchTeacher,
+      hooScrolltop
     },
     data () {
       return {

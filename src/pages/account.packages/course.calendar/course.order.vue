@@ -171,7 +171,12 @@ export default {
     },
 
     visitAppraisal () {
-      this.$router.push({path: '/pages/account.packages/course.calendar/course.appraisal', query: {obj: JSON.stringify(this.orderDetail)}});
+      let params = {
+        lessonId: this.orderDetail.product.id,
+        instId: this.orderDetail.product.instid
+      };
+
+      this.$router.push({path: '/pages/account.packages/course.calendar/course.appraisal', query: {obj: JSON.stringify(params)}});
     }
   }
 };
@@ -209,6 +214,7 @@ export default {
 
           .order-detail-item-text {
             color: #000000;
+            word-break:break-all;
           }
         }
       }

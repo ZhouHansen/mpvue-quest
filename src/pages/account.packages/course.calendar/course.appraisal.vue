@@ -77,7 +77,6 @@ import hooImageAppraisal from '@/components/image.appraisal';
 import hooButton from '@/components/button';
 
 export default {
-  props: [''],
   components: {
     hooHaveLeftBorderTitle,
     hooScore,
@@ -116,8 +115,8 @@ export default {
     this.$wxUtils.setNavTitle('评价');
     let params = JSON.parse(this.$route.query.obj);
     // console.log(params);
-    this.lesson.id = params.product.id;
-    this.institution.id = params.product.instid;
+    this.lesson.id = params.lessonId;
+    this.institution.id = params.instId;
   },
   methods: {
     getImageData (e) {

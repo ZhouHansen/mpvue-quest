@@ -1,7 +1,7 @@
 <template>
   <div class="organi-container" v-if="params">
     <div class="organi-inf">
-      <div class="organi-avatar" :style="'background: url(' + params.coverfile2 + ') no-repeat 50% 50%; background-size: cover;'"></div>
+      <div class="organi-avatar" :style="'background: url(' + params.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
       <div class="organi-title">
         <div class="organi-title-text ellipsis">{{params.name}}</div>
         <div class="organi-title-auth">

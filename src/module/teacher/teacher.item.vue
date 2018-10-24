@@ -1,7 +1,7 @@
 <template>
   <div class="teacher-container" @click="viewTeacherDetail">
     <div class="teacher-avatar">
-      <hoo-avatar :avatar="detail.avartarurl" :type="'big'"></hoo-avatar>
+      <img class="avatar-img" :src="detail.avartarurl" :mode="'aspectFill'">
     </div>
     <div class="teacher-inf">
       <div class="teacher-name flex-row-start ">
@@ -61,6 +61,12 @@
     .teacher-avatar {
       margin-right: 30rpx;
       flex-shrink: 0;
+
+      .avatar-img {
+        border-radius:20rpx;
+        width: 140rpx;
+        height: 140rpx;
+      }
     }
 
     .teacher-inf {

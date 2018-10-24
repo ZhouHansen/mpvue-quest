@@ -2,12 +2,8 @@
   <div class="have-icon-btn-container">
     <span class="activity btn-item" v-if="type === 'activity'">
       <span class="icon hand"></span>
-      <span>{{personNum}}{{joinText || '人想参加'}}</span>
+      <span>{{personNum === 0 ? '好多' : personNum}}{{joinText || '人想参加'}}</span>
     </span>
-    <!-- <span class="activity btn-item" v-if="type === 'activity_already'" @click="cancelJoinActivity">
-      <span class="icon hand_already"></span>
-      <span>{{personNum}}{{joinText || '人想参加'}}</span>
-    </span> -->
     <span v-if="type === 'share'">
       <button :open-type="'share'" :plain="'true'">
         <span class="icon share"></span>

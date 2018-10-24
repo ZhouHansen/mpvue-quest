@@ -12,7 +12,7 @@
         :latitude="location.latitude"
         :class="showRecommend?'unfill-height': 'fill-height'">
         <organi-filter-button :data="chooseFilterCity" @filterButton="tapFilterButton"></organi-filter-button>
-        <organi-filter-button :data="chooseFilterType" @filterButton="tapFilterButton"></organi-filter-button>
+        <!-- <organi-filter-button :data="chooseFilterType" @filterButton="tapFilterButton"></organi-filter-button> -->
         <organi-filter :type="filterType" :data="filter" @tapFilter="chooseFilter" v-if="showFilterList"></organi-filter>
         <cover-view class="show-recommend" v-if="!showRecommend" @click="toggleRecommend">
           <cover-view class="show-recommend-text">显示推荐机构</cover-view>
