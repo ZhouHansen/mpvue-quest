@@ -125,6 +125,16 @@ export default {
     authorization: true
   },
 
+  /**
+   * 获取历史订单
+  */
+  updateOrder: {
+    url: 'weapp/order/pay/{oid}', // lesson  product
+    method: 'post',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true
+  },
+
   /** ******课程*********/
   /**
    * 获取课程列表数据

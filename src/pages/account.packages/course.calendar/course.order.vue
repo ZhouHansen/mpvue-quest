@@ -179,18 +179,17 @@ export default {
     runWxPayment () {
       let params = {
         sign: this.orderDetail.wxtradeno,
-        cb: this.callbackWxPayment
+        cb: this.updateOrder
       };
-      WxNetwork.wxPayment(params).then(res => {
-        console.log(res);
-        // this.$wxUtils.toast({title: '发送成功，现在是测试'});
-      }).then(res => {
-        console.log(res);
-      });
+      WxNetwork.wxPayment(params);
     },
 
-    callbackWxPayment (res) {
-      this.$router.back();
+    updateOrder (e) {
+      if (e.status) {
+        this.$network.account.updateOrder({}, null, 'weapp/order/pay/' + this.orderDetail.orderno).then(res => {
+          this.$router.back();
+        });
+      }
     }
   }
 };

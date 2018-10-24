@@ -92,7 +92,8 @@
         showGroupTips: true,
         setApp: {},
         children: null,
-        orderParams: null
+        orderParams: null,
+        orderId: '' // 下单之后返回
       };
     },
     computed: {
@@ -186,6 +187,7 @@
         this.$network.discovery.submitOrderGroup({cid: this.children.id}, null, 'weapp/order/joingroup/' + this.group).then(res => {
           console.log(res);
           if (res.e === 0) {
+            this.orderId = res.data.orderno;
             this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: false});
             this.runWxPayment(res.data.prepayid);
           } else {
@@ -197,18 +199,17 @@
       runWxPayment (prepayid) {
         let params = {
           sign: prepayid,
-          cb: this.callbackWxPayment
+          cb: this.updateOrder
         };
-        WxNetwork.wxPayment(params).then(res => {
-          console.log(res);
-          // this.$wxUtils.toast({title: '发送成功，现在是测试'});
-        }).then(res => {
-          console.log(res);
-        });
+        WxNetwork.wxPayment(params);
       },
 
-      callbackWxPayment (res) {
-        this.$router.back();
+      updateOrder (e) {
+        if (e.status) {
+          this.$network.account.updateOrder({}, null, 'weapp/order/pay/' + this.orderId).then(res => {
+            this.$router.back();
+          });
+        }
       }
     }
   };

@@ -162,6 +162,7 @@
           return;
         }
 
+        this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: null});
         if (!this.params.ltypes) {
           this.$router.push('/pages/home/section.submit.order.book');
         } else {
