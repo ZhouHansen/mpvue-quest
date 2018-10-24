@@ -69,7 +69,7 @@
 
     <div class="footer">
       <div class="button-item">
-        <hoo-button :text="'去付款'" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" :type="'topic'" @tapButton="payment"></hoo-button>
+        <hoo-button :text="'去付款'" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" :type="'topic'" @tapButton="runWxPayment"></hoo-button>
       </div>
       <div class="button-item">
         <hoo-button :text="'取消订单'" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" :type="'normal'" @tapButton="cancelOrder"></hoo-button>
@@ -84,6 +84,7 @@
   </div>
 </template>
 <script>
+import WxNetwork from '@/network/network.wx';
 import {AgeFilterData, CourseStatus, GetDataObjUseId} from '@/utils/default.data';
 import hooHaveLeftBorderTitle from '@/components/left.border.title';
 import hooButton from '@/components/button';
@@ -149,10 +150,6 @@ export default {
       });
     },
 
-    payment () {
-      console.log('支付订单');
-    },
-
     cancelOrder () {
       this.$wxUtils.showModal({title: '确定取消订单？'}).then(res => {
         if (res) {
@@ -177,6 +174,23 @@ export default {
       };
 
       this.$router.push({path: '/pages/account.packages/course.calendar/course.appraisal', query: {obj: JSON.stringify(params)}});
+    },
+
+    runWxPayment () {
+      let params = {
+        sign: this.orderDetail.wxtradeno,
+        cb: this.callbackWxPayment
+      };
+      WxNetwork.wxPayment(params).then(res => {
+        console.log(res);
+        // this.$wxUtils.toast({title: '发送成功，现在是测试'});
+      }).then(res => {
+        console.log(res);
+      });
+    },
+
+    callbackWxPayment (res) {
+      this.$router.back();
     }
   }
 };
