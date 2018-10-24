@@ -1,5 +1,5 @@
 import * as Config from './config';
-import PlugUtils from '@/plugs/utils';
+import UncheckUtils from '@/utils/uncheck.utils';
 import MD5 from '@/plugs/md5';
 
 export default {
@@ -30,7 +30,7 @@ export default {
 
   wxPayment ({sign, cb}) {
     let timeStamp = new Date().getTime();
-    let nonceStr = PlugUtils.generateMixed();
+    let nonceStr = UncheckUtils.PlugUtils.generateMixed();
     let paySign = MD5.hex_md5('appId=wx0d9fe1abe5ba75b6&nonceStr=' + nonceStr + '&package=prepay_id=' + sign + '&signType=MD5&timeStamp=' + timeStamp + '&key=yf7hCy5wiGzhHZAj3HLSGiM9mMtU61qt');
     wx.requestPayment({
       'timeStamp': timeStamp + '',
