@@ -84,7 +84,7 @@ export default {
     this.chooseFilterCity = this.filterCity[0];
     this.chooseFilterType = this.filterTypeData[0];
 
-    this.getCityList();
+    this.getMapList();
     this.getRecommendList();
   },
   onShow () {
@@ -143,7 +143,16 @@ export default {
         if (res) {
           this.location = this.searchMarkLnglat;
           console.log('获取机构数据');
+          this.getMapList();
         }
+      });
+    },
+
+    // 获取城市推荐机构
+    getRecommendList () {
+      this.$network.organi.getRecommendOrgani().then(res => {
+        // console.log(res.data);
+        this.recommendData = res.data;
       });
     },
 
@@ -167,11 +176,9 @@ export default {
       });
     },
 
-    getRecommendList () {
+    getMapList () {
       this.$network.organi.getFilterByMapCity().then(res => {
         // console.log(res.data);
-        this.recommendData = res.data;
-
         let promiseArr = [];
         res.data.forEach((item, index) => {
           promiseArr[index] = this.setMarkerIcon(item);

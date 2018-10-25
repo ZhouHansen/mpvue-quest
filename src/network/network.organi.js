@@ -1,5 +1,4 @@
 import {NetworkAPIVersion, NetworkParamType} from './config';
-import DebugData from './debug.data';
 
 export default {
   /**
@@ -20,14 +19,10 @@ export default {
    * 获取地图推荐机构
   */
   getRecommendOrgani: {
-    url: 'search',
+    url: 'weapp/dashboard/insts',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
-    params: {
-      limit: [NetworkParamType.number],
-      offset: [NetworkParamType.number]
-    },
-    debug: DebugData.search
+    authorization: true
   },
 
   /**
