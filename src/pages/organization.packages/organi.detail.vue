@@ -6,7 +6,7 @@
       </div>
       <div class="organi-header-content">
         <div class="organi-header-title">{{organiData.name}}</div>
-        <div class="organi-header-text line-clamp-3 ">{{organiData.brief}}</div>
+        <div class="organi-header-text" :class="showAllBriefStatu?'':'line-clamp-3'" @click="showAllBrief">{{organiData.brief}}</div>
         <div class="organi-header-ctrl">
           <div class="organi-header-ctrl-item">
             <hoo-have-icon-btn :type="organiData.favored === 0 ? 'collection' : 'collection_already'" :id="organiData.id" :subject="'institution'"></hoo-have-icon-btn>
@@ -49,6 +49,7 @@
     },
     data () {
       return {
+        showAllBriefStatu: false,
         navData: ['课程', '老师', '评价', '关于机构'],
         chooseNavNumber: '0',
         organiData: {},
@@ -112,6 +113,10 @@
       this.getOrganiDetail();
     },
     methods: {
+      showAllBrief () {
+        this.showAllBriefStatu = !this.showAllBriefStatu;
+      },
+
       chooseNav (e) {
         this.chooseNavNumber = e;
 

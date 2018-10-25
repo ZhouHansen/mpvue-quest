@@ -5,7 +5,7 @@
       <div class="course-title">{{courseData.name}}</div>
       <hoo-label :type-text="courseData.tags[0]" :label-arr="teacherLabelArr"></hoo-label>
     </div>
-    <div class="course-join">{{courseData.favorcount}}人想参加</div>
+    <div class="course-join">{{courseData.favorcount === 0?'好多':courseData.favorcount}}人想参加</div>
   </div>
 </template>
 <script>

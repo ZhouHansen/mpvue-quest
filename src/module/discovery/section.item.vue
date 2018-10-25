@@ -19,6 +19,7 @@
   </div>
 </template>
 <script>
+  import {AgeFilterData, GetDataObjUseId} from '@/utils/default.data';
   import hooLabel from '@/components/label';
   import Utils from '@/utils/index';
 
@@ -56,7 +57,24 @@
         }
       },
       tagslist () {
-        return this.sectionData.tags.slice(1);
+        // 构造标签，包括 起止时间，年龄
+        let time = '';
+        let age = '';
+        if (this.sectionData.lfrom && this.sectionData.lto) {
+          let from = this.sectionData.lfrom.split(' ')[0];
+          let to = this.sectionData.lto.split(' ')[0];
+
+          time = from.split('-')[1] + '月' + from.split('-')[2] + '日 - ' + to.split('-')[1] + '月' + to.split('-')[2] + '日';
+        }
+        console.log(time);
+
+        if (this.sectionData.ages) {
+          age = GetDataObjUseId(AgeFilterData, this.sectionData.ages).label;
+        }
+        console.log(age);
+        console.log(this.sectionData.tags.slice(1));
+        console.log(this.sectionData.tags.slice(1).concat([time, age]));
+        return this.sectionData.tags.slice(1).concat([time, age]);
       }
     },
     methods: {
@@ -100,11 +118,11 @@
 
     .section-label {
       margin-top: 8rpx;
-      @include flex(space-between, flex-end);
+      @include flex(space-between, flex-start);
 
       .section-label-left {
         @include flex(flex-start, flex-start);
-        width: 80%;
+        width: 100%;
 
         .section-desc {
           display: inline-block;

@@ -9,8 +9,6 @@
           </div>
         </label>
       </div>
-    </div>
-    <div>
       <div class="disc-filter-list">
         <div class="disc-filter-item" @click="chooseFilter('disc_time')">
           <div class="filter-item-select">
@@ -23,6 +21,8 @@
           </div>
         </div>
       </div>
+    </div>
+    <div>
       <div class="disc-filter-item-desc" :hidden="!showFilterItemDesc">
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
@@ -229,9 +229,11 @@ export default {
       border: 0;
       padding: 16rpx 5%;
 
+      @include flex(space-between, center);
+
       .weui-search-bar__form {
         border: 0;
-        border-radius: 50rpx;
+        border-radius: 40rpx;
         overflow: hidden;
 
         .weui-search-bar__label {
@@ -247,7 +249,7 @@ export default {
           }
 
           .search-label-body {
-            padding:10rpx 0;
+            padding:10rpx;
             background-color: #f9f9f9;
           }
         }
@@ -257,15 +259,15 @@ export default {
 
     .disc-filter-list {
       @include flex(space-between, center);
-      padding: 0 20rpx;
-
+      width: 50%;
 
       .disc-filter-item {
         width: 50%;
         padding: 24rpx 0;
+        flex-shrink: 0;
 
         .filter-item-select {
-          padding: 0 8vw;
+          padding: 0 3vw;
           border-right: 1rpx solid #f2f2f2;
         }
 
