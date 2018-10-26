@@ -75,7 +75,7 @@
         <hoo-button :text="'取消订单'" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" :type="'normal'" @tapButton="cancelOrder"></hoo-button>
       </div>
       <div class="button-item">
-        <hoo-button :text="'去评价'" v-if="orderDetail.resultPayStatus.id === 'alreadyConfirm'" :type="'topic'" @tapButton="visitAppraisal"></hoo-button>
+        <hoo-button :text="'去评价'" v-if="orderDetail.resultPayStatus.id === 'alreadyConfirm' && !orderDetail.commented" :type="'topic'" @tapButton="visitAppraisal"></hoo-button>
       </div>
       <div class="button-item">
         <hoo-button :text="'联系客服'" v-if="orderDetail.resultPayStatus.id === 'end'" :type="'normal'"></hoo-button>

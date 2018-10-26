@@ -60,18 +60,21 @@ const sumLocation = ({lat1, lng1, lat2, lng2}) => {
 
 const backDistance = ({lat1, lng1, lat2, lng2}) => {
   let result = sumLocation({'lat1': parseFloat(lat1), 'lng1': parseFloat(lng1), 'lat2': parseFloat(lat2), 'lng2': parseFloat(lng2)});
-  let callback = '';
+  let callback = {
+    num: result.s,
+    text: ''
+  };
   if (result.km) {
     if (result.km > 50) {
-      callback = '> 50.0km';
+      callback.text = '> 50.0km';
     } else {
-      callback = result.km + 'km';
+      callback.text = result.km + 'km';
     }
   } else {
     if (result.m < 100) {
-      callback = '< 100m';
+      callback.text = '< 100m';
     } else {
-      callback = result.m + 'm';
+      callback.text = result.m + 'm';
     }
   }
   return callback;

@@ -40,8 +40,13 @@
             lng2: item.xlng
           });
 
-          item['distance'] = result;
+          item['distanceNum'] = result.num;
+          item['distance'] = result.text;
         }
+      });
+
+      this.params.sort((a, b) => {
+        return a.distanceNum - b.distanceNum;
       });
     },
     methods: {

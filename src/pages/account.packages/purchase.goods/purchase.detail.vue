@@ -88,7 +88,7 @@
         </div>
       </div>
       <div class='button-item'>
-        <hoo-button :text="'去评价'" :type="'topic'" v-if="orderDetail.resultPayStatus.id === 'waitAppraisal'" @tapButton="visitAppraisal"></hoo-button>
+        <hoo-button :text="'去评价'" :type="'topic'" v-if="orderDetail.resultPayStatus.id === 'waitAppraisal' && !orderDetail.commented" @tapButton="visitAppraisal"></hoo-button>
       </div>
       <div class='button-item'>
         <hoo-button :text="'联系客服'" :type="'normal'" v-if="orderDetail.resultPayStatus.id === 'end'"></hoo-button>

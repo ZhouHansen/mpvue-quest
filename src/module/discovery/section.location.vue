@@ -25,12 +25,13 @@ export default {
   computed: {
     distanceToSection () {
       if (this.data) {
-        return Utils.backDistance({
+        let result = Utils.backDistance({
           lat1: this.location.latitude,
           lng1: this.location.longitude,
           lat2: this.data.lat,
           lng2: this.data.lng
         });
+        return result.text;
       } else {
         return false;
       }

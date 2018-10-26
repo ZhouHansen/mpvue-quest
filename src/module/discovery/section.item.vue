@@ -45,12 +45,14 @@
 
         if (wxAddress.result.address_component.city.indexOf(this.sectionData.city) > -1) {
           if (this.sectionData.xlng && this.sectionData.xlat) {
-            return Utils.backDistance({
+            let result = Utils.backDistance({
               lat1: this.location.latitude,
               lng1: this.location.longitude,
               lat2: this.sectionData.xlat,
               lng2: this.sectionData.xlng
             });
+
+            return result.text;
           }
         } else {
           return this.sectionData.city;
@@ -61,19 +63,14 @@
         let time = '';
         let age = '';
         if (this.sectionData.lfrom && this.sectionData.lto) {
-          let from = this.sectionData.lfrom.split(' ')[0];
-          let to = this.sectionData.lto.split(' ')[0];
+          let from = this.sectionData.lfrom.split('-');
+          let to = this.sectionData.lto.split('-');
 
-          time = from.split('-')[1] + '月' + from.split('-')[2] + '日 - ' + to.split('-')[1] + '月' + to.split('-')[2] + '日';
+          time = from[1] + '月' + from[2] + '日 - ' + to[1] + '月' + to[2] + '日';
         }
-        console.log(time);
-
         if (this.sectionData.ages) {
           age = GetDataObjUseId(AgeFilterData, this.sectionData.ages).label;
         }
-        console.log(age);
-        console.log(this.sectionData.tags.slice(1));
-        console.log(this.sectionData.tags.slice(1).concat([time, age]));
         return this.sectionData.tags.slice(1).concat([time, age]);
       }
     },
