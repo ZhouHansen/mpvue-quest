@@ -7,7 +7,7 @@
       </div>
       <div class="arrange-item" v-if="arrangeParams.lfrom && arrangeParams.lto">
         <div class="arrange-icon time"></div>
-        <div class="arrange-text">{{arrangeParams.lfrom}} - {{arrangeParams.lto}}</div>
+        <div class="arrange-text">{{arrangeParams.lfrom}} 至 {{arrangeParams.lto}}</div>
       </div>
       <div class="arrange-item" v-if="ages">
         <div class="arrange-icon kidney"></div>

@@ -44,7 +44,7 @@
           <div class="order-detail-item-label">课程对象</div>
           <div class="order-detail-item-text">{{orderDetail.product.agesText}}</div>
         </div>
-        <div class="order-detail-item" v-if="orderDetail.product.datefrom[1] && orderDetail.product.dateto[1]">
+        <div class="order-detail-item" v-if="orderDetail.product.datefrom && orderDetail.product.datefrom[1] && orderDetail.product.dateto && orderDetail.product.dateto[1]">
           <div class="order-detail-item-label">开课时间</div>
           <div class="order-detail-item-text">{{orderDetail.product.datefrom[1]}} - {{orderDetail.product.dateto[1]}}</div>
         </div>
@@ -215,6 +215,7 @@ export default {
 
       .order-detail-list {
         .order-detail-item {
+          word-break:break-all;
           margin-top: 30rpx;
           font-size: 16px;
           @include flex(flex-start, flex-start);

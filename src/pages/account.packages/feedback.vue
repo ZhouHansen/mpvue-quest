@@ -50,12 +50,13 @@ export default {
         'content': this.descVal,
         'email': this.emailVal
       };
-      console.log(requestParams);
+      // console.log(requestParams);
       this.$network.account.postFeedback({entity: requestParams}).then(res => {
-        console.log(res);
+        // console.log(res);
         if (res.e === 0) {
           this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, feedback: true});
           setTimeout(() => {
+            this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: false, feedback: false});
             this.$router.go(2);
           }, 3000);
         }

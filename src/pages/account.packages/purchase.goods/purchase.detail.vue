@@ -206,6 +206,7 @@ export default {
 
       .order-detail-list {
         .order-detail-item {
+          word-break:break-all;
           margin-top: 30rpx;
           font-size: 16px;
           @include flex(flex-start, flex-start);

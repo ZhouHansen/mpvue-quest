@@ -68,20 +68,24 @@
     <div class="footer">
       <hoo-button :text="'保存'" :type="'topic'" @tapButton="submit"></hoo-button>
     </div>
+    <hoo-feedback :text="'评价成功'"></hoo-feedback>
   </div>
 </template>
 <script>
+import * as MutationType from '@/store/mutation.type';
 import hooHaveLeftBorderTitle from '@/components/left.border.title';
 import hooScore from '@/components/score';
 import hooImageAppraisal from '@/components/image.appraisal';
 import hooButton from '@/components/button';
+import hooFeedback from '@/components/feedback';
 
 export default {
   components: {
     hooHaveLeftBorderTitle,
     hooScore,
     hooImageAppraisal,
-    hooButton
+    hooButton,
+    hooFeedback
   },
   data () {
     return {
@@ -190,8 +194,9 @@ export default {
       Promise.all(requestPromiseArr).then(res => {
         // console.log('提交结束', res);
         this.$wxUtils.loading({show: false});
-        this.$wxUtils.toast({title: '提交成功'});
+        this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, feedback: true});
         setTimeout(() => {
+          this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: false, feedback: false});
           this.$router.back();
         }, 2000);
       });

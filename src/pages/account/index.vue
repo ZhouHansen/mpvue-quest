@@ -4,7 +4,7 @@
       <button :open-type="'getUserInfo'" :hover-stay-time="0" :hover-start-time="0" :lang="zh_CN" :plain="'true'" @getuserinfo="visitUserInfo">
         <div class="account-header">
             <div class="account-header-left">
-              <img class="account-avatar" :src="avatar">
+              <img class="account-avatar" :src="avatar" :mode="'aspectFill'">
               <div class="account-header-text">
                 <div class="account-header-text-name">{{name}}</div>
                 <div class="account-header-text-unbind" v-if="!userInf.cell">未绑定手机号</div>

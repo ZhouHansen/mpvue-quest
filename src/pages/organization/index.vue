@@ -335,7 +335,7 @@ export default {
       bottom: 10rpx;
       left: 20rpx;
       background-color: #ffffff;
-      padding: 10rpx;
+      padding: 5rpx;
       border-radius: 100%;
 
       cover-image {

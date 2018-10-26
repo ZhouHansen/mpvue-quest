@@ -87,9 +87,9 @@ export default {
     this.$wxUtils.setNavTitle('个人信息');
     this.$wxUtils.loading({title: '加载中...'});
     this.setParams();
+    this.getUserInf();
   },
   onShow () {
-    this.getUserInf();
   },
   onUnload () {
     console.log('离开页面');
