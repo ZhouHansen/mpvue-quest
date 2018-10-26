@@ -1,5 +1,5 @@
 <template>
-  <div class="payment-result-container">
+  <div class="payment-result-container" v-if="type">
     <div class="result-content">
       <image :src="iconUrl" :mode="'aspectFit'" class="result-icon" />
       <div class="result-type">{{type === 'success'? '支付成功' : '支付失败'}}</div>
@@ -35,7 +35,7 @@
     },
     data () {
       return {
-        type: '',
+        type: null,
         text: '',
         order: null
       };
@@ -101,7 +101,7 @@
       },
 
       goHomePage () {
-        this.$router.replace({path: '/pages/index/index'});
+        this.$router.push({path: '/pages/index/index', isTab: true});
       }
     }
   };

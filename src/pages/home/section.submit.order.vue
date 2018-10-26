@@ -222,12 +222,12 @@
             // this.$router.back();
             params.type = 'success';
             params.text = '请您提前联系机构了解相关课程准备，祝您学习愉快！';
-            this.$router.push({path: '/pages/payment/payment.result', query: {obj: JSON.stringify(params)}});
+            this.$router.replace({path: '/pages/payment/payment.result', query: {obj: JSON.stringify(params)}});
           });
         } else {
           params.type = 'wrong';
           params.text = '未成功支付';
-          this.$router.push({path: '/pages/payment/payment.result', query: {obj: JSON.stringify(params)}});
+          this.$router.replace({path: '/pages/payment/payment.result', query: {obj: JSON.stringify(params)}});
         }
       }
     }
