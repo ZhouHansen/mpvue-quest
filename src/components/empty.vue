@@ -1,6 +1,7 @@
 <template>
   <div class="empty-container">
     <img src="../assets/images/ic_empty.png" :mode="'aseptFill'" class="empty-icon" v-if="type === 'normal'">
+    <img src="../assets/images/ic_empty_home.png" :mode="'aseptFill'" class="empty-icon" v-if="type === 'discovery'">
     <div class="empty-text">{{text}}</div>
   </div>
 </template>
@@ -14,7 +15,7 @@ export default {
 
   .empty-container {
     text-align: center;
-    margin-top: 200rpx;
+    padding-top: 200rpx;
 
     .empty-icon {
       width: 424rpx;

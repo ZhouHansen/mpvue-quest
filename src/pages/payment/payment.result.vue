@@ -2,37 +2,42 @@
   <div class="payment-result-container">
     <div class="result-content">
       <image :src="iconUrl" :mode="'aspectFit'" class="result-icon" />
-      <div class="result-type">{{type === 'success'? '支付成功' : '网络出错'}}</div>
-      <div class="result-tips" v-if="type === 'success'">请您提前联系机构了解相关课程准备，祝您学习愉快！</div>
-      <div class="result-tips" v-if="type === 'wrong'">请确保手机连接网络或Wi-Fi，并刷新重试！</div>
+      <div class="result-type">{{type === 'success'? '支付成功' : '支付失败'}}</div>
+      <div class="result-tips" v-if="type === 'success' && text">{{text}}</div>
+      <div class="result-tips" v-if="type === 'wrong' && text">{{text}}</div>
     </div>
 
     <div class="result-ctrl success" v-if="type === 'success'">
       <div class="ctrl-btn-item">
-        <hoo-button :type="'topic-unchecked'" :text="'查看订单'"></hoo-button>
+        <hoo-button :type="'topic-unchecked'" :text="'查看订单'" @tapButton="visitOrder"></hoo-button>
       </div>
       <div class="ctrl-btn-item">
-        <hoo-button :type="'topic'" :text="'返回首页'"></hoo-button>
+        <hoo-button :type="'topic'" :text="'返回首页'" @tapButton="goHomePage"></hoo-button>
       </div>
     </div>
     <div class="result-ctrl wrong" v-if="type === 'wrong'">
       <div class="ctrl-btn-item">
-        <hoo-button :type="'topic'" :text="'刷新重试'"></hoo-button>
+        <hoo-button :type="'topic-unchecked'" :text="'返回'" @tapButton="goBack"></hoo-button>
+      </div>
+      <div class="ctrl-btn-item">
+        <hoo-button :type="'topic'" :text="'刷新重试'" @tapButton="payment"></hoo-button>
       </div>
     </div>
   </div>
 </template>
 <script>
+  import WxNetwork from '@/network/network.wx';
   import hooButton from '@/components/button';
 
   export default {
     components: {
       hooButton
     },
-    // props: ['type'],
     data () {
       return {
-        type: 'wrong'
+        type: '',
+        text: '',
+        order: null
       };
     },
     computed: {
@@ -42,6 +47,61 @@
         } else {
           return require('../../assets/images/ic_go_wrong.png');
         }
+      }
+    },
+    mounted () {
+      // order 中包括 payId orderId  type(product or lesson)
+      let params = JSON.parse(this.$route.query.obj);
+
+      this.type = params.type;
+      this.text = params.text;
+      this.order = params.order;
+    },
+    methods: {
+      getOrderDetail () {
+        // 获取订单详情
+      },
+
+      goBack () {
+        this.$router.back();
+      },
+
+      payment () {
+        let params = {
+          sign: this.order.payId,
+          cb: this.updateOrder
+        };
+        WxNetwork.wxPayment(params);
+      },
+
+      updateOrder (e) {
+        if (e.status) {
+          this.$network.account.updateOrder({}, null, 'weapp/order/pay/' + this.orderId).then(res => {
+            this.type = 'success';
+            if (this.order.type === 'product') {
+              this.text = '等待商家确认发货';
+            } else {
+              this.text = '请您提前联系机构了解相关课程准备，祝您学习愉快！';
+            }
+            this.getOrderDetail();
+          });
+        }
+      },
+
+      visitOrder () {
+        let orderObj = {
+
+        };
+
+        if (this.order.type === 'product') {
+          this.$router.replace({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {obj: JSON.stringify(orderObj)}});
+        } else {
+          this.$router.replace({path: '/pages/account.packages/course.calendar/course.order', query: {obj: JSON.stringify(orderObj)}});
+        }
+      },
+
+      goHomePage () {
+        this.$router.replace({path: '/pages/index/index'});
       }
     }
   };
@@ -97,7 +157,11 @@
 
     .wrong {
       .ctrl-btn-item {
-        flex-basis: 50%;
+        flex-basis: 47%;
+
+        &:first-child {
+          margin-right: 6%;
+        }
       }
     }
   }

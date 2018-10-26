@@ -10,7 +10,8 @@
       <div class="title">
         <have-topic-title :title="'搜索历史'"></have-topic-title>
       </div>
-      <div class="list">
+      <div class="item-empty" v-if="!history">还没有搜索历史～</div>
+      <div class="list" v-if="history.length > 0">
         <span class="item" v-for="(item, index) in history" :key="index" @click="useHistorySearch(item.name)">{{item.name}}</span>
       </div>
     </div>
@@ -128,6 +129,12 @@
           margin-top: 20rpx;
           color: #000000;
         }
+      }
+
+      .item-empty {
+        text-align: center;
+        margin-top: 50rpx;
+        color: #979797;
       }
     }
   }

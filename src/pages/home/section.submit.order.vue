@@ -169,13 +169,14 @@
         } else {
           this.sendUnGroupOrder();
         }
-        // this.$router.push('/pages/payment/payment.result');
       },
 
       sendUnGroupOrder () {
         this.$network.discovery.submitOrder({cid: this.children.id}, null, 'weapp/order/place/lesson/' + this.sectionData.id).then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.e === 0) {
+            this.orderId = res.data.orderno;
+            this.payId = res.data.prepayid;
             this.runWxPayment(res.data.prepayid);
           } else {
             this.$wxUtils.toast({title: res.msg});
@@ -185,9 +186,10 @@
 
       sendGroupOrder () {
         this.$network.discovery.submitOrderGroup({cid: this.children.id}, null, 'weapp/order/joingroup/' + this.group).then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.e === 0) {
             this.orderId = res.data.orderno;
+            this.payId = res.data.prepayid;
             this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: false});
             this.runWxPayment(res.data.prepayid);
           } else {
@@ -205,10 +207,27 @@
       },
 
       updateOrder (e) {
+        let params = {
+          type: '',
+          text: '',
+          order: {
+            type: 'lesson',
+            payId: this.payId,
+            orderId: this.orderId
+          }
+        };
+
         if (e.status) {
           this.$network.account.updateOrder({}, null, 'weapp/order/pay/' + this.orderId).then(res => {
-            this.$router.back();
+            // this.$router.back();
+            params.type = 'success';
+            params.text = '请您提前联系机构了解相关课程准备，祝您学习愉快！';
+            this.$router.push({path: '/pages/payment/payment.result', query: {obj: JSON.stringify(params)}});
           });
+        } else {
+          params.type = 'wrong';
+          params.text = '未成功支付';
+          this.$router.push({path: '/pages/payment/payment.result', query: {obj: JSON.stringify(params)}});
         }
       }
     }

@@ -1,6 +1,6 @@
 <template>
   <div class="select-container" @click="tapFilter">
-    <span>{{filter.text || '测试'}}</span>
+    <span>{{filter.text || ''}}</span>
     <span class="select-icon"></span>
   </div>
 </template>

@@ -163,6 +163,11 @@
         }
 
         this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: null});
+
+        if (!this.params.status) {
+          this.$wxUtils.toast({title: '此活动已经停止'});
+        }
+
         if (!this.params.ltypes) {
           this.$router.push('/pages/home/section.submit.order.book');
         } else {

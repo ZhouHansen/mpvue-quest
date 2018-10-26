@@ -28,9 +28,10 @@
       </div>
     </div>
     <div class="section-list">
-      <div class="section-item" v-for="item in sections" :key="item.id">
+      <div class="section-item" v-if="sections.length > 0" v-for="item in sections" :key="item.id">
         <hoo-section :section-data="item" :location="location"></hoo-section>
       </div>
+      <hoo-empty :type="'discovery'" :text="'~没有内容~'" v-if="!sections"></hoo-empty>
     </div>
     <hoo-scrolltop></hoo-scrolltop>
   </div>
@@ -44,6 +45,7 @@ import hooSelect from '@/components/select';
 import hooSection from '@/module/discovery/section.item';
 import filterList from '@/module/search/search.header.filter.list';
 import hooScrolltop from '@/components/scrolltop';
+import hooEmpty from '@/components/empty';
 
 import QQMapWX from '@/plugs/qqmap-wx-jssdk.js';
 let qqMap = null;
@@ -52,7 +54,8 @@ export default {
     hooSection,
     filterList,
     hooSelect,
-    hooScrolltop
+    hooScrolltop,
+    hooEmpty
   },
   data () {
     return {
