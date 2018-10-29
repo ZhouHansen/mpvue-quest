@@ -7,7 +7,7 @@
       </div>
       <div class="arrange-item" v-if="arrangeParams.lfrom && arrangeParams.lto">
         <div class="arrange-icon time"></div>
-        <div class="arrange-text">{{arrangeParams.lfrom}} 至 {{arrangeParams.lto}}</div>
+        <div class="arrange-text">{{fromAndTo}}</div>
       </div>
       <div class="arrange-item" v-if="ages">
         <div class="arrange-icon kidney"></div>
@@ -22,7 +22,7 @@
 </template>
 <script>
 import {AgeFilterData, ProductSpecData, GetDataObjUseId} from '@/utils/default.data';
-
+import Utils from '@/utils/index';
 export default {
   props: ['arrangeParams'],
   computed: {
@@ -42,6 +42,15 @@ export default {
         return result.text;
       } else {
         return false;
+      }
+    },
+    fromAndTo () {
+      if (this.arrangeParams.lfrom && this.arrangeParams.lto) {
+        let from = Utils.formatData2(this.arrangeParams.lfrom);
+        let to = Utils.formatData2(this.arrangeParams.lto);
+        console.log(from);
+        console.log(to);
+        return from.y + '年' + from.m + '月' + from.d + '日 - ' + to.y + '年' + to.m + '月' + to.d + '日';
       }
     }
   }

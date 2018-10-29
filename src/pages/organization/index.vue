@@ -150,7 +150,10 @@ export default {
 
     // 获取城市推荐机构
     getRecommendList () {
-      this.$network.organi.getRecommendOrgani().then(res => {
+      let address = this.$storage.get(this.$storageTypeName.address);
+      let params = address.result.ad_info.city.slice(0, -1);
+
+      this.$network.organi.getRecommendOrgani({city: params}).then(res => {
         // console.log(res.data);
         this.recommendData = res.data;
       });

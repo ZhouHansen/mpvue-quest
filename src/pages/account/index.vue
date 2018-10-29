@@ -105,7 +105,7 @@ export default {
   methods: {
     getUserInf () {
       this.$network.account.getUserInf().then(res => {
-        console.log('获取用户数据', res.data);
+        // console.log('获取用户数据', res.data);
         this.userInf = res.data;
         this.$storage.set(this.$storageTypeName.userInf, res.data);
         this.setParams();
@@ -114,7 +114,7 @@ export default {
 
     getChildren () {
       this.$network.account.getChildrensList({limit: 1, offset: 0}).then(res => {
-        console.log(res);
+        // console.log(res);
         if (res.data.length > 0) {
           this.children = res.data[0];
         }
@@ -137,7 +137,7 @@ export default {
 
     visitUserInfo (e) {
       if (!this.wxUserInf) {
-        console.log(e);
+        // console.log(e);
         this.$storage.set(this.$storageTypeName.wxUserInf, e.mp.detail.userInfo);
       }
 

@@ -63,10 +63,10 @@
         let time = '';
         let age = '';
         if (this.sectionData.lfrom && this.sectionData.lto) {
-          let from = this.sectionData.lfrom.split('-');
-          let to = this.sectionData.lto.split('-');
+          let from = Utils.formatData2(this.sectionData.lfrom);
+          let to = Utils.formatData2(this.sectionData.lto);
 
-          time = from[1] + '月' + from[2] + '日 - ' + to[1] + '月' + to[2] + '日';
+          time = parseInt(from.m) + '月' + parseInt(from.d) + '日 - ' + parseInt(to.m) + '月' + parseInt(to.d) + '日';
         }
         if (this.sectionData.ages) {
           age = GetDataObjUseId(AgeFilterData, this.sectionData.ages).label;

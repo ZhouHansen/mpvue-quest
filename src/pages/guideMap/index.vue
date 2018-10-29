@@ -1,6 +1,6 @@
 <template>
   <div class="guide-map">
-    <!-- 需要将index.json 中的设置手动复制到对应的文件内 -->
+    <!-- 需要将index.json 文件在 build 的时候直接复制到dist对应的位置 -->
     <map-route v-if="routeInfo" :route-info="routeInfo"></map-route>
   </div>
 </template>

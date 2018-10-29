@@ -3,7 +3,7 @@
     <div class="title">推荐教育机构</div>
     <div class="recommend-scroll">
       <scroll-view class="recommend-list" :scroll-y="'true'" :scroll-with-animation="'true'">
-        <div class="recommend-item none" v-if="params.length === 0"><span>暂无推荐</span></div>
+        <div class="recommend-item none" v-if="params.length === 0">暂无推荐</div>
         <div class="recommend-item" v-if="params.length > 0" v-for="(item, index) in params" :key="index" @click="visitOrgani(item.id)">
           <div class="recommend-avatar" :style="{background: 'url(' + item.coverfile + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
           <div class="recomment-item-body">
@@ -86,6 +86,10 @@
         border-bottom: 1rpx solid #d9d9d9;
         @include flex(space-between, center);
 
+        &:last-child {
+          border-bottom: 0;
+        }
+
         .recommend-avatar {
           width: 120rpx;
           height: 120rpx;
@@ -134,16 +138,8 @@
       }
 
       .none {
-        border: 1rpx dashed #d3d3d3;
         text-align: center;
         line-height: 25vw;
-        vertical-align: top;
-
-        span {
-          color: #b4b4b4;
-          font-size: 12px;
-          border-bottom: 1rpx dashed #d3d3d3;
-        }
       }
     }
   }

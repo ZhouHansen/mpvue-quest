@@ -22,7 +22,10 @@ export default {
     url: 'weapp/dashboard/insts',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
-    authorization: true
+    authorization: true,
+    params: {
+      city: [NetworkParamType.string]
+    }
   },
 
   /**

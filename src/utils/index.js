@@ -37,6 +37,22 @@ const formatDate = date => {
   return `${month}月${day}日`;
 };
 
+// 2018-03-09  => {y: 2018, m: 3, d:9}
+const formatData2 = (data, sign) => {
+  let arr = null;
+  if (sign) {
+    arr = data.split(sign);
+  } else {
+    arr = data.split('-');
+  }
+
+  return {
+    y: arr[0],
+    m: parseInt(arr[1]),
+    d: parseInt(arr[2])
+  };
+};
+
 const sumLocation = ({lat1, lng1, lat2, lng2}) => {
   // console.log(lat1, lng1, lat2, lng2);
   let radLat1 = lat1 * Math.PI / 180.0;
@@ -103,6 +119,7 @@ export default {
   formatNumber,
   formatTime,
   formatDate,
+  formatData2,
   formatDateToPicker,
   sumLocation,
   backDistance,
