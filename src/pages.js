@@ -29,5 +29,6 @@ module.exports = [
   'pages/home/section.submit.order.book',
   'pages/home/custom.signature',
   'pages/payment/payment.result',
-  'pages/teacher.packages/teacher.detail'
+  'pages/teacher.packages/teacher.detail',
+  'pages/guideMap/index'
 ];

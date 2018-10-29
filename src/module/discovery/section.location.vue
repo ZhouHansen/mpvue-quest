@@ -1,14 +1,16 @@
 <template>
-  <div class="location-container">
-    <div class="location-inf">
-      <div class="location-title">
-        <span class="location-icon"></span>
-        <span class="location-text line-clamp-2">{{data.address}}</span>
+  <div>
+    <div class="location-container" @click="openGuideMap">
+      <div class="location-inf">
+        <div class="location-title">
+          <span class="location-icon"></span>
+          <span class="location-text line-clamp-2">{{data.address}}</span>
+        </div>
+        <div class="location-distance">{{distanceToSection}}</div>
       </div>
-      <div class="location-distance">{{distanceToSection}}</div>
-    </div>
-    <div class="location-ctrl">
-      <image :src="'/img/direction.png'" :mode="asceptFill" />
+      <div class="location-ctrl">
+        <image :src="'/img/direction.png'" :mode="asceptFill" />
+      </div>
     </div>
   </div>
 </template>
@@ -16,10 +18,12 @@
 import Utils from '@/utils/index';
 
 export default {
-  props: ['data'],
+  props: ['data', 'name'],
   data () {
     return {
-      location: this.$storage.get(this.$storageTypeName['location'])
+      location: this.$storage.get(this.$storageTypeName['location']),
+      routeInfo: null,
+      distanceNum: 0
     };
   },
   computed: {
@@ -31,10 +35,29 @@ export default {
           lat2: this.data.lat,
           lng2: this.data.lng
         });
+        this.distanceNum = result.num;
         return result.text;
       } else {
         return false;
       }
+    }
+  },
+  methods: {
+    openGuideMap () {
+      if (this.distanceNum > 50 * 1000) {
+        this.$wxUtils.toast({title: '目的地太远啦～'});
+        return;
+      };
+
+      let params = {
+        slat: this.location.latitude,
+        slng: this.location.longitude,
+        elat: this.data.lat,
+        elng: this.data.lng,
+        ename: this.name
+      };
+
+      this.$router.push({path: '/pages/guideMap/index', query: {obj: JSON.stringify(params)}});
     }
   }
 };

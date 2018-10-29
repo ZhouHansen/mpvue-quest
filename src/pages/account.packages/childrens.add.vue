@@ -134,7 +134,7 @@ export default {
 
       for (let i in requestPrams) {
         // 不需要检测id ,因为不是用户输入的
-        if (!requestPrams[i] && i !== 'id') {
+        if (!requestPrams[i] && i !== 'id' && i !== 'ssn') {
           // console.log(requestPrams[i]);
           this.$wxUtils.toast({title: '请填写全部信息'});
           return;

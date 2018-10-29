@@ -96,11 +96,12 @@
       return {
         price: 0,
         priceNumber: 1,
-        type: 'group',
         sectionData: null,
+        orderParams: null,
         address: null,
         orderId: '',
-        payId: ''
+        payId: '',
+        group: null
       };
     },
     computed: {
@@ -113,10 +114,20 @@
     },
     onShow () {
       this.sectionData = this.$store.state.discovery.activity;
-      this.price = parseInt(this.sectionData.price / 100);
       this.orderParams = this.$store.state.discovery.order;
       this.address = this.orderParams ? this.orderParams.address : null;
-      this.group = this.$store.state.discovery.order && this.$store.state.discovery.order.group ? this.$store.state.discovery.order.group : false;
+      this.group = this.orderParams && this.orderParams.group ? this.orderParams.group : false;
+
+      if (this.group) {
+        this.sectionData.grouplist.forEach((item, index) => {
+          if (item.id + '' === this.group) {
+            this.price = parseInt(item.price / 100);
+          }
+        });
+      } else {
+        this.price = parseInt(this.sectionData.price / 100);
+      }
+
       if (!this.address) {
         this.getAddress();
       }

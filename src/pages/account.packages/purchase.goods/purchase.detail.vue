@@ -131,7 +131,7 @@ export default {
       }
 
       this.orderDetail = firstFormat;
-      console.log(this.orderDetail);
+      // console.log(this.orderDetail);
     },
 
     cancelOrder () {

@@ -1,9 +1,9 @@
 <template>
   <!-- 课程，活动，商品 -->
   <div class="section-detail-container">
-    <div class="section-cover" v-if="params" :style="'background: url(' + params.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
+    <div class="section-cover" v-if="params" :style="'background: url(' + params.coverfile + ') no-repeat 50% 50%; background-size: contain ;'"></div>
     <div class="section-title">
-      <div class="section-title-text">{{params.name}}</div>
+      <text class="section-title-text">{{params.name}}</text>
       <hoo-label :type-text="params.tagslist[0]" :label-arr="labelArr"></hoo-label>
       <div class="section-title-ctrl">
         <hoo-icon-button :type="'activity'" :person-num="params.favorcount" v-if="params.ltypes" :personNum="params.favorcount"></hoo-icon-button>
@@ -18,7 +18,7 @@
         <hoo-arrange :arrange-params="params"></hoo-arrange>
       </div>
       <div class="section-content-location" v-if="params.xlat && params.xlng">
-        <hoo-location :data="distance"></hoo-location>
+        <hoo-location :data="distance" :name="params.name"></hoo-location>
       </div>
     </div>
 
@@ -49,13 +49,6 @@
         </div>
       </div>
     </div>
-
-    <div class="section-organi" v-if="params.instid !== 0">
-      <left-border-title :title="'机构信息'"></left-border-title>
-      <div class="section-organi-content">
-        <hoo-organi :organi-data="params"></hoo-organi>
-      </div>
-    </div>
     <div class="section-nav">
       <hoo-nav @tapNavItem="chooseNav" :unOnShowDefault="'true'" :tabs="tabData"></hoo-nav>
 
@@ -68,13 +61,19 @@
         </div>
       </div>
     </div>
+
+    <div class="section-organi" v-if="params.instid !== 0">
+      <left-border-title :title="'机构信息'"></left-border-title>
+      <div class="section-organi-content">
+        <hoo-organi :organi-data="params"></hoo-organi>
+      </div>
+    </div>
     <div class="section-order">
       <div class="go-to-order" :class="params.grouplist.length > 0 ? 'group' : 'un-group'" @click="goToOrder"><span>直接下单</span><span class="order-cost">¥{{params.price / 100}}</span></div>
       <div class="group-order" @click="groupOrder" v-if="params.grouplist.length > 0"><span>拼团购买</span></div>
     </div>
     <group-order @chooseGroupType="sendGroupOrder" :params="params.grouplist"></group-order>
     <bind-phone></bind-phone>
-    <hoo-feedback :text="'评价成功'"></hoo-feedback>
   </div>
 </template>
 <script>
@@ -117,7 +116,6 @@
         tabData: ['详情', '评价'],
         chooseNavIndex: '0',
         appraListData: null,
-
         distance: {
           lat: this.params.xlat,
           lng: this.params.xlng,
@@ -203,14 +201,14 @@
       },
 
       sendGroupOrder (e) {
+        let order = {
+          group: e
+        };
+        this.$store.commit(MutationType.SET_ORDER_PARAMS, order);
+
         if (!this.params.ltypes) {
           this.$router.push('/pages/home/section.submit.order.book');
         } else {
-          let order = {
-            group: e
-          };
-
-          this.$store.commit(MutationType.SET_ORDER_PARAMS, order);
           this.$router.push({path: '/pages/home/section.submit.order'});
         }
       }
@@ -296,6 +294,7 @@
     .section-organi {
       border-top: 20rpx solid #f9f9f9;
       padding: 40rpx;
+      margin-bottom: 15vh;
 
       .section-organi-content {
         margin-top: 30rpx;
@@ -304,7 +303,6 @@
 
     .section-nav {
       border-top: 20rpx solid #f9f9f9;
-      margin-bottom: 15vh;
     }
 
     .section-nav-detail {

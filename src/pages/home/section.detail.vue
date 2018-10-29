@@ -64,7 +64,8 @@
           address: undefined,
           biref: undefined,
           ages: undefined,
-          spec: undefined
+          spec: undefined,
+          grouplist: undefined
         };
 
         for (let i in params) {

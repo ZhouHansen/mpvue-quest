@@ -109,11 +109,19 @@
 
       let discovery = this.$store.state.discovery;
       this.sectionData = discovery.activity;
-      this.price = parseInt(this.sectionData.price / 100);
-
       this.orderParams = discovery.order;
       this.group = this.orderParams.group ? this.orderParams.group : false;
       this.children = this.orderParams.children ? this.orderParams.children : null;
+
+      if (this.group) {
+        this.sectionData.grouplist.forEach((item, index) => {
+          if (item.id + '' === this.group) {
+            this.price = parseInt(item.price / 100);
+          }
+        });
+      } else {
+        this.price = parseInt(this.sectionData.price / 100);
+      }
 
       let result = GetDataObjUseId(AgeFilterData, this.sectionData.ages);
 
