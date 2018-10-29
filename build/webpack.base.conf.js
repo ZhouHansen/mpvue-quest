@@ -127,6 +127,14 @@ module.exports = {
         to: path.resolve(__dirname, '../dist/img/subjects'),
         flatten: true
       }
-    ])
+    ]),
+    // 复制腾讯地图插件json设置
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../src/pages/guideMap/index.json'),
+        to: path.resolve(__dirname, '../dist/pages/guideMap'),
+        flatten: true
+      }
+    ]),
   ]
 }
