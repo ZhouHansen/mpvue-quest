@@ -78,8 +78,6 @@
     },
     mounted () {
       this.$wxUtils.setNavTitle('确认订单');
-      // console.log(this.$store.state.discovery.order);
-      // console.log(this.$store.state.discovery.activity);
       this.getChildren();
     },
     data () {
@@ -106,10 +104,8 @@
       if (this.setApp && this.setApp.unShowOrderTips) {
         this.showGroupTips = false;
       }
-
-      let discovery = this.$store.state.discovery;
-      this.sectionData = discovery.activity;
-      this.orderParams = discovery.order;
+      this.sectionData = this.$store.state.discovery.activity;
+      this.orderParams = this.$store.state.discovery.order;
       this.group = this.orderParams.group ? this.orderParams.group : false;
       this.children = this.orderParams.children ? this.orderParams.children : null;
 

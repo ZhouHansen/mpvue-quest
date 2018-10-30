@@ -19,9 +19,15 @@
     <div class="organi-content">
       <hoo-nav :tabs="navData" @tapNavItem="chooseNav" :checkIndex="chooseNavNumber" :unOnShowDefault="true"></hoo-nav>
       <div class="organi-nav-inf">
-        <course-list v-if="chooseNavNumber === '0' && courseData" :params="courseData"></course-list>
-        <teacher-list v-if="chooseNavNumber === '1' && teacherData" :params="teacherData"></teacher-list>
-        <appraisal-list v-if="chooseNavNumber === '2'" :params="request.appra.appraListData"></appraisal-list>
+        <scroll-view v-if="chooseNavNumber === '0' && courseData" scroll-y scroll-with-animation @scrolltolower="loadMore">
+          <course-list  :params="courseData"></course-list>
+        </scroll-view>
+        <scroll-view v-if="chooseNavNumber === '1' && teacherData" scroll-y scroll-with-animation @scrolltolower="loadMore">
+          <teacher-list  :params="teacherData"></teacher-list>
+        </scroll-view>
+        <scroll-view v-if="chooseNavNumber === '2'" scroll-y scroll-with-animation @scrolltolower="loadMore">
+          <appraisal-list  :params="request.appra.appraListData"></appraisal-list>
+        </scroll-view>
         <organi-desc v-if="chooseNavNumber === '3'" :params="organiData"></organi-desc>
       </div>
     </div>
@@ -55,7 +61,6 @@
         organiData: {},
         courseData: null,
         teacherData: null,
-        appraData: null,
         request: {
           course: {
             limit: 15,
@@ -69,39 +74,12 @@
           },
           appra: {
             appraListData: null,
-            limit: 15,
+            limit: 4,
             offset: 0,
             total: 0
           }
         }
       };
-    },
-    onReachBottom () {
-      let type = '';
-      switch (this.chooseNavNumber) {
-      case '0':
-        type = 'course';
-        break;
-      case '1':
-        type = 'teacher';
-        break;
-      case '2':
-        type = 'appra';
-        break;
-      };
-
-      if (this.request[type].total > this.request[type].offset + this.request[type].limit) {
-        this.request[type].offset = this.request[type].offset + this.request[type].limit;
-        if (type === 'course') {
-          this.getOrganiCourseList();
-        } else
-        if (type === 'teacher') {
-          this.getOrganiTeacherList();
-        } else
-        if (type === 'appra') {
-          this.getOrganiAppraList();
-        }
-      }
     },
     onShow () {
       // this.chooseNavNumber = '0';
@@ -123,7 +101,7 @@
         if (e === '1' && !this.teacherData) {
           this.getOrganiTeacherList();
         } else
-        if (e === '2' && !this.appraData) {
+        if (e === '2' && !this.appraListData) {
           this.getOrganiAppraList();
         }
       },
@@ -190,6 +168,34 @@
           this.request.appra.appraListData = this.request.appra.appraListData.concat(result);
           this.request.appra.total = res.total;
         });
+      },
+
+      loadMore () {
+        let type = '';
+        switch (this.chooseNavNumber) {
+        case '0':
+          type = 'course';
+          break;
+        case '1':
+          type = 'teacher';
+          break;
+        case '2':
+          type = 'appra';
+          break;
+        };
+
+        if (this.request[type].total > this.request[type].offset + this.request[type].limit) {
+          this.request[type].offset = this.request[type].offset + this.request[type].limit;
+          if (type === 'course') {
+            this.getOrganiCourseList();
+          } else
+          if (type === 'teacher') {
+            this.getOrganiTeacherList();
+          } else
+          if (type === 'appra') {
+            this.getOrganiAppraList();
+          }
+        }
       }
     },
     onShareAppMessage (res) {
@@ -242,6 +248,10 @@
 
     .organi-content {
       border-top: 20rpx solid #f9f9f9;
+
+      .organi-nav-inf scroll-view{
+        max-height: calc(100vh - 110rpx);
+      }
     }
   }
 </style>

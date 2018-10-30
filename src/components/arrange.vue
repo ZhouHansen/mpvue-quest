@@ -48,8 +48,6 @@ export default {
       if (this.arrangeParams.lfrom && this.arrangeParams.lto) {
         let from = Utils.formatData2(this.arrangeParams.lfrom);
         let to = Utils.formatData2(this.arrangeParams.lto);
-        console.log(from);
-        console.log(to);
         return from.y + '年' + from.m + '月' + from.d + '日 - ' + to.y + '年' + to.m + '月' + to.d + '日';
       }
     }

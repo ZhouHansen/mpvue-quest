@@ -17,7 +17,9 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="organi-list">
-        <hoo-organi-list v-if="organiData && organiData.length > 0" :params="organiData"></hoo-organi-list>
+        <scroll-view class="organi-scroll" scroll-y scroll-with-animation @scrolltolower="loadMore">
+          <hoo-organi-list v-if="organiData && organiData.length > 0" :params="organiData"></hoo-organi-list>
+        </scroll-view>
         <search-empty v-if="!organiData || organiData.length === 0"></search-empty>
       </div>
     </div>
@@ -143,12 +145,13 @@ export default {
       }).catch(err => {
         console.log(err);
       });
-    }
-  },
-  onReachBottom () {
-    if (this.paging.total > this.paging.limit + this.paging.offset) {
-      this.paging.offset = this.paging.offset + this.paging.limit;
-      this.sendSearchRequest();
+    },
+
+    loadMore () {
+      if (this.paging.total > this.paging.limit + this.paging.offset) {
+        this.paging.offset = this.paging.offset + this.paging.limit;
+        this.sendSearchRequest();
+      }
     }
   }
 };
@@ -181,9 +184,8 @@ export default {
     .organi-content {
       position: relative;
 
-      .organi-list {
+      .organi-list scroll-view{
         max-height: calc(100vh - 200rpx);
-        overflow-y: auto;
       }
     }
   }

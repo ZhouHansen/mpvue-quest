@@ -27,7 +27,9 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="teacher-list">
-        <hoo-teacher-list :params="teacherData" v-if="teacherData && teacherData.length > 0"></hoo-teacher-list>
+        <scroll-view class="organi-scroll" scroll-y scroll-with-animation @scrolltolower="loadMore">
+          <hoo-teacher-list :params="teacherData" v-if="teacherData && teacherData.length > 0"></hoo-teacher-list>
+        </scroll-view>
         <search-empty v-if="!teacherData || teacherData.length === 0"></search-empty>
       </div>
     </div>
@@ -195,12 +197,12 @@
         }).catch(err => {
           console.log(err);
         });
-      }
-    },
-    onReachBottom () {
-      if (this.paging.total > this.paging.limit + this.paging.offset) {
-        this.paging.offset = this.paging.offset + this.paging.limit;
-        this.sendSearchRequest();
+      },
+      loadMore () {
+        if (this.paging.total > this.paging.limit + this.paging.offset) {
+          this.paging.offset = this.paging.offset + this.paging.limit;
+          this.sendSearchRequest();
+        }
       }
     }
   };
@@ -258,9 +260,8 @@
     .teacher-content {
       position: relative;
 
-      .teacher-list {
+      .teacher-list scroll-view{
         height: calc(100vh - 200rpx);
-        overflow-y: auto;
       }
     }
   }

@@ -29,7 +29,7 @@
     },
     methods: {
       chooseOrderType (e) {
-        this.$emit('chooseGroupType', e.mp.target.id);
+        this.$emit('chooseGroupType', e.mp.currentTarget.id);
         this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: false, groupOrder: false});
       }
     }

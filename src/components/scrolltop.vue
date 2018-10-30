@@ -1,10 +1,11 @@
 <template>
-  <div class="scroll-container" @click="tapToTop" v-if="show">
+  <div class="scroll-container" :class="type === 'tall' ? 'tall' : ''" @click="tapToTop" v-if="show">
     <span class="scroll-icon"></span>
   </div>
 </template>
 <script>
 export default {
+  props: ['type'],
   data () {
     return {
       show: false
@@ -45,5 +46,9 @@ export default {
       height: 100%;
       @include backgroundImg('../assets/images/top.png');
     }
+  }
+
+  .tall {
+    bottom: 100rpx;
   }
 </style>

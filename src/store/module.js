@@ -22,6 +22,10 @@ const Discovery = {
       MapKeys(params, (value, key) => {
         state.order[key] = value;
       });
+
+      if (typeof params.cb === 'function') {
+        params.cb();
+      }
     },
     [MutationsType.SET_CHOOSE_ACTIVITY] (state, param) {
       state.activity = param;

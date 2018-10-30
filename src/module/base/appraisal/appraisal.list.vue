@@ -21,5 +21,6 @@ export default {
 </script>
 <style lang="scss" scoped>
   .appra-list-container {
+    padding-bottom: 100rpx;
   }
 </style>

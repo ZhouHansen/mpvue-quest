@@ -57,7 +57,9 @@
           <wx-parse :content="params.htmlabout"></wx-parse>
         </div>
         <div class="section-nav-appraise" v-if="chooseNavIndex === '1' && appraListData">
-          <appra-list :params="appraListData"></appra-list>
+          <scroll-view scroll-y scroll-with-animation @scrolltolower="loadMore">
+            <appra-list :params="appraListData"></appra-list>
+          </scroll-view>
         </div>
       </div>
     </div>
@@ -88,7 +90,6 @@
   import hooLocation from '@/module/discovery/section.location';
   import hooOrgani from '@/components/organization';
   import hooNav from '@/components/nav';
-  import hooFeedback from '@/components/feedback';
   import hooAvatar from '@/components/avatar';
 
   import appraList from '@/module/base/appraisal/appraisal.list';
@@ -105,7 +106,6 @@
       hooLocation,
       hooOrgani,
       hooNav,
-      hooFeedback,
       appraList,
       groupOrder,
       bindPhone
@@ -137,7 +137,7 @@
     onShow () {
     },
     mounted () {
-      console.log('活动数据', this.params);
+      // console.log('活动数据', this.params);
       if (this.params.ltypes) {
         this.params['subject_type'] = 'lesson';
       } else {
@@ -155,12 +155,13 @@
 
       goToOrder () {
         if (!this.$storage.get(this.$storageTypeName.userInf).cell) {
-          console.log(this.$storage.get(this.$storageTypeName.userInf).cell);
+          // console.log(this.$storage.get(this.$storageTypeName.userInf).cell);
           this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, bindPhone: true});
           return;
         }
 
-        this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: null});
+        this.$storage.remove(this.$storageTypeName.order);
+        // this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: null});
 
         if (!this.params.status) {
           this.$wxUtils.toast({title: '此活动已经停止'});
@@ -175,7 +176,7 @@
 
       groupOrder () {
         if (!this.$storage.get(this.$storageTypeName.userInf).cell) {
-          console.log(this.$storage.get(this.$storageTypeName.userInf).cell);
+          // console.log(this.$storage.get(this.$storageTypeName.userInf).cell);
           this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, bindPhone: true});
           return;
         }
@@ -194,7 +195,7 @@
           requestType = 'product';
         }
         this.$network.base.getCommentList(requestParams, null, 'weapp/comments/' + requestType + '/' + this.params.id).then(res => {
-          console.log('获取评价数据', res);
+          // console.log('获取评价数据', res);
           if (!this.appraListData) {
             this.appraListData = [];
           }
@@ -206,22 +207,25 @@
 
       sendGroupOrder (e) {
         let order = {
-          group: e
+          group: e,
+          cb: () => {
+            if (!this.params.ltypes) {
+              this.$router.push('/pages/home/section.submit.order.book');
+            } else {
+              this.$router.push('/pages/home/section.submit.order');
+            }
+          }
         };
-        this.$store.commit(MutationType.SET_ORDER_PARAMS, order);
 
-        if (!this.params.ltypes) {
-          this.$router.push('/pages/home/section.submit.order.book');
-        } else {
-          this.$router.push({path: '/pages/home/section.submit.order'});
-        }
-      }
-    },
-    onReachBottom () {
-      if (this.chooseNavIndex === '1') {
-        if (this.appra.total > this.appra.offset + this.appra.limit) {
-          this.appra.offset = this.appra.offset + this.appra.limit;
-          this.getAppraList();
+        this.$store.commit(MutationType.SET_ORDER_PARAMS, order);
+      },
+
+      loadMore () {
+        if (this.chooseNavIndex === '1') {
+          if (this.appra.total > this.appra.offset + this.appra.limit) {
+            this.appra.offset = this.appra.offset + this.appra.limit;
+            this.getAppraList();
+          }
         }
       }
     }
@@ -307,6 +311,10 @@
 
     .section-nav {
       border-top: 20rpx solid #f9f9f9;
+
+      .section-nav-appraise scroll-view{
+        max-height: calc(60vh - 110rpx);
+      }
     }
 
     .section-nav-detail {

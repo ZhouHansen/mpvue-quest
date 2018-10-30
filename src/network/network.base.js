@@ -110,6 +110,8 @@ export default {
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true,
     params: {
+      limit: [NetworkParamType.number],
+      offset: [NetworkParamType.number]
     }
   }
 };

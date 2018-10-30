@@ -23,14 +23,20 @@
         </div>
       </div>
       <hoo-nav :tabs="navData" :unOnShowDefault="'true'"  @tapNavItem="chooseNav"></hoo-nav>
-      <div class="tearcher-detail-course" v-if="chooseNavNumber === '0'">
-        <course-list :params="courseData" v-if="courseData"></course-list>
-      </div>
-      <div class="teacher-detail-text" v-if="chooseNavNumber === '1'">
-        <teacher-introduction :params="teacherData"></teacher-introduction>
-      </div>
-      <div class="teacher-detail-appraise" v-if="chooseNavNumber === '2'">
-        <appra-list :params="appra.appraListData"></appra-list>
+      <div class="tearcher-detail-body">
+        <div class="tearcher-detail-course" v-if="chooseNavNumber === '0' && courseData">
+          <scroll-view scroll-y scroll-with-animation @scrolltolower="loadMore">
+            <course-list :params="courseData"></course-list>
+          </scroll-view>
+        </div>
+        <div class="teacher-detail-text" v-if="chooseNavNumber === '1'">
+          <teacher-introduction :params="teacherData"></teacher-introduction>
+        </div>
+        <div class="teacher-detail-appraise" v-if="chooseNavNumber === '2'">
+          <scroll-view scroll-y scroll-with-animation @scrolltolower="loadMore">
+            <appra-list :params="appra.appraListData"></appra-list>
+          </scroll-view>
+        </div>
       </div>
   </div>
 </template>
@@ -73,7 +79,7 @@
         },
         appra: {
           appraListData: null,
-          limit: 15,
+          limit: 4,
           offset: 0,
           total: 0
         }
@@ -89,7 +95,7 @@
       chooseNav (e) {
         this.chooseNavNumber = e;
 
-        if (e === '2') {
+        if (e === '2' && !this.appra.appraListData) {
           this.getTeacherAppraList();
         }
       },
@@ -113,7 +119,12 @@
         };
 
         this.$network.search.searchCourse(requestParams).then(res => {
-          this.courseData = res.data;
+          if (!this.courseData) {
+            this.courseData = [];
+          }
+
+          let result = Utils.filterRepeatData(this.courseData, res.data);
+          this.courseData = this.courseData.concat(result);
           this.course.total = res.total;
         }).catch(err => {
           console.log(err);
@@ -126,8 +137,10 @@
           offset: this.appra.offset
         };
 
+        this.$wxUtils.loading({title: '加载中...'});
         this.$network.base.getCommentList(requestParams, null, 'weapp/comments/institution/' + this.$route.query.id).then(res => {
           console.log('获取评价数据', res);
+          this.$wxUtils.loading({show: false});
           if (!this.appra.appraListData) {
             this.appra.appraListData = [];
           }
@@ -135,20 +148,21 @@
           this.appra.appraListData = this.appra.appraListData.concat(result);
           this.appra.total = res.total;
         });
-      }
-    },
-    onReachBottom () {
-      if (this.chooseNavNumber === '0') {
-        if (this.course.total > this.course.offset + this.course.limit) {
-          this.course.offset = this.course.offset + this.course.limit;
-          this.getTeacherCourseList();
-        }
-      }
+      },
 
-      if (this.chooseNavNumber === '2') {
-        if (this.appra.total > this.appra.offset + this.appra.limit) {
-          this.appra.offset = this.appra.offset + this.appra.limit;
-          this.getTeacherAppraList();
+      loadMore () {
+        if (this.chooseNavNumber === '0') {
+          if (this.course.total > this.course.offset + this.course.limit) {
+            this.course.offset = this.course.offset + this.course.limit;
+            this.getTeacherCourseList();
+          }
+        }
+
+        if (this.chooseNavNumber === '2') {
+          if (this.appra.total > this.appra.offset + this.appra.limit) {
+            this.appra.offset = this.appra.offset + this.appra.limit;
+            this.getTeacherAppraList();
+          }
         }
       }
     },
@@ -211,6 +225,10 @@
           }
         }
       }
+    }
+
+    .tearcher-detail-body scroll-view{
+      max-height: calc(100vh - 110rpx);
     }
   }
 </style>

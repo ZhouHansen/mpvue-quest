@@ -2,16 +2,24 @@
   <div class="collection-container">
       <hoo-nav @tapNavItem="chooseNav" :tabs="tabData" :checkIndex="chooseNavIndex" :unOnShowDefault="true"></hoo-nav>
       <div class="show-content" v-if="chooseNavIndex === '0'">
-        <course-list :params="collectionData.lesson.data"></course-list>
+        <scroll-view scroll-y scroll-with-animation @scrolltolower="loadMore">
+          <course-list :params="collectionData.lesson.data"></course-list>
+        </scroll-view>
       </div>
       <div class="show-content" v-if="chooseNavIndex === '1'">
-        <teacher-list :params="collectionData.teacher.data"></teacher-list>
+        <scroll-view scroll-y scroll-with-animation @scrolltolower="loadMore">
+          <teacher-list :params="collectionData.teacher.data"></teacher-list>
+        </scroll-view>
       </div>
       <div class="show-content" v-if="chooseNavIndex === '2'">
-        <organization-list :params="collectionData.institution.data"></organization-list>
+        <scroll-view scroll-y scroll-with-animation @scrolltolower="loadMore">
+          <organization-list :params="collectionData.institution.data"></organization-list>
+        </scroll-view>
       </div>
       <div class="show-content" v-if="chooseNavIndex === '3'">
-        <course-list :params="collectionData.product.data"></course-list>
+        <scroll-view scroll-y scroll-with-animation @scrolltolower="loadMore">
+          <course-list :params="collectionData.product.data"></course-list>
+        </scroll-view>
       </div>
   </div>
 </template>
@@ -68,12 +76,6 @@
     onUnload () {
       this.chooseNavIndex = '0';
     },
-    onReachBottom () {
-      if (this.collectionData[this.ogroup].total > this.collectionData[this.ogroup].offset + this.collectionData[this.ogroup].limit) {
-        this.collectionData[this.ogroup].offset = this.collectionData[this.ogroup].offset + this.collectionData[this.ogroup].limit;
-        this.getCollectionData();
-      }
-    },
     methods: {
       chooseNav (e) {
         console.log('接收到点击的nav', e);
@@ -95,6 +97,7 @@
 
         this.collectionData[this.ogroup].offset = 0;
         this.collectionData[this.ogroup].total = 0;
+        this.collectionData[this.ogroup].data = [];
 
         this.getCollectionData();
       },
@@ -113,6 +116,13 @@
           this.collectionData[this.ogroup].data = this.collectionData[this.ogroup].data.concat(result);
           this.collectionData[this.ogroup].total = res.total;
         });
+      },
+
+      loadMore () {
+        if (this.collectionData[this.ogroup].total > this.collectionData[this.ogroup].offset + this.collectionData[this.ogroup].limit) {
+          this.collectionData[this.ogroup].offset = this.collectionData[this.ogroup].offset + this.collectionData[this.ogroup].limit;
+          this.getCollectionData();
+        }
       }
     }
   };
@@ -121,9 +131,8 @@
   @import '../../assets/style/variables.scss';
 
   .collection-container {
-    .show-content {
+    .show-content scroll-view{
       height: calc(100vh - 96rpx);
-      overflow: auto;
     }
   }
 </style>
