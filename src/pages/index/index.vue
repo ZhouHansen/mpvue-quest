@@ -79,6 +79,7 @@ export default {
   created () {
   },
   mounted () {
+    this.$wxUtils.loading({title: '加载中...'});
     // 注册腾讯地图
     qqMap = new QQMapWX({
       key: 'HUKBZ-5IIWU-NORVA-BB4KA-B7TR5-GFFH7'
@@ -112,7 +113,7 @@ export default {
   onPullDownRefresh () {
     this.offset = 0;
     this.total = 0;
-    this.sections = [];
+    this.sections = null;
     this.getDashboardData();
   },
   computed: {
@@ -198,18 +199,17 @@ export default {
       this.$wxUtils.loading({title: '加载中...'});
       this.$network.discovery.getDashboard(requestParams).then(res => {
         console.log(res);
+        this.$wxUtils.loading({show: false});
         if (res.e !== 0) {
+          this.$wxUtils.toast({title: res.e.msg});
           return;
         }
-        this.$wxUtils.loading({show: false});
         if (!this.sections) {
           this.sections = [];
         }
         let result = Utils.filterRepeatData(this.sections, res.data);
         this.sections = this.sections.concat(result);
         this.total = res.total;
-      }).catch(err => {
-        console.log(err);
       });
     }
   },

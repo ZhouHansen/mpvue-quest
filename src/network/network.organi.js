@@ -10,6 +10,7 @@ export default {
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true,
     params: {
+      city: [NetworkParamType.string],
       limit: [NetworkParamType.number],
       offset: [NetworkParamType.number]
     }

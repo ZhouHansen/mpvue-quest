@@ -33,7 +33,7 @@ export default {
 
     if (this.checkIndex) {
       this.activeIndex = parseInt(this.checkIndex);
-      console.log('onUnload', this.activeIndex);
+      // console.log('onUnload', this.activeIndex);
     }
   },
   mounted () {

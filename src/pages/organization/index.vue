@@ -33,6 +33,9 @@ import Utils from '@/utils/index';
 import recommendOrgani from '@/module/organization/recommend.organi';
 import organiFilter from '@/module/organization/coverView/organi.filter';
 import organiFilterButton from '@/module/organization/coverView/organi.filter.button';
+
+import QQMapWX from '@/plugs/qqmap-wx-jssdk.js';
+let qqMap = null;
 let dragMapParam = null;
 
 export default {
@@ -46,6 +49,7 @@ export default {
       map: null,
       location: null,
       fixedPoint: null,
+      address: null,
       searchMarkLnglat: {}, // 记录搜索机构的经纬度，用于计算拖动距离，大于searchMarkLimit才进行查找
       searchMarkLimit: 5000, // 单位 m
       initMap: false,
@@ -57,12 +61,12 @@ export default {
       filter: [],
       filterType: '',
       filterCity: [
-        {id: 'asdh1', type: 'city', text: '大连'},
-        {id: 'asdh2', type: 'city', text: '北京'},
-        {id: 'asdh3', type: 'city', text: '上海'},
-        {id: 'asdh4', type: 'city', text: '广州'},
-        {id: 'asdh5', type: 'city', text: '深圳'},
-        {id: 'asdh6', type: 'city', text: '沈阳'}
+        {id: '大连', type: 'city', text: '大连'},
+        {id: '北京', type: 'city', text: '北京'},
+        {id: '上海', type: 'city', text: '上海'},
+        {id: '广州', type: 'city', text: '广州'},
+        {id: '深圳', type: 'city', text: '深圳'},
+        {id: '沈阳', type: 'city', text: '沈阳'}
       ],
       chooseFilterCity: {},
       filterTypeData: [
@@ -77,12 +81,25 @@ export default {
     this.getLnglat();
   },
   mounted () {
+    this.$wxUtils.loading({title: '加载中...'});
+    // 注册腾讯地图
+    qqMap = new QQMapWX({
+      key: 'HUKBZ-5IIWU-NORVA-BB4KA-B7TR5-GFFH7'
+    });
+
     this.$wxUtils.setNavTitle('机构');
     this.map = wx.createMapContext('map');
 
-    this.$wxUtils.loading({title: '加载中...'});
-    this.chooseFilterCity = this.filterCity[0];
     this.chooseFilterType = this.filterTypeData[0];
+
+    let result = this.$storage.get(this.$storageTypeName.address);
+    this.address = result.result.ad_info.city.slice(0, -1);
+
+    this.filterCity.forEach((item, index) => {
+      if (item.text.indexOf(this.address) > -1) {
+        this.chooseFilterCity = item;
+      }
+    });
 
     this.getMapList();
     this.getRecommendList();
@@ -121,16 +138,16 @@ export default {
     },
 
     regionMapEnd (e) {
-      // console.log(e);
       if (e.mp.causedBy === 'drag') {
         this.showFilterList = false;
+        this.showRecommend = false;
       }
 
       dragMapParam = setTimeout(() => {
         this.getCityList();
         clearTimeout(dragMapParam);
         dragMapParam = null;
-      }, 2000);
+      }, 4000);
     },
 
     toggleRecommend () {
@@ -142,7 +159,6 @@ export default {
       this.judgeGetMarkerDataStatu().then(res => {
         if (res) {
           this.location = this.searchMarkLnglat;
-          console.log('获取机构数据');
           this.getMapList();
         }
       });
@@ -150,10 +166,7 @@ export default {
 
     // 获取城市推荐机构
     getRecommendList () {
-      let address = this.$storage.get(this.$storageTypeName.address);
-      let params = address.result.ad_info.city.slice(0, -1);
-
-      this.$network.organi.getRecommendOrgani({city: params}).then(res => {
+      this.$network.organi.getRecommendOrgani({city: this.address}).then(res => {
         // console.log(res.data);
         this.recommendData = res.data;
       });
@@ -180,14 +193,14 @@ export default {
     },
 
     getMapList () {
-      this.$network.organi.getFilterByMapCity().then(res => {
+      this.$network.organi.getFilterByMapCity({city: this.address}).then(res => {
         // console.log(res.data);
         let promiseArr = [];
         res.data.forEach((item, index) => {
           promiseArr[index] = this.setMarkerIcon(item);
         });
 
-        Promise.all(promiseArr).then(result => {
+        Promise.all(promiseArr).finally(result => {
           this.initMap = true;
           this.markers = this.markersData;
           this.$wxUtils.loading({show: false});
@@ -196,7 +209,7 @@ export default {
     },
 
     tapFilterButton (e) {
-      console.log(e);
+      // console.log(e);
       this.showRecommend = false;
       if (this.filterType === e) {
         this.showFilterList = !this.showFilterList;
@@ -215,34 +228,34 @@ export default {
     },
 
     chooseFilter (e) {
-      // console.log(e);
+      // console.log('选择过滤条件', e);
       if (e.type === 'type') {
         this.chooseFilterType = e;
       } else {
         this.chooseFilterCity = e;
+        this.address = this.chooseFilterCity.id;
       }
       this.$wxUtils.loading({title: '查找中...'});
-      this.$wxUtils.download({url: this.url}).then(res => {
-        this.showFilterList = false;
-        this.markers = null;
-        this.$wxUtils.loading({show: false});
-        this.markers = [{
-          iconPath: res,
-          id: 2,
-          latitude: '38.865103',
-          longitude: '121.541557',
-          width: 40,
-          height: 40
-        },
-        {
-          iconPath: res,
-          id: 3,
-          latitude: '38.869103',
-          longitude: '121.541557',
-          width: 40,
-          height: 40
+      this.showFilterList = false;
+      this.markers = null;
+      this.$wxUtils.loading({show: false});
+
+      this.setMapCenterAndSearchDataList();
+    },
+
+    setMapCenterAndSearchDataList () {
+      qqMap.geocoder({
+        address: this.address,
+        complete: (res) => {
+          console.log(res);
+          // 设置地图中心点
+          this.location = {
+            longitude: res.result.location.lng,
+            latitude: res.result.location.lat
+          };
+          this.getMapList();
+          this.getRecommendList();
         }
-        ];
       });
     },
 
