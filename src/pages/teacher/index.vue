@@ -140,7 +140,11 @@ export default {
       this.$network.teacher.getTeacherList(requestParams).then(res => {
         // console.log(res);
         this.$wxUtils.loading({show: false});
-        this.teacherListData = Utils.filterRepeatData(this.teacherListData, res.data);
+        if (!this.teacherListData) {
+          this.teacherListData = [];
+        }
+        let result = Utils.filterRepeatData(this.teacherListData, res.data);
+        this.teacherListData = this.teacherListData.concat(result);
         // console.log(this.teacherListData);
         this.total = res.total;
       });

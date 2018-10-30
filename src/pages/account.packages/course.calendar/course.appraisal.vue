@@ -24,6 +24,17 @@
 
     <div class="teacher-body section">
       <hoo-have-left-border-title :title="'老师评价'"></hoo-have-left-border-title>
+      <div class="section-picker" v-if="teacherList.length > 1">
+        <picker @change="bindTeacherChange" :value="teacherValue" :range-key="'text'" :range="teacherList">
+          <div class="section-picker-body">
+            <span class="section-picker-title">评价老师</span>
+            <span class="section-picker-text">
+              {{teacherList[teacherValue].text}}
+              <span class="section-picker-icon">(点击选择)</span>
+            </span>
+          </div>
+        </picker>
+      </div>
       <div class="section-score">
         <div class="label">星级评价</div>
         <div class="score-com">
@@ -89,6 +100,13 @@ export default {
   },
   data () {
     return {
+      teacherList: [
+        {text: '莉莉', id: '1'},
+        {text: '丽丽', id: '2'},
+        {text: '娜娜', id: '3'},
+        {text: '一一', id: '4'}
+      ],
+      teacherValue: 0,
       lesson: {
         type: 'lesson',
         id: 0,
@@ -99,7 +117,7 @@ export default {
       },
       teacher: {
         type: 'teacher',
-        id: 0,
+        id: null,
         input: '',
         imageList: [],
         score: 1,
@@ -119,10 +137,24 @@ export default {
     this.$wxUtils.setNavTitle('评价');
     let params = JSON.parse(this.$route.query.obj);
     // console.log(params);
+
+    // 1, 设置老师数据
+    // this.teacherList
+
+    this.teacher.id = this.teacherList[0].id;
     this.lesson.id = params.lessonId;
     this.institution.id = params.instId;
   },
   methods: {
+    bindTeacherChange (e) {
+      this.teacherValue = e.mp.detail.value;
+      let result = this.teacherList.filter((item, index) => {
+        return item.id === this.teacherList[this.teacherValue].id;
+      });
+
+      this.teacher.id = result[0].id;
+    },
+
     getImageData (e) {
       // console.log(e);
       let tar = e.id.split('.');
@@ -179,6 +211,11 @@ export default {
     },
 
     submit () {
+      if (!this.teacher.id) {
+        this.$wxUtils.toast({title: '请选择要评价的老师'});
+        return;
+      };
+
       if (this.lesson.input.length < 5 || this.teacher.length < 5 || this.institution.input < 5) {
         this.$wxUtils.toast({title: '评论文字需要多余5个字'});
         return;
@@ -257,6 +294,28 @@ export default {
           border: 1rpx solid #e3e3e3;
           background-color: #fbfbfb;
           border-radius: 16rpx;
+        }
+      }
+    }
+
+    .section-picker-body {
+      @include flex();
+      margin-top: 30rpx;
+
+      .section-picker-title {
+        flex-basis: calc(30vw - 48rpx);
+        flex-shrink: 0;
+        margin-left: 20rpx;
+        color: #bfbfbf;
+        font-size: 16px;
+      }
+
+      .section-picker-text {
+        flex-basis: 100%;
+
+        .section-picker-icon {
+          font-size: 12px;
+          color: $topic-color;
         }
       }
     }

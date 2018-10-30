@@ -13,7 +13,7 @@ export default {
     params: {
       limit: [NetworkParamType.number],
       offset: [NetworkParamType.number],
-      mname: [NetworkParamType.string]
+      ltype: [NetworkParamType.string]
     }
   },
 

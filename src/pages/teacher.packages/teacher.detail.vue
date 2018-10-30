@@ -128,7 +128,11 @@
 
         this.$network.base.getCommentList(requestParams, null, 'weapp/comments/institution/' + this.$route.query.id).then(res => {
           console.log('获取评价数据', res);
-          this.appra.appraListData = Utils.filterRepeatData(this.appra.appraListData, res.data);
+          if (!this.appra.appraListData) {
+            this.appra.appraListData = [];
+          }
+          let result = Utils.filterRepeatData(this.appra.appraListData, res.data);
+          this.appra.appraListData = this.appra.appraListData.concat(result);
           this.appra.total = res.total;
         });
       }

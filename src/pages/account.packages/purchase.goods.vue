@@ -13,7 +13,7 @@
               <div class="order-item-name">{{item.product.name}}</div>
               <div class="order-item-format">{{item.product.agesText}}</div>
               <div class="order-item-cost">
-                <div class="order-price">¥{{item.product.price / 100}}</div>
+                <div class="order-price">¥{{item.price / 100}}</div>
                 <div class="order-num">{{item.count}}件</div>
               </div>
             </div>
@@ -84,7 +84,7 @@ export default {
             this.$wxUtils.toast({title: '取消成功'});
             this.getGoods();
           } else {
-            this.$wxUtils.toast({titel: res.msg});
+            this.$wxUtils.toast({title: res.msg});
           }
         });
       });

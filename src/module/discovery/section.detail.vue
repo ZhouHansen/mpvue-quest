@@ -195,7 +195,11 @@
         }
         this.$network.base.getCommentList(requestParams, null, 'weapp/comments/' + requestType + '/' + this.params.id).then(res => {
           console.log('获取评价数据', res);
-          this.appraListData = Utils.filterRepeatData(this.appraListData, res.data);
+          if (!this.appraListData) {
+            this.appraListData = [];
+          }
+          let result = Utils.filterRepeatData(this.appraListData, res.data);
+          this.appraListData = this.appraListData.concat(result);
           this.appra.total = res.total;
         });
       },

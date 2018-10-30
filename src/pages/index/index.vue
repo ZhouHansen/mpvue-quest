@@ -191,7 +191,7 @@ export default {
       let requestParams = {
         limit: this.limit,
         offset: this.offset,
-        mname: this.checkedFilter.disc_type ? this.checkedFilter.disc_type.id : undefined
+        ltype: this.checkedFilter.disc_type ? this.checkedFilter.disc_type.id : undefined
       };
 
       this.$wxUtils.loading({title: '加载中...'});
@@ -201,7 +201,11 @@ export default {
           return;
         }
         this.$wxUtils.loading({show: false});
-        this.sections = Utils.filterRepeatData(this.sections, res.data);
+        if (!this.sections) {
+          this.sections = [];
+        }
+        let result = Utils.filterRepeatData(this.sections, res.data);
+        this.sections = this.sections.concat(result);
         this.total = res.total;
       }).catch(err => {
         console.log(err);

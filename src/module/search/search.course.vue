@@ -27,8 +27,8 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="course-list">
-        <hoo-course-list :params="resultData" v-if="resultData.length > 0"></hoo-course-list>
-        <search-empty v-if="resultData.length === 0"></search-empty>
+        <hoo-course-list :params="resultData" v-if="resultData && resultData.length > 0"></hoo-course-list>
+        <search-empty v-if="!resultData || resultData.length === 0"></search-empty>
       </div>
     </div>
   </div>
@@ -57,7 +57,7 @@
           limit: 15,
           offset: 0
         },
-        resultData: [],
+        resultData: null,
         showFilterItemDesc: false,
         chooseFilterType: '',
         filterData: {
@@ -72,6 +72,11 @@
     },
     mounted () {
       this.sendSearchRequest();
+    },
+    onHide () {
+      this.resultData = null;
+      this.paging.limit = 15;
+      this.paging.total = 0;
     },
     methods: {
       chooseFilter (e) {
@@ -117,7 +122,7 @@
           this.checkedFilter[this.chooseFilterType] = params;
         }
         this.showFilterItemDesc = false;
-        this.resultData = [];
+        this.resultData = null;
         this.sendSearchRequest();
       },
 
@@ -139,7 +144,11 @@
           this.alreadyUseSearch = true;
           // console.log('返回查找课程数据', res);
           this.$wxUtils.loading({show: false});
-          this.resultData = Utils.filterRepeatData(this.resultData, res.data);
+          if (!this.resultData) {
+            this.resultData = [];
+          }
+          let result = Utils.filterRepeatData(this.resultData, res.data);
+          this.resultData = this.resultData.concat(result);
           this.paging.total = res.total;
         }).catch(err => {
           console.log(err);

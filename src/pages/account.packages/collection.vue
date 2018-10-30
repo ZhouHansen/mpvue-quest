@@ -108,7 +108,9 @@
 
         this.$network.base.getCollectionList(requestParams, null, 'weapp/favors/' + this.ogroup).then(res => {
           this.$wxUtils.loading({show: false});
-          this.collectionData[this.ogroup].data = Utils.filterRepeatData(this.collectionData[this.ogroup].data, res.data);
+
+          let result = Utils.filterRepeatData(this.collectionData[this.ogroup].data, res.data);
+          this.collectionData[this.ogroup].data = this.collectionData[this.ogroup].data.concat(result);
           this.collectionData[this.ogroup].total = res.total;
         });
       }

@@ -17,8 +17,8 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="organi-list">
-        <hoo-organi-list v-if="organiData.length > 0" :params="organiData"></hoo-organi-list>
-        <search-empty v-if="organiData.length === 0"></search-empty>
+        <hoo-organi-list v-if="organiData && organiData.length > 0" :params="organiData"></hoo-organi-list>
+        <search-empty v-if="!organiData || organiData.length === 0"></search-empty>
       </div>
     </div>
   </div>
@@ -46,7 +46,7 @@ export default {
         limit: 15,
         offset: 0
       },
-      organiData: [],
+      organiData: null,
       showFilterItemDesc: false,
       chooseFilterType: '',
       filterData: {
@@ -67,6 +67,11 @@ export default {
   },
   mounted () {
     this.sendSearchRequest();
+  },
+  onHide () {
+    this.paging.limit = 15;
+    this.paging.total = 0;
+    this.organiData = null;
   },
   methods: {
     chooseFilter (e) {
@@ -111,7 +116,7 @@ export default {
         this.checkedFilter[this.chooseFilterType] = params;
       }
       this.showFilterItemDesc = false;
-      this.organiData = [];
+      this.organiData = null;
       this.sendSearchRequest();
     },
 
@@ -128,7 +133,12 @@ export default {
         this.alreadyUseSearch = true;
         console.log('返回查找机构数据', res);
         this.$wxUtils.loading({show: false});
-        this.organiData = Utils.filterRepeatData(this.organiData, res.data);
+
+        if (!this.organiData) {
+          this.organiData = [];
+        }
+        let result = Utils.filterRepeatData(this.organiData, res.data);
+        this.organiData = this.organiData.concat(result);
         this.paging.total = res.total;
       }).catch(err => {
         console.log(err);

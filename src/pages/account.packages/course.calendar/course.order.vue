@@ -160,7 +160,7 @@ export default {
                 this.$router.back();
               }, 2000);
             } else {
-              this.$wxUtils.toast(res.message);
+              this.$wxUtils.toast({title: res.msg});
             }
           });
         }

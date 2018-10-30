@@ -98,21 +98,17 @@ const backDistance = ({lat1, lng1, lat2, lng2}) => {
 
 // 过滤分页是重复的数据
 const filterRepeatData = (params1, params2) => {
-  if (!params1) {
-    params1 = [];
-  }
+  let filterArr = [];
 
   _.forEach(params2, (item2, index2) => {
     let result = _.find(params1, (item1, index1) => {
       return item1.id === item2.id && item1.name === item2.name;
     });
-
     if (!result) {
-      params1.push(item2);
+      filterArr.push(item2);
     }
   });
-  // console.log(params1);
-  return params1;
+  return filterArr;
 };
 
 export default {

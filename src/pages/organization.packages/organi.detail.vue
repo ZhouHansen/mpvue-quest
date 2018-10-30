@@ -145,7 +145,11 @@
 
         this.$network.search.searchCourse(requestParams).then(res => {
           console.log('返回查找课程数据', res);
-          this.courseData = Utils.filterRepeatData(this.courseData, res.data);
+          if (!this.courseData) {
+            this.courseData = [];
+          }
+          let result = Utils.filterRepeatData(this.courseData, res.data);
+          this.courseData = this.courseData.concat(result);
           this.request.course.total = res.total;
         }).catch(err => {
           console.log(err);
@@ -160,7 +164,11 @@
         };
         this.$network.search.searchTearch(requestParams).then(res => {
           console.log('返回查找老师数据', res);
-          this.teacherData = Utils.filterRepeatData(this.teacherData, res.data);
+          if (!this.teacherData) {
+            this.teacherData = [];
+          }
+          let result = Utils.filterRepeatData(this.teacherData, res.data);
+          this.teacherData = this.teacherData.concat(result);
           this.request.teacher.total = res.total;
         }).catch(err => {
           console.log(err);
@@ -175,7 +183,11 @@
 
         this.$network.base.getCommentList(requestParams, null, 'weapp/comments/institution/' + this.$route.query.id).then(res => {
           console.log('获取评价数据', res);
-          this.request.appra.appraListData = Utils.filterRepeatData(this.request.appra.appraListData, res.data);
+          if (!this.request.appra.appraListData) {
+            this.request.appra.appraListData = [];
+          }
+          let result = Utils.filterRepeatData(this.request.appra.appraListData, res.data);
+          this.request.appra.appraListData = this.request.appra.appraListData.concat(result);
           this.request.appra.total = res.total;
         });
       }
