@@ -82,6 +82,7 @@
       "provider": "wx5bc2ac602a747594"
     }
   },
+  "onReachBottomDistance": 100,
   "tabBar": {
     "color": "#454545",
     "borderStyle": "black",

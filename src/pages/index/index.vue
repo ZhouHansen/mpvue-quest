@@ -111,6 +111,7 @@ export default {
   },
   onPullDownRefresh () {
     this.offset = 0;
+    this.total = 0;
     this.sections = [];
     this.getDashboardData();
   },
