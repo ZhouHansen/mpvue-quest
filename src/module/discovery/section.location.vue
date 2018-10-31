@@ -44,11 +44,6 @@ export default {
   },
   methods: {
     openGuideMap () {
-      if (this.distanceNum > 50 * 1000) {
-        this.$wxUtils.toast({title: '目的地太远啦～'});
-        return;
-      };
-
       let params = {
         slat: this.location.latitude,
         slng: this.location.longitude,

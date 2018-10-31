@@ -147,10 +147,10 @@ export default {
 
   /** ******课程*********/
   /**
-   * 获取课程列表数据
+   * 获取课程日历数据
   */
   getCourseList: {
-    url: 'weapp/orders/lesson',
+    url: 'weapp/calendar',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true,

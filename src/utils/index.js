@@ -35,6 +35,18 @@ const formatTime = date => {
   return `${t1} ${t2}`;
 };
 
+const formatTime2 = date => {
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const second = date.getSeconds();
+
+  return {
+    h: ('0' + hour).substr(-2),
+    m: ('0' + minute).substr(-2),
+    s: ('0' + second).substr(-2)
+  };
+};
+
 const formatDate = date => {
   const month = date.getMonth() + 1;
   const day = date.getDate();
@@ -54,7 +66,9 @@ const formatData2 = (data, sign) => {
   return {
     y: arr[0],
     m: parseInt(arr[1]),
-    d: parseInt(arr[2])
+    am: arr[1],
+    d: parseInt(arr[2]),
+    ad: arr[2]
   };
 };
 
@@ -119,6 +133,7 @@ const filterRepeatData = (params1, params2) => {
 export default {
   formatNumber,
   formatTime,
+  formatTime2,
   formatDate,
   formatData2,
   formatDateToPicker,

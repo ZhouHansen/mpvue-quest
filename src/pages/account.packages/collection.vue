@@ -78,7 +78,7 @@
     },
     methods: {
       chooseNav (e) {
-        console.log('接收到点击的nav', e);
+        // console.log('接收到点击的nav', e);
         this.chooseNavIndex = e;
         switch (e) {
         case '0':

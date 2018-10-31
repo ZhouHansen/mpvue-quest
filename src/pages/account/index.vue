@@ -30,7 +30,7 @@
         <div class="section-icon course"></div>
         <div class="section-text">
           <div class="section-text-title">课程日历</div>
-          <div>共3节课</div>
+          <div>查看课程订单</div>
         </div>
       </div>
       <div class="account-arrow"></div>

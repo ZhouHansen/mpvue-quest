@@ -31,7 +31,7 @@
       <div class="section-item" v-if="sections.length > 0" v-for="item in sections" :key="item.id">
         <hoo-section :section-data="item" :location="location"></hoo-section>
       </div>
-      <hoo-empty :type="'discovery'" :text="'~没有内容~'" v-if="!sections || sections.length === 0"></hoo-empty>
+      <hoo-empty :type="'discovery'" :text="'~下滑刷一下~'" v-if="!sections || sections.length === 0"></hoo-empty>
     </div>
     <hoo-scrolltop></hoo-scrolltop>
   </div>

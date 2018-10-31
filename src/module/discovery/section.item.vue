@@ -19,6 +19,8 @@
   </div>
 </template>
 <script>
+  import _ from 'lodash/core';
+  import UniqWith from 'lodash/uniqWith';
   import {AgeFilterData, GetDataObjUseId} from '@/utils/default.data';
   import hooLabel from '@/components/label';
   import Utils from '@/utils/index';
@@ -55,7 +57,16 @@
             return result.text;
           }
         } else {
-          return this.sectionData.city;
+          let cityArr = this.sectionData.city.split(',');
+          let result = '';
+
+          cityArr = UniqWith(cityArr, _.isEqual);
+
+          cityArr.forEach((item, index) => {
+            result = result + item;
+          });
+
+          return result;
         }
       },
       tagslist () {

@@ -57,16 +57,8 @@
       this.type = params.type;
       this.text = params.text;
       this.order = params.order;
-      this.getOrderDetail();
     },
     methods: {
-      getOrderDetail () {
-        // 获取订单详情
-        this.$network.account.getOrderDetail({}, null, 'weapp/order/' + this.order.orderId).then(res => {
-          this.orderDetail = res.data;
-        });
-      },
-
       goBack () {
         this.$router.back();
       },
@@ -88,16 +80,15 @@
             } else {
               this.text = '请您提前联系机构了解相关课程准备，祝您学习愉快！';
             }
-            this.getOrderDetail();
           });
         }
       },
 
       visitOrder () {
         if (this.order.type === 'product') {
-          this.$router.replace({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {obj: JSON.stringify(this.orderDetail)}});
+          this.$router.replace({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {id: this.order.orderId}});
         } else {
-          this.$router.replace({path: '/pages/account.packages/course.calendar/course.order', query: {obj: JSON.stringify(this.orderDetail)}});
+          this.$router.replace({path: '/pages/account.packages/course.calendar/course.order', query: {id: this.order.orderId}});
         }
       },
 

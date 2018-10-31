@@ -36,7 +36,7 @@
       <div class="order-detail-list">
         <div class="order-detail-item">
           <div class="order-detail-item-label">
-            <div class="content-cover" :style="{background: 'url(' + orderDetail.product.coverfile2 + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+            <div class="content-cover" :style="{background: 'url(' + orderDetail.product.coverfile + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
           </div>
           <div class="order-detail-item-text">{{orderDetail.product.name}}</div>
         </div>
@@ -111,19 +111,23 @@ export default {
   },
   methods: {
     getOrderDetail () {
-      this.orderDetail = JSON.parse(this.$route.query.obj);
-      console.log('订单信息', this.orderDetail);
-      if (this.orderDetail.cid) {
-        this.getChildDetail(this.orderDetail.cid);
-      }
+      // 获取订单详情
+      this.$network.account.getOrderDetail({}, null, 'weapp/order/' + this.$route.query.id).then(res => {
+        this.orderDetail = res.data;
 
-      let result = GetDataObjUseId(AgeFilterData, this.orderDetail.product.ages);
+        console.log('订单信息', this.orderDetail);
+        if (this.orderDetail.cid) {
+          this.getChildDetail(this.orderDetail.cid);
+        }
 
-      if (result) {
-        this.orderDetail.product.agesText = result.text;
-      }
+        let result = GetDataObjUseId(AgeFilterData, this.orderDetail.product.ages);
 
-      this.setPayStatus();
+        if (result) {
+          this.orderDetail.product.agesText = result.text;
+        }
+
+        this.setPayStatus();
+      });
     },
 
     setPayStatus () {
