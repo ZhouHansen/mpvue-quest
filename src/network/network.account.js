@@ -126,11 +126,21 @@ export default {
   },
 
   /**
-   * 获取历史订单
+   * 更新订单状态
   */
   updateOrder: {
     url: 'weapp/order/pay/{oid}', // lesson  product
     method: 'post',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true
+  },
+
+  /**
+   * 获取单个订单信息
+  */
+  getOrderDetail: {
+    url: 'weapp/order/{uuid}', // lesson  product
+    method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true
   },

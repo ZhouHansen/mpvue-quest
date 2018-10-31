@@ -79,20 +79,13 @@
       <div class='button-item'>
         <hoo-button :text="'取消订单'" :type="'normal'" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" @tapButton="cancelOrder"></hoo-button>
       </div>
-      <div class="footer-list" v-if="orderDetail.resultPayStatus.id === 'alreadyConfirm'">
-        <!-- <div class='button-item'>
-          <hoo-button :text="'查看物流'" :type="'normal'"></hoo-button>
-        </div> -->
-        <div class='button-item'>
-          <hoo-button :text="'确认收货'" :type="'topic'"></hoo-button>
-        </div>
-      </div>
       <div class='button-item'>
+        <hoo-button :text="'查看物流'" :type="'normal'"></hoo-button>
         <hoo-button :text="'去评价'" :type="'topic'" v-if="orderDetail.resultPayStatus.id === 'waitAppraisal' && !orderDetail.commented" @tapButton="visitAppraisal"></hoo-button>
       </div>
-      <div class='button-item'>
+      <!-- <div class='button-item'>
         <hoo-button :text="'联系客服'" :type="'normal'" v-if="orderDetail.resultPayStatus.id === 'end'"></hoo-button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

@@ -37,7 +37,8 @@
       return {
         type: null,
         text: '',
-        order: null
+        order: null,
+        orderDetail: null
       };
     },
     computed: {
@@ -56,10 +57,14 @@
       this.type = params.type;
       this.text = params.text;
       this.order = params.order;
+      this.getOrderDetail();
     },
     methods: {
       getOrderDetail () {
         // 获取订单详情
+        this.$network.account.getOrderDetail({}, null, 'weapp/order/' + this.order.orderId).then(res => {
+          this.orderDetail = res.data;
+        });
       },
 
       goBack () {
@@ -89,14 +94,10 @@
       },
 
       visitOrder () {
-        let orderObj = {
-
-        };
-
         if (this.order.type === 'product') {
-          this.$router.replace({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {obj: JSON.stringify(orderObj)}});
+          this.$router.replace({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {obj: JSON.stringify(this.orderDetail)}});
         } else {
-          this.$router.replace({path: '/pages/account.packages/course.calendar/course.order', query: {obj: JSON.stringify(orderObj)}});
+          this.$router.replace({path: '/pages/account.packages/course.calendar/course.order', query: {obj: JSON.stringify(this.orderDetail)}});
         }
       },
 

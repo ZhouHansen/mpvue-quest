@@ -5,12 +5,17 @@ const formatNumber = n => {
   return str[1] ? str : `0${str}`;
 };
 
-const formatDateToPicker = date => {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
+  // @beday 向前浮动天数
+const formatDateToPicker = (date, beday) => {
+  if (beday) {
+    date = new Date(date - beday * 24 * 60 * 60 * 1000);
+  }
 
-  const result = [year, month, day].map(formatNumber).join('-');
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
+
+  let result = [year, month, day].map(formatNumber).join('-');
 
   return result;
 };

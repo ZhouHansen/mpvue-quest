@@ -10,9 +10,9 @@
         </label>
       </div>
       <div class="disc-filter-list">
-        <div class="disc-filter-item" @click="chooseFilter('disc_time')">
+        <div class="disc-filter-item">
           <div class="filter-item-select">
-            <hoo-select :filter="{text:'日期', event: 'disc_time'}"></hoo-select>
+            <hoo-select :filter="{text:'日期', event: 'disc_time', type: 'date', chooseDate: checkedFilter.disc_time}" @chooseDate="getChooseDate"></hoo-select>
           </div>
         </div>
         <div class="disc-filter-item" @click="chooseFilter('disc_type')">
@@ -31,7 +31,7 @@
       <div class="section-item" v-if="sections.length > 0" v-for="item in sections" :key="item.id">
         <hoo-section :section-data="item" :location="location"></hoo-section>
       </div>
-      <hoo-empty :type="'discovery'" :text="'~没有内容~'" v-if="!sections"></hoo-empty>
+      <hoo-empty :type="'discovery'" :text="'~没有内容~'" v-if="!sections || sections.length === 0"></hoo-empty>
     </div>
     <hoo-scrolltop></hoo-scrolltop>
   </div>
@@ -39,7 +39,7 @@
 
 <script>
 import * as MutationsType from '@/store/mutation.type';
-import {DateFilterData, TypeFilterData} from '@/utils/default.data';
+import {TypeFilterData} from '@/utils/default.data';
 import Utils from '@/utils/index';
 import hooSelect from '@/components/select';
 import hooSection from '@/module/discovery/section.item';
@@ -69,7 +69,6 @@ export default {
       showFilterItemDesc: false,
       chooseFilterType: '',
       filterData: {
-        disc_time: DateFilterData,
         disc_type: TypeFilterData
       },
       chooseFilterData: null,
@@ -182,8 +181,19 @@ export default {
         this.checkedFilter[this.chooseFilterType] = params;
       }
       this.showFilterItemDesc = false;
-      this.organiData = [];
+      this.sections = [];
 
+      this.getDashboardData();
+    },
+
+    getChooseDate (e) {
+      this.offset = 0;
+      this.total = 0;
+      this.sections = [];
+      this.showFilterItemDesc = false;
+
+      console.log('接收到的过滤参数', e);
+      this.checkedFilter[e.id] = e.data;
       this.getDashboardData();
     },
 
@@ -193,7 +203,8 @@ export default {
       let requestParams = {
         limit: this.limit,
         offset: this.offset,
-        ltype: this.checkedFilter.disc_type ? this.checkedFilter.disc_type.id : undefined
+        ltype: this.checkedFilter.disc_type ? this.checkedFilter.disc_type.id : undefined,
+        date: this.checkedFilter.disc_time ? this.checkedFilter.disc_time : undefined
       };
 
       this.$wxUtils.loading({title: '加载中...'});

@@ -13,7 +13,8 @@ export default {
     params: {
       limit: [NetworkParamType.number],
       offset: [NetworkParamType.number],
-      ltype: [NetworkParamType.string]
+      ltype: [NetworkParamType.string],
+      date: [NetworkParamType.string] // 查找的时间范围：date - 1 至 date + 30 天范围内
     }
   },
 
