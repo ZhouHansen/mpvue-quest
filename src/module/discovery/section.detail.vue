@@ -22,30 +22,15 @@
       </div>
     </div>
 
-    <div class="section-teacher" v-if="params.ltypes">
+    <div class="section-teacher" v-if="params.ltypes && params.teacherlist.length > 0">
       <hoo-left-border-title :title="'教师'"></hoo-left-border-title>
       <div class="teacher-list">
-        <div class="teacher-item">
-          <hoo-avatar></hoo-avatar>
-          <div class="teacher-name">老师姓名</div>
+        <div class="teacher-item" v-for="item in params.teacherlist" :key="item" @click="visitTeacher(item.id)">
+          <hoo-avatar :avatar="item.avartarurl"></hoo-avatar>
+          <div class="teacher-name ellipsis">{{item.name}}</div>
           <div class="teacher-label">
-            <hoo-label :type-text="'测试'" :label-arr="labelArr" :type="'center'"></hoo-label>
+            <hoo-label :type-text="item.degree" :label-arr="item.tags" :type="'center'"></hoo-label>
           </div>
-        </div>
-        <div class="teacher-item">
-          <hoo-avatar></hoo-avatar>
-          <div class="teacher-name">老师姓名</div>
-          <hoo-label :type-text="'测试'" :label-arr="labelArr" :type="'center'"></hoo-label>
-        </div>
-        <div class="teacher-item">
-          <hoo-avatar></hoo-avatar>
-          <div class="teacher-name">老师姓名</div>
-          <hoo-label :type-text="'测试'" :label-arr="labelArr" :type="'center'"></hoo-label>
-        </div>
-        <div class="teacher-item">
-          <hoo-avatar></hoo-avatar>
-          <div class="teacher-name">老师姓名</div>
-          <hoo-label :type-text="'测试'" :label-arr="labelArr" :type="'center'"></hoo-label>
         </div>
       </div>
     </div>
@@ -227,6 +212,10 @@
             this.getAppraList();
           }
         }
+      },
+
+      visitTeacher (e) {
+        this.$router.push({path: '/pages/teacher.packages/teacher.detail', query: {id: e}});
       }
     }
   };
@@ -290,7 +279,7 @@
           text-align: center;
           margin-top: 20rpx;
           padding: 10rpx 6rpx;
-
+          overflow: hidden;
 
           &:nth-child(3n) {
             margin-right: 0;

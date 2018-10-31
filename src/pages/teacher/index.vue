@@ -7,9 +7,14 @@
             <hoo-select :filter="{text:'学科', event: 'course_type'}"></hoo-select>
           </div>
         </div>
-        <div class="teacher-filter-item" @click="chooseFilter('teacher_inf')">
+        <div class="teacher-filter-item" @click="chooseFilter('teacher_age')">
           <div class="filter-item-select">
-            <hoo-select :filter="{text:'类型', event: 'teacher_inf'}"></hoo-select>
+            <hoo-select :filter="{text:'教龄', event: 'teacher_age'}"></hoo-select>
+          </div>
+        </div>
+        <div class="teacher-filter-item" @click="chooseFilter('teacher_degree')">
+          <div class="filter-item-select">
+            <hoo-select :filter="{text:'学位', event: 'teacher_degree'}"></hoo-select>
           </div>
         </div>
       </div>
@@ -25,7 +30,7 @@
 </template>
 <script>
 import * as MutationsType from '@/store/mutation.type';
-import {SubjectsFilterData, TeacherInfFilterData} from '@/utils/default.data';
+import {SubjectsFilterData, TeacherDegreeData, TeacheAgeData} from '@/utils/default.data';
 import Utils from '@/utils/index';
 import hooSelect from '@/components/select';
 import hooScrolltop from '@/components/scrolltop';
@@ -49,7 +54,8 @@ export default {
       chooseFilterType: '',
       filterData: {
         course_type: SubjectsFilterData,
-        teacher_inf: TeacherInfFilterData
+        teacher_degree: TeacherDegreeData,
+        teacher_age: TeacheAgeData
       },
       chooseFilterData: null,
       checkedFilter: {}
@@ -134,7 +140,9 @@ export default {
       let requestParams = {
         limit: this.limit,
         offset: this.offset,
-        subjects: this.checkedFilter.course_type ? this.checkedFilter.course_type.id : undefined
+        subjects: this.checkedFilter.course_type ? this.checkedFilter.course_type.id : undefined,
+        teachagegte: this.checkedFilter.teacher_age ? this.checkedFilter.teacher_age.id : undefined,
+        degree: this.checkedFilter.teacher_degree ? this.checkedFilter.teacher_degree.id : undefined
       };
 
       this.$network.teacher.getTeacherList(requestParams).then(res => {

@@ -37,17 +37,6 @@ const PriceFilterData = [
   {text: '300以上', id: 'g300'}
 ];
 
-const DateFilterData = [
-  {text: '全部', id: undefined},
-  {text: '明天', id: 'd3'},
-  {text: '本周六', id: 'w1'},
-  {text: '本周日', id: 'm1'},
-  {text: '小长假', id: 'm1'},
-  {text: '假期', id: 'm1'},
-  {text: '寒假', id: 'm1'},
-  {text: '暑假', id: 'm1'}
-];
-
 const TypeFilterData = [
   {text: '全部', id: undefined},
   {text: '课程', id: 'lesson'},
@@ -63,12 +52,20 @@ const ProductSpecData = [
   {text: '期刊', id: '3'}
 ];
 
-const TeacherInfFilterData = [
+const TeacheAgeData = [
   {text: '全部', id: undefined},
-  {text: '机构', id: 'inst'},
-  {text: '科目', id: 'subject'},
-  {text: '学位', id: 'degree'},
-  {text: '教龄', id: 'teachage'}
+  {text: '2年以上', id: 2},
+  {text: '5年以上', id: 5},
+  {text: '10年以上', id: 10}
+];
+
+const TeacherDegreeData = [
+  {text: '全部', id: undefined},
+  {text: '学士', id: 'bachelor'},
+  {text: '硕士', id: 'master'},
+  {text: '博士', id: 'doctor'},
+  {text: '专科', id: 'college'},
+  {text: '其他', id: 'other'}
 ];
 
 // 订单状态
@@ -137,10 +134,11 @@ export {
   AgeFilterData,
   TimeFilterData,
   PriceFilterData,
-  DateFilterData,
   TypeFilterData,
   ProductSpecData,
-  TeacherInfFilterData,
+
+  TeacheAgeData,
+  TeacherDegreeData,
 
   PurchaseStatus,
   CourseStatus,

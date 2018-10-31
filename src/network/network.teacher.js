@@ -16,7 +16,7 @@ export default {
     debug: DebugData.getOpenid
   },
   /**
-   * 获取老师列表，通过科目过滤
+   * 获取老师列表，通过科目等过滤
   */
   getTeacherList: {
     url: 'weapp/teacher',
@@ -29,7 +29,9 @@ export default {
       instid: [NetworkParamType.number],
       name: [NetworkParamType.string],
       order: [NetworkParamType.string],
-      subjects: [NetworkParamType.sting]
+      subjects: [NetworkParamType.sting],
+      degree: [NetworkParamType.string],
+      teachagegte: [NetworkParamType.number]
     }
   },
   /**
