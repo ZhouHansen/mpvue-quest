@@ -20,6 +20,7 @@
       <div class="section-content-location" v-if="params.xlat && params.xlng">
         <hoo-location :data="distance" :name="params.name"></hoo-location>
       </div>
+      <div class="section-content-person">提示：活动开启最少{{params.rule.minps}}人，最多{{params.rule.maxps}}人</div>
     </div>
 
     <div class="section-teacher" v-if="params.ltypes && params.teacherlist.length > 0">
@@ -230,7 +231,7 @@
 
     .section-cover {
       width: 100vw;
-      height: 64vw;
+      height: 50vw;
     }
 
     .section-title {
@@ -263,6 +264,11 @@
         margin-left: 20rpx;
         padding-top: 30rpx;
         border-top: 1rpx solid #efefef;
+      }
+
+      .section-content-person {
+        margin-left: 60rpx;
+        margin-top: 20rpx;
       }
     }
 

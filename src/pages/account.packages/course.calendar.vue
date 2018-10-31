@@ -46,14 +46,13 @@ export default {
   },
   mounted () {
     this.$wxUtils.setNavTitle('课程日历');
-    console.log(this.todayStamp);
     this.getOrderList();
   },
   methods: {
     getOrderList () {
       this.$wxUtils.loading({title: '加载中...'});
       this.$network.account.getCourseList().then(res => {
-        console.log('res', res);
+        // console.log('res', res);
         res.data.forEach((item, index) => {
           let from = new Date(item.cfrom);
           let to = new Date(item.cto);
@@ -93,7 +92,7 @@ export default {
 
         this.defaultCourseList = res.data;
         this.courseList = result;
-        console.log(this.courseList);
+        // console.log(this.courseList);
         this.$wxUtils.loading({show: false});
       });
     },

@@ -23,7 +23,8 @@ export default {
     method: 'post',
     apiVersion: NetworkAPIVersion.v1_version,
     params: {
-      code: [NetworkParamType.string]
+      code: [NetworkParamType.string],
+      appcode: [NetworkParamType.string]
     }
   },
 

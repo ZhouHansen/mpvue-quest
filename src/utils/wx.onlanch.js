@@ -11,9 +11,11 @@ if (!openidObj.openid) {
   wx.login({
     success: res => {
       // console.log(res);
-      Network.base.login({}, null, 'weapp/login?code=' + res.code).then(res => {
-        Storage.set(StorageTypeName.openid, res.data);
-        // console.log('登录返回信息', res);
+      Network.base.login({}, null, 'weapp/login?appcode=hooray&code=' + res.code).then(res => {
+        console.log('登录返回信息', res);
+        if (res.data.openid) {
+          Storage.set(StorageTypeName.openid, res.data);
+        }
       });
       // });
       // 发送 res.code 到后台换取 openId, sessionKey, unionId
