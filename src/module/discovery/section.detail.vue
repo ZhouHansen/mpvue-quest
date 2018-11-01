@@ -120,7 +120,8 @@
         return this.params.tagslist.slice(1);
       }
     },
-    onShow () {
+    onUnload () {
+      this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: false, groupOrder: false});
     },
     mounted () {
       // console.log('活动数据', this.params);

@@ -1,6 +1,6 @@
 <template>
   <div class="course-order-container" v-if="orderDetail">
-    <div class="order-status">{{orderDetail.resultPayStatus.text}}</div>
+    <div class="order-status" v-if="orderDetail.resultPayStatus.text">{{orderDetail.resultPayStatus.text}}</div>
     <div class="order-detail">
       <hoo-have-left-border-title :title="'订单信息'"></hoo-have-left-border-title>
       <div class="order-detail-list">
@@ -68,14 +68,14 @@
     </div>
 
     <div class="footer">
-      <div class="button-item">
-        <hoo-button :text="'去付款'" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" :type="'topic'" @tapButton="runWxPayment"></hoo-button>
+      <div class="button-item" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" >
+        <hoo-button :text="'去付款'" :type="'topic'" @tapButton="runWxPayment"></hoo-button>
       </div>
-      <div class="button-item">
-        <hoo-button :text="'取消订单'" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" :type="'normal'" @tapButton="cancelOrder"></hoo-button>
+      <div class="button-item" v-if="orderDetail.resultPayStatus.id === 'waitPayment'">
+        <hoo-button :text="'取消订单'" :type="'normal'" @tapButton="cancelOrder"></hoo-button>
       </div>
-      <div class="button-item">
-        <hoo-button :text="'去评价'" v-if="orderDetail.resultPayStatus.id === 'waitAppraisal' && !orderDetail.commented" :type="'topic'" @tapButton="visitAppraisal"></hoo-button>
+      <div class="button-item" v-if="orderDetail.resultPayStatus.id === 'waitAppraisal'">
+        <hoo-button :text="'去评价'" :type="'topic'" @tapButton="visitAppraisal"></hoo-button>
       </div>
       <!-- <div class="button-item">
         <hoo-button :text="'联系客服'" v-if="orderDetail.resultPayStatus.id === 'end'" :type="'normal'"></hoo-button>
@@ -107,6 +107,8 @@ export default {
   },
   mounted () {
     this.$wxUtils.setNavTitle('课程订单详情');
+  },
+  onShow () {
     this.getOrderDetail();
   },
   methods: {
@@ -177,7 +179,8 @@ export default {
     visitAppraisal () {
       let params = {
         lessonId: this.orderDetail.product.id,
-        instId: this.orderDetail.product.instid
+        instId: this.orderDetail.product.instid,
+        teachers: this.orderDetail.product.teachers
       };
 
       this.$router.push({path: '/pages/account.packages/course.calendar/course.appraisal', query: {obj: JSON.stringify(params)}});

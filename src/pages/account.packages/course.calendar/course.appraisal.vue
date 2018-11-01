@@ -100,12 +100,7 @@ export default {
   },
   data () {
     return {
-      teacherList: [
-        {text: '莉莉', id: '1'},
-        {text: '丽丽', id: '2'},
-        {text: '娜娜', id: '3'},
-        {text: '一一', id: '4'}
-      ],
+      teacherList: [],
       teacherValue: 0,
       lesson: {
         type: 'lesson',
@@ -136,14 +131,12 @@ export default {
   mounted () {
     this.$wxUtils.setNavTitle('评价');
     let params = JSON.parse(this.$route.query.obj);
-    // console.log(params);
+    console.log('评价活动数据', params);
 
-    // 1, 设置老师数据
-    // this.teacherList
-
-    this.teacher.id = this.teacherList[0].id;
+    this.teacher.id = params.teachers[0].id;
     this.lesson.id = params.lessonId;
     this.institution.id = params.instId;
+    this.teacherList = params.teachers;
   },
   methods: {
     bindTeacherChange (e) {

@@ -1,6 +1,6 @@
 <template>
   <div class="course-order-container" v-if="orderDetail">
-    <div class="order-status">{{orderDetail.resultPayStatus.text}}</div>
+    <div class="order-status" v-if="orderDetail.resultPayStatus.text">{{orderDetail.resultPayStatus.text}}</div>
     <div class="address-detail" v-if="orderDetail.address">
       <hoo-have-left-border-title :title="'收货地址'"></hoo-have-left-border-title>
       <div class="address-content">
@@ -73,15 +73,17 @@
     </div>
 
     <div class="footer">
-      <div class='button-item'>
-        <hoo-button :text="'去付款'" :type="'topic'" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" @tapButton="runWxPayment"></hoo-button>
+      <div class='button-item' v-if="orderDetail.resultPayStatus.id === 'waitPayment'">
+        <hoo-button :text="'去付款'" :type="'topic'" @tapButton="runWxPayment"></hoo-button>
       </div>
-      <div class='button-item'>
-        <hoo-button :text="'取消订单'" :type="'normal'" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" @tapButton="cancelOrder"></hoo-button>
+      <div class='button-item' v-if="orderDetail.resultPayStatus.id === 'waitPayment'">
+        <hoo-button :text="'取消订单'" :type="'normal'" @tapButton="cancelOrder"></hoo-button>
       </div>
-      <div class='button-item'>
-        <hoo-button :text="'查看物流'" :type="'normal'"></hoo-button>
-        <hoo-button :text="'去评价'" :type="'topic'" v-if="orderDetail.resultPayStatus.id === 'waitAppraisal' && !orderDetail.commented" @tapButton="visitAppraisal"></hoo-button>
+      <div class='button-item' v-if="orderDetail.resultPayStatus.id === 'waitAppraisal'">
+        <hoo-button :text="'查看物流'" :type="'normal'" ></hoo-button>
+      </div>
+      <div class='button-item' v-if="orderDetail.resultPayStatus.id === 'waitAppraisal'">
+        <hoo-button :text="'去评价'" :type="'topic'" @tapButton="visitAppraisal"></hoo-button>
       </div>
       <!-- <div class='button-item'>
         <hoo-button :text="'联系客服'" :type="'normal'" v-if="orderDetail.resultPayStatus.id === 'end'"></hoo-button>
@@ -90,7 +92,7 @@
   </div>
 </template>
 <script>
-import {ProductSpecData, CourseStatus, GetDataObjUseId} from '@/utils/default.data';
+import {ProductSpecData, PurchaseStatus, GetDataObjUseId} from '@/utils/default.data';
 import WxNetwork from '@/network/network.wx';
 import hooHaveLeftBorderTitle from '@/components/left.border.title';
 import hooButton from '@/components/button';
@@ -140,24 +142,25 @@ export default {
 
     setPayStatus () {
       // this.orderDetail.express 发货物流单号 等待后台添加
+      this.orderDetail.express = null;
 
       let payResult = null;
       if (this.orderDetail.paystate === 0 && this.orderDetail.status === 0) {
-        payResult = GetDataObjUseId(CourseStatus, 'waitPayment');
+        payResult = GetDataObjUseId(PurchaseStatus, 'waitPayment');
       } else
       if (this.orderDetail.paystate === 0 && this.orderDetail.paystate === 1) {
-        payResult = GetDataObjUseId(CourseStatus, 'timeEnd');
+        payResult = GetDataObjUseId(PurchaseStatus, 'timeEnd');
       } else
       if (this.orderDetail.paystate === 1 && !this.orderDetail.express) {
-        payResult = GetDataObjUseId(CourseStatus, 'alreadyConfirm');
+        payResult = GetDataObjUseId(PurchaseStatus, 'alreadyConfirm');
       } else
       if (this.orderDetail.paystate === 1 && this.orderDetail.express && this.orderDetail.commented === 0) {
-        payResult = GetDataObjUseId(CourseStatus, 'waitAppraisal');
+        payResult = GetDataObjUseId(PurchaseStatus, 'waitAppraisal');
       } else
       if (this.orderDetail.paystate === 1 && this.orderDetail.commented === 1) {
-        payResult = GetDataObjUseId(CourseStatus, 'end');
+        payResult = GetDataObjUseId(PurchaseStatus, 'end');
       }
-
+      console.log(payResult);
       this.orderDetail.resultPayStatus = payResult;
     },
 

@@ -50,14 +50,13 @@ export default {
   mounted () {
     this.$wxUtils.setNavTitle('课程日历');
     this.getOrderList();
-
     // this.$network.account.getCourseList({}, null, 'weapp/orders/lesson');
   },
   methods: {
     refreshParams () {
       this.total = 0;
       this.offset = 0;
-      this.goods = [];
+      this.courseList = [];
     },
 
     getOrderList () {

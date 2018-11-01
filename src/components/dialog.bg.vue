@@ -13,7 +13,6 @@
       // 映射 this.showDialogStatus 为 store.state.showDialogStatus
       'showDialogStatus'
     ]),
-
     methods: {
       hideDialog () {
         this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {

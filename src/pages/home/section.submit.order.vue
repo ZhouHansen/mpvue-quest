@@ -224,10 +224,20 @@
           text: '',
           order: {
             type: 'lesson',
+            product: {
+              name: this.sectionData.name,
+              cover: this.sectionData.coverfile,
+              id: this.sectionData.id
+            },
             payId: this.payId,
             orderId: this.orderId
           }
         };
+
+        if (this.group) {
+          params.group = true;
+          params.titleText = '拼团成功';
+        }
 
         if (e.status) {
           this.$network.account.updateOrder({}, null, 'weapp/order/pay/' + this.orderId).then(res => {

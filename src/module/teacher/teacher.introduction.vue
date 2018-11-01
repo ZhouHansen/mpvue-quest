@@ -9,12 +9,12 @@
     </div>
     <div class="insert"></div>
     <div class="introduce-base">
-      <hoo-have-left-border-title :title="'基本信息'"></hoo-have-left-border-title>
+      <!-- <hoo-have-left-border-title :title="'基本信息'"></hoo-have-left-border-title> -->
       <div class="introduce-base-list">
-        <div class="introduce-base-item">
+        <!-- <div class="introduce-base-item">
           <div class="introduce-base-title">姓名</div>
           <div class="introduce-base-text">{{params.name}}</div>
-        </div>
+        </div> -->
         <div class="introduce-base-item" v-if="params.age">
           <div class="introduce-base-title">年龄</div>
           <div class="introduce-base-text">{{params.age}}</div>

@@ -50,8 +50,6 @@ export default {
   },
   mounted () {
     this.$wxUtils.setNavTitle('商品购买');
-  },
-  onShow () {
     this.getGoods();
   },
   methods: {
@@ -66,7 +64,7 @@ export default {
         limit: this.limit,
         offset: this.offset
       };
-
+      this.$wxUtils.loading({title: '加载中...'});
       this.$network.account.getCommodityList(params).then(res => {
         // console.log(res);
         if (!this.goods) {
@@ -83,6 +81,7 @@ export default {
 
           // 判断订单状态
           console.error('等待后台添加物流参数');
+          item.express = null;
           if (item.paystate === 1 && !item.express) {
             let payResult = GetDataObjUseId(PurchaseStatus, 'alreadyConfirm');
             item.resultPayStatus = payResult;
@@ -96,6 +95,7 @@ export default {
           }
         });
 
+        this.$wxUtils.loading({show: false});
         this.total = res.total;
         this.goods = arr;
       });
