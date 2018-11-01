@@ -4,8 +4,6 @@
   </div>
 </template>
 <script>
-import uniqWith from 'lodash/uniqWith';
-import isEqual from 'lodash/isEqual';
 import courseList from '@/module/course/course.list';
 
 export default {
@@ -35,9 +33,6 @@ export default {
         res.data.forEach((item, index) => {
           this.courseList.push(item.product);
         });
-
-        this.courseList = uniqWith(this.courseList, isEqual);
-        console.log(this.courseList);
 
         this.total = res.total;
       });

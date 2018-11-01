@@ -4,7 +4,7 @@ import StorageTypeName from '@/utils/storage.typename';
 import Utils from '@/utils/wx.utils';
 
 // wx.clearStorageSync();
-var openidObj = Storage.get(StorageTypeName.openid);
+let openidObj = Storage.get(StorageTypeName.openid);
 // 取出storage 如果不存在，就执行登录请求，获取openid。
 if (!openidObj.openid) {
 // 登录
@@ -64,7 +64,7 @@ wx.getSetting({
         success (res) {
           console.log(res);
           Utils.getLocation().then(res => {
-            // console.log(res);
+            console.log(res);
           });
         },
         fail (res) {
@@ -88,7 +88,7 @@ wx.getSetting({
       });
     } else {
       Utils.getLocation().then(res => {
-        // console.log(res);
+        console.log('进入应用定位信息', res);
       });
     }
   }

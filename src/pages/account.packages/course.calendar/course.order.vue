@@ -75,7 +75,7 @@
         <hoo-button :text="'取消订单'" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" :type="'normal'" @tapButton="cancelOrder"></hoo-button>
       </div>
       <div class="button-item">
-        <hoo-button :text="'去评价'" v-if="orderDetail.resultPayStatus.id === 'alreadyConfirm' && !orderDetail.commented" :type="'topic'" @tapButton="visitAppraisal"></hoo-button>
+        <hoo-button :text="'去评价'" v-if="orderDetail.resultPayStatus.id === 'waitAppraisal' && !orderDetail.commented" :type="'topic'" @tapButton="visitAppraisal"></hoo-button>
       </div>
       <!-- <div class="button-item">
         <hoo-button :text="'联系客服'" v-if="orderDetail.resultPayStatus.id === 'end'" :type="'normal'"></hoo-button>
@@ -132,16 +132,19 @@ export default {
 
     setPayStatus () {
       let payResult = null;
-      if (this.orderDetail.status === 0) {
-        if (this.orderDetail.paystate === 0) {
-          payResult = GetDataObjUseId(CourseStatus, 'waitPayment');
-        } else
-        if (this.orderDetail.paystate === 1 || this.orderDetail.paystate === 9) {
-          payResult = GetDataObjUseId(CourseStatus, 'alreadyPayWaitDelivery');
-        } else {
-          payResult = GetDataObjUseId(CourseStatus, 'alreadyConfirm');
-        }
-      } else {
+      if (this.orderDetail.paystate === 0 && this.orderDetail.status === 0) {
+        payResult = GetDataObjUseId(CourseStatus, 'waitPayment');
+      } else
+      if (this.orderDetail.paystate === 0 && this.orderDetail.status === 1) {
+        payResult = GetDataObjUseId(CourseStatus, 'timeEnd');
+      } else
+      if (this.orderDetail.paystate === 1 && this.orderDetail.status === 0 && this.orderDetail.commented === 0) {
+        payResult = GetDataObjUseId(CourseStatus, 'alreadyConfirm');
+      } else
+      if (this.orderDetail.paystate === 1 && this.orderDetail.status === 1 && this.orderDetail.commented === 0) {
+        payResult = GetDataObjUseId(CourseStatus, 'waitAppraisal');
+      } else
+      if (this.orderDetail.paystate === 1 && this.orderDetail.status === 1 && this.orderDetail.commented === 1) {
         payResult = GetDataObjUseId(CourseStatus, 'end');
       }
 

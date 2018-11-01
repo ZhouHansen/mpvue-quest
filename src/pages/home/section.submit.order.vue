@@ -181,7 +181,11 @@
           if (res.e === 0) {
             this.orderId = res.data.orderno;
             this.payId = res.data.prepayid;
-            this.runWxPayment(res.data.prepayid);
+            if (res.data.prepayid) {
+              this.runWxPayment();
+            } else {
+              this.$wxUtils.toast({title: '下单失败，未获取到微信支付订单号'});
+            }
           } else {
             this.$wxUtils.toast({title: res.msg});
           }
@@ -195,7 +199,11 @@
             this.orderId = res.data.orderno;
             this.payId = res.data.prepayid;
             this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: false});
-            this.runWxPayment(res.data.prepayid);
+            if (res.data.prepayid) {
+              this.runWxPayment();
+            } else {
+              this.$wxUtils.toast({title: '下单失败，未获取到微信支付订单号'});
+            }
           } else {
             this.$wxUtils.toast({title: res.msg});
           }
@@ -204,7 +212,7 @@
 
       runWxPayment (prepayid) {
         let params = {
-          sign: prepayid,
+          sign: this.payId,
           cb: this.updateOrder
         };
         WxNetwork.wxPayment(params);

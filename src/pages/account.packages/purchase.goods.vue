@@ -1,6 +1,6 @@
 <template>
   <div class="purchase-container">
-    <div class="order-list" v-if="goods.length > 0">
+    <div class="order-list" v-if="goods">
       <div class="order-item" v-for="item in goods" :key="item.id">
         <div class="order-item-body">
           <div class="order-id" @click="copyOrderNum(item.orderno)">
@@ -22,7 +22,7 @@
         <div class="order-item-ctrl" v-if="item.resultPayStatus.id === 'waitPayment'" @click="cancelOrder(item.id)">取消订单</div>
       </div>
     </div>
-    <hoo-empty v-if="goods.length === 0" :type="'normal'" :text="'没有购买信息～'"></hoo-empty>
+    <hoo-empty v-if="!goods || goods.length === 0" :type="'normal'" :text="'没有购买信息～'"></hoo-empty>
     <div class="puchase-footer" @click="visitCourseHistory">
       <span>查看历史记录</span>
       <span class="footer-icon"></span>
@@ -42,7 +42,10 @@ export default {
   props: [],
   data () {
     return {
-      goods: []
+      total: 0,
+      offset: 0,
+      limit: 15,
+      goods: null
     };
   },
   mounted () {
@@ -52,10 +55,26 @@ export default {
     this.getGoods();
   },
   methods: {
+    refreshParams () {
+      this.totla = 0;
+      this.offset = 0;
+      this.goods = null;
+    },
+
     getGoods () {
-      this.$network.account.getCommodityList().then(res => {
+      let params = {
+        limit: this.limit,
+        offset: this.offset
+      };
+
+      this.$network.account.getCommodityList(params).then(res => {
         // console.log(res);
-        res.data.forEach((item, index) => {
+        if (!this.goods) {
+          this.goods = [];
+        }
+
+        let arr = this.goods.concat(res.data);
+        arr.forEach((item, index) => {
           // 设置规格
           let result = GetDataObjUseId(ProductSpecData, item.product.spec);
           if (result) {
@@ -63,8 +82,13 @@ export default {
           }
 
           // 判断订单状态
-          if (item.paystate === 1 || item.paystate === 9) {
-            let payResult = GetDataObjUseId(PurchaseStatus, 'alreadyPayWaitDelivery');
+          console.error('等待后台添加物流参数');
+          if (item.paystate === 1 && !item.express) {
+            let payResult = GetDataObjUseId(PurchaseStatus, 'alreadyConfirm');
+            item.resultPayStatus = payResult;
+          } else
+          if (item.paystate === 1 && item.commented === 0 && item.express) {
+            let payResult = GetDataObjUseId(PurchaseStatus, 'waitAppraisal');
             item.resultPayStatus = payResult;
           } else {
             let payResult = GetDataObjUseId(PurchaseStatus, 'waitPayment');
@@ -72,16 +96,17 @@ export default {
           }
         });
 
-        this.goods = res.data;
+        this.total = res.total;
+        this.goods = arr;
       });
     },
 
     cancelOrder (e) {
-      console.log(e);
       this.$wxUtils.showModal({title: '确定取消订单？'}).then(res => {
         this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + e).then(res => {
           if (res.e === 0) {
             this.$wxUtils.toast({title: '取消成功'});
+            this.refreshParams();
             this.getGoods();
           } else {
             this.$wxUtils.toast({title: res.msg});
@@ -101,6 +126,12 @@ export default {
     copyOrderNum (e) {
       this.$wxUtils.setClipboardData(e);
     }
+  },
+  onReachBottom () {
+    if (this.total > this.offset + this.limit) {
+      this.offset = this.offset + this.limit;
+      this.getGoods();
+    }
   }
 };
 </script>
@@ -113,6 +144,8 @@ export default {
     background-color: #f9f9f9;
 
     .order-list {
+      padding-bottom: 110rpx;
+
       .order-item {
         margin-top: 20rpx;
         box-shadow: 0 4rpx 8rpx #e8e8e8;

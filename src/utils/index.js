@@ -115,7 +115,7 @@ const backDistance = ({lat1, lng1, lat2, lng2}) => {
   return callback;
 };
 
-// 过滤分页是重复的数据
+// 过滤分页时重复的数据
 const filterRepeatData = (params1, params2) => {
   let filterArr = [];
 

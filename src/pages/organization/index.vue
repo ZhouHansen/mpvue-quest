@@ -6,7 +6,7 @@
         @regionchange="regionMap"
         @begin="regionMapBegin"
         @end="regionMapEnd"
-        :scale="14"
+        :scale="15"
         :show-location="'true'"
         :longitude="location.longitude"
         :latitude="location.latitude"

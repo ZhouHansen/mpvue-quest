@@ -40,6 +40,7 @@
 <script>
 import * as MutationsType from '@/store/mutation.type';
 import {TypeFilterData} from '@/utils/default.data';
+import {GetAddressUseLngLat} from '@/utils/location';
 import Utils from '@/utils/index';
 import hooSelect from '@/components/select';
 import hooSection from '@/module/discovery/section.item';
@@ -47,8 +48,6 @@ import filterList from '@/module/search/search.header.filter.list';
 import hooScrolltop from '@/components/scrolltop';
 import hooEmpty from '@/components/empty';
 
-import QQMapWX from '@/plugs/qqmap-wx-jssdk.js';
-let qqMap = null;
 export default {
   components: {
     hooSection,
@@ -79,10 +78,6 @@ export default {
   },
   mounted () {
     this.$wxUtils.loading({title: '加载中...'});
-    // 注册腾讯地图
-    qqMap = new QQMapWX({
-      key: 'HUKBZ-5IIWU-NORVA-BB4KA-B7TR5-GFFH7'
-    });
 
     this.$wxUtils.setNavTitle('发现');
 
@@ -96,7 +91,7 @@ export default {
 
     this.$wxUtils.getLocation().then(res => {
       this.location = res;
-      this.getCityInfUseLnglat();
+      GetAddressUseLngLat(res);
     });
   },
   onShow () {
@@ -123,20 +118,6 @@ export default {
   methods: {
     goSearchPage () {
       this.$router.push('/pages/search/index');
-    },
-
-    // 通过用户的定位获取当前城市
-    getCityInfUseLnglat () {
-      qqMap.reverseGeocoder({
-        location: {
-          latitude: this.location.latitude,
-          longitude: this.location.longitude
-        },
-        complete: res => {
-          console.log('腾讯地图定位', res);
-          this.$storage.set(this.$storageTypeName.address, res);
-        }
-      });
     },
 
     chooseFilter (e) {

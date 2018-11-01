@@ -4,8 +4,6 @@
   </div>
 </template>
 <script>
-import uniqWith from 'lodash/uniqWith';
-import isEqual from 'lodash/isEqual';
 import courseList from '@/module/course/course.list';
 
 export default {
@@ -14,6 +12,7 @@ export default {
   },
   data () {
     return {
+      defaultCourseList: [],
       courseList: [],
       limit: 15,
       offset: 0,
@@ -36,10 +35,12 @@ export default {
           this.courseList.push(item.product);
         });
 
-        this.courseList = uniqWith(this.courseList, isEqual);
         console.log(this.courseList);
         this.total = res.total;
       });
+    },
+    visitOrder (e) {
+      this.$router.push({path: '/pages/account.packages/course.calendar/course.order', query: {id: e}});
     }
   },
   onReachBottom () {

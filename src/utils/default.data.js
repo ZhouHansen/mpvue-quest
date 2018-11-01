@@ -75,11 +75,7 @@ const PurchaseStatus = [
     id: 'waitPayment'
   },
   {
-    text: '等待商家确认',
-    id: 'alreadyPayWaitDelivery'
-  },
-  {
-    text: '商家已确认，请等待发货',
+    text: '请等待发货',
     id: 'alreadyConfirm'
   },
   {
@@ -89,6 +85,10 @@ const PurchaseStatus = [
   {
     text: '交易结束',
     id: 'end'
+  },
+  {
+    text: '已过期，请重新下单',
+    id: 'timeEnd'
   }
 ];
 
@@ -98,20 +98,20 @@ const CourseStatus = [
     id: 'waitPayment'
   },
   {
-    text: '等待商家确认名额',
-    id: 'alreadyPayWaitDelivery'
-  },
-  {
-    text: '商家已确认，请按时参加',
+    text: '报名成功，请按时参加',
     id: 'alreadyConfirm'
   },
   {
-    text: '课程已开始，请评价',
+    text: '等待评价',
     id: 'waitAppraisal'
   },
   {
-    text: '交易结束',
+    text: '已结束',
     id: 'end'
+  },
+  {
+    text: '已过期，请重新下单',
+    id: 'timeEnd'
   }
 ];
 

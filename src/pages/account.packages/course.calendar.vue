@@ -39,6 +39,9 @@ export default {
   props: [],
   data () {
     return {
+      total: 0,
+      limit: 15,
+      offset: 0,
       defaultCourseList: [],
       courseList: [],
       todayStamp: parseInt(new Date().getTime() / 1000)
@@ -51,9 +54,19 @@ export default {
     // this.$network.account.getCourseList({}, null, 'weapp/orders/lesson');
   },
   methods: {
+    refreshParams () {
+      this.total = 0;
+      this.offset = 0;
+      this.goods = [];
+    },
+
     getOrderList () {
+      let params = {
+        offset: this.offset,
+        limit: this.limit
+      };
       this.$wxUtils.loading({title: '加载中...'});
-      this.$network.account.getCourseCalendarList().then(res => {
+      this.$network.account.getCourseCalendarList(params).then(res => {
         // console.log('res', res);
         res.data.forEach((item, index) => {
           let from = new Date(item.cfrom);
@@ -74,10 +87,13 @@ export default {
           return a.fromStamp - b.fromStamp;
         });
 
-        let result = [[res.data[0]]];
+        let result = [];
         res.data.forEach((item, index) => {
           let flg = false;
-
+          if (index === 0) {
+            result.push([res.data[0]]);
+            return;
+          }
           result.forEach((ritem, rindex) => {
             let find = _.find(ritem, {fromDateString: item.fromDateString});
 
@@ -92,8 +108,9 @@ export default {
           });
         });
 
-        this.defaultCourseList = res.data;
-        this.courseList = result;
+        this.total = res.total;
+        this.defaultCourseList = this.defaultCourseList.concat(res.data);
+        this.courseList = this.courseList.concat(result);
         // console.log(this.courseList);
         this.$wxUtils.loading({show: false});
       });
@@ -105,6 +122,12 @@ export default {
 
     visitCourseHistory () {
       this.$router.push('/pages/account.packages/course.calendar/course.history');
+    }
+  },
+  onReachBottom () {
+    if (this.total > this.offset + this.limit) {
+      this.offset = this.offset + this.limit;
+      this.getOrderList();
     }
   }
 };

@@ -139,17 +139,22 @@ export default {
     },
 
     setPayStatus () {
+      // this.orderDetail.express 发货物流单号 等待后台添加
+
       let payResult = null;
-      if (this.orderDetail.status === 0) {
-        if (this.orderDetail.paystate === 0) {
-          payResult = GetDataObjUseId(CourseStatus, 'waitPayment');
-        } else
-        if (this.orderDetail.paystate === 1 || this.orderDetail.paystate === 9) {
-          payResult = GetDataObjUseId(CourseStatus, 'alreadyPayWaitDelivery');
-        } else {
-          payResult = GetDataObjUseId(CourseStatus, 'alreadyConfirm');
-        }
-      } else {
+      if (this.orderDetail.paystate === 0 && this.orderDetail.status === 0) {
+        payResult = GetDataObjUseId(CourseStatus, 'waitPayment');
+      } else
+      if (this.orderDetail.paystate === 0 && this.orderDetail.paystate === 1) {
+        payResult = GetDataObjUseId(CourseStatus, 'timeEnd');
+      } else
+      if (this.orderDetail.paystate === 1 && !this.orderDetail.express) {
+        payResult = GetDataObjUseId(CourseStatus, 'alreadyConfirm');
+      } else
+      if (this.orderDetail.paystate === 1 && this.orderDetail.express && this.orderDetail.commented === 0) {
+        payResult = GetDataObjUseId(CourseStatus, 'waitAppraisal');
+      } else
+      if (this.orderDetail.paystate === 1 && this.orderDetail.commented === 1) {
         payResult = GetDataObjUseId(CourseStatus, 'end');
       }
 
