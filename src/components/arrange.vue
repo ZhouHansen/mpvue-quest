@@ -48,7 +48,11 @@ export default {
       if (this.arrangeParams.lfrom && this.arrangeParams.lto) {
         let from = Utils.formatData2(this.arrangeParams.lfrom);
         let to = Utils.formatData2(this.arrangeParams.lto);
-        return from.y + '年' + from.m + '月' + from.d + '日 - ' + to.y + '年' + to.m + '月' + to.d + '日';
+        if (from.m === to.m && from.d === to.d) {
+          return from.y + '年' + from.m + '月' + from.d + '日';
+        } else {
+          return from.y + '年' + from.m + '月' + from.d + '日 - ' + to.y + '年' + to.m + '月' + to.d + '日';
+        }
       }
     }
   }

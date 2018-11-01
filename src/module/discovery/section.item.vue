@@ -76,8 +76,11 @@
         if (this.sectionData.lfrom && this.sectionData.lto) {
           let from = Utils.formatData2(this.sectionData.lfrom);
           let to = Utils.formatData2(this.sectionData.lto);
-
-          time = parseInt(from.m) + '月' + parseInt(from.d) + '日 - ' + parseInt(to.m) + '月' + parseInt(to.d) + '日';
+          if (parseInt(from.m) === parseInt(to.m) && parseInt(from.d) === parseInt(to.d)) {
+            time = parseInt(from.m) + '月' + parseInt(from.d) + '日';
+          } else {
+            time = parseInt(from.m) + '月' + parseInt(from.d) + '日 - ' + parseInt(to.m) + '月' + parseInt(to.d) + '日';
+          }
         }
         if (this.sectionData.ages) {
           age = GetDataObjUseId(AgeFilterData, this.sectionData.ages).label;
