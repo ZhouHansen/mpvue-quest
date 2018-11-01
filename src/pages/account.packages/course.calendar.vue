@@ -47,11 +47,13 @@ export default {
   mounted () {
     this.$wxUtils.setNavTitle('课程日历');
     this.getOrderList();
+
+    // this.$network.account.getCourseList({}, null, 'weapp/orders/lesson');
   },
   methods: {
     getOrderList () {
       this.$wxUtils.loading({title: '加载中...'});
-      this.$network.account.getCourseList().then(res => {
+      this.$network.account.getCourseCalendarList().then(res => {
         // console.log('res', res);
         res.data.forEach((item, index) => {
           let from = new Date(item.cfrom);

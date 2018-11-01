@@ -4,13 +4,13 @@
       <div class="input-item">
         <div class="input-item-title">签名内容</div>
         <div class="input-item-from">
-          <input type="text" placeholder="祝福" :value="text" v-model="text" @change="inputText">
+          <input type="text" placeholder="祝福语" :value="text" v-model="text" @change="inputText">
         </div>
       </div>
       <div class="input-item">
         <div class="input-item-title">给予</div>
         <div class="input-item-from">
-          <input type="text" placeholder="一块饼干" :value="name" v-model="name" @change="inputName">
+          <input type="text" placeholder="要给予人的姓名" :value="name" v-model="name" @change="inputName">
         </div>
       </div>
     </div>

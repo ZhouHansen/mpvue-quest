@@ -115,6 +115,16 @@ const CourseStatus = [
   }
 ];
 
+// 地图机构显示有关
+const OrganiMapCityCenter = [
+  {lng: '121.632999', lat: '38.922445', id: '大连'},
+  {lng: '116.397477', lat: '39.908692', id: '北京'},
+  {lng: '121.510747', lat: '31.233403', id: '上海'},
+  {lng: '113.246282', lat: '23.131258', id: '广州'},
+  {lng: '114.058755', lat: '22.529776', id: '深圳'},
+  {lng: '123.403475', lat: '41.785394', id: '沈阳'}
+];
+
 // 获取数据对象方法
 
 const GetDataObjUseId = (data, id) => {
@@ -142,6 +152,8 @@ export {
 
   PurchaseStatus,
   CourseStatus,
+
+  OrganiMapCityCenter,
 
   GetDataObjUseId
 };

@@ -149,8 +149,22 @@ export default {
   /**
    * 获取课程日历数据
   */
-  getCourseList: {
+  getCourseCalendarList: {
     url: 'weapp/calendar',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
+    params: {
+      limit: [NetworkParamType.number],
+      offset: [NetworkParamType.number]
+    }
+  },
+
+  /**
+   * 获取课程数据
+  */
+  getCourseList: {
+    url: 'weapp/orders/{type}',
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true,

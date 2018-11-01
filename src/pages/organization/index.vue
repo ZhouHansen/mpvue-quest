@@ -6,7 +6,7 @@
         @regionchange="regionMap"
         @begin="regionMapBegin"
         @end="regionMapEnd"
-        :scale="16"
+        :scale="14"
         :show-location="'true'"
         :longitude="location.longitude"
         :latitude="location.latitude"
@@ -30,12 +30,11 @@
 <script>
 import _ from 'lodash/core';
 import Utils from '@/utils/index';
+import {OrganiMapCityCenter, GetDataObjUseId} from '@/utils/default.data';
 import recommendOrgani from '@/module/organization/recommend.organi';
 import organiFilter from '@/module/organization/coverView/organi.filter';
 import organiFilterButton from '@/module/organization/coverView/organi.filter.button';
 
-import QQMapWX from '@/plugs/qqmap-wx-jssdk.js';
-let qqMap = null;
 let dragMapParam = null;
 
 export default {
@@ -82,11 +81,6 @@ export default {
   },
   mounted () {
     this.$wxUtils.loading({title: '加载中...'});
-    // 注册腾讯地图
-    qqMap = new QQMapWX({
-      key: 'HUKBZ-5IIWU-NORVA-BB4KA-B7TR5-GFFH7'
-    });
-
     this.$wxUtils.setNavTitle('机构');
     this.map = wx.createMapContext('map');
 
@@ -244,19 +238,14 @@ export default {
     },
 
     setMapCenterAndSearchDataList () {
-      qqMap.geocoder({
-        address: this.address,
-        complete: (res) => {
-          console.log(res);
-          // 设置地图中心点
-          this.location = {
-            longitude: res.result.location.lng,
-            latitude: res.result.location.lat
-          };
-          this.getMapList();
-          this.getRecommendList();
-        }
-      });
+      let result = GetDataObjUseId(OrganiMapCityCenter, this.address);
+
+      this.location = {
+        longitude: result.lng,
+        latitude: result.lat
+      };
+      this.getMapList();
+      this.getRecommendList();
     },
 
     markertap (e) {

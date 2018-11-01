@@ -58,9 +58,9 @@
           </div>
           <div class="order-detail-item-text">{{orderDetail.product.name}}</div>
         </div>
-        <div class="order-detail-item">
+        <div class="order-detail-item" v-if="orderDetail.product.specText">
           <div class="order-detail-item-label">产品规格</div>
-          <div class="order-detail-item-text">{{orderDetail.product.agesText}}</div>
+          <div class="order-detail-item-text">{{orderDetail.product.specText}}</div>
         </div>
       </div>
     </div>
@@ -90,6 +90,7 @@
   </div>
 </template>
 <script>
+import {ProductSpecData, CourseStatus, GetDataObjUseId} from '@/utils/default.data';
 import WxNetwork from '@/network/network.wx';
 import hooHaveLeftBorderTitle from '@/components/left.border.title';
 import hooButton from '@/components/button';
@@ -115,16 +116,44 @@ export default {
   },
   methods: {
     getOrderDetail () {
-      let firstFormat = JSON.parse(this.$route.query.obj);
+      // 获取订单详情
+      this.$network.account.getOrderDetail({}, null, 'weapp/order/' + this.$route.query.id).then(res => {
+        let firstFormat = res.data;
 
-      firstFormat.address = JSON.parse(firstFormat.address);
+        firstFormat.address = JSON.parse(firstFormat.address);
 
-      if (firstFormat.extra) {
-        firstFormat.extra = JSON.parse(firstFormat.address);
+        if (firstFormat.extra) {
+          firstFormat.extra = JSON.parse(firstFormat.extra);
+        }
+
+        let result = GetDataObjUseId(ProductSpecData, firstFormat.product.spec);
+
+        if (result) {
+          firstFormat.product.specText = result.text;
+        }
+
+        this.orderDetail = firstFormat;
+        // console.log(this.orderDetail);
+        this.setPayStatus();
+      });
+    },
+
+    setPayStatus () {
+      let payResult = null;
+      if (this.orderDetail.status === 0) {
+        if (this.orderDetail.paystate === 0) {
+          payResult = GetDataObjUseId(CourseStatus, 'waitPayment');
+        } else
+        if (this.orderDetail.paystate === 1 || this.orderDetail.paystate === 9) {
+          payResult = GetDataObjUseId(CourseStatus, 'alreadyPayWaitDelivery');
+        } else {
+          payResult = GetDataObjUseId(CourseStatus, 'alreadyConfirm');
+        }
+      } else {
+        payResult = GetDataObjUseId(CourseStatus, 'end');
       }
 
-      this.orderDetail = firstFormat;
-      // console.log(this.orderDetail);
+      this.orderDetail.resultPayStatus = payResult;
     },
 
     cancelOrder () {

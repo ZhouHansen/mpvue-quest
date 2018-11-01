@@ -7,7 +7,7 @@
             <hoo-have-left-border-title :title="'订单编号：' + item.orderno"></hoo-have-left-border-title>
           </div>
           <div class="order-item-status">{{item.resultPayStatus.text}}</div>
-          <div class="order-item-content" @click="visitOrderDetail(item.id)">
+          <div class="order-item-content" @click="visitOrderDetail(item.orderno)">
             <div class="order-item-cover" :style="{background: 'url(' + item.product.coverfile2 + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
             <div class="order-item-detail">
               <div class="order-item-name">{{item.product.name}}</div>
@@ -91,11 +91,7 @@ export default {
     },
 
     visitOrderDetail (e) {
-      let result = this.goods.filter((item, index) => {
-        return item.id === e;
-      });
-
-      this.$router.push({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {obj: JSON.stringify(result[0])}});
+      this.$router.push({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {id: e}});
     },
 
     visitCourseHistory () {
