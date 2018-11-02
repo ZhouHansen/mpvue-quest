@@ -157,7 +157,6 @@ export default {
       if (this.orderDetail.paystate === 1 && this.orderDetail.commented === 1) {
         payResult = GetDataObjUseId(PurchaseStatus, 'end');
       }
-      console.log(payResult);
       this.orderDetail.resultPayStatus = payResult;
     },
 

@@ -103,7 +103,7 @@ export default {
             let find = _.find(ritem, {fromDateString: item.fromDateString});
 
             if (find) {
-              result[rindex].push(item);
+              result[rindex].unshift(item);
               flg = true;
             }
             if (result.length - 1 === rindex && !flg) {

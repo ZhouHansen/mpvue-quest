@@ -134,7 +134,6 @@ export default {
     background-color: #f9f9f9;
 
     .order-list {
-      padding-bottom: 110rpx;
 
       .order-item {
         margin-top: 20rpx;

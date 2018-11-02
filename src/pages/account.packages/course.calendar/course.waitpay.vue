@@ -3,12 +3,11 @@
     <div class="date-list" v-if="courseList && courseList.length > 0">
       <div class="date-item" v-for="item in courseList" :key="item.id">
         <div class="date-title">
-          <hoo-have-left-border-title :title="item[0].fromDate.m + '月' + item[0].fromDate.d + '日'"></hoo-have-left-border-title>
+          <hoo-have-left-border-title :title="'下单时间：' + item[0].fromDate.m + '月' + item[0].fromDate.d + '日'"></hoo-have-left-border-title>
         </div>
-        <div class="date-total">共{{item.length}}节课</div>
         <div class="course-list">
           <div class="course-item" v-for="(i, num) in item" :key="num" @click="visitOrder(i.orderno)">
-            <div class="course-item-time">{{i.fromTimeString}} - {{i.toTimeString}}</div>
+            <div class="course-item-time">{{i.fromTimeString}}</div>
             <div class="course-item-name ellipsis">{{i.product.name}}</div>
             <div class="course-item-visit">
               <span>查看</span>
@@ -62,18 +61,12 @@ export default {
       this.$network.account.getCourseListWaitPay(params, null, 'weapp/unpaidorders/lesson').then(res => {
         // console.log('res', res);
         res.data.forEach((item, index) => {
-          let from = new Date(item.product.lfrom);
-          let to = new Date(item.product.lto);
+          let from = new Date(item.issueat);
           item.fromStamp = parseInt(from.getTime() / (1000 * 60 * 60 * 24));
-          item.fromDate = Utils.formatData2(item.product.lfrom.split(' ')[0], '-');
+          item.fromDate = Utils.formatData2(item.issueat.split(' ')[0], '-');
           item.fromTime = Utils.formatTime2(from);
           item.fromTimeString = item.fromTime.h + ':' + item.fromTime.m;
           item.fromDateString = item.fromDate.y + '-' + item.fromDate.am + '-' + item.fromDate.ad;
-
-          item.toStamp = parseInt(to.getTime() / 1000);
-          item.toDate = Utils.formatData2(item.product.lto.split(' ')[0], '-');
-          item.toTime = Utils.formatTime2(to);
-          item.toTimeString = item.toTime.h + ':' + item.toTime.m;
         });
 
         res.data.sort((a, b) => {
@@ -91,7 +84,7 @@ export default {
             let find = _.find(ritem, {fromDateString: item.fromDateString});
 
             if (find) {
-              result[rindex].push(item);
+              result[rindex].unshift(item);
               flg = true;
             }
             if (result.length - 1 === rindex && !flg) {
@@ -129,7 +122,7 @@ export default {
   @import '../../../assets/style/variables.scss';
 
   .course-calendar-container {
-    height: calc(100vh - 100rpx);
+    height: 100vh;
     overflow: auto;
     background-color: #f9f9f9;
 
