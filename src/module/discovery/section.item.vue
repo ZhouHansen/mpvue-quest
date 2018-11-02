@@ -47,7 +47,9 @@
           return false;
         }
 
-        if (wxAddress.result.address_component.city.indexOf(this.sectionData.city) > -1) {
+        let cityArr = this.sectionData.city.split(',');
+
+        if (wxAddress.result.address_component.city.indexOf(cityArr[1]) > -1) {
           if (this.sectionData.xlng && this.sectionData.xlat) {
             let result = Utils.backDistance({
               lat1: this.location.latitude,
@@ -59,7 +61,6 @@
             return result.text;
           }
         } else {
-          let cityArr = this.sectionData.city.split(',');
           let result = '';
 
           cityArr = UniqWith(cityArr, _.isEqual);
@@ -113,13 +114,11 @@
       height: 45vw;
     }
 
-    .section-group, .section-label{
-      padding: 0 30rpx;
-      margin-top: 10rpx;
-    }
-
     .section-group {
       @include flex(flex-start, center);
+      padding: 0 30rpx;
+      margin-top: 20rpx;
+
       .section-title {
         @include flex(center, center, column nowrap);
         font-size: 12px;
@@ -142,7 +141,8 @@
     }
 
     .section-label {
-      margin-top: 8rpx;
+      padding: 0 30rpx;
+      margin-top: 10rpx;
       @include flex(space-between, flex-start);
 
       .section-label-left {
