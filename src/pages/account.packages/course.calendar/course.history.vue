@@ -54,6 +54,7 @@ export default {
       this.$wxUtils.loading({title: '加载中...'});
       this.$network.account.getOrderHIstory(params, null, 'weapp/closedorders/lesson').then(res => {
         // console.log('res', res);
+
         res.data.forEach((item, index) => {
           let from = new Date(item.issueat);
           item.fromStamp = parseInt(from.getTime() / (1000 * 60 * 60 * 24));
@@ -67,11 +68,13 @@ export default {
           return b.fromStamp - a.fromStamp;
         });
 
+        // 对处理的数据进行排序
+        this.defaultCourseList = this.defaultCourseList.concat(res.data);
         let result = [];
-        res.data.forEach((item, index) => {
+        this.defaultCourseList.forEach((item, index) => {
           let flg = false;
           if (index === 0) {
-            result.push([res.data[0]]);
+            result.push([this.defaultCourseList[0]]);
             return;
           }
           result.forEach((ritem, rindex) => {
@@ -89,8 +92,7 @@ export default {
         });
 
         this.total = res.total;
-        this.defaultCourseList = this.defaultCourseList.concat(res.data);
-        this.courseList = this.courseList.concat(result);
+        this.courseList = result;
         // console.log(this.courseList);
         this.$wxUtils.loading({show: false});
       });
@@ -127,13 +129,6 @@ export default {
         &:first-child {
           margin-top: 0;
         }
-        .date-total {
-          color: $topic-color;
-          padding: 30rpx 0;
-          margin-left: 24rpx;
-          border-bottom: 1rpx solid #eaeaea;
-          font-weight: bold;
-        }
 
         .course-list {
           padding-left: 24rpx;
@@ -143,8 +138,8 @@ export default {
             border-bottom: 1rpx solid #eaeaea;
             @include flex();
 
-            .couse-item-name {
-
+            &:last-child {
+              border-bottom: 0;
             }
 
             .course-item-name {

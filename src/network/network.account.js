@@ -122,7 +122,11 @@ export default {
     url: 'weapp/closedorders/{ptype}', // lesson  product
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
-    authorization: true
+    authorization: true,
+    params: {
+      limit: [NetworkParamType.number],
+      offset: [NetworkParamType.number]
+    }
   },
 
   /**
