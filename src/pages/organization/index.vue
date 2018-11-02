@@ -59,14 +59,7 @@ export default {
       markersData: [],
       filter: [],
       filterType: '',
-      filterCity: [
-        {id: '大连', type: 'city', text: '大连'},
-        {id: '北京', type: 'city', text: '北京'},
-        {id: '上海', type: 'city', text: '上海'},
-        {id: '广州', type: 'city', text: '广州'},
-        {id: '深圳', type: 'city', text: '深圳'},
-        {id: '沈阳', type: 'city', text: '沈阳'}
-      ],
+      filterCity: OrganiMapCityCenter,
       chooseFilterCity: {},
       filterTypeData: [
         {id: 'all', type: 'type', text: '全部'},
@@ -92,6 +85,10 @@ export default {
     this.filterCity.forEach((item, index) => {
       if (item.text.indexOf(this.address) > -1) {
         this.chooseFilterCity = item;
+      }
+
+      if (this.filterCity.length - 1 === index && !this.chooseFilterCity.id) {
+        this.chooseFilterCity = item[0];
       }
     });
 

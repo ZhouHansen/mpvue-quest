@@ -11,9 +11,9 @@
           <hoo-select :filter="{text:'价格', event: 'course_price'}"></hoo-select>
         </div>
       </div>
-      <div class="course-filter-item" @click="chooseFilter('course_time')">
+      <div class="course-filter-item">
         <div class="filter-item-select">
-          <hoo-select :filter="{text:'时间', event: 'course_time'}"></hoo-select>
+          <hoo-select :filter="{text:'时间', event: 'course_time', type: 'date', chooseDate: checkedFilter.course_time}" @chooseDate="getChooseDate"></hoo-select>
         </div>
       </div>
       <div class="course-filter-item" @click="chooseFilter('course_age')">
@@ -27,17 +27,17 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="course-list">
-        <scroll-view class="organi-scroll" scroll-y scroll-with-animation @scrolltolower="loadMore">
-          <hoo-course-list :params="resultData" v-if="resultData && resultData.length > 0"></hoo-course-list>
+        <scroll-view class="organi-scroll" v-if="resultData && resultData.length > 0" scroll-y scroll-with-animation @scrolltolower="loadMore">
+          <hoo-course-list :params="resultData"></hoo-course-list>
         </scroll-view>
-        <search-empty v-if="!resultData || resultData.length === 0"></search-empty>
+        <search-empty v-if="(!resultData || resultData.length === 0)  && !showFilterItemDesc"></search-empty>
       </div>
     </div>
   </div>
 </template>
 <script>
   import * as MutationsType from '@/store/mutation.type';
-  import {SubjectsFilterData, AgeFilterData, TimeFilterData, PriceFilterData} from '@/utils/default.data';
+  import {SubjectsFilterData, AgeFilterData, PriceFilterData} from '@/utils/default.data';
   import Utils from '@/utils/index';
   import hooSelect from '@/components/select';
   import filterList from '@/module/search/search.header.filter.list';
@@ -65,7 +65,6 @@
         filterData: {
           course_type: SubjectsFilterData,
           course_price: PriceFilterData,
-          course_time: TimeFilterData,
           course_age: AgeFilterData
         },
         chooseFilterData: null,
@@ -76,11 +75,15 @@
       this.sendSearchRequest();
     },
     onHide () {
-      this.resultData = null;
-      this.paging.limit = 15;
-      this.paging.total = 0;
+      this.refreshData();
     },
     methods: {
+      refreshData () {
+        this.resultData = null;
+        this.paging.offset = 15;
+        this.paging.total = 0;
+      },
+
       chooseFilter (e) {
         if (this.chooseFilterType === '') {
           this.chooseFilterType = e;
@@ -110,9 +113,6 @@
 
       doneChooseFilter (e) {
         console.log('接收到的过滤参数', e);
-        this.paging.limit = 15;
-        this.paging.total = 0;
-
         let params = {
           type: this.chooseFilterType
         };
@@ -124,7 +124,16 @@
           this.checkedFilter[this.chooseFilterType] = params;
         }
         this.showFilterItemDesc = false;
-        this.resultData = null;
+        this.refreshData();
+        this.sendSearchRequest();
+      },
+
+      getChooseDate (e) {
+        this.showFilterItemDesc = false;
+
+        console.log('接收到的过滤参数', e);
+        this.checkedFilter[e.id] = e.data;
+        this.refreshData();
         this.sendSearchRequest();
       },
 
@@ -135,7 +144,8 @@
         let requestParams = {
           name: 'inputVal' in params && params.inputVal ? params.inputVal : undefined,
           limit: this.paging.limit,
-          offset: this.paging.offset
+          offset: this.paging.offset,
+          lfrom: this.checkedFilter.course_time ? this.checkedFilter.course_time : undefined
         };
 
         if (params.course_type && params.course_type.id !== 'all') {

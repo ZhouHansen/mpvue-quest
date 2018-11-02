@@ -27,10 +27,10 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="teacher-list">
-        <scroll-view class="organi-scroll" scroll-y scroll-with-animation @scrolltolower="loadMore">
-          <hoo-teacher-list :params="teacherData" v-if="teacherData && teacherData.length > 0"></hoo-teacher-list>
+        <scroll-view class="organi-scroll" v-if="teacherData && teacherData.length > 0" scroll-y scroll-with-animation @scrolltolower="loadMore">
+          <hoo-teacher-list :params="teacherData" ></hoo-teacher-list>
         </scroll-view>
-        <search-empty v-if="!teacherData || teacherData.length === 0"></search-empty>
+        <search-empty v-if="(!teacherData || teacherData.length === 0) && !showFilterItemDesc"></search-empty>
       </div>
     </div>
   </div>
@@ -66,8 +66,9 @@
         filterData: {
           course_type: SubjectsFilterData,
           teacher_auth: [
-            {text: '全部', id: '1'},
-            {text: '已认证', id: '2'}
+            {text: '全部', id: undefined},
+            {text: '未认证', id: '0'},
+            {text: '已认证', id: '1'}
           ]
         },
         chooseFilterData: null,
@@ -177,7 +178,8 @@
           limit: this.paging.limit,
           offset: this.paging.offset,
           sort: 'sort' in params && params.sort ? params.sort : undefined,
-          order: 'orderby' in params && params.orderby ? params.orderby : undefined
+          order: 'orderby' in params && params.orderby ? params.orderby : undefined,
+          endorsed: params.teacher_auth && params.teacher_auth.id ? parseInt(params.teacher_auth.id) : undefined
         };
 
         if (params.course_type && params.course_type.id !== 'all') {
@@ -193,6 +195,7 @@
           }
           let result = Utils.filterRepeatData(this.teacherData, res.data);
           this.teacherData = this.teacherData.concat(result);
+          console.log(this.teacherData);
           this.paging.total = res.total;
         }).catch(err => {
           console.log(err);

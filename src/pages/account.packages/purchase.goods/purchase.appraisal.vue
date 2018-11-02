@@ -83,15 +83,19 @@ export default {
         imageList: [],
         score: 1,
         uploadImgPath: []
-      }
+      },
+      orderno: ''
     };
   },
   mounted () {
     this.$wxUtils.setNavTitle('评价');
+    console.log(this.$route.query.obj);
     let params = JSON.parse(this.$route.query.obj);
+    console.log(params);
 
     this.product.id = params.productId;
     this.institution.id = params.instId;
+    this.orderno = params.orderno;
   },
   methods: {
     getImageData (e) {
@@ -139,7 +143,8 @@ export default {
           this.$network.base.commentOrder({
             content: params.input,
             images: params.uploadImgPath,
-            star: params.score
+            star: params.score,
+            orderno: this.orderno
           }, null, 'weapp/comment/' + params.type + '/' + params.id).then(res => {
             if (res.e === 0) {
               resolve();

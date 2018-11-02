@@ -30,6 +30,5 @@ module.exports = [
   'pages/home/custom.signature',
   'pages/payment/payment.result',
   'pages/teacher.packages/teacher.detail',
-  'pages/guideMap/index',
-  'pages/expressInf/index'
+  'pages/guideMap/index'
 ];

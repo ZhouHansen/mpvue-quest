@@ -20,7 +20,8 @@ export default {
       ltype: [NetworkParamType.string],
       prov: [NetworkParamType.string],
       subject: [NetworkParamType.sting],
-      tid: [NetworkParamType.number]
+      tid: [NetworkParamType.number],
+      lfrom: [NetworkParamType.string]
     }
   },
 
@@ -40,7 +41,8 @@ export default {
       name: [NetworkParamType.string],
       order: [NetworkParamType.string],
       subjects: [NetworkParamType.string],
-      sort: [NetworkParamType.string]
+      sort: [NetworkParamType.string],
+      endorsed: [NetworkParamType.number]
     }
   },
 

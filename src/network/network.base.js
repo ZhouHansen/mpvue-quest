@@ -99,6 +99,7 @@ export default {
       content: [NetworkParamType.string],
       images: [NetworkParamType.array],
       star: [NetworkParamType.number]
+      // orderno: [NetworkParamType.number]
     }
   },
 

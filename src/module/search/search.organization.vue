@@ -17,10 +17,10 @@
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="organi-list">
-        <scroll-view class="organi-scroll" scroll-y scroll-with-animation @scrolltolower="loadMore">
-          <hoo-organi-list v-if="organiData && organiData.length > 0" :params="organiData"></hoo-organi-list>
+        <scroll-view class="organi-scroll" v-if="organiData && organiData.length > 0" scroll-y scroll-with-animation @scrolltolower="loadMore">
+          <hoo-organi-list :params="organiData"></hoo-organi-list>
         </scroll-view>
-        <search-empty v-if="!organiData || organiData.length === 0"></search-empty>
+        <search-empty v-if="(!organiData || organiData.length === 0) && !showFilterItemDesc"></search-empty>
       </div>
     </div>
   </div>

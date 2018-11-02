@@ -180,6 +180,7 @@ export default {
       let params = {
         lessonId: this.orderDetail.product.id,
         instId: this.orderDetail.product.instid,
+        orderno: this.orderDetail.orderno,
         teachers: this.orderDetail.product.teachers
       };
 

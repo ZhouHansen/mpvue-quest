@@ -102,6 +102,7 @@ export default {
     return {
       teacherList: [],
       teacherValue: 0,
+      orderno: '',
       lesson: {
         type: 'lesson',
         id: 0,
@@ -131,12 +132,12 @@ export default {
   mounted () {
     this.$wxUtils.setNavTitle('评价');
     let params = JSON.parse(this.$route.query.obj);
-    console.log('评价活动数据', params);
 
     this.teacher.id = params.teachers[0].id;
     this.lesson.id = params.lessonId;
     this.institution.id = params.instId;
     this.teacherList = params.teachers;
+    this.orderno = params.orderno;
   },
   methods: {
     bindTeacherChange (e) {
@@ -193,7 +194,8 @@ export default {
           this.$network.base.commentOrder({
             content: params.input,
             images: params.uploadImgPath,
-            star: params.score
+            star: params.score,
+            orderno: this.orderno
           }, null, 'weapp/comment/' + params.type + '/' + params.id).then(res => {
             if (res.e === 0) {
               resolve();

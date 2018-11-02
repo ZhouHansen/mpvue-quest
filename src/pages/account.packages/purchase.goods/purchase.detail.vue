@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div class="express-detail">
+    <div class="express-detail" @click="copyOrderNum">
       <hoo-have-left-border-title :title="'物流信息'"></hoo-have-left-border-title>
       <div class="express-content">
         {{orderDetail.logino || '暂无物流信息'}}
@@ -80,7 +80,7 @@
         <hoo-button :text="'取消订单'" :type="'normal'" @tapButton="cancelOrder"></hoo-button>
       </div>
       <div class='button-item' v-if="orderDetail.resultPayStatus.id === 'waitAppraisal'">
-        <hoo-button :text="'查看物流'" :type="'normal'" ></hoo-button>
+        <hoo-button :text="'复制物流单号'" :type="'normal'" @tapButton="copyOrderNum"></hoo-button>
       </div>
       <div class='button-item' v-if="orderDetail.resultPayStatus.id === 'waitAppraisal'">
         <hoo-button :text="'去评价'" :type="'topic'" @tapButton="visitAppraisal"></hoo-button>
@@ -181,10 +181,11 @@ export default {
     visitAppraisal () {
       let params = {
         productId: this.orderDetail.product.id,
-        instId: this.orderDetail.product.instid
+        instId: this.orderDetail.product.instid,
+        orderno: this.orderDetail.orderno
       };
 
-      this.$router.push({path: '/pages/account.packages/purchase.goods/purchase.appraisal', obj: JSON.stringify(params)});
+      this.$router.push({path: '/pages/account.packages/purchase.goods/purchase.appraisal', query: {obj: JSON.stringify(params)}});
     },
 
     runWxPayment () {
@@ -200,6 +201,12 @@ export default {
         this.$network.account.updateOrder({}, null, 'weapp/order/pay/' + this.orderDetail.orderno).then(res => {
           this.$router.back();
         });
+      }
+    },
+
+    copyOrderNum () {
+      if (this.orderDetail.logino) {
+        this.$wxUtils.setClipboardData(this.orderDetail.logino);
       }
     }
   }

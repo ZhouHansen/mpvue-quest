@@ -221,9 +221,10 @@ export default {
 
   .front-container {
     width: 100%;
-    min-height: 100vh;
+    min-height: calc(100vh - 10rpx);
     border-top: $navigateTitleBottomBorder;
     background-color: #f9f9f9;
+    padding-bottom:10rpx;
 
     .weui-search-bar {
       background-color: #ffffff;

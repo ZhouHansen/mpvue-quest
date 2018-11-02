@@ -32,12 +32,6 @@
       ]
     },
     {
-      "root": "pages/expressInf",
-      "pages": [
-        "index"
-      ]
-    },
-    {
       "root": "pages/home",
       "pages": [
         "section.detail",
