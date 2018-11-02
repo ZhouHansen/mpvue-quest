@@ -9,7 +9,7 @@
         <div class="course-list">
           <div class="course-item" v-for="(i, num) in item" :key="num" @click="visitOrder(i.orderno)">
             <div class="course-item-time">{{i.fromTimeString}} - {{i.toTimeString}}</div>
-            <div class="course-item-name ellipsis">{{i.lessonname}}</div>
+            <div class="course-item-name ellipsis">{{i.product.name}}</div>
             <div class="course-item-visit">
               <span>查看</span>
               <span class="course-item-visit-icon"></span>
@@ -18,18 +18,7 @@
         </div>
       </div>
     </div>
-    <hoo-empty :text="'~还没有课程信息~'" :type="'normal'" v-if="courseList.length === 0"></hoo-empty>
-    <div class="footer" >
-      <div class="footer-item" @click="visitCourseHistory">
-        <span>历史课程</span>
-      </div>
-      <div class="footer-item" @click="visitCourseWaitPay">
-        <span>待支付</span>
-      </div>
-      <div class="footer-item" @click="visitCourseWaitAppra">
-        <span>待评价</span>
-      </div>
-    </div>
+    <hoo-empty :text="'~还没有未支付的课程~'" :type="'normal'" v-if="courseList.length === 0"></hoo-empty>
   </div>
 </template>
 <script>
@@ -54,9 +43,8 @@ export default {
     };
   },
   mounted () {
-    this.$wxUtils.setNavTitle('课程日历');
+    this.$wxUtils.setNavTitle('等待支付');
     this.getOrderList();
-    // this.$network.account.getCourseList({}, null, 'weapp/orders/lesson');
   },
   methods: {
     refreshParams () {
@@ -71,19 +59,19 @@ export default {
         limit: this.limit
       };
       this.$wxUtils.loading({title: '加载中...'});
-      this.$network.account.getCourseCalendarList(params).then(res => {
+      this.$network.account.getCourseListWaitPay(params, null, 'weapp/unpaidorders/lesson').then(res => {
         // console.log('res', res);
         res.data.forEach((item, index) => {
-          let from = new Date(item.cfrom);
-          let to = new Date(item.cto);
+          let from = new Date(item.product.lfrom);
+          let to = new Date(item.product.lto);
           item.fromStamp = parseInt(from.getTime() / (1000 * 60 * 60 * 24));
-          item.fromDate = Utils.formatData2(item.cfrom.split(' ')[0], '-');
+          item.fromDate = Utils.formatData2(item.product.lfrom.split(' ')[0], '-');
           item.fromTime = Utils.formatTime2(from);
           item.fromTimeString = item.fromTime.h + ':' + item.fromTime.m;
           item.fromDateString = item.fromDate.y + '-' + item.fromDate.am + '-' + item.fromDate.ad;
 
           item.toStamp = parseInt(to.getTime() / 1000);
-          item.toDate = Utils.formatData2(item.cto.split(' ')[0], '-');
+          item.toDate = Utils.formatData2(item.product.lto.split(' ')[0], '-');
           item.toTime = Utils.formatTime2(to);
           item.toTimeString = item.toTime.h + ':' + item.toTime.m;
         });
@@ -125,14 +113,6 @@ export default {
       this.$router.push({path: '/pages/account.packages/course.calendar/course.order', query: {id: e}});
     },
 
-    visitCourseWaitPay () {
-      this.$router.push('/pages/account.packages/course.calendar/course.waitpay');
-    },
-
-    visitCourseWaitAppra () {
-      this.$router.push('/pages/account.packages/course.calendar/course.waitappr');
-    },
-
     visitCourseHistory () {
       this.$router.push('/pages/account.packages/course.calendar/course.history');
     }
@@ -146,7 +126,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  @import '../../assets/style/variables.scss';
+  @import '../../../assets/style/variables.scss';
 
   .course-calendar-container {
     height: calc(100vh - 100rpx);
@@ -199,32 +179,10 @@ export default {
                 height: 26rpx;
                 display: inline-block;
                 margin-left: 16rpx;
-                @include backgroundImg('../../assets/images/arrow_right.png');
+                @include backgroundImg('../../../assets/images/arrow_right.png');
               }
             }
           }
-        }
-      }
-    }
-
-    .footer {
-      position: fixed;
-      bottom: 0;
-      width: 95%;
-      padding: 28rpx 2.5%;
-      text-align: center;
-      background-color: #ffffff;
-      color: #b9b9b9;
-      border-top: 1rpx solid #efefef;
-      box-shadow: 0 4rpx 8rpx #e8e8e8;
-      @include flex(space-between, center);
-
-      .footer-item {
-        flex-basis: 33%;
-        border-right: 1rpx solid #d4d4d4;
-
-        &:last-child {
-          border-right: 0;
         }
       }
     }

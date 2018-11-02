@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <div class="footer">
+    <div class="footer" v-if="orderDetail.resultPayStatus.id === 'waitPayment' || orderDetail.resultPayStatus.id === 'waitPayment' || orderDetail.resultPayStatus.id === 'waitAppraisal'">
       <div class="button-item" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" >
         <hoo-button :text="'去付款'" :type="'topic'" @tapButton="runWxPayment"></hoo-button>
       </div>

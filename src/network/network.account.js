@@ -173,6 +173,32 @@ export default {
       offset: [NetworkParamType.number]
     }
   },
+  /**
+   * 获取等待评价数据
+  */
+  getCourseListWaitAppr: {
+    url: 'weapp/uncommentedorders/{ptype}',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
+    params: {
+      limit: [NetworkParamType.number],
+      offset: [NetworkParamType.mber]
+    }
+  },
+  /**
+   * 获取等待支付数据
+  */
+  getCourseListWaitPay: {
+    url: 'weapp/unpaidorders/{ptype}',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true,
+    params: {
+      limit: [NetworkParamType.number],
+      offset: [NetworkParamType.number]
+    }
+  },
 
   /** ******商品*********/
   /**

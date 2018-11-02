@@ -43,7 +43,9 @@ const TypeFilterData = [
   {text: '研学', id: 'study'},
   {text: '营地', id: 'camp'},
   {text: '游学', id: 'travel'},
-  {text: 'STEM', id: 'STEM'}
+  {text: 'STEM', id: 'STEM'},
+  {text: '发布会', id: 'press'},
+  {text: '工作坊', id: 'workshop'}
 ];
 
 const ProductSpecData = [

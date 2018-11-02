@@ -10,8 +10,10 @@
             <div class="recomment-name">{{item.name}}</div>
             <div class="recomment-inf">
               <div class="auth">
-                <div class="auth-icon"></div>
-                <div class="auth-text">Hooray认证</div>
+                <div v-if="item.endorsed === 1">
+                  <div class="auth-icon"></div>
+                  <div class="auth-text">Hooray认证</div>
+                </div>
               </div>
               <div class="distance" v-if="item.distance">{{item.distance}}</div>
             </div>

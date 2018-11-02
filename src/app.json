@@ -68,6 +68,8 @@
         "course.calendar/course.order",
         "course.calendar/course.appraisal",
         "course.calendar/course.history",
+        "course.calendar/course.waitappr",
+        "course.calendar/course.waitpay",
         "purchase.goods/purchase.detail",
         "purchase.goods/purchase.appraisal",
         "purchase.goods/purchase.history",

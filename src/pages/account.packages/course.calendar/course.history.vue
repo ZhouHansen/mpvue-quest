@@ -30,12 +30,11 @@ export default {
         offset: this.limit
       };
       this.$network.account.getOrderHIstory(requestParams, null, 'weapp/closedorders/lesson').then(res => {
-        console.log(res);
+        // console.log(res);
         res.data.forEach((item, index) => {
           this.courseList.push(item.product);
         });
 
-        console.log(this.courseList);
         this.total = res.total;
       });
     },

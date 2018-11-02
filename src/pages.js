@@ -13,6 +13,8 @@ module.exports = [
   'pages/account.packages/course.calendar/course.order',
   'pages/account.packages/course.calendar/course.appraisal',
   'pages/account.packages/course.calendar/course.history',
+  'pages/account.packages/course.calendar/course.waitappr',
+  'pages/account.packages/course.calendar/course.waitpay',
   'pages/account.packages/purchase.goods',
   'pages/account.packages/purchase.goods/purchase.detail',
   'pages/account.packages/purchase.goods/purchase.appraisal',

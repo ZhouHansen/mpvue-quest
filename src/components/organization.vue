@@ -4,7 +4,7 @@
       <div class="organi-avatar" :style="'background: url(' + params.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
       <div class="organi-title">
         <div class="organi-title-text ellipsis">{{params.name}}</div>
-        <div class="organi-title-auth">
+        <div class="organi-title-auth" v-if="params.endorsed === 1">
           <div class="organi-title-auth-icon"></div>
           <div class="organi-title-auth-text">Hooray认证</div>
         </div>
@@ -32,7 +32,7 @@
     methods: {
       getOrganiDetail () {
         this.$network.organi.getOrganiDetail({}, null, 'weapp/inst/' + this.organiData.instid).then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           this.params = res.data;
         });
       },

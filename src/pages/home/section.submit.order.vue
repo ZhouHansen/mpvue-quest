@@ -1,9 +1,9 @@
 <template>
   <div class="order-container">
-    <div class="group-tips" v-if="group && showGroupTips">
+    <!-- <div class="group-tips" v-if="group && showGroupTips">
       <span>拼团在24小时内无法成团将自动退款！</span>
       <span class="group-tips-icon" @click="hideGroupTips"></span>
-    </div>
+    </div> -->
     <div class="payment-detail">
       <hoo-left-border-title :title="'购买内容'"></hoo-left-border-title>
       <div class="payment-detail-content" v-if="sectionData">
