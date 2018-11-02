@@ -61,7 +61,8 @@ export default {
       city: [NetworkParamType.sting],
       name: [NetworkParamType.string],
       order: [NetworkParamType.string],
-      prov: [NetworkParamType.string]
+      prov: [NetworkParamType.string],
+      endorsed: [NetworkParamType.number]
     }
   }
 };

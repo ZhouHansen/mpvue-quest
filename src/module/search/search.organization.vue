@@ -59,8 +59,9 @@ export default {
           {text: '3000米内', id: '4'}
         ],
         organ_auth: [
-          {text: '全部', id: '1'},
-          {text: '已认证', id: '2'}
+          {text: '全部', id: undefined},
+          {text: '未认证', id: '0'},
+          {text: '已认证', id: '1'}
         ]
       },
       chooseFilterData: null,
@@ -128,6 +129,7 @@ export default {
       console.log('查找过滤的参数 机构', params);
       let requestParams = {
         name: 'inputVal' in params && params.inputVal ? params.inputVal : undefined,
+        endorsed: params.organ_auth && params.organ_auth.id ? parseInt(params.organ_auth.id) : undefined,
         limit: this.paging.limit,
         offset: this.paging.offset
       };
