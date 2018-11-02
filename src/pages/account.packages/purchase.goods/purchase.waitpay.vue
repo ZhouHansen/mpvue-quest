@@ -3,8 +3,8 @@
     <div class="order-list" v-if="goods">
       <div class="order-item" v-for="item in goods" :key="item.id">
         <div class="order-item-body">
-          <div class="order-id" @click="copyOrderNum(item.orderno)">
-            <hoo-have-left-border-title :title="'订单编号：' + item.orderno"></hoo-have-left-border-title>
+          <div class="order-id">
+            <hoo-have-left-border-title :title="'下单时间：' + item.issueat"></hoo-have-left-border-title>
           </div>
           <div class="order-item-status">{{item.resultPayStatus.text}}</div>
           <div class="order-item-content" @click="visitOrderDetail(item.orderno)">
@@ -76,17 +76,18 @@ export default {
           }
 
           // 判断订单状态
+          let payResult = null;
+
           if (item.paystate === 1 && !item.logino) {
-            let payResult = GetDataObjUseId(PurchaseStatus, 'alreadyConfirm');
-            item.resultPayStatus = payResult;
+            payResult = GetDataObjUseId(PurchaseStatus, 'alreadyConfirm');
           } else
           if (item.paystate === 1 && item.commented === 0 && item.logino) {
-            let payResult = GetDataObjUseId(PurchaseStatus, 'waitAppraisal');
-            item.resultPayStatus = payResult;
+            payResult = GetDataObjUseId(PurchaseStatus, 'waitAppraisal');
           } else {
-            let payResult = GetDataObjUseId(PurchaseStatus, 'waitPayment');
-            item.resultPayStatus = payResult;
+            payResult = GetDataObjUseId(PurchaseStatus, 'waitPayment');
           }
+
+          item.resultPayStatus = payResult;
         });
 
         this.$wxUtils.loading({show: false});
@@ -97,24 +98,22 @@ export default {
 
     cancelOrder (e) {
       this.$wxUtils.showModal({title: '确定取消订单？'}).then(res => {
-        this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + e).then(res => {
-          if (res.e === 0) {
-            this.$wxUtils.toast({title: '取消成功'});
-            this.refreshParams();
-            this.getGoods();
-          } else {
-            this.$wxUtils.toast({title: res.msg});
-          }
-        });
+        if (res) {
+          this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + e).then(res => {
+            if (res.e === 0) {
+              this.$wxUtils.toast({title: '取消成功'});
+              this.refreshParams();
+              this.getGoods();
+            } else {
+              this.$wxUtils.toast({title: res.msg});
+            }
+          });
+        }
       });
     },
 
     visitOrderDetail (e) {
       this.$router.push({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {id: e}});
-    },
-
-    copyOrderNum (e) {
-      this.$wxUtils.setClipboardData(e);
     }
   },
   onReachBottom () {

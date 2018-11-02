@@ -3,7 +3,7 @@
     <div class="date-list" v-if="courseList && courseList.length > 0">
       <div class="date-item" v-for="item in courseList" :key="item.id">
         <div class="date-title">
-          <hoo-have-left-border-title :title="'下单时间：' + item[0].fromDate.m + '月' + item[0].fromDate.d + '日'"></hoo-have-left-border-title>
+          <hoo-have-left-border-title :title="'下单时间：' + item[0].fromDate.y + '年' + item[0].fromDate.m + '月' + item[0].fromDate.d + '日'"></hoo-have-left-border-title>
         </div>
         <div class="course-list">
           <div class="course-item" v-for="(i, num) in item" :key="num" @click="visitOrder(i.orderno)">
@@ -104,10 +104,6 @@ export default {
 
     visitOrder (e) {
       this.$router.push({path: '/pages/account.packages/course.calendar/course.order', query: {id: e}});
-    },
-
-    visitCourseHistory () {
-      this.$router.push('/pages/account.packages/course.calendar/course.history');
     }
   },
   onReachBottom () {
@@ -122,7 +118,7 @@ export default {
   @import '../../../assets/style/variables.scss';
 
   .course-calendar-container {
-    height: 100vh;
+    min-height: 100vh;
     overflow: auto;
     background-color: #f9f9f9;
 

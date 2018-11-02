@@ -1,6 +1,6 @@
 <template>
   <div class="course-order-container" v-if="orderDetail">
-    <div class="order-status" v-if="orderDetail.resultPayStatus.text">{{orderDetail.resultPayStatus.text}}</div>
+    <div class="order-status" v-if="orderDetail.resultPayStatus && orderDetail.resultPayStatus.text">{{orderDetail.resultPayStatus.text}}</div>
     <div class="address-detail" v-if="orderDetail.address">
       <hoo-have-left-border-title :title="'收货地址'"></hoo-have-left-border-title>
       <div class="address-content">
@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div class="express-detail" @click="copyOrderNum">
+    <div class="express-detail" @click="copyOrderNum" v-if="orderDetail.logino">
       <hoo-have-left-border-title :title="'物流信息'"></hoo-have-left-border-title>
       <div class="express-content">
         {{orderDetail.logino || '暂无物流信息'}}
@@ -112,9 +112,9 @@ export default {
   },
   mounted () {
     this.$wxUtils.setNavTitle('商品订单详情');
-    this.getOrderDetail();
   },
-  computed: {
+  onShow () {
+    this.getOrderDetail();
   },
   methods: {
     getOrderDetail () {

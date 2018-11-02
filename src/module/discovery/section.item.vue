@@ -1,14 +1,16 @@
 <template>
   <div class="section-container" @click="goDetail">
     <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
-    <div class="section-title">
-      <div class="section-title-left">
-        <div class="section-avatar" :style="'background: url(' + sectionData.coverfile2 + ') no-repeat 50% 50%; background-size: cover;'"></div>
+    <div class="section-group">
+      <div class="section-title">
+        <div class="section-title-left">
+          <div class="section-avatar" :style="'background: url(' + sectionData.coverfile2 + ') no-repeat 50% 50%; background-size: cover;'"></div>
+        </div>
+        <div class="section-desc ellipsis" v-if="sectionData.instsname">{{sectionData.instsname}}</div>
       </div>
-      <div class="section-desc ellipsis" v-if="sectionData.instsname">{{sectionData.instsname}}</div>
-    </div>
-    <div class="section-inf">
-      <text class="section-inf-title line-clamp-2">{{sectionData.name}}</text>
+      <div class="section-inf">
+        <text class="section-inf-title line-clamp-2">{{sectionData.name}}</text>
+      </div>
     </div>
     <div class="section-label">
       <div class="section-label-left">
@@ -85,7 +87,7 @@
         if (this.sectionData.ages) {
           age = GetDataObjUseId(AgeFilterData, this.sectionData.ages).label;
         }
-        return this.sectionData.tags.slice(1).concat([time, age]);
+        return this.sectionData.tags.slice(1).concat([age, time]);
       }
     },
     methods: {
@@ -111,27 +113,31 @@
       height: 45vw;
     }
 
-    .section-title ,.section-inf, .section-label{
+    .section-group, .section-label{
       padding: 0 30rpx;
       margin-top: 10rpx;
     }
 
-    .section-title {
+    .section-group {
       @include flex(flex-start, center);
-
-      .section-avatar {
-        width: 50rpx;
-        height: 50rpx;
-        border-radius: 16rpx;
-        flex-shrink: 0;
-        margin-right: 10rpx;
+      .section-title {
+        @include flex(center, center, column nowrap);
+        font-size: 12px;
+        margin-right: 20rpx;
+        .section-avatar {
+          width: 50rpx;
+          height: 50rpx;
+          border-radius: 16rpx;
+          flex-shrink: 0;
+          margin-right: 10rpx;
+        }
       }
-    }
 
-    .section-inf {
-      .section-inf-title {
-        font-size: 16px;
-        color: #46311E;
+      .section-inf {
+        .section-inf-title {
+          font-size: 16px;
+          color: #46311E;
+        }
       }
     }
 
