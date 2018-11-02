@@ -223,6 +223,7 @@ export default {
     width: 100%;
     min-height: 100vh;
     border-top: $navigateTitleBottomBorder;
+    background-color: #f9f9f9;
 
     .weui-search-bar {
       background-color: #ffffff;

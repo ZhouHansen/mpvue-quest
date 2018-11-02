@@ -1,21 +1,21 @@
 <template>
   <div class="section-container" @click="goDetail">
+    <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
     <div class="section-title">
       <div class="section-title-left">
         <div class="section-avatar" :style="'background: url(' + sectionData.coverfile2 + ') no-repeat 50% 50%; background-size: cover;'"></div>
       </div>
-      <div class="section-inf">
-        <text class="section-inf-title line-clamp-2">{{sectionData.name}}</text>
-      </div>
+      <div class="section-desc ellipsis" v-if="sectionData.instsname">{{sectionData.instsname}}</div>
+    </div>
+    <div class="section-inf">
+      <text class="section-inf-title line-clamp-2">{{sectionData.name}}</text>
     </div>
     <div class="section-label">
       <div class="section-label-left">
-        <div class="section-desc ellipsis" v-if="sectionData.instsname">{{sectionData.instsname}}</div>
         <hoo-label :type-text="sectionData.tags[0]" :label-arr="tagslist"></hoo-label>
       </div>
       <div class="section-distance" v-if="distanceToSection">{{distanceToSection}}</div>
     </div>
-    <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
   </div>
 </template>
 <script>
@@ -99,31 +99,39 @@
   @import '../../assets/style/variables.scss';
 
   .section-container {
-    padding: 40rpx;
-    border-top: 20rpx solid #f9f9f9;
+    margin: 40rpx;
+    border-radius: 20rpx;
+    background-color: #ffffff;
+    overflow: hidden;
+    padding-bottom: 30rpx;
+    box-shadow: 0 4rpx 20rpx #c7c7c7;
+
+    .section-cover {
+      width: 100%;
+      height: 45vw;
+    }
+
+    .section-title ,.section-inf, .section-label{
+      padding: 0 30rpx;
+      margin-top: 10rpx;
+    }
 
     .section-title {
-      @include flex(flex-start, flex-start);
-
-      .section-title-left {
-        width: 122rpx;
-      }
+      @include flex(flex-start, center);
 
       .section-avatar {
-        width: 88rpx;
-        height: 88rpx;
+        width: 50rpx;
+        height: 50rpx;
         border-radius: 16rpx;
         flex-shrink: 0;
-        margin-right:24rpx;
+        margin-right: 10rpx;
       }
+    }
 
-      .section-inf {
-        width: calc(100vw - 200rpx);
-
-        .section-inf-title {
-          font-size: 16px;
-          color: #46311E;
-        }
+    .section-inf {
+      .section-inf-title {
+        font-size: 16px;
+        color: #46311E;
       }
     }
 
@@ -155,12 +163,7 @@
       }
     }
 
-    .section-cover {
-      margin-top: 20rpx;
-      width: 100%;
-      height: 45vw;
-      border-radius: 20rpx;
-    }
+
 
 
   }

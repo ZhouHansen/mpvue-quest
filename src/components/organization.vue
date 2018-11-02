@@ -1,6 +1,6 @@
 <template>
   <div class="organi-container" v-if="params">
-    <div class="organi-inf">
+    <div class="organi-inf" @click="visitOrganiDetail">
       <div class="organi-avatar" :style="'background: url(' + params.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
       <div class="organi-title">
         <div class="organi-title-text ellipsis">{{params.name}}</div>
@@ -10,15 +10,9 @@
         </div>
       </div>
     </div>
-    <div class="organi-ctrl">
-      <div class="organi-btn" @click="callPhone">
-        <div class="organi-btn-icon phone"></div>
-        <div class="organi-btn-text">电话咨询</div>
-      </div>
-       <div class="organi-btn" @click="visitOrganiDetail">
-        <div class="organi-btn-icon detail"></div>
-        <div class="organi-btn-text">查看机构</div>
-      </div>
+    <div class="organi-btn" @click="callPhone">
+      <div class="organi-btn-icon phone"></div>
+      <div class="organi-btn-text">电话咨询</div>
     </div>
   </div>
 </template>
@@ -61,9 +55,14 @@
   @import '../assets/style/variables.scss';
 
   .organi-container {
+    @include flex(space-between);
+
     .organi-inf {
+      flex-basis: 100%;
+
       @include flex(flex-start);
       .organi-avatar {
+        flex-shrink: 0;
         width: 88rpx;
         height: 88rpx;
         border-radius: 16rpx;
@@ -73,6 +72,7 @@
 
       .organi-title {
         .organi-title-text {
+          max-width: 50vw;
           font-size: 16px;
           color: #000000;
         }
@@ -96,38 +96,26 @@
         }
       }
     }
-    .organi-ctrl {
-      $border-style: 1rpx solid #ececec;
-      @include flex(space-between);
-      padding-top: 20rpx;
-      margin-top: 25rpx;
-      border-top: $border-style;
+    .organi-btn {
+      flex-shrink: 0;
+      border-left: 1rpx solid #ececec;
+      padding-left: 28rpx;
+      @include flex(center, center, column nowrap);
 
-      .organi-btn {
-        width: 48%;
-        border-right: $border-style;
-        @include flex(center);
+      .organi-btn-icon {
+        display: inline-block;
+        width: 58rpx;
+        height: 58rpx;
+      }
 
-        &:last-child {
-          border: 0;
-        }
+      .phone {
+        @include backgroundImg('../assets/images/telephone.png');
+      }
 
-        .organi-btn-icon {
-          display: inline-block;
-          width: 46rpx;
-          height: 46rpx;
-          margin-right: 20rpx;
-        }
-
-        .phone {
-          @include backgroundImg('../assets/images/telephone.png');
-        }
-
-        .detail {
-          @include backgroundImg('../assets/images/detail.png');
-        }
+      .organi-btn-text {
+        font-size: 12px;
+        margin-top: 8rpx;
       }
     }
-
   }
 </style>

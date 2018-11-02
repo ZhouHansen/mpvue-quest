@@ -15,7 +15,7 @@
     <div class="express-detail">
       <hoo-have-left-border-title :title="'物流信息'"></hoo-have-left-border-title>
       <div class="express-content">
-        暂无物流信息
+        {{orderDetail.logino || '暂无物流信息'}}
       </div>
     </div>
 
@@ -141,9 +141,6 @@ export default {
     },
 
     setPayStatus () {
-      // this.orderDetail.express 发货物流单号 等待后台添加
-      this.orderDetail.express = null;
-
       let payResult = null;
       if (this.orderDetail.paystate === 0 && this.orderDetail.status === 0) {
         payResult = GetDataObjUseId(PurchaseStatus, 'waitPayment');
@@ -151,10 +148,10 @@ export default {
       if (this.orderDetail.paystate === 0 && this.orderDetail.paystate === 1) {
         payResult = GetDataObjUseId(PurchaseStatus, 'timeEnd');
       } else
-      if (this.orderDetail.paystate === 1 && !this.orderDetail.express) {
+      if (this.orderDetail.paystate === 1 && !this.orderDetail.logino) {
         payResult = GetDataObjUseId(PurchaseStatus, 'alreadyConfirm');
       } else
-      if (this.orderDetail.paystate === 1 && this.orderDetail.express && this.orderDetail.commented === 0) {
+      if (this.orderDetail.paystate === 1 && this.orderDetail.logino && this.orderDetail.commented === 0) {
         payResult = GetDataObjUseId(PurchaseStatus, 'waitAppraisal');
       } else
       if (this.orderDetail.paystate === 1 && this.orderDetail.commented === 1) {

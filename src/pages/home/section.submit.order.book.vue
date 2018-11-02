@@ -276,7 +276,6 @@
             } else {
               this.$wxUtils.toast({title: '下单失败，未获取到微信支付订单号'});
             }
-            this.runWxPayment();
           } else {
             this.$wxUtils.toast({title: res.msg});
           }

@@ -80,13 +80,11 @@ export default {
           }
 
           // 判断订单状态
-          console.error('等待后台添加物流参数');
-          item.express = null;
-          if (item.paystate === 1 && !item.express) {
+          if (item.paystate === 1 && !item.logino) {
             let payResult = GetDataObjUseId(PurchaseStatus, 'alreadyConfirm');
             item.resultPayStatus = payResult;
           } else
-          if (item.paystate === 1 && item.commented === 0 && item.express) {
+          if (item.paystate === 1 && item.commented === 0 && item.logino) {
             let payResult = GetDataObjUseId(PurchaseStatus, 'waitAppraisal');
             item.resultPayStatus = payResult;
           } else {

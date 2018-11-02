@@ -298,7 +298,7 @@
     .section-organi {
       border-top: 20rpx solid #f9f9f9;
       padding: 40rpx;
-      margin-bottom: 15vh;
+      margin-bottom: calc(100rpx + 7vh);
 
       .section-organi-content {
         margin-top: 30rpx;
