@@ -73,6 +73,7 @@
         "purchase.goods/purchase.detail",
         "purchase.goods/purchase.appraisal",
         "purchase.goods/purchase.history",
+        "purchase.goods/purchase.waitpay",
         "setting/setting.address",
         "setting/setting.address.add"
       ]

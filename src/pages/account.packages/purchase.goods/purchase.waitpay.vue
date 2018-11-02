@@ -22,15 +22,7 @@
         <div class="order-item-ctrl" v-if="item.resultPayStatus.id === 'waitPayment'" @click="cancelOrder(item.id)">取消订单</div>
       </div>
     </div>
-    <hoo-empty v-if="!goods || goods.length === 0" :type="'normal'" :text="'没有购买信息～'"></hoo-empty>
-    <div class="puchase-footer">
-      <div class="footer-item" @click="visitCourseHistory">
-        <span>历史记录</span>
-      </div>
-       <div class="footer-item" @click="visitCourseWaitpay">
-        <span>待支付</span>
-      </div>
-    </div>
+    <hoo-empty v-if="!goods || goods.length === 0" :type="'normal'" :text="'没有待支付列表～'"></hoo-empty>
   </div>
 </template>
 <script>
@@ -69,7 +61,7 @@ export default {
         offset: this.offset
       };
       this.$wxUtils.loading({title: '加载中...'});
-      this.$network.account.getCourseListWaitAppr(params, null, 'weapp/uncommentedorders/product').then(res => {
+      this.$network.account.getCourseListWaitPay(params, null, 'weapp/unpaidorders/product').then(res => {
         // console.log(res);
         if (!this.goods) {
           this.goods = [];
@@ -121,14 +113,6 @@ export default {
       this.$router.push({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {id: e}});
     },
 
-    visitCourseHistory () {
-      this.$router.push('/pages/account.packages/purchase.goods/purchase.history');
-    },
-
-    visitCourseWaitpay () {
-      this.$router.push('/pages/account.packages/purchase.goods/purchase.waitpay');
-    },
-
     copyOrderNum (e) {
       this.$wxUtils.setClipboardData(e);
     }
@@ -142,7 +126,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  @import '../../assets/style/variables.scss';
+  @import '../../../assets/style/variables.scss';
 
   .purchase-container {
     min-height: calc(100vh - 20rpx);
@@ -213,28 +197,6 @@ export default {
           text-align: center;
           padding: 20rpx 0;
           border-top: 1rpx solid #efefef;
-        }
-      }
-    }
-
-    .puchase-footer {
-      position: fixed;
-      bottom: 0;
-      width: 95%;
-      padding: 28rpx 2.5%;
-      text-align: center;
-      background-color: #ffffff;
-      color: #b9b9b9;
-      border-top: 1rpx solid #efefef;
-      box-shadow: 0 4rpx 8rpx #e8e8e8;
-      @include flex(space-between, center);
-
-      .footer-item {
-        border-right: 1rpx solid #d4d4d4;
-        flex-basis: 50%;
-
-        &:last-child {
-          border-right: 0;
         }
       }
     }
