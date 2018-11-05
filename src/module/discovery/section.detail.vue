@@ -30,8 +30,8 @@
         <div class="teacher-item" v-for="item in params.teacherlist" :key="item" @click="visitTeacher(item.id)">
           <hoo-avatar :avatar="item.avartarurl"></hoo-avatar>
           <div class="teacher-name ellipsis">{{item.name}}</div>
-          <div class="teacher-label">
-            <hoo-label :type-text="item.degree" :label-arr="item.tags" :type="'center'"></hoo-label>
+          <div class="teacher-label" v-if="teacherDegree">
+            <hoo-label :type-text="teacherDegree.text" :label-arr="item.tags" :type="'center'"></hoo-label>
           </div>
         </div>
       </div>
@@ -69,6 +69,7 @@
   import * as MutationType from '@/store/mutation.type';
   import wxParse from 'mpvue-wxparse';
   import Utils from '@/utils/index';
+  import {TeacherDegreeData, GetDataObjUseId} from '@/utils/default.data';
 
   import hooLabel from '@/components/label';
   import hooIconButton from '@/components/have.icon.btn';
@@ -113,7 +114,8 @@
           limit: 15,
           offset: 0,
           total: 0
-        }
+        },
+        teacherDegree: null
       };
     },
     computed: {
@@ -131,8 +133,22 @@
       } else {
         this.params['subject_type'] = 'product';
       }
+
+      this.setTeacherInf();
     },
     methods: {
+      setTeacherInf () {
+        if (!this.params.teacherlist) {
+          return;
+        }
+
+        this.params.teacherlist.forEach((item, index) => {
+          if (item.degree) {
+            this.teacherDegree = GetDataObjUseId(TeacherDegreeData, item.degree);
+          }
+        });
+      },
+
       chooseNav (e) {
         // console.log('接收到点击的nav', e);
         this.chooseNavIndex = e;
@@ -302,8 +318,8 @@
 
     .section-organi {
       border-top: 20rpx solid #f9f9f9;
-      padding: 40rpx;
-      margin-bottom: calc(100rpx + 7vh);
+      margin: 40rpx;
+      padding-bottom: calc(100rpx + 7vh);
 
       .section-organi-content {
         margin-top: 30rpx;

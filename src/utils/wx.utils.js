@@ -143,6 +143,10 @@ const pageScrollTo = (dis = 0, time = 300) => {
   });
 };
 
+const stopPullDownRefresh = () => {
+  wx.stopPullDownRefresh();
+};
+
 export default {
   getPagesLength,
   getUserInfo,
@@ -156,5 +160,6 @@ export default {
   chooseImg,
   previewImage,
   setClipboardData,
-  pageScrollTo
+  pageScrollTo,
+  stopPullDownRefresh
 };

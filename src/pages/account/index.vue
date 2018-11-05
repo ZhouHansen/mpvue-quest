@@ -99,6 +99,7 @@ export default {
     this.$wxUtils.setNavTitle('我');
   },
   onShow () {
+    this.$wxUtils.loading({title: '加载中...'});
     this.getUserInf();
     this.getChildren();
   },
@@ -109,6 +110,7 @@ export default {
         this.userInf = res.data;
         this.$storage.set(this.$storageTypeName.userInf, res.data);
         this.setParams();
+        this.$wxUtils.loading({show: false});
       });
     },
 

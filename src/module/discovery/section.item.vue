@@ -3,14 +3,14 @@
     <img class="section-img" :src="sectionData.coverfile" :mode="'widthFix'" />
     <!-- <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.coverfile + ') no-repeat 50% 50%; background-size: 100% auto;'"></div> -->
     <div class="section-group">
+      <div class="section-inf">
+        <text class="section-inf-title line-clamp-2">{{sectionData.name}}</text>
+      </div>
       <div class="section-title">
         <div class="section-title-left">
           <div class="section-avatar" :style="'background: url(' + sectionData.coverfile2 + ') no-repeat 50% 50%; background-size: cover;'"></div>
         </div>
-        <div class="section-desc ellipsis" v-if="sectionData.instsname">{{sectionData.instsname}}</div>
-      </div>
-      <div class="section-inf">
-        <text class="section-inf-title line-clamp-2">{{sectionData.name}}</text>
+        <!-- <div class="section-desc ellipsis" v-if="sectionData.instsname">{{sectionData.instsname}}</div> -->
       </div>
     </div>
     <div class="section-label">
@@ -119,14 +119,14 @@
     }
 
     .section-group {
-      @include flex(flex-start, center);
+      @include flex(space-between, center);
       padding: 0 30rpx;
       margin-top: 20rpx;
 
       .section-title {
         @include flex(center, center, column nowrap);
         font-size: 12px;
-        margin-right: 20rpx;
+
         .section-avatar {
           width: 50rpx;
           height: 50rpx;
@@ -137,6 +137,8 @@
       }
 
       .section-inf {
+        margin-right: 20rpx;
+
         .section-inf-title {
           font-size: 16px;
           color: #46311E;

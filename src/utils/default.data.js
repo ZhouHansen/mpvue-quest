@@ -17,7 +17,7 @@ const SubjectsFilterData = [
 ];
 
 const AgeFilterData = [
-  {text: '全部', id: 'all', label: '初中生以下'},
+  {text: '全部', id: 'all', label: '全龄段'},
   {text: '幼儿园', id: 'r1', label: '幼儿园'},
   {text: '小学生', id: 'r2', label: '小学生'},
   {text: '初中生', id: 'r3', label: '初中生'}

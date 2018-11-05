@@ -47,6 +47,7 @@ import hooSection from '@/module/discovery/section.item';
 import filterList from '@/module/search/search.header.filter.list';
 import hooScrolltop from '@/components/scrolltop';
 import hooEmpty from '@/components/empty';
+import { setTimeout } from 'timers';
 
 export default {
   components: {
@@ -105,10 +106,14 @@ export default {
     this.$store.commit(MutationsType.TOGGLE_SEARCH_OVERFLOW, false);
   },
   onPullDownRefresh () {
+    this.$wxUtils.stopPullDownRefresh();
+
     this.offset = 0;
     this.total = 0;
     this.sections = null;
-    this.getDashboardData();
+    setTimeout(() => {
+      this.getDashboardData();
+    }, 500);
   },
   computed: {
     isOverflow: function () {
