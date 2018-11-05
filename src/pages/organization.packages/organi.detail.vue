@@ -120,9 +120,10 @@
           limit: this.request.course.limit,
           offset: this.request.course.offset
         };
-
+        this.$wxUtils.loading({title: '加载中...'});
         this.$network.search.searchCourse(requestParams).then(res => {
           console.log('返回查找课程数据', res);
+          this.$wxUtils.loading({show: false});
           if (!this.courseData) {
             this.courseData = [];
           }
@@ -140,8 +141,10 @@
           limit: this.request.teacher.limit,
           offset: this.request.teacher.offset
         };
+        this.$wxUtils.loading({title: '加载中...'});
         this.$network.search.searchTearch(requestParams).then(res => {
           console.log('返回查找老师数据', res);
+          this.$wxUtils.loading({show: false});
           if (!this.teacherData) {
             this.teacherData = [];
           }
@@ -158,9 +161,10 @@
           limit: this.request.appra.limit,
           offset: this.request.appra.offset
         };
-
+        this.$wxUtils.loading({title: '加载中...'});
         this.$network.base.getCommentList(requestParams, null, 'weapp/comments/institution/' + this.$route.query.id).then(res => {
           console.log('获取评价数据', res);
+          this.$wxUtils.loading({show: false});
           if (!this.request.appra.appraListData) {
             this.request.appra.appraListData = [];
           }

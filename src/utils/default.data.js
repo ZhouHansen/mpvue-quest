@@ -82,6 +82,10 @@ const PurchaseStatus = [
   },
   {
     text: '已发货，等待收货并评价',
+    id: 'waitConfirm'
+  },
+  {
+    text: '等待评价',
     id: 'waitAppraisal'
   },
   {

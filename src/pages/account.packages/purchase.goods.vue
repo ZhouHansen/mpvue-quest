@@ -88,7 +88,10 @@ export default {
           if (item.paystate === 1 && !item.logino) {
             payResult = GetDataObjUseId(PurchaseStatus, 'alreadyConfirm');
           } else
-          if (item.paystate === 1 && item.commented === 0 && item.logino) {
+          if (item.paystate === 1 && item.status === 0 && item.commented === 0 && item.logino) {
+            payResult = GetDataObjUseId(PurchaseStatus, 'waitConfirm');
+          } else
+          if (item.status === 1 && item.commented === 0 && item.logino) {
             payResult = GetDataObjUseId(PurchaseStatus, 'waitAppraisal');
           } else {
             payResult = GetDataObjUseId(PurchaseStatus, 'waitPayment');

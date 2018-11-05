@@ -117,8 +117,9 @@
           limit: this.course.limit,
           offset: this.course.offset
         };
-
+        this.$wxUtils.loading({title: '加载中...'});
         this.$network.search.searchCourse(requestParams).then(res => {
+          this.$wxUtils.loading({show: false});
           if (!this.courseData) {
             this.courseData = [];
           }
