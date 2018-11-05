@@ -41,10 +41,10 @@
       <div class="item">
         <div class="item-label">
           <span>身份证信息</span>
-          <hoo-tips :text="'用于必要时购买保险使用！'"></hoo-tips>
+          <hoo-tips :text="'用于必要时购买保险使用！'" :show="showTips"></hoo-tips>
         </div>
         <div class="item-input">
-          <input type="text" id="idCard" placeholder="输入身份证信息" :value="idCard" @change="bindInput">
+          <input type="text" id="idCard" placeholder="输入身份证信息" :value="idCard" @focus="showTip" @change="bindInput">
         </div>
       </div>
     </div>
@@ -58,6 +58,7 @@ import * as MutationType from '@/store/mutation.type';
 import Utils from '@/utils/index';
 import hooButton from '@/components/button';
 import hooTips from '@/components/tips';
+import { setTimeout } from 'timers';
 
 export default {
   components: {
@@ -75,7 +76,10 @@ export default {
       genderValue: 0,
       ageVal: null,
       idCard: '',
-      name: ''
+      name: '',
+
+      firstShowTips: true,
+      showTips: false
     };
   },
   computed: {
@@ -96,6 +100,13 @@ export default {
     // console.log(this.id);
   },
   methods: {
+    showTip () {
+      if (this.firstShowTips) {
+        this.showTips = true;
+        this.firstShowTips = false;
+      }
+    },
+
     getChildernInf () {
       this.$wxUtils.loading({title: '加载中...'});
       // console.log(JSON.parse(this.$route.query.obj));

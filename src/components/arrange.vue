@@ -11,7 +11,10 @@
       </div>
       <div class="arrange-item" v-if="arrangeParams.xlat && arrangeParams.xlng" @click="openGuideMap">
         <div class="arrange-icon location"></div>
-        <div class="arrange-text">{{arrangeParams.address}}{{distanceToSection?' ' + distanceToSection:''}}</div>
+        <div class="arrange-text">
+          <span>{{arrangeParams.address}}</span>
+          <!-- <span v-if="distanceToSection"> {{distanceToSection}}</span> -->
+        </div>
       </div>
       <div class="arrange-item" v-if="ages">
         <div class="arrange-icon kidney"></div>
@@ -35,26 +38,26 @@ export default {
     };
   },
   computed: {
-    distanceToSection () {
-      let wxAddress = this.$storage.get(this.$storageTypeName.address);
+    // distanceToSection () {
+    //   let wxAddress = this.$storage.get(this.$storageTypeName.address);
 
-      if (!this.arrangeParams.xlat && !this.arrangeParams.xlng && !this.arrangeParams.city) {
-        return false;
-      }
+    //   if (!this.arrangeParams.xlat && !this.arrangeParams.xlng && !this.arrangeParams.city) {
+    //     return false;
+    //   }
 
-      if (wxAddress.result.address_component.city.indexOf(this.arrangeParams.city) > -1) {
-        return false;
-      }
+    //   if (wxAddress.result.address_component.city.indexOf(this.arrangeParams.city) === -1) {
+    //     return false;
+    //   }
 
-      let result = Utils.backDistance({
-        lat1: this.location.latitude,
-        lng1: this.location.longitude,
-        lat2: this.arrangeParams.xlat,
-        lng2: this.arrangeParams.xlng
-      });
+    //   let result = Utils.backDistance({
+    //     lat1: this.location.latitude,
+    //     lng1: this.location.longitude,
+    //     lat2: this.arrangeParams.xlat,
+    //     lng2: this.arrangeParams.xlng
+    //   });
 
-      return result.text;
-    },
+    //   return result.text;
+    // },
     ages () {
       let result = GetDataObjUseId(AgeFilterData, this.arrangeParams.ages);
 
