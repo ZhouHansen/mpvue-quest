@@ -1,6 +1,7 @@
 <template>
   <div class="section-container" @click="goDetail">
-    <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.coverfile + ') no-repeat 50% 50%; background-size: cover;'"></div>
+    <img class="section-img" :src="sectionData.coverfile" :mode="'widthFix'" />
+    <!-- <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.coverfile + ') no-repeat 50% 50%; background-size: 100% auto;'"></div> -->
     <div class="section-group">
       <div class="section-title">
         <div class="section-title-left">
@@ -48,7 +49,6 @@
         }
 
         let cityArr = this.sectionData.city.split(',');
-
         if (wxAddress.result.address_component.city.indexOf(cityArr[1]) > -1) {
           if (this.sectionData.xlng && this.sectionData.xlat) {
             let result = Utils.backDistance({
@@ -112,6 +112,10 @@
     .section-cover {
       width: 100%;
       height: 45vw;
+    }
+
+    .section-img {
+      width: 100%;
     }
 
     .section-group {

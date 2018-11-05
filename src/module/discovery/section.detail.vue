@@ -1,7 +1,8 @@
 <template>
   <!-- 课程，活动，商品 -->
   <div class="section-detail-container">
-    <div class="section-cover" v-if="params" :style="'background: url(' + params.coverfile + ') no-repeat 50% 50%; background-size: 100% auto;'"></div>
+    <img class="section-img" :src="params.coverfile" :mode="'widthFix'" />
+    <!-- <div class="section-cover" v-if="params" :style="'background: url(' + params.coverfile + ') no-repeat 50% 50%; background-size: 100% auto;'"></div> -->
     <div class="section-title">
       <text class="section-title-text">{{params.name}}</text>
       <hoo-label :type-text="params.tagslist[0]" :label-arr="labelArr"></hoo-label>
@@ -233,6 +234,10 @@
     .section-cover {
       width: 100vw;
       height: 50vw;
+    }
+
+    .section-img {
+      width: 100%;
     }
 
     .section-title {
