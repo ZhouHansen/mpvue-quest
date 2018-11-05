@@ -1,7 +1,7 @@
 <template>
   <span class="tips-container">
     <span class="item-label-desc"  @click="showDesc"></span>
-    <div v-if="show && defaultShow" class="tips-popup">{{text}}</div>
+    <div v-if="show && defaultShow" class="tips-popup" @click="showDesc">{{text}}</div>
     <!-- <div v-if="show && defaultShow" class="tips-popup" :style="'left:'+ popupLeft +'px; top:' + popupTop + 'px;'">{{text}}</div> -->
   </span>
 </template>

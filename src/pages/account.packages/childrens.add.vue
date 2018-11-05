@@ -100,10 +100,15 @@ export default {
     // console.log(this.id);
   },
   methods: {
-    showTip () {
-      if (this.firstShowTips) {
+    showTip (e) {
+      console.log(e);
+
+      if (this.firstShowTips && e.mp.type === 'focus') {
         this.showTips = true;
         this.firstShowTips = false;
+        setTimeout(() => {
+          this.showTips = false;
+        }, 5000);
       }
     },
 
