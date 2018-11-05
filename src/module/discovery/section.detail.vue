@@ -245,7 +245,8 @@
 
   .section-detail-container {
     width: 100%;
-    min-height: 100vh;
+    min-height: calc(100vh  - 7vh - 100rpx);
+    padding-bottom: calc(100rpx + 7vh);
 
     .section-cover {
       width: 100vw;
@@ -319,7 +320,6 @@
     .section-organi {
       border-top: 20rpx solid #f9f9f9;
       margin: 40rpx;
-      padding-bottom: calc(100rpx + 7vh);
 
       .section-organi-content {
         margin-top: 30rpx;

@@ -11,7 +11,7 @@
             <div class="order-item-cover" :style="{background: 'url(' + item.product.coverfile2 + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
             <div class="order-item-detail">
               <div class="order-item-name">{{item.product.name}}</div>
-              <div class="order-item-format">{{item.product.agesText}}</div>
+              <!-- <div class="order-item-format">{{item.product.agesText}}</div> -->
               <div class="order-item-cost">
                 <div class="order-price">¥{{item.price / 100}}</div>
                 <div class="order-num">{{item.count}}件</div>
@@ -19,14 +19,14 @@
             </div>
           </div>
         </div>
-        <div class="order-item-ctrl" v-if="item.resultPayStatus.id === 'waitPayment'" @click="cancelOrder(item.id)">取消订单</div>
+        <div class="order-item-ctrl" v-if="item.resultPayStatus.id === 'waitPayment'" @click="cancelOrder(item.orderno)">取消订单</div>
       </div>
     </div>
     <hoo-empty v-if="!goods || goods.length === 0" :type="'normal'" :text="'没有待支付列表～'"></hoo-empty>
   </div>
 </template>
 <script>
-import {ProductSpecData, PurchaseStatus, GetDataObjUseId} from '@/utils/default.data';
+import {PurchaseStatus, GetDataObjUseId} from '@/utils/default.data';
 import hooHaveLeftBorderTitle from '@/components/left.border.title';
 import hooEmpty from '@/components/empty';
 
@@ -70,10 +70,10 @@ export default {
         let arr = this.goods.concat(res.data);
         arr.forEach((item, index) => {
           // 设置规格
-          let result = GetDataObjUseId(ProductSpecData, item.product.spec);
-          if (result) {
-            item.product.agesText = result.text;
-          }
+          // let result = GetDataObjUseId(ProductSpecData, item.product.spec);
+          // if (result) {
+          //   item.product.agesText = result.text;
+          // }
 
           // 判断订单状态
           let payResult = null;

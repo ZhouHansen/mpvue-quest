@@ -54,14 +54,14 @@
       <div class="order-detail-list">
         <div class="order-detail-item">
           <div class="order-detail-item-label">
-            <div class="content-cover" :style="{background: 'url(' + orderDetail.product.coverfile2 + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+            <div class="content-cover" :style="{background: 'url(' + orderDetail.product.coverfile + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
           </div>
           <div class="order-detail-item-text">{{orderDetail.product.name}}</div>
         </div>
-        <div class="order-detail-item" v-if="orderDetail.product.specText">
+        <!-- <div class="order-detail-item" v-if="orderDetail.product.specText">
           <div class="order-detail-item-label">产品规格</div>
           <div class="order-detail-item-text">{{orderDetail.product.specText}}</div>
-        </div>
+        </div> -->
       </div>
     </div>
 

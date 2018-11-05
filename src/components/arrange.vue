@@ -1,10 +1,10 @@
 <template>
   <div class="arrange-container">
     <div class="arrage-list">
-      <div class="arrange-item" v-if="spec">
+      <!-- <div class="arrange-item" v-if="spec">
         <div class="arrange-icon book"></div>
         <div class="arrange-text">{{spec}}</div>
-      </div>
+      </div> -->
       <div class="arrange-item" v-if="arrangeParams.lfrom && arrangeParams.lto">
         <div class="arrange-icon time"></div>
         <div class="arrange-text">{{fromAndTo}}</div>
@@ -21,7 +21,7 @@
   </div>
 </template>
 <script>
-import {AgeFilterData, ProductSpecData, GetDataObjUseId} from '@/utils/default.data';
+import {AgeFilterData, GetDataObjUseId} from '@/utils/default.data';
 import Utils from '@/utils/index';
 export default {
   props: ['arrangeParams'],
@@ -35,15 +35,15 @@ export default {
         return false;
       }
     },
-    spec () {
-      let result = GetDataObjUseId(ProductSpecData, this.arrangeParams.spec);
+    // spec () {
+    //   let result = GetDataObjUseId(ProductSpecData, this.arrangeParams.spec);
 
-      if (result) {
-        return result.text;
-      } else {
-        return false;
-      }
-    },
+    //   if (result) {
+    //     return result.text;
+    //   } else {
+    //     return false;
+    //   }
+    // },
     fromAndTo () {
       if (this.arrangeParams.lfrom && this.arrangeParams.lto) {
         let from = Utils.formatData2(this.arrangeParams.lfrom);

@@ -61,15 +61,15 @@
         </div>
       </div>
     </div>
-    <div class="activity-detail">
-      <hoo-left-border-title :title="'活动详情'"></hoo-left-border-title>
+    <!-- <div class="activity-detail">
+      <hoo-left-border-title :title="'商品详情'"></hoo-left-border-title>
       <div class="activity-inf">
         <div class="activity-item">
           <span class="activity-item-name">商品规格</span>
           <span class="activity-item-value">{{sectionData.specText}}</span>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="payment-footer">
       <div class="total-money">
         <span class="total-money-title">总计金额</span>
@@ -82,7 +82,7 @@
 <script>
   import WxNetwork from '@/network/network.wx';
   import * as MutationType from '@/store/mutation.type';
-  import {ProductSpecData, GetDataObjUseId} from '@/utils/default.data';
+  // import {ProductSpecData, GetDataObjUseId} from '@/utils/default.data';
   import hooLeftBorderTitle from '@/components/left.border.title';
 
   export default {
@@ -132,11 +132,11 @@
         this.getAddress();
       }
 
-      let result = GetDataObjUseId(ProductSpecData, this.sectionData.spec);
+      // let result = GetDataObjUseId(ProductSpecData, this.sectionData.spec);
 
-      if (result) {
-        this.sectionData.specText = result.text;
-      }
+      // if (result) {
+      //   this.sectionData.specText = result.text;
+      // }
 
       // console.log('discovery', this.$store.state.discovery);
       // console.log('设置的地址信息', this.address);
