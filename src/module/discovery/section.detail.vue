@@ -18,9 +18,9 @@
       <div class="section-content-arrange">
         <hoo-arrange :arrange-params="params"></hoo-arrange>
       </div>
-      <div class="section-content-location" v-if="params.xlat && params.xlng">
+      <!-- <div class="section-content-location" v-if="params.xlat && params.xlng">
         <hoo-location :data="distance" :name="params.name"></hoo-location>
-      </div>
+      </div> -->
       <div class="section-content-person" v-if="params.rule && params.rule.minps && params.rule.maxps">提示：活动开启最少{{params.rule.minps}}人，最多{{params.rule.maxps}}人</div>
     </div>
 
@@ -290,8 +290,7 @@
       }
 
       .section-content-person {
-        margin-left: 60rpx;
-        margin-top: 20rpx;
+        margin-left: 66rpx;
       }
     }
 

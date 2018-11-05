@@ -9,6 +9,10 @@
         <div class="arrange-icon time"></div>
         <div class="arrange-text">{{fromAndTo}}</div>
       </div>
+      <div class="arrange-item" v-if="arrangeParams.xlat && arrangeParams.xlng" @click="openGuideMap">
+        <div class="arrange-icon location"></div>
+        <div class="arrange-text">{{arrangeParams.address}}{{distanceToSection?' ' + distanceToSection:''}}</div>
+      </div>
       <div class="arrange-item" v-if="ages">
         <div class="arrange-icon kidney"></div>
         <div class="arrange-text">{{ages}}</div>
@@ -25,7 +29,32 @@ import {AgeFilterData, GetDataObjUseId} from '@/utils/default.data';
 import Utils from '@/utils/index';
 export default {
   props: ['arrangeParams'],
+  data () {
+    return {
+      location: this.$storage.get(this.$storageTypeName['location'])
+    };
+  },
   computed: {
+    distanceToSection () {
+      let wxAddress = this.$storage.get(this.$storageTypeName.address);
+
+      if (!this.arrangeParams.xlat && !this.arrangeParams.xlng && !this.arrangeParams.city) {
+        return false;
+      }
+
+      if (wxAddress.result.address_component.city.indexOf(this.arrangeParams.city) > -1) {
+        return false;
+      }
+
+      let result = Utils.backDistance({
+        lat1: this.location.latitude,
+        lng1: this.location.longitude,
+        lat2: this.arrangeParams.xlat,
+        lng2: this.arrangeParams.xlng
+      });
+
+      return result.text;
+    },
     ages () {
       let result = GetDataObjUseId(AgeFilterData, this.arrangeParams.ages);
 
@@ -53,6 +82,21 @@ export default {
         } else {
           return from.y + '年' + from.m + '月' + from.d + '日 - ' + to.y + '年' + to.m + '月' + to.d + '日';
         }
+      }
+    }
+  },
+  methods: {
+    openGuideMap () {
+      if (this.arrangeParams.xlat && this.arrangeParams.xlng) {
+        let params = {
+          slat: this.location.latitude,
+          slng: this.location.longitude,
+          elat: this.arrangeParams.xlat,
+          elng: this.arrangeParams.xlng,
+          ename: this.arrangeParams.name
+        };
+
+        this.$router.push({path: '/pages/guideMap/index', query: {obj: JSON.stringify(params)}});
       }
     }
   }
@@ -102,6 +146,11 @@ export default {
 
       .book {
         background: url('../assets/images/book.png') no-repeat 50% 50%;
+        background-size: contain;
+      }
+
+      .location {
+        background: url('../assets/images/direction-2.png') no-repeat 50% 50%;
         background-size: contain;
       }
     }

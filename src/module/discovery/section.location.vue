@@ -21,9 +21,7 @@ export default {
   props: ['data', 'name'],
   data () {
     return {
-      location: this.$storage.get(this.$storageTypeName['location']),
-      routeInfo: null,
-      distanceNum: 0
+      location: this.$storage.get(this.$storageTypeName['location'])
     };
   },
   computed: {
@@ -35,7 +33,6 @@ export default {
           lat2: this.data.lat,
           lng2: this.data.lng
         });
-        this.distanceNum = result.num;
         return result.text;
       } else {
         return false;
