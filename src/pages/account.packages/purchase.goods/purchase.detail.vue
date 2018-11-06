@@ -114,12 +114,14 @@ export default {
     this.$wxUtils.setNavTitle('商品订单详情');
   },
   onShow () {
+    this.$wxUtils.loading({title: '加载中...'});
     this.getOrderDetail();
   },
   methods: {
     getOrderDetail () {
       // 获取订单详情
       this.$network.account.getOrderDetail({}, null, 'weapp/order/' + this.$route.query.id).then(res => {
+        this.$wxUtils.loading({show: false});
         let firstFormat = res.data;
 
         firstFormat.address = JSON.parse(firstFormat.address);
@@ -145,7 +147,7 @@ export default {
       if (this.orderDetail.paystate === 0 && this.orderDetail.status === 0) {
         payResult = GetDataObjUseId(PurchaseStatus, 'waitPayment');
       } else
-      if (this.orderDetail.paystate === 0 && this.orderDetail.paystate === 1) {
+      if (this.orderDetail.paystate === 0 && this.orderDetail.status === 1) {
         payResult = GetDataObjUseId(PurchaseStatus, 'timeEnd');
       } else
       if (this.orderDetail.paystate === 1 && !this.orderDetail.logino) {
@@ -154,9 +156,10 @@ export default {
       if (this.orderDetail.paystate === 1 && this.orderDetail.logino && this.orderDetail.commented === 0) {
         payResult = GetDataObjUseId(PurchaseStatus, 'waitAppraisal');
       } else
-      if (this.orderDetail.paystate === 1 && this.orderDetail.commented === 1) {
+      if (this.orderDetail.commented === 1) {
         payResult = GetDataObjUseId(PurchaseStatus, 'end');
       }
+      console.log(payResult);
       this.orderDetail.resultPayStatus = payResult;
     },
 
@@ -198,7 +201,7 @@ export default {
     updateOrder (e) {
       if (e.status) {
         this.$network.account.updateOrder({}, null, 'weapp/order/pay/' + this.orderDetail.orderno).then(res => {
-          this.$router.back();
+          this.getOrderDetail();
         });
       }
     },

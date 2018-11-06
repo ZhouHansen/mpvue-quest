@@ -109,12 +109,14 @@ export default {
     this.$wxUtils.setNavTitle('课程订单详情');
   },
   onShow () {
+    this.$wxUtils.loading({title: '加载中...'});
     this.getOrderDetail();
   },
   methods: {
     getOrderDetail () {
       // 获取订单详情
       this.$network.account.getOrderDetail({}, null, 'weapp/order/' + this.$route.query.id).then(res => {
+        this.$wxUtils.loading({show: false});
         this.orderDetail = res.data;
 
         console.log('订单信息', this.orderDetail);
@@ -146,7 +148,7 @@ export default {
       if (this.orderDetail.paystate === 1 && this.orderDetail.status === 1 && this.orderDetail.commented === 0) {
         payResult = GetDataObjUseId(CourseStatus, 'waitAppraisal');
       } else
-      if (this.orderDetail.paystate === 1 && this.orderDetail.status === 1 && this.orderDetail.commented === 1) {
+      if (this.orderDetail.commented === 1) {
         payResult = GetDataObjUseId(CourseStatus, 'end');
       }
 
@@ -198,7 +200,7 @@ export default {
     updateOrder (e) {
       if (e.status) {
         this.$network.account.updateOrder({}, null, 'weapp/order/pay/' + this.orderDetail.orderno).then(res => {
-          this.$router.back();
+          this.getOrderDetail();
         });
       }
     }

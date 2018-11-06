@@ -20,6 +20,7 @@ module.exports = [
   'pages/account.packages/purchase.goods/purchase.appraisal',
   'pages/account.packages/purchase.goods/purchase.history',
   'pages/account.packages/purchase.goods/purchase.waitpay',
+  'pages/account.packages/purchase.goods/purchase.waitappr',
   'pages/account.packages/setting',
   'pages/account.packages/feedback',
   'pages/account.packages/setting/setting.address',

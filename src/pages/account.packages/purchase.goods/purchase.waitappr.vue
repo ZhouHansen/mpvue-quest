@@ -6,7 +6,7 @@
           <div class="order-id">
             <hoo-have-left-border-title :title="'下单时间：' + item.issueat"></hoo-have-left-border-title>
           </div>
-          <div class="order-item-status">{{item.resultPayStatus.text}}</div>
+          <div class="order-item-status" v-if="resultPayStatus">{{resultPayStatus.text}}</div>
           <div class="order-item-content" @click="visitOrderDetail(item.orderno)">
             <div class="order-item-cover" :style="{background: 'url(' + item.product.coverfile2 + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
             <div class="order-item-detail">
@@ -21,18 +21,7 @@
         </div>
       </div>
     </div>
-    <hoo-empty v-if="!goods || goods.length === 0" :type="'normal'" :text="'没有购买信息～'"></hoo-empty>
-    <div class="puchase-footer">
-      <div class="footer-item" @click="visitCourseHistory">
-        <span>历史记录</span>
-      </div>
-      <div class="footer-item" @click="visitCourseWaitpay">
-        <span>待支付</span>
-      </div>
-      <div class="footer-item" @click="visitCourseWaitappr">
-        <span>待评价</span>
-      </div>
-    </div>
+    <hoo-empty v-if="!goods || goods.length === 0" :type="'normal'" :text="'没有待评价列表～'"></hoo-empty>
   </div>
 </template>
 <script>
@@ -51,7 +40,8 @@ export default {
       total: 0,
       offset: 0,
       limit: 15,
-      goods: null
+      goods: null,
+      resultPayStatus: null
     };
   },
   mounted () {
@@ -68,67 +58,40 @@ export default {
     getGoods () {
       let params = {
         limit: this.limit,
-        offset: this.offset,
-        status: 0,
-        commented: 0
+        offset: this.offset
       };
       this.$wxUtils.loading({title: '加载中...'});
-      this.$network.account.getCourseList(params, null, 'weapp/orders/product').then(res => {
+      this.resultPayStatus = GetDataObjUseId(PurchaseStatus, 'waitAppraisal');
+      this.$network.account.getCourseListWaitAppr(params, null, 'weapp/uncommentedorders/product').then(res => {
         // console.log(res);
         if (!this.goods) {
           this.goods = [];
         }
 
-        let arr = this.goods.concat(res.data);
-        arr.forEach((item, index) => {
-          // // 设置规格
-          // let result = GetDataObjUseId(ProductSpecData, item.product.spec);
-          // if (result) {
-          //   item.product.agesText = result.text;
-          // }
-
-          // 判断订单状态
-          let payResult = null;
-
-          if (item.paystate === 1 && !item.logino) {
-            payResult = GetDataObjUseId(PurchaseStatus, 'alreadyConfirm');
-          } else
-          if (item.paystate === 1 && item.status === 0 && item.commented === 0 && item.logino) {
-            payResult = GetDataObjUseId(PurchaseStatus, 'waitConfirm');
-          } else
-          if (item.status === 1 && item.commented === 0 && item.logino) {
-            payResult = GetDataObjUseId(PurchaseStatus, 'waitAppraisal');
-          } else
-          if (item.status === 0 && item.paystate === 0) {
-            payResult = GetDataObjUseId(PurchaseStatus, 'waitPayment');
-          } else
-          if (item.status === 0 && item.commented === 1 && item.paystate === 1) {
-            payResult = GetDataObjUseId(PurchaseStatus, 'end');
-          }
-
-          item.resultPayStatus = payResult;
-        });
-
         this.$wxUtils.loading({show: false});
         this.total = res.total;
-        this.goods = arr;
+        this.goods = this.goods.concat(res.data);
+      });
+    },
+
+    cancelOrder (e) {
+      this.$wxUtils.showModal({title: '确定取消订单？'}).then(res => {
+        if (res) {
+          this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + e).then(res => {
+            if (res.e === 0) {
+              this.$wxUtils.toast({title: '取消成功'});
+              this.refreshParams();
+              this.getGoods();
+            } else {
+              this.$wxUtils.toast({title: res.msg});
+            }
+          });
+        }
       });
     },
 
     visitOrderDetail (e) {
       this.$router.push({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {id: e}});
-    },
-
-    visitCourseHistory () {
-      this.$router.push('/pages/account.packages/purchase.goods/purchase.history');
-    },
-
-    visitCourseWaitpay () {
-      this.$router.push('/pages/account.packages/purchase.goods/purchase.waitpay');
-    },
-
-    visitCourseWaitappr () {
-      this.$router.push('/pages/account.packages/purchase.goods/purchase.waitappr');
     }
   },
   onReachBottom () {
@@ -140,7 +103,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  @import '../../assets/style/variables.scss';
+  @import '../../../assets/style/variables.scss';
 
   .purchase-container {
     min-height: calc(100vh - 20rpx);
@@ -148,7 +111,6 @@ export default {
     background-color: #f9f9f9;
 
     .order-list {
-      padding-bottom: 110rpx;
 
       .order-item {
         margin-top: 20rpx;
@@ -211,28 +173,6 @@ export default {
           text-align: center;
           padding: 20rpx 0;
           border-top: 1rpx solid #efefef;
-        }
-      }
-    }
-
-    .puchase-footer {
-      position: fixed;
-      bottom: 0;
-      width: 95%;
-      padding: 28rpx 2.5%;
-      text-align: center;
-      background-color: #ffffff;
-      color: #b9b9b9;
-      border-top: 1rpx solid #efefef;
-      box-shadow: 0 4rpx 8rpx #e8e8e8;
-      @include flex(space-between, center);
-
-      .footer-item {
-        border-right: 1rpx solid #d4d4d4;
-        flex-basis: 50%;
-
-        &:last-child {
-          border-right: 0;
         }
       }
     }

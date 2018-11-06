@@ -6,7 +6,7 @@
           <div class="order-id">
             <hoo-have-left-border-title :title="'下单时间：' + item.issueat"></hoo-have-left-border-title>
           </div>
-          <div class="order-item-status">{{item.resultPayStatus.text}}</div>
+          <div class="order-item-status" v-if="resultPayStatus">{{resultPayStatus.text}}</div>
           <div class="order-item-content" @click="visitOrderDetail(item.orderno)">
             <div class="order-item-cover" :style="{background: 'url(' + item.product.coverfile2 + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
             <div class="order-item-detail">
@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-        <div class="order-item-ctrl" v-if="item.resultPayStatus.id === 'waitPayment'" @click="cancelOrder(item.orderno)">取消订单</div>
+        <div class="order-item-ctrl" @click="cancelOrder(item.orderno)">取消订单</div>
       </div>
     </div>
     <hoo-empty v-if="!goods || goods.length === 0" :type="'normal'" :text="'没有待支付列表～'"></hoo-empty>
@@ -41,7 +41,8 @@ export default {
       total: 0,
       offset: 0,
       limit: 15,
-      goods: null
+      goods: null,
+      resultPayStatus: null
     };
   },
   mounted () {
@@ -61,38 +62,16 @@ export default {
         offset: this.offset
       };
       this.$wxUtils.loading({title: '加载中...'});
+      this.resultPayStatus = GetDataObjUseId(PurchaseStatus, 'waitPayment');
+
       this.$network.account.getCourseListWaitPay(params, null, 'weapp/unpaidorders/product').then(res => {
         // console.log(res);
         if (!this.goods) {
           this.goods = [];
         }
-
-        let arr = this.goods.concat(res.data);
-        arr.forEach((item, index) => {
-          // 设置规格
-          // let result = GetDataObjUseId(ProductSpecData, item.product.spec);
-          // if (result) {
-          //   item.product.agesText = result.text;
-          // }
-
-          // 判断订单状态
-          let payResult = null;
-
-          if (item.paystate === 1 && !item.logino) {
-            payResult = GetDataObjUseId(PurchaseStatus, 'alreadyConfirm');
-          } else
-          if (item.paystate === 1 && item.commented === 0 && item.logino) {
-            payResult = GetDataObjUseId(PurchaseStatus, 'waitAppraisal');
-          } else {
-            payResult = GetDataObjUseId(PurchaseStatus, 'waitPayment');
-          }
-
-          item.resultPayStatus = payResult;
-        });
-
         this.$wxUtils.loading({show: false});
+        this.goods = this.goods.concat(res.data);
         this.total = res.total;
-        this.goods = arr;
       });
     },
 
@@ -102,8 +81,10 @@ export default {
           this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + e).then(res => {
             if (res.e === 0) {
               this.$wxUtils.toast({title: '取消成功'});
-              this.refreshParams();
-              this.getGoods();
+              setTimeout(() => {
+                this.refreshParams();
+                this.getGoods();
+              }, 1500);
             } else {
               this.$wxUtils.toast({title: res.msg});
             }

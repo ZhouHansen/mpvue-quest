@@ -74,6 +74,7 @@
         "purchase.goods/purchase.appraisal",
         "purchase.goods/purchase.history",
         "purchase.goods/purchase.waitpay",
+        "purchase.goods/purchase.waitappr",
         "setting/setting.address",
         "setting/setting.address.add"
       ]

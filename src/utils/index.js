@@ -1,7 +1,7 @@
 import _ from 'lodash/core';
 
 const formatNumber = n => {
-  const str = n.toString();
+  let str = n.toString();
   return str[1] ? str : `0${str}`;
 };
 
@@ -21,24 +21,24 @@ const formatDateToPicker = (date, beday) => {
 };
 
 const formatTime = date => {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
 
-  const hour = date.getHours();
-  const minute = date.getMinutes();
-  const second = date.getSeconds();
+  let hour = date.getHours();
+  let minute = date.getMinutes();
+  let second = date.getSeconds();
 
-  const t1 = [year, month, day].map(formatNumber).join('/');
-  const t2 = [hour, minute, second].map(formatNumber).join(':');
+  let t1 = [year, month, day].map(formatNumber).join('/');
+  let t2 = [hour, minute, second].map(formatNumber).join(':');
 
   return `${t1} ${t2}`;
 };
 
 const formatTime2 = date => {
-  const hour = date.getHours();
-  const minute = date.getMinutes();
-  const second = date.getSeconds();
+  let hour = date.getHours();
+  let minute = date.getMinutes();
+  let second = date.getSeconds();
 
   return {
     h: ('0' + hour).substr(-2),
@@ -48,8 +48,8 @@ const formatTime2 = date => {
 };
 
 const formatDate = date => {
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
 
   return `${month}月${day}日`;
 };
@@ -72,6 +72,7 @@ const formatData2 = (data, sign) => {
   };
 };
 
+// 计算两个经纬度之间的距离
 const sumLocation = ({lat1, lng1, lat2, lng2}) => {
   // console.log(lat1, lng1, lat2, lng2);
   let radLat1 = lat1 * Math.PI / 180.0;
@@ -93,6 +94,7 @@ const sumLocation = ({lat1, lng1, lat2, lng2}) => {
   return result;
 };
 
+// 返回两个经纬度之间的距离数据和显示文本
 const backDistance = ({lat1, lng1, lat2, lng2}) => {
   let result = sumLocation({'lat1': parseFloat(lat1), 'lng1': parseFloat(lng1), 'lat2': parseFloat(lat2), 'lng2': parseFloat(lng2)});
   let callback = {

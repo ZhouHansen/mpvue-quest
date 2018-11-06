@@ -12,7 +12,7 @@
       <div class="arrange-item" v-if="arrangeParams.xlat && arrangeParams.xlng" @click="openGuideMap">
         <div class="arrange-icon location"></div>
         <div class="arrange-text">
-          <span>{{arrangeParams.address}}</span>
+          <span class="arrange-text-address">{{arrangeParams.address}}</span>
           <!-- <span v-if="distanceToSection"> {{distanceToSection}}</span> -->
         </div>
       </div>
@@ -130,6 +130,10 @@ export default {
         flex-shrink: 0;
         width: calc(100% - 40rpx);
         word-break: break-all;
+
+        .arrange-text-address {
+          text-decoration: underline;
+        }
       }
 
       .time {

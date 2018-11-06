@@ -23,7 +23,6 @@ const PlugUtils = {
   }
 };
 
-
 export default {
   getPagesLength,
   PlugUtils

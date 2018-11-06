@@ -174,7 +174,9 @@ export default {
     authorization: true,
     params: {
       limit: [NetworkParamType.number],
-      offset: [NetworkParamType.number]
+      offset: [NetworkParamType.number],
+      status: [NetworkParamType.number],
+      commented: [NetworkParamType.number]
     }
   },
   /**

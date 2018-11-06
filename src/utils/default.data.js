@@ -72,56 +72,24 @@ const TeacherDegreeData = [
 
 // 订单状态
 const PurchaseStatus = [
-  {
-    text: '待付款',
-    id: 'waitPayment'
-  },
-  {
-    text: '请等待发货',
-    id: 'alreadyConfirm'
-  },
-  {
-    text: '已发货，等待收货并评价',
-    id: 'waitConfirm'
-  },
-  {
-    text: '等待评价',
-    id: 'waitAppraisal'
-  },
-  {
-    text: '交易结束',
-    id: 'end'
-  },
-  {
-    text: '已过期，请重新下单',
-    id: 'timeEnd'
-  }
+  {text: '待付款', id: 'waitPayment'},
+  {text: '请等待发货', id: 'alreadyConfirm'},
+  {text: '已发货，等待收货并评价', id: 'waitConfirm'},
+  {text: '等待评价', id: 'waitAppraisal'},
+  {text: '交易结束', id: 'end'},
+  {text: '已过期，请重新下单', id: 'timeEnd'}
 ];
 
 const CourseStatus = [
-  {
-    text: '待付款',
-    id: 'waitPayment'
-  },
-  {
-    text: '报名成功，请按时参加',
-    id: 'alreadyConfirm'
-  },
-  {
-    text: '等待评价',
-    id: 'waitAppraisal'
-  },
-  {
-    text: '已结束',
-    id: 'end'
-  },
-  {
-    text: '已过期，请重新下单',
-    id: 'timeEnd'
-  }
+  {text: '待付款', id: 'waitPayment'},
+  {text: '报名成功，请按时参加', id: 'alreadyConfirm'},
+  {text: '等待评价', id: 'waitAppraisal'},
+  {text: '已结束', id: 'end'},
+  {text: '已过期，请重新下单', id: 'timeEnd'}
 ];
 
 // 地图机构显示有关
+// lng lat 用于显示城市的中心点
 const OrganiMapCityCenter = [
   {lng: '116.397477', lat: '39.908692', id: '北京', text: '北京', type: 'city'},
   {lng: '121.510747', lat: '31.233403', id: '上海', text: '上海', type: 'city'},

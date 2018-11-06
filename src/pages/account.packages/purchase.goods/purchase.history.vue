@@ -6,7 +6,7 @@
           <div class="order-id">
             <hoo-have-left-border-title :title="'下单时间：' + item.issueat"></hoo-have-left-border-title>
           </div>
-          <div class="order-item-status">已结束</div>
+          <div class="order-item-status" v-if="status">{{status.text}}</div>
           <div class="order-item-content" @click="visitOrderDetail(item.orderno)">
             <div class="order-item-cover" :style="{background: 'url(' + item.product.coverfile2 + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
             <div class="order-item-detail">
@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-// import {ProductSpecData, GetDataObjUseId} from '@/utils/default.data';
+import {PurchaseStatus, GetDataObjUseId} from '@/utils/default.data';
 import hooHaveLeftBorderTitle from '@/components/left.border.title';
 import hooEmpty from '@/components/empty';
 
@@ -40,7 +40,8 @@ export default {
       total: 0,
       offset: 0,
       limit: 15,
-      goods: null
+      goods: null,
+      status: null
     };
   },
   mounted () {
@@ -60,6 +61,7 @@ export default {
         offset: this.offset
       };
       this.$wxUtils.loading({title: '加载中...'});
+      this.status = GetDataObjUseId(PurchaseStatus, 'end');
       this.$network.account.getOrderHIstory(params, null, 'weapp/closedorders/product').then(res => {
         // console.log(res);
         if (!this.goods) {
@@ -67,13 +69,6 @@ export default {
         }
 
         let arr = this.goods.concat(res.data);
-        // arr.forEach((item, index) => {
-        //   // 设置规格
-        //   let result = GetDataObjUseId(ProductSpecData, item.product.spec);
-        //   if (result) {
-        //     item.product.agesText = result.text;
-        //   }
-        // });
 
         this.$wxUtils.loading({show: false});
         this.total = res.total;
@@ -82,6 +77,7 @@ export default {
     },
 
     visitOrderDetail (e) {
+      console.log(e);
       this.$router.push({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {id: e}});
     }
   },
