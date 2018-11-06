@@ -3,9 +3,9 @@
       <div class="teacher-detail-header">
         <div class="detail-left">
           <div class="detail-left-avatar">
-            <hoo-avatar :type="'big'" :avatar="teacherData.avatarurl"></hoo-avatar>
+            <img class="avatar-container" :src="teacherData.avatarurl" v-if="teacherData.avatarurl" :mode="'aspectFill'">
           </div>
-          <hoo-score :score="teacherData.star" :type="'show'" :size="'small'"></hoo-score>
+          <!-- <hoo-score :score="teacherData.star" :type="'show'" :size="'small'"></hoo-score> -->
         </div>
         <div class="detail-right">
           <div class="detail-right-name">
@@ -194,8 +194,13 @@
         flex-shrink: 0;
 
         .detail-left-avatar {
-          padding-bottom: 20rpx;
           text-align: center;
+
+          .avatar-container {
+            width: 200rpx;
+            height: 200rpx;
+            border-radius: 16rpx;
+          }
         }
       }
 

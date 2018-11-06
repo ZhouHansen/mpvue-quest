@@ -23,6 +23,7 @@
 </template>
 <script>
   import _ from 'lodash/core';
+  import _remove from 'lodash/remove';
   import UniqWith from 'lodash/uniqWith';
   import {AgeFilterData, GetDataObjUseId} from '@/utils/default.data';
   import hooLabel from '@/components/label';
@@ -62,9 +63,10 @@
           }
         } else {
           let result = '';
-
+          cityArr = _remove(cityArr, (item) => {
+            return item !== '国外';
+          });
           cityArr = UniqWith(cityArr, _.isEqual);
-
           cityArr.forEach((item, index) => {
             result = result + item;
           });
@@ -128,8 +130,8 @@
         font-size: 12px;
 
         .section-avatar {
-          width: 50rpx;
-          height: 50rpx;
+          width: 90rpx;
+          height: 90rpx;
           border-radius: 16rpx;
           flex-shrink: 0;
           margin-right: 10rpx;

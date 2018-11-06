@@ -32,7 +32,7 @@
     </div>
     <div class="insert"></div>
     <div class="teacher-desc">
-      <hoo-have-left-border-title :title="'基本信息'"></hoo-have-left-border-title>
+      <hoo-have-left-border-title :title="'我是谁？'"></hoo-have-left-border-title>
       <div class="teacher-desc-text">{{params.brief?params.brief:'还没有介绍'}}</div>
     </div>
     <div class="insert"></div>

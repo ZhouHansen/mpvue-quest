@@ -20,8 +20,8 @@
       </div>
       <div class="item">
         <div class="item-label">
-          <span>出生日期</span>
-          <hoo-tips :text="'我们将为届时孩子赠送生日礼包！'"></hoo-tips>
+          <div>出生日期</div>
+          <!-- <hoo-tips :text="'我们将为届时孩子赠送生日礼包！'"></hoo-tips> -->
         </div>
         <div class="picker-contain">
           <picker @change="bindDateChange" :value="dateVal" :end="endDate" :mode="'date'">
@@ -32,6 +32,7 @@
           </picker>
         </div>
       </div>
+      <div class="tips">我们将为届时孩子赠送生日礼包！</div>
       <div class="item">
         <div class="item-label">年龄</div>
         <div class="item-input">
@@ -40,13 +41,14 @@
       </div>
       <div class="item">
         <div class="item-label">
-          <span>身份证信息</span>
-          <hoo-tips :text="'用于必要时购买保险使用！'" :show="showTips"></hoo-tips>
+          <div>身份证信息</div>
+          <!-- <hoo-tips :text="'用于必要时购买保险使用！'" :show="showTips"></hoo-tips> -->
         </div>
         <div class="item-input">
           <input type="text" id="idCard" placeholder="输入身份证信息" :value="idCard" @focus="showTip" @change="bindInput">
         </div>
       </div>
+      <div class="tips">用于必要时购买保险使用！</div>
     </div>
     <div class="footer">
       <hoo-button :text="'保存'" :type="'topic'" @tapButton="submit"></hoo-button>
@@ -88,13 +90,11 @@ export default {
     }
   },
   mounted () {
+    this.$wxUtils.setNavTitle('孩子信息');
     if (this.$route.query.id) {
       this.id = this.$route.query.id;
-      this.$wxUtils.setNavTitle('编辑孩子');
-
       this.getChildernInf();
     } else {
-      this.$wxUtils.setNavTitle('添加孩子');
       this.id = 0;
     }
     // console.log(this.id);
@@ -191,9 +191,13 @@ export default {
       padding: 80rpx 80rpx 40rpx 80rpx;
 
       .item {
-        border-bottom: 1rpx solid #eaeaea;
+        border-top: 1rpx solid #eaeaea;
         padding: 29rpx 5rpx 29rpx 0;
         @include flex();
+
+        &:first-child {
+          border-top: 0;
+        }
 
         .item-label {
           font-size: 16px;
@@ -219,6 +223,18 @@ export default {
             flex-shrink: 0;
             @include backgroundImg('../../assets/images/arrows_search.png');
           }
+        }
+      }
+
+
+      .tips {
+        font-size: 12px;
+        color: $topic-color;
+        padding-bottom: 29rpx;
+        margin-top: -20rpx;
+
+        &:last-child {
+          border-bottom: 1rpx solid #eaeaea;
         }
       }
     }

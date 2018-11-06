@@ -185,7 +185,7 @@ export default {
     // },
 
     getMapList () {
-      console.log('查找城市的机构', this.address);
+      // console.log('查找城市的机构', this.address);
       this.$network.organi.getFilterByMapCity({city: this.address}).then(res => {
         // console.log(res.data);
         // let promiseArr = [];
@@ -227,7 +227,7 @@ export default {
             } else {
               this.markersData = arr;
             }
-            console.log('显示mark', this.markersData);
+            // console.log('显示mark', this.markersData);
 
             this.initMap = true;
             this.markers = this.markersData;

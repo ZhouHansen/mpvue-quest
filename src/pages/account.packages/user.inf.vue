@@ -1,10 +1,10 @@
 <template>
   <div class="user-inf-container">
-    <div class="section user-avatar">
+    <div class="section user-avatar" @click="editAvatar">
       <div>
-        <hoo-avatar :type="'big'" :avatar="avatar"></hoo-avatar>
+        <hoo-avatar :type="'big'" :avatar="chooseImgPath?chooseImgPath:avatar"></hoo-avatar>
       </div>
-      <div class="edit-avatar" @click="editAvatar">
+      <div class="edit-avatar">
         <span>修改头像</span>
         <span class="edit-avatar-icon"></span>
       </div>
@@ -85,11 +85,11 @@ export default {
   },
   mounted () {
     this.$wxUtils.setNavTitle('个人信息');
+  },
+  onShow () {
     this.$wxUtils.loading({title: '加载中...'});
     this.setParams();
     this.getUserInf();
-  },
-  onShow () {
   },
   onUnload () {
     console.log('离开页面');
@@ -141,7 +141,7 @@ export default {
       this.$wxUtils.chooseImg({num: 1}).then(res => {
         console.log('选择图片', res);
         this.chooseImgPath = res.tempFilePaths[0];
-        this.avatar = res.tempFilePaths[0];
+        // this.avatar = res.tempFilePaths[0];
       });
     },
 
