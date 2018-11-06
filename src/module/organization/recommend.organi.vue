@@ -3,14 +3,14 @@
     <div class="title">推荐教育机构</div>
     <div class="recommend-scroll">
       <scroll-view class="recommend-list" :scroll-y="'true'" :scroll-with-animation="'true'">
-        <div class="recommend-item none" v-if="params.length === 0">暂无推荐</div>
-        <div class="recommend-item" v-if="params.length > 0" v-for="(item, index) in params" :key="index" @click="visitOrgani(item.id)">
+        <div class="recommend-item none" v-if="paramsResult.length === 0">暂无推荐</div>
+        <div class="recommend-item" v-if="paramsResult.length > 0" v-for="(item, index) in paramsResult" :key="index" @click="visitOrgani(item.id)">
           <div class="recommend-avatar" :style="{background: 'url(' + item.coverfile + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
           <div class="recomment-item-body">
             <div class="recomment-name">{{item.name}}</div>
             <div class="recomment-inf">
-              <div class="auth">
-                <div v-if="item.endorsed === 1">
+              <div>
+                <div class="auth" v-if="item.endorsed === 1">
                   <div class="auth-icon"></div>
                   <div class="auth-text">Hooray认证</div>
                 </div>
@@ -32,24 +32,28 @@
       return {
       };
     },
-    mounted () {
-      this.params.forEach((item, index) => {
-        if (item.xlng && item.xlat) {
-          let result = Utils.backDistance({
-            lat1: this.location.latitude,
-            lng1: this.location.longitude,
-            lat2: item.xlat,
-            lng2: item.xlng
-          });
+    computed: {
+      paramsResult () {
+        this.params.forEach((item, index) => {
+          if (item.xlng && item.xlat) {
+            let result = Utils.backDistance({
+              lat1: this.location.latitude,
+              lng1: this.location.longitude,
+              lat2: item.xlat,
+              lng2: item.xlng
+            });
 
-          item['distanceNum'] = result.num;
-          item['distance'] = result.text;
-        }
-      });
+            item['distanceNum'] = result.num;
+            item['distance'] = result.text;
+          }
+        });
 
-      this.params.sort((a, b) => {
-        return a.distanceNum - b.distanceNum;
-      });
+        this.params.sort((a, b) => {
+          return a.distanceNum - b.distanceNum;
+        });
+
+        return this.params;
+      }
     },
     methods: {
       visitOrgani (e) {

@@ -100,3 +100,11 @@ let systemData = Storage.get(StorageTypeName.system);
 if (!systemData) {
   Storage.set(StorageTypeName.system, wx.getSystemInfoSync());
 }
+
+// wx.getSystemInfo({
+//   success (res) {
+//     console.log(res.brand);
+//     console.log(res.version);
+//     console.log(res.SDKVersion);
+//   }
+// });

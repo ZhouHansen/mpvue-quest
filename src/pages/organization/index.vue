@@ -2,6 +2,7 @@
   <div class="organization-container">
       <map v-if="initMap" id="map" :markers="markers"
         @markertap="markertap"
+        @callouttap="markertap"
         @tap="tapMap"
         @regionchange="regionMap"
         @begin="regionMapBegin"
@@ -163,38 +164,75 @@ export default {
       });
     },
 
-    // 下载图片到微信临时文件，在显示到地图中
-    setMarkerIcon (data) {
-      return new Promise((resolve, reject) => {
-        this.$wxUtils.download({url: data.markerfile}).then(res => {
-          // console.log(res);
-          this.markersData.push({
-            iconPath: res,
-            id: data.id,
-            latitude: data.xlat,
-            longitude: data.xlng,
-            width: 40,
-            height: 40
-          });
-          resolve();
-        }).then(res => {
-          reject(res);
-        });
-      });
-    },
+    // // 下载图片到微信临时文件，在显示到地图中
+    // setMarkerIcon (data) {
+    //   return new Promise((resolve, reject) => {
+    //     this.$wxUtils.download({url: data.markerfile}).then(res => {
+    //       // console.log(res);
+    //       this.markersData.push({
+    //         iconPath: res,
+    //         id: data.id,
+    //         latitude: data.xlat,
+    //         longitude: data.xlng,
+    //         width: 40,
+    //         height: 40
+    //       });
+    //       resolve();
+    //     }).then(res => {
+    //       reject(res);
+    //     });
+    //   });
+    // },
 
     getMapList () {
+      console.log('查找城市的机构', this.address);
       this.$network.organi.getFilterByMapCity({city: this.address}).then(res => {
         // console.log(res.data);
-        let promiseArr = [];
-        res.data.forEach((item, index) => {
-          promiseArr[index] = this.setMarkerIcon(item);
-        });
+        // let promiseArr = [];
+        // res.data.forEach((item, index) => {
+        //   promiseArr[index] = this.setMarkerIcon(item);
+        // });
 
-        Promise.all(promiseArr).finally(result => {
-          this.initMap = true;
-          this.markers = this.markersData;
-          this.$wxUtils.loading({show: false});
+        // Promise.all(promiseArr).finally(result => {
+        //   this.initMap = true;
+        //   this.markers = this.markersData;
+        //   this.$wxUtils.loading({show: false});
+        // });
+        let arr = [];
+        res.data.forEach((item, index) => {
+          arr.push({
+            iconPath: '/img/iconlocation.png',
+            name: item.name.substr(0, 5),
+            width: 30,
+            height: 30,
+            id: item.id,
+            latitude: item.xlat,
+            longitude: item.xlng,
+            callout: {
+              content: item.name.substr(0, 5),
+              color: '#FFB62E',
+              fontSize: 14,
+              borderRadius: 4,
+              bgColor: '#ffffff',
+              padding: 4,
+              display: 'ALWAYS',
+              textAlign: 'center'
+            }
+          });
+
+          if (res.data.length - 1 === index) {
+            if (this.markersData.length > 0) {
+              let result = Utils.filterRepeatData(this.markersData, arr);
+              this.markersData = this.markersData.concat(result);
+            } else {
+              this.markersData = arr;
+            }
+            console.log('显示mark', this.markersData);
+
+            this.initMap = true;
+            this.markers = this.markersData;
+            this.$wxUtils.loading({show: false});
+          }
         });
       });
     },
