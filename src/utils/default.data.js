@@ -1,19 +1,19 @@
 // 固定的过滤条件数据
 const SubjectsFilterData = [
-  {text: '全部', icon: '../../img/subjects/subject_14.png', id: undefined},
-  {text: '美术', icon: '../../img/subjects/subject_1.png', id: 'art'},
-  {text: '英语', icon: '../../img/subjects/subject_2.png', id: 'english'},
-  {text: '工作坊', icon: '../../img/subjects/subject_11.png', id: 'workshop'},
-  {text: '中文', icon: '../../img/subjects/subject_3.png', id: 'chinese'},
-  {text: '音乐', icon: '../../img/subjects/subject_4.png', id: 'music'},
-  {text: '数学', icon: '../../img/subjects/subject_5.png', id: 'math'},
-  {text: '自然', icon: '../../img/subjects/subject_6.png', id: 'nature'},
-  {text: '托管', icon: '../../img/subjects/subject_7.png', id: 'trust'},
-  {text: '机器人', icon: '../../img/subjects/subject_13.png', id: 'robot'},
-  {text: '学前', icon: '../../img/subjects/subject_8.png', id: 'pre'},
-  {text: '营地', icon: '../../img/subjects/subject_9.png', id: 'camp'},
-  {text: '演讲', icon: '../../img/subjects/subject_10.png', id: 'lecture'},
-  {text: '游学', icon: '../../img/subjects/subject_12.png', id: 'tour'}
+  {text: '全部', desc: '不限科目', icon: '../../img/subjects/subject_14.png', id: undefined, tag: 'all'},
+  {text: '美术', desc: '美术', icon: '../../img/subjects/subject_1.png', id: 'art', tag: 'art'},
+  {text: '英语', desc: '英语', icon: '../../img/subjects/subject_2.png', id: 'english', tag: 'english'},
+  {text: '工作坊', desc: '工作坊', icon: '../../img/subjects/subject_11.png', id: 'workshop', tag: 'workshop'},
+  {text: '中文', desc: '中文', icon: '../../img/subjects/subject_3.png', id: 'chinese', tag: 'chinese'},
+  {text: '音乐', desc: '音乐', icon: '../../img/subjects/subject_4.png', id: 'music', tag: 'music'},
+  {text: '数学', desc: '数学', icon: '../../img/subjects/subject_5.png', id: 'math', tag: 'math'},
+  {text: '自然', desc: '自然', icon: '../../img/subjects/subject_6.png', id: 'nature', tag: 'nature'},
+  {text: '托管', desc: '托管', icon: '../../img/subjects/subject_7.png', id: 'trust', tag: 'trust'},
+  {text: '机器人', desc: '机器人', icon: '../../img/subjects/subject_13.png', id: 'robot', tag: 'robot'},
+  {text: '学前', desc: '学前', icon: '../../img/subjects/subject_8.png', id: 'pre', tag: 'pre'},
+  {text: '营地', desc: '营地', icon: '../../img/subjects/subject_9.png', id: 'camp', tag: 'camp'},
+  {text: '演讲', desc: '演讲', icon: '../../img/subjects/subject_10.png', id: 'lecture', tag: 'lecture'},
+  {text: '游学', desc: '游学', icon: '../../img/subjects/subject_12.png', id: 'tour', tag: 'tour'}
 ];
 
 const AgeFilterData = [
@@ -132,10 +132,16 @@ const OrganiMapCityCenter = [
 ];
 
 // 获取数据对象方法
-
-const GetDataObjUseId = (data, id) => {
+// @data  要查找的数据
+// @id 查找条件
+// @condition 查找条件
+const GetDataObjUseId = (data, id, condition) => {
   let result = data.find((item, index) => {
-    return item.id === id;
+    if (condition) {
+      return item[condition] === id;
+    } else {
+      return item.id === id;
+    }
   });
 
   if (result) {

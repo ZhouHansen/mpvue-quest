@@ -134,7 +134,6 @@
           height: 90rpx;
           border-radius: 16rpx;
           flex-shrink: 0;
-          margin-right: 10rpx;
         }
       }
 

@@ -41,6 +41,7 @@
   </div>
 </template>
 <script>
+  import {SubjectsFilterData, GetDataObjUseId} from '@/utils/default.data';
   import Utils from '@/utils/index';
   import hooLabel from '@/components/label';
   import hooAvatar from '@/components/avatar';
@@ -104,7 +105,13 @@
         this.$network.teacher.getTeacherDetail({}, null, 'weapp/teacher/' + this.$route.query.id).then(res => {
           // console.log(res.data);
           this.teacherData = res.data;
-          this.teacherLabelTypeText = res.data.subjectslist;
+          this.teacherLabelTypeText = [];
+          res.data.subjectslist.forEach((item, index) => {
+            let result = GetDataObjUseId(SubjectsFilterData, item, 'tag');
+            this.teacherLabelTypeText.push(result.desc);
+          });
+
+          // this.teacherLabelTypeText = res.data.subjectslist;
           this.teacherLabelArr = res.data.tagslist;
 
           this.getTeacherCourseList();

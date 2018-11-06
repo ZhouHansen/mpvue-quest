@@ -14,6 +14,8 @@ export default {
   @import '../assets/style/variables.scss';
 
   .auth-container {
+    flex-shrink: 0;
+
     .auth {
       display: inline-block;
       font-size: 12px;
