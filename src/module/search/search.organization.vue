@@ -71,10 +71,13 @@ export default {
   mounted () {
     this.sendSearchRequest();
   },
+  onShow () {
+    // this.sendSearchRequest();
+  },
   onHide () {
-    this.paging.limit = 15;
-    this.paging.total = 0;
-    this.organiData = null;
+    // this.paging.offset = 0;
+    // this.paging.total = 0;
+    // this.organiData = null;
   },
   methods: {
     chooseFilter (e) {

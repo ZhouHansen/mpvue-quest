@@ -80,10 +80,13 @@
     mounted () {
       this.sendSearchRequest();
     },
+    onShow () {
+      // this.sendSearchRequest();
+    },
     onHide () {
-      this.paging.limit = 15;
-      this.paging.total = 0;
-      this.teacherData = null;
+      // this.paging.offset = 0;
+      // this.paging.total = 0;
+      // this.teacherData = null;
     },
     methods: {
       chooseFilter (e) {

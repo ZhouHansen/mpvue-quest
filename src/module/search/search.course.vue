@@ -74,13 +74,16 @@
     mounted () {
       this.sendSearchRequest();
     },
+    onShow () {
+      // this.sendSearchRequest();
+    },
     onHide () {
-      this.refreshData();
+      // this.refreshData();
     },
     methods: {
       refreshData () {
         this.resultData = null;
-        this.paging.offset = 15;
+        this.paging.offset = 0;
         this.paging.total = 0;
       },
 
