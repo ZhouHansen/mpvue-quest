@@ -104,6 +104,9 @@ export default {
           } else
           if (item.status === 0 && item.commented === 1 && item.paystate === 1) {
             payResult = GetDataObjUseId(PurchaseStatus, 'end');
+          } else
+          if (item.paystate === 3) {
+            payResult = GetDataObjUseId(PurchaseStatus, 'timeEnd');
           }
 
           item.resultPayStatus = payResult;

@@ -172,10 +172,6 @@
           this.$router.push({path: '/pages/account.packages/childrens.add', query: {type: 'order'}});
           return;
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> 1cd4f44e93c48505e9c9ed7ccb9793cc51b09701
         if (this.group) {
           this.sendGroupOrder();
         } else {

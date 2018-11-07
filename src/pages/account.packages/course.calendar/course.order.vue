@@ -153,6 +153,8 @@ export default {
       } else
       if (this.orderDetail.paystate === 3) {
         payResult = GetDataObjUseId(CourseStatus, 'timeEnd');
+      } else {
+        payResult = GetDataObjUseId(CourseStatus, 'end');
       }
 
       this.orderDetail.resultPayStatus = payResult;

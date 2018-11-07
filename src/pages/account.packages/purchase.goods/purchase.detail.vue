@@ -158,6 +158,11 @@ export default {
       } else
       if (this.orderDetail.commented === 1) {
         payResult = GetDataObjUseId(PurchaseStatus, 'end');
+      } else
+      if (this.orderDetail.paystate === 3) {
+        payResult = GetDataObjUseId(PurchaseStatus, 'timeEnd');
+      } else {
+        payResult = GetDataObjUseId(PurchaseStatus, 'end');
       }
       console.log(payResult);
       this.orderDetail.resultPayStatus = payResult;
