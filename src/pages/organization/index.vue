@@ -22,9 +22,9 @@
           <cover-image :src="'../../img/location.png'"></cover-image>
         </cover-view>
       </map>
-      <div class="" :class="showRecommend?'recommend-body':'hide-recommend'" v-if="markers">
+      <div class="" :class="showRecommend?'recommend-body':'hide-recommend'" v-if="showRecommend">
         <div class="recommend-ctrl" @click="toggleRecommend"><span></span></div>
-        <recommend-organi v-if="showRecommend" :params="recommendData" :location="location"></recommend-organi>
+        <recommend-organi :params="recommendData" :location="location"></recommend-organi>
       </div>
   </div>
 </template>
