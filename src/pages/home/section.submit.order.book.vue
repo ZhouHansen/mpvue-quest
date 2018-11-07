@@ -214,7 +214,7 @@
 
           requestParams['address'] = address;
         } else {
-          this.$wxUtils.toast({title: '请添加地址信息'});
+          this.$router.push('/pages/account.packages/setting/setting.address.add');
           return;
         }
 
