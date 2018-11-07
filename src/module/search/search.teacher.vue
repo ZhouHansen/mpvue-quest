@@ -76,15 +76,13 @@
     mounted () {
       this.sendSearchRequest();
     },
-    onShow () {
-      // this.sendSearchRequest();
-    },
-    onHide () {
-      // this.paging.offset = 0;
-      // this.paging.total = 0;
-      // this.teacherData = null;
-    },
     methods: {
+      refreshData () {
+        this.teacherData = null;
+        this.paging.offset = 0;
+        this.paging.total = 0;
+      },
+
       chooseFilter (e) {
         if (this.chooseFilterType === '') {
           this.chooseFilterType = e;
@@ -119,9 +117,6 @@
       doneChooseFilter (e) {
         console.log('接收到的过滤参数', e);
 
-        this.paging.limit = 15;
-        this.paging.total = 0;
-
         let params = {
           type: this.chooseFilterType
         };
@@ -133,7 +128,7 @@
           this.checkedFilter[this.chooseFilterType] = params;
         }
         this.showFilterItemDesc = false;
-        this.teacherData = null;
+        this.refreshData();
         this.sendSearchRequest();
       },
 
@@ -160,11 +155,8 @@
           orderby = undefined;
         }
 
-        this.paging.limit = 15;
-        this.paging.total = 0;
-
         this.checkedFilter.orderby = orderby;
-        this.teacherData = [];
+        this.refreshData();
         this.sendSearchRequest();
       },
 

@@ -62,15 +62,15 @@
 
       startSearch () {
         // && this.inputVal !== ''
-        if (this.inputVal !== this.inputValEnter) {
-          this.inputValEnter = this.inputVal;
+        if (this.inputVal) {
           this.setSearchHistoryStorage();
-          this.$emit('startSearchEvent', this.inputVal);
         }
+        this.inputValEnter = this.inputVal;
+        this.$emit('startSearchEvent', this.inputVal);
       },
 
       setSearchHistoryStorage () {
-        if (!this.inputVal) {
+        if (this.inputVal === this.inputValEnter) {
           return;
         }
 

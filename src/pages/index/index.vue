@@ -108,6 +108,11 @@ export default {
   onPullDownRefresh () {
     this.$wxUtils.stopPullDownRefresh();
 
+    this.chooseFilterData = null;
+    this.checkedFilter = {};
+    this.showFilterItemDesc = false;
+    this.chooseFilterType = '';
+
     this.offset = 0;
     this.total = 0;
     this.sections = null;

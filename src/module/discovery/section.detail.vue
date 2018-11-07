@@ -163,9 +163,6 @@
           return;
         }
 
-        this.$storage.remove(this.$storageTypeName.order);
-        // this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: null});
-
         if (!this.params.status) {
           this.$wxUtils.toast({title: '此活动已经停止'});
         }

@@ -68,15 +68,13 @@ export default {
   mounted () {
     this.sendSearchRequest();
   },
-  onShow () {
-    // this.sendSearchRequest();
-  },
-  onHide () {
-    // this.paging.offset = 0;
-    // this.paging.total = 0;
-    // this.organiData = null;
-  },
   methods: {
+    refreshData () {
+      this.organiData = null;
+      this.paging.offset = 0;
+      this.paging.total = 0;
+    },
+
     chooseFilter (e) {
       if (this.chooseFilterType === '') {
         this.chooseFilterType = e;
@@ -106,8 +104,6 @@ export default {
 
     doneChooseFilter (e) {
       console.log('接收到的过滤参数', e);
-      this.paging.limit = 15;
-      this.paging.total = 0;
 
       let params = {
         type: this.chooseFilterType
@@ -119,7 +115,7 @@ export default {
         this.checkedFilter[this.chooseFilterType] = params;
       }
       this.showFilterItemDesc = false;
-      this.organiData = null;
+      this.refreshData();
       this.sendSearchRequest();
     },
 
