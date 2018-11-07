@@ -329,7 +329,8 @@
 <style lang="scss" scoped>
   @import '../../assets/style/variables.scss';
   .order-container {
-    min-height: 100vh;
+    min-height: 92vh;
+    padding-bottom: 8vh;
 
     @mixin sectionStyle () {
       border-top: 20rpx solid #f9f9f9;
@@ -446,7 +447,6 @@
 
     .activity-detail {
       @include sectionStyle();
-      margin-bottom: 8vh;
       border-bottom: 20rpx solid #f9f9f9;
       .activity-inf {
         margin-top: 30rpx;

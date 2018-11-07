@@ -49,7 +49,8 @@ export default {
     getOrderList () {
       let params = {
         offset: this.offset,
-        limit: this.limit
+        limit: this.limit,
+        paystate: 1
       };
       this.$wxUtils.loading({title: '加载中...'});
       this.$network.account.getOrderHIstory(params, null, 'weapp/closedorders/lesson').then(res => {

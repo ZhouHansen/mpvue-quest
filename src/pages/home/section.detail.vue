@@ -84,7 +84,7 @@
       return {
         title: this.sectionData.name,
         path: '/pages/home/section.detail?type=' + this.$route.query.type + '&id=' + this.$route.query.id,
-        imageUrl: this.sectionData.coverfile2
+        imageUrl: this.sectionData.coverfile
       };
     }
   };

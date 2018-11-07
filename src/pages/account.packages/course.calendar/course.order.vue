@@ -150,6 +150,9 @@ export default {
       } else
       if (this.orderDetail.commented === 1) {
         payResult = GetDataObjUseId(CourseStatus, 'end');
+      } else
+      if (this.orderDetail.paystate === 3) {
+        payResult = GetDataObjUseId(CourseStatus, 'timeEnd');
       }
 
       this.orderDetail.resultPayStatus = payResult;
