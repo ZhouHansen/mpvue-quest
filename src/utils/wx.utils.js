@@ -107,11 +107,11 @@ const setNavTitle = text => {
   });
 };
 
-const chooseImg = ({num = 1}) => {
+const chooseImg = ({num = 1, sizeType = ['compressed']}) => {
   return new Promise((resolve, reject) => {
     wx.chooseImage({
       count: num,
-      sizeType: ['original', 'compressed'],
+      sizeType: sizeType,
       sourceType: ['album', 'camera'],
       success (res) {
         // tempFilePaths 可以作为img标签的src属性显示图片

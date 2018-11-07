@@ -151,8 +151,8 @@ export default {
 
   .course-calendar-container {
     min-height: calc(100vh - 100rpx);
-    overflow: auto;
     background-color: #f9f9f9;
+    padding-bottom: 100rpx;
 
     .date-list {
       padding: 40rpx;

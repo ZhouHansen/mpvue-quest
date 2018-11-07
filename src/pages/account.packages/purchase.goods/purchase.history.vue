@@ -63,16 +63,14 @@ export default {
       this.$wxUtils.loading({title: '加载中...'});
       this.status = GetDataObjUseId(PurchaseStatus, 'end');
       this.$network.account.getOrderHIstory(params, null, 'weapp/closedorders/product').then(res => {
-        // console.log(res);
+        console.log(res);
         if (!this.goods) {
           this.goods = [];
         }
 
-        let arr = this.goods.concat(res.data);
-
         this.$wxUtils.loading({show: false});
         this.total = res.total;
-        this.goods = arr;
+        this.goods = this.goods.concat(res.data);
       });
     },
 

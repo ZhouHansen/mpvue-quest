@@ -229,7 +229,7 @@ export default {
 
       .footer-item {
         border-right: 1rpx solid #d4d4d4;
-        flex-basis: 50%;
+        flex-basis: 33%;
 
         &:last-child {
           border-right: 0;
