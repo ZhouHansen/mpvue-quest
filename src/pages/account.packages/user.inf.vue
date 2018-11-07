@@ -49,6 +49,13 @@
       </div>
     </div>
 
+    <div class="section" @click="visitAddressList">
+      <div class="section-label">收货地址</div>
+        <span class="asection-address-text-unempty ellipsis" v-if="address.length > 0">{{address}}</span>
+        <span class="asection-address-text-empty ellipsis" v-if="address.length === 0">{{address}}</span>
+        <span class="section-address-icon"></span>
+    </div>
+
     <div class="footer">
       <hoo-button :text="'保存'" :type="'topic'" @tapButton="submit"></hoo-button>
     </div>
@@ -80,7 +87,8 @@ export default {
       ],
       genderValue: 0,
       chooseImgPath: '',
-      uploadImgPath: ''
+      uploadImgPath: '',
+      address: '打来打来呢打来打来呢打来打来呢打来打来呢'
     };
   },
   mounted () {
@@ -90,6 +98,7 @@ export default {
     this.$wxUtils.loading({title: '加载中...'});
     this.setParams();
     this.getUserInf();
+    this.getAddressDefault();
   },
   onUnload () {
     console.log('离开页面');
@@ -145,6 +154,15 @@ export default {
       });
     },
 
+    getAddressDefault () {
+      this.$network.account.getDefaultAddress().then(res => {
+        console.log(res);
+        if (res.data) {
+          this.address = res.data.prov + res.data.city + res.data.district + res.data.address;
+        }
+      });
+    },
+
     editPhone () {
       this.$router.push('/pages/account.packages/bind.phone');
     },
@@ -156,6 +174,10 @@ export default {
 
     editUserInf (e) {
       this[e.mp.target.id] = e.mp.detail.value;
+    },
+
+    visitAddressList () {
+      this.$router.push('/pages/account.packages/setting/setting.address');
     },
 
     uploadImg () {
@@ -252,6 +274,24 @@ export default {
         }
       }
 
+      .asection-address-text-empty {
+        flex-basis: 60%;
+        color: $topic-color;
+      }
+
+      .asection-address-text-unempty {
+        flex-basis: 60%;
+        color: #000000;
+      }
+
+      .section-address-icon {
+        flex-shrink: 0;
+        width: 24rpx;
+        height: 24rpx;
+        display: inline-block;
+        @include backgroundImg('../../assets/images/arrow_right.png');
+      }
+
       .section-icon {
         width: 24rpx;
         height: 24rpx;
@@ -260,6 +300,7 @@ export default {
         @include backgroundImg('../../assets/images/arrows_search.png');
       }
     }
+
 
     .user-avatar {
 

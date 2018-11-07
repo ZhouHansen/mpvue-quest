@@ -1,13 +1,13 @@
 <template>
   <div class="setting-container">
     <div class="setting-list">
-      <div class="setting-item" @click="visitAddress">
+      <!-- <div class="setting-item" @click="visitAddress">
         <div class="setting-item-content">
           <div class="setting-item-title">收货地址</div>
           <div class="setting-item-value">{{addressData ? addressData.prov + addressData.city + addressData.district + addressData.address : '设置收货地址'}}</div>
         </div>
         <div class="setting-item-icon"></div>
-      </div>
+      </div> -->
 
       <div class="setting-item" @click="visitFeedback">
         <div class="setting-item-content">
@@ -29,7 +29,7 @@ export default {
   },
   mounted () {
     this.$wxUtils.setNavTitle('设置');
-    this.getAddressDefault();
+    // this.getAddressDefault();
   },
   methods: {
     getAddressDefault () {
