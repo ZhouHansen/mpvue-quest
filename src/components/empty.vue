@@ -15,7 +15,8 @@ export default {
 
   .empty-container {
     text-align: center;
-    padding-top: 200rpx;
+    padding-top: 150rpx;
+    padding-bottom: 50rpx;
 
     .empty-icon {
       width: 424rpx;

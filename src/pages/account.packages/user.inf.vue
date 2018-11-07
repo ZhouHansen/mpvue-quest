@@ -24,7 +24,7 @@
     <div class="section">
       <div class="section-label">手机号码</div>
       <div class="section-edit register-edit" v-if="phoneVal">
-        <input type="number" id="phone" :placeholder="phoneVal" :value="phoneVal" :placeholder-class="'input-placeholder-user'" :disabled="'true'">
+        <div class="phone-input-placeholder-user">{{phoneVal}}</div>
         <div class="section-edit-text" @click="editPhone">修改</div>
       </div>
       <div class="section-edit register-edit" v-if="!phoneVal">
@@ -269,7 +269,8 @@ export default {
           font-size: 16px;
         }
 
-        input[disabled] {
+        .phone-input-placeholder-user {
+          font-size: 16px;
           color: #9F9F9F;
         }
       }
@@ -281,6 +282,7 @@ export default {
 
       .asection-address-text-unempty {
         flex-basis: 60%;
+        font-size: 16px;
         color: #000000;
       }
 
@@ -329,6 +331,7 @@ export default {
     }
 
     .gender-edit {
+      font-size: 16px;
       width: 100%;
       @include flex();
     }

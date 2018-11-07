@@ -103,7 +103,7 @@ export default {
           ename: this.arrangeParams.name
         };
 
-        this.$router.push({path: '/pages/guideMap/index', query: {obj: JSON.stringify(params)}});
+        this.$router.push({path: '/pages/guideMap/index', query: {obj: encodeURIComponent(JSON.stringify(params))}});
       }
     }
   }

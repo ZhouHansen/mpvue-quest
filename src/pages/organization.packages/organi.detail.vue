@@ -1,11 +1,28 @@
 <template>
   <div class="organi-detail-container">
     <div class="organi-header">
-      <div class="organi-avatar">
-        <hoo-avatar :avatar="organiData.coverfile"></hoo-avatar>
+      <div class="organi-header-item organi-avatar-body">
+        <div class="organi-avatar">
+          <hoo-avatar :avatar="organiData.coverfile"></hoo-avatar>
+        </div>
+        <div class="organi-avatar-right">
+          <div class="organi-header-title">{{organiData.name}}</div>
+          <hoo-auth v-if="organiData.endorsed"></hoo-auth>
+        </div>
       </div>
+
+      <div class="organi-header-item organi-header-inf">
+        <div class="organi-inf-item" @click="callPhone">
+          <div class="organi-inf-label phone"></div>
+          <div class="organi-inf-text">{{organiData.phone}}</div>
+        </div>
+        <div class="organi-inf-item" @click="openGuideMap">
+          <div class="organi-inf-label position"></div>
+          <div class="organi-inf-text">{{organiData.address}}</div>
+        </div>
+      </div>
+
       <div class="organi-header-content">
-        <div class="organi-header-title">{{organiData.name}}</div>
         <div class="organi-header-text" :class="showAllBriefStatu?'':'line-clamp-3'" @click="showAllBrief">{{organiData.brief}}</div>
         <div class="organi-header-ctrl">
           <div class="organi-header-ctrl-item">
@@ -14,6 +31,7 @@
           <hoo-have-icon-btn :type="'share'"></hoo-have-icon-btn>
         </div>
       </div>
+
     </div>
 
     <div class="organi-content">
@@ -28,7 +46,7 @@
         <scroll-view v-if="chooseNavNumber === '2'" scroll-y scroll-with-animation @scrolltolower="loadMore">
           <appraisal-list  :params="request.appra.appraListData"></appraisal-list>
         </scroll-view>
-        <organi-desc v-if="chooseNavNumber === '3'" :params="organiData"></organi-desc>
+        <!-- <organi-desc v-if="chooseNavNumber === '3'" :params="organiData"></organi-desc> -->
       </div>
     </div>
   </div>
@@ -38,29 +56,32 @@
   import hooAvatar from '@/components/avatar';
   import hooHaveIconBtn from '@/components/have.icon.btn';
   import hooNav from '@/components/nav';
+  import hooAuth from '@/components/auth';
   import courseList from '@/module/course/course.list';
   import teacherList from '@/module/teacher/teacher.list';
   import appraisalList from '@/module/base/appraisal/appraisal.list';
-  import organiDesc from '@/module/organization/organization.desc';
+  // import organiDesc from '@/module/organization/organization.desc';
 
   export default {
     components: {
       hooAvatar,
       hooHaveIconBtn,
       hooNav,
+      hooAuth,
       courseList,
       teacherList,
-      appraisalList,
-      organiDesc
+      appraisalList
+      // organiDesc
     },
     data () {
       return {
         showAllBriefStatu: false,
-        navData: ['课程', '老师', '评价', '关于机构'],
+        navData: ['课程', '老师', '评价'],
         chooseNavNumber: '0',
         organiData: {},
         courseData: null,
         teacherData: null,
+        location: this.$storage.get(this.$storageTypeName['location']),
         request: {
           course: {
             limit: 15,
@@ -93,6 +114,25 @@
     methods: {
       showAllBrief () {
         this.showAllBriefStatu = !this.showAllBriefStatu;
+      },
+
+      callPhone () {
+        this.$wxUtils.callPhone({phone: this.organiData.phone});
+      },
+
+      openGuideMap () {
+        if (this.organiData.xlat && this.organiData.xlng) {
+          let params = {
+            slat: this.location.latitude,
+            slng: this.location.longitude,
+            elat: this.organiData.xlat,
+            elng: this.organiData.xlng,
+            ename: this.organiData.address
+          };
+          console.log(params);
+
+          this.$router.push({path: '/pages/guideMap/index', query: {obj: encodeURIComponent(JSON.stringify(params))}});
+        }
       },
 
       chooseNav (e) {
@@ -221,19 +261,58 @@
 
   .organi-detail-container {
     .organi-header {
-      @include flex(flex-start, flex-start);
       padding: 40rpx;
 
-      .organi-avatar {
-        flex-shrink: 0;
-        margin-right: 30rpx;
+      .organi-header-item {
+        padding: 30rpx 0;
+        border-bottom: 1rpx solid #efefef;
       }
 
-      .organi-header-content {
+      .organi-avatar-body {
+        @include flex(flex-start, center);
+        .organi-avatar {
+          flex-shrink: 0;
+          margin-right: 30rpx;
+        }
+
         .organi-header-title {
           font-size: 18px;
           font-weight: bold;
         }
+      }
+
+      .organi-header-inf {
+        .organi-inf-item {
+          margin-top: 20rpx;
+          @include flex(flex-start, center);
+          &:first-child {
+            margin-top: 0;
+          }
+
+          .position {
+            @include backgroundImg('../../assets/images/organi_position.png');
+          }
+
+          .phone {
+            @include backgroundImg('../../assets/images/organi_phone.png');
+          }
+
+          .organi-inf-label {
+            display: inline-block;
+            width: 36rpx;
+            height: 36rpx;
+            flex-shrink: 0;
+            margin-right: 20rpx;
+          }
+
+          .organi-inf-text {
+
+          }
+        }
+      }
+
+      .organi-header-content {
+        margin-top: 30rpx;
 
         .organi-header-text {
           color: #9F9F9F;

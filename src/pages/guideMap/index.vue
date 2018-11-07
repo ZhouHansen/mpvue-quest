@@ -19,8 +19,9 @@ export default {
       }, 3000);
       return;
     }
-
-    let params = JSON.parse(this.$route.query.obj);
+    console.log(this.$route.query.obj);
+    let params = JSON.parse(decodeURIComponent(this.$route.query.obj));
+    console.log(params);
 
     let routeInfo = {
       startLat: params.slat,
