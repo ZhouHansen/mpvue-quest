@@ -58,7 +58,8 @@ export default {
     getGoods () {
       let params = {
         limit: this.limit,
-        offset: this.offset
+        offset: this.offset,
+        paystate: 1
       };
       this.$wxUtils.loading({title: '加载中...'});
       this.status = GetDataObjUseId(PurchaseStatus, 'end');
