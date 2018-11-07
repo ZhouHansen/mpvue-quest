@@ -30,6 +30,12 @@ const TimeFilterData = [
   {text: '一月内', id: 'm1'}
 ];
 
+const AuthFilterData = [
+  {text: '全部', id: undefined},
+  {text: '未认证', id: '0'},
+  {text: '已认证', id: '1'}
+];
+
 const PriceFilterData = [
   {text: '免费', id: '0'},
   {text: '50-100', id: 'g50'},
@@ -126,6 +132,7 @@ export {
   PriceFilterData,
   TypeFilterData,
   ProductSpecData,
+  AuthFilterData,
 
   TeacheAgeData,
   TeacherDegreeData,

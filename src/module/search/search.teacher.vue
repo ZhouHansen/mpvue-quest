@@ -37,7 +37,7 @@
 </template>
 <script>
   import * as MutationsType from '@/store/mutation.type';
-  import {SubjectsFilterData} from '@/utils/default.data';
+  import {SubjectsFilterData, AuthFilterData} from '@/utils/default.data';
   import Utils from '@/utils/index';
   import hooSelect from '@/components/select';
   import filterList from '@/module/search/search.header.filter.list';
@@ -65,11 +65,7 @@
         orderContrl: 'normal',
         filterData: {
           course_type: SubjectsFilterData,
-          teacher_auth: [
-            {text: '全部', id: undefined},
-            {text: '未认证', id: '0'},
-            {text: '已认证', id: '1'}
-          ]
+          teacher_auth: AuthFilterData
         },
         chooseFilterData: null,
         checkedFilter: {

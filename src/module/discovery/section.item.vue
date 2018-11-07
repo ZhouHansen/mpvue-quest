@@ -8,7 +8,7 @@
       </div>
       <div class="section-title">
         <div class="section-title-left">
-          <div class="section-avatar" :style="'background: url(' + sectionData.coverfile2 + ') no-repeat 50% 50%; background-size: cover;'"></div>
+          <div class="section-avatar" v-if="sectionData.coverfile2" :style="'background: url(' + sectionData.coverfile2 + ') no-repeat 50% 50%; background-size: cover;'"></div>
         </div>
         <!-- <div class="section-desc ellipsis" v-if="sectionData.instsname">{{sectionData.instsname}}</div> -->
       </div>

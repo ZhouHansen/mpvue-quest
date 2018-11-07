@@ -24,6 +24,10 @@
         <div class="arrange-icon info"></div>
         <div class="arrange-text">{{arrangeParams.brief}}</div>
       </div>
+      <div class="arrange-item" v-if="arrangeParams.rule && arrangeParams.rule.minps && arrangeParams.rule.maxps">
+        <div class="arrange-icon people"></div>
+        <div class="arrange-text">活动开启最少{{arrangeParams.rule.minps}}人，最多{{arrangeParams.rule.maxps}}人</div>
+      </div>
     </div>
   </div>
 </template>
@@ -132,7 +136,7 @@ export default {
         word-break: break-all;
 
         .arrange-text-address {
-          text-decoration: underline;
+          // text-decoration: underline;
         }
       }
 
@@ -158,6 +162,11 @@ export default {
 
       .location {
         background: url('../assets/images/direction-2.png') no-repeat 50% 50%;
+        background-size: contain;
+      }
+
+      .people {
+        background: url('../assets/images/people.png') no-repeat 50% 50%;
         background-size: contain;
       }
     }

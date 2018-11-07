@@ -28,6 +28,7 @@
 <script>
 import Utils from '@/utils/index';
 import * as MutationsType from '@/store/mutation.type';
+import {AuthFilterData} from '@/utils/default.data';
 import hooSelect from '@/components/select';
 import filterList from '@/module/search/search.header.filter.list';
 import hooOrganiList from '@/module/organization/organization.list';
@@ -58,11 +59,7 @@ export default {
           {text: '1000米内', id: '3'},
           {text: '3000米内', id: '4'}
         ],
-        organ_auth: [
-          {text: '全部', id: undefined},
-          {text: '未认证', id: '0'},
-          {text: '已认证', id: '1'}
-        ]
+        organ_auth: AuthFilterData
       },
       chooseFilterData: null,
       checkedFilter: {}
