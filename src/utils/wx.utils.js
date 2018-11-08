@@ -127,11 +127,13 @@ const previewImage = ({urls}) => {
   });
 };
 
-const setClipboardData = (text) => {
+const setClipboardData = (text, titleParam) => {
+  let showTitle = titleParam || '复制成功！';
+
   wx.setClipboardData({
     data: text,
     success (res) {
-      toast({title: '复制成功！'});
+      toast({title: showTitle});
     }
   });
 };

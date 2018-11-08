@@ -4,14 +4,21 @@
       <image :src="'/img/logo.png'" :mode="'aspectFit'" />
     </div>
     <div class="about-item">
-      <div class="about-desc line-clamp-3">这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍</div>
+      <div class="about-desc" :class="clamp?'line-clamp-3':''" @click="clampStatu">
+        这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray
+        的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍
+        这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray
+        的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍
+        这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray
+        的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍
+      </div>
     </div>
     <div class="about-item about-inf">
-      <div class="about-inf-item">
+      <div class="about-inf-item" @click="callphone">
         <span class="about-item-icon phone"></span>
         <span class="about-item-text">联系电话</span>
       </div>
-      <div class="about-inf-item">
+      <div class="about-inf-item" @click="copyEmail">
         <span class="about-item-icon email"></span>
         <span class="about-item-text">联系邮箱</span>
       </div>
@@ -39,6 +46,7 @@ export default {
   },
   data () {
     return {
+      clamp: true,
       navData: ['使用说明', '合同条款'],
       chooseNavNumber: '0',
       instruction: '使用说明这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍使用说明这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍使用说明这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍使用说明这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍',
@@ -51,6 +59,18 @@ export default {
   methods: {
     chooseNav (e) {
       this.chooseNavNumber = e;
+    },
+
+    clampStatu () {
+      this.clamp = !this.clamp;
+    },
+
+    callphone () {
+      this.$wxUtils.callPhone({phone: '000'});
+    },
+
+    copyEmail () {
+      this.$wxUtils.setClipboardData('hooray@163.com', '邮箱复制成功!');
     }
   }
 };
