@@ -35,6 +35,7 @@ export default {
           this.$wxUtils.toast({title: res.msg, icon: 'none'});
         }
         this.type = 'collection_already';
+        this.$emit('changeData', {collect: this.type});
       });
     },
 
@@ -46,20 +47,7 @@ export default {
           this.$wxUtils.toast({title: res.msg, icon: 'none'});
         }
         this.type = 'collection';
-      });
-    },
-
-    setJoinActivity () {
-      this.$network.discovery.joinActivity({id: this.id ? this.id : '123'}).then(res => {
-        this.$wxUtils.toast({title: res.message});
-        this.type = 'activity_already';
-      });
-    },
-
-    cancelJoinActivity () {
-      this.$network.discovery.cancelJoinActivity({id: this.id ? this.id : '123'}).then(res => {
-        this.$wxUtils.toast({title: res.message});
-        this.type = 'activity';
+        this.$emit('changeData', {collect: this.type});
       });
     }
   }

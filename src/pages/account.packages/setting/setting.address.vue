@@ -122,7 +122,7 @@ export default {
         return item.id === e;
       });
 
-      this.$wxUtils.showModal({title: '确定删除' + result[0].name + '？'}).then(res => {
+      this.$wxUtils.showModal({title: `确定删除"${result[0].name}"？`}).then(res => {
         if (res) {
           this.$network.account.deleteAddressInf({}, null, 'weapp/address/' + e).then(res => {
             this.$wxUtils.toast({title: '删除成功'});

@@ -9,7 +9,7 @@
       <div class="section-title-ctrl">
         <hoo-icon-button :type="'activity'" :person-num="params.favorcount" v-if="params.ltypes" :personNum="params.favorcount"></hoo-icon-button>
         <hoo-icon-button :type="'activity'" :person-num="params.favorcount" :join-text="'人想买'" v-if="!params.ltypes"></hoo-icon-button>
-        <hoo-icon-button :type="params.favored === 0 ? 'collection' : 'collection_already'" :id="params.id" :subject="params.subject_type"></hoo-icon-button>
+        <hoo-icon-button :type="params.favored === 0 ? 'collection' : 'collection_already'" :id="params.id" :subject="params.subject_type" @changeData="saveCollection"></hoo-icon-button>
         <hoo-icon-button :type="'share'"></hoo-icon-button>
       </div>
     </div>
@@ -155,6 +155,14 @@
         this.chooseNavIndex = e;
         if (e === '1') {
           this.getAppraList();
+        }
+      },
+
+      saveCollection (e) {
+        if (e.collect === 'collection_already') {
+          this.params.favored = 1;
+        } else {
+          this.params.favored = 0;
         }
       },
 

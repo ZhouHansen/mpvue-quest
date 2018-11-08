@@ -127,7 +127,7 @@ export default {
         return item.id === e;
       });
 
-      this.$wxUtils.showModal({title: '确定删除' + result[0].name + '？'}).then(res => {
+      this.$wxUtils.showModal({title: `确定删除"${result[0].name}"？`}).then(res => {
         if (res) {
           this.$network.account.deleteChildrenInf({}, null, 'weapp/child/' + e).then(res => {
             if (res.e === 0) {

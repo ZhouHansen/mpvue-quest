@@ -26,7 +26,7 @@
         <div class="organi-header-text" :class="showAllBriefStatu?'':'line-clamp-3'" @click="showAllBrief">{{organiData.brief}}</div>
         <div class="organi-header-ctrl">
           <div class="organi-header-ctrl-item">
-            <hoo-have-icon-btn :type="organiData.favored === 0 ? 'collection' : 'collection_already'" :id="organiData.id" :subject="'institution'"></hoo-have-icon-btn>
+            <hoo-have-icon-btn :type="organiData.favored === 0 ? 'collection' : 'collection_already'" :id="organiData.id" :subject="'institution'" @changeData="saveCollection"></hoo-have-icon-btn>
           </div>
           <hoo-have-icon-btn :type="'share'"></hoo-have-icon-btn>
         </div>
@@ -112,6 +112,14 @@
       this.getOrganiDetail();
     },
     methods: {
+      saveCollection (e) {
+        if (e.collect === 'collection_already') {
+          this.organiData.favored = 1;
+        } else {
+          this.organiData.favored = 0;
+        }
+      },
+
       showAllBrief () {
         this.showAllBriefStatu = !this.showAllBriefStatu;
       },

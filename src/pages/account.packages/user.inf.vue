@@ -23,12 +23,12 @@
     </div>
     <div class="section">
       <div class="section-label">手机号码</div>
-      <div class="section-edit register-edit" v-if="phoneVal">
+      <div class="section-edit register-edit" v-if="phoneVal" @click="editPhone">
         <div class="phone-input-placeholder-user">{{phoneVal}}</div>
-        <div class="section-edit-text" @click="editPhone">修改</div>
+        <div class="section-edit-text">修改</div>
       </div>
-      <div class="section-edit register-edit" v-if="!phoneVal">
-        <div class="section-edit-text" @click="editPhone">去绑定</div>
+      <div class="section-edit register-edit" v-if="!phoneVal" @click="editPhone">
+        <div class="section-edit-text">去绑定</div>
       </div>
     </div>
     <div class="section">
@@ -291,6 +291,7 @@ export default {
         width: 24rpx;
         height: 24rpx;
         display: inline-block;
+        margin-right: 16rpx;
         @include backgroundImg('../../assets/images/arrow_right.png');
       }
 
