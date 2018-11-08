@@ -1,23 +1,24 @@
 <template>
   <div class="course-list-container">
     <div v-for="(item, index) in params" :key="index" v-if="params && params.length > 0">
-      <hoo-course-item :course-data="item"></hoo-course-item>
+      <hoo-discovery :section-data="item" :location="location" :un-show-organ="true"></hoo-discovery>
     </div>
     <hoo-empty :type="'normal'" :text="'没有相关数据~'" v-if="params.length === 0 || !params"></hoo-empty>
   </div>
 </template>
 <script>
   import hooEmpty from '@/components/empty';
-  import hooCourseItem from '@/module/course/course.item';
+  import hooDiscovery from '@/module/discovery/section.item';
 
   export default {
     props: ['params'],
     components: {
-      hooCourseItem,
+      hooDiscovery,
       hooEmpty
     },
     data () {
       return {
+        location: this.$storage.get(this.$storageTypeName.location)
       };
     }
   };

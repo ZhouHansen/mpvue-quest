@@ -1,16 +1,14 @@
 <template>
   <div class="section-container" @click="goDetail">
     <img class="section-img" :src="sectionData.coverfile" :mode="'widthFix'" />
-    <!-- <div class="section-cover" :mode="asceptFill" :style="'background: url(' + sectionData.coverfile + ') no-repeat 50% 50%; background-size: 100% auto;'"></div> -->
     <div class="section-group">
       <div class="section-inf">
         <text class="section-inf-title line-clamp-2">{{sectionData.name}}</text>
       </div>
-      <div class="section-title">
+      <div class="section-title" v-if="!unShowOrgan">
         <div class="section-title-left">
           <div class="section-avatar" v-if="sectionData.coverfile2" :style="'background: url(' + sectionData.coverfile2 + ') no-repeat 50% 50%; background-size: cover;'"></div>
         </div>
-        <!-- <div class="section-desc ellipsis" v-if="sectionData.instsname">{{sectionData.instsname}}</div> -->
       </div>
     </div>
     <div class="section-label">
@@ -30,7 +28,7 @@
   import Utils from '@/utils/index';
 
   export default {
-    props: ['sectionData', 'location'],
+    props: ['sectionData', 'location', 'unShowOrgan'],
     components: {
       hooLabel
     },

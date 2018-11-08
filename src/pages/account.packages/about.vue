@@ -46,7 +46,7 @@ export default {
     };
   },
   mounted () {
-    this.$wxUtils.setNavTitle('关于Hooray');
+    this.$wxUtils.setNavTitle('关于HOORAY');
   },
   methods: {
     chooseNav (e) {

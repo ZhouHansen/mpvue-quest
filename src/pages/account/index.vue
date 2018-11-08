@@ -2,7 +2,7 @@
   <div class="account-container">
     <div>
       <button :open-type="'getUserInfo'" :hover-stay-time="0" :hover-start-time="0" :lang="zh_CN" :plain="'true'" @getuserinfo="visitUserInfo">
-        <div class="account-header">
+        <div class="account-header" v-if="userInf">
             <div class="account-header-left">
               <img class="account-avatar" :src="avatar" :mode="'aspectFill'">
               <div class="account-header-text">
@@ -69,7 +69,7 @@
       <div class="section-left">
         <div class="section-icon setting"></div>
         <div class="section-text">
-          <div class="section-text-title">关于Hooray</div>
+          <div class="section-text-title">关于HOORAY</div>
           <div>虎翼教育介绍</div>
         </div>
       </div>
