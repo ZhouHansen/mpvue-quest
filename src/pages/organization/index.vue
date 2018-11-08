@@ -51,7 +51,7 @@ export default {
       fixedPoint: null,
       address: null,
       searchMarkLnglat: {}, // 记录搜索机构的经纬度，用于计算拖动距离，大于searchMarkLimit才进行查找
-      searchMarkLimit: 5000, // 单位 m
+      searchMarkLimit: 50000, // 单位 m
       initMap: false,
       showRecommend: true,
       recommendData: [],

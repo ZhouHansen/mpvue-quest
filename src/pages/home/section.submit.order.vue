@@ -181,13 +181,18 @@
 
       sendUnGroupOrder () {
         this.$network.discovery.submitOrder({cid: this.children.id}, null, 'weapp/order/place/lesson/' + this.sectionData.id).then(res => {
-          // console.log(res);
+          console.log(res);
           if (res.e === 0) {
             this.orderId = res.data.orderno;
             this.payId = res.data.prepayid;
+
             if (res.data.prepayid) {
               this.runWxPayment();
             } else {
+              if (this.price === 0) {
+                this.updateOrder({status: true});
+                return;
+              }
               this.$wxUtils.toast({title: '下单失败，未获取到微信支付订单号'});
             }
           } else {
@@ -206,6 +211,10 @@
             if (res.data.prepayid) {
               this.runWxPayment();
             } else {
+              if (this.price === 0) {
+                this.updateOrder({status: true});
+                return;
+              }
               this.$wxUtils.toast({title: '下单失败，未获取到微信支付订单号'});
             }
           } else {

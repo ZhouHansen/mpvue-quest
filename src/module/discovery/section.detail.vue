@@ -57,7 +57,9 @@
       </div>
     </div>
     <div class="section-order">
-      <div class="go-to-order" :class="params.grouplist.length > 0 ? 'group' : 'un-group'" @click="goToOrder"><span>直接下单</span><span class="order-cost">¥{{params.price / 100}}</span></div>
+      <div class="go-to-order" :class="params.grouplist.length > 0 ? 'group' : 'un-group'" @click="goToOrder">
+        <span v-if="params.price > 0">直接下单</span><span class="order-cost">{{params.price > 0?'¥' + params.price / 100 : '免费报名'}}</span>
+      </div>
       <div class="group-order" @click="groupOrder" v-if="params.grouplist.length > 0"><span>拼团购买</span></div>
     </div>
     <group-order @chooseGroupType="sendGroupOrder" :params="params.grouplist"></group-order>
