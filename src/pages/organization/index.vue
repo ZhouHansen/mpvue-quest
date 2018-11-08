@@ -16,9 +16,9 @@
         <!-- <organi-filter-button :data="chooseFilterType" @filterButton="tapFilterButton"></organi-filter-button> -->
         <organi-filter :type="filterType" :data="filter" @tapFilter="chooseFilter" v-if="showFilterList"></organi-filter>
         <cover-view class="show-recommend" v-if="!showRecommend" @click="toggleRecommend">
-          <cover-view class="show-recommend-text">显示推荐机构</cover-view>
+          <cover-view class="show-recommend-text">点击显示推荐机构</cover-view>
         </cover-view>
-        <cover-view class="back-location" @click="backLocation">
+        <cover-view class="back-location" :class="showRecommend?'back-location-bottom-small':'back-location-bottom-big'" @click="backLocation">
           <cover-image :src="'../../img/location.png'"></cover-image>
         </cover-view>
       </map>
@@ -359,21 +359,22 @@ export default {
 
     .show-recommend {
       position: absolute;
-      bottom: 10rpx;
-      right: 10rpx;
+      bottom: 0;
+      right: 0;
+      width: 100%;
       background-color: $topic-color;
       color: #ffffff;
-      border-radius: 4px;
 
       .show-recommend-text {
-        margin: 18rpx 16rpx;
+        margin: 24rpx 16rpx;
+        text-align: center;
+        font-size: 12px;
       }
     }
 
     .back-location {
       position: absolute;
-      bottom: 10rpx;
-      left: 20rpx;
+      right: 20rpx;
       background-color: #ffffff;
       padding: 5rpx;
       border-radius: 100%;
@@ -382,6 +383,14 @@ export default {
         width: 50rpx;
         height: 50rpx;
       }
+    }
+
+    .back-location-bottom-big {
+      bottom: 90rpx;
+    }
+
+    .back-location-bottom-small {
+      bottom: 20rpx;
     }
 
     .recommend-ctrl {
