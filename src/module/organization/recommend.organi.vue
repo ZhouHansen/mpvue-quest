@@ -1,8 +1,8 @@
 <template>
   <div class="recommend-organi-container">
-    <div class="title">推荐教育机构</div>
     <div class="recommend-scroll">
       <scroll-view class="recommend-list" :scroll-y="'true'" :scroll-with-animation="'true'">
+        <div class="title">推荐教育机构</div>
         <div class="recommend-item none" v-if="paramsResult.length === 0">暂无推荐</div>
         <div class="recommend-item" v-if="paramsResult.length > 0" v-for="(item, index) in paramsResult" :key="index" @click="visitOrgani(item.id)">
           <div class="recommend-avatar" :style="{background: 'url(' + item.coverfile + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
@@ -82,7 +82,7 @@
     .recommend-list {
       margin-top: 20rpx;
       width: 100%;
-      max-height: 30vh;
+      max-height: 35vh;
 
       .recommend-item {
         display: inline-block;
