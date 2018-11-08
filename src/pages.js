@@ -23,6 +23,7 @@ module.exports = [
   'pages/account.packages/purchase.goods/purchase.waitappr',
   'pages/account.packages/setting',
   'pages/account.packages/feedback',
+  'pages/account.packages/about',
   'pages/account.packages/setting/setting.address',
   'pages/account.packages/setting/setting.address.add',
   'pages/account.packages/bind.phone',

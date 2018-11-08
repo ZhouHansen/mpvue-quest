@@ -152,7 +152,16 @@ export default {
         // 不需要检测id ,因为不是用户输入的
         if (!requestPrams[i] && i !== 'id' && i !== 'ssn') {
           // console.log(requestPrams[i]);
-          this.$wxUtils.toast({title: '请填写全部信息'});
+          this.$wxUtils.toast({title: '请将信息填写完整'});
+          return;
+        }
+      }
+
+      if (requestPrams.ssn) {
+        let pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        let testResult = pattern.test(requestPrams.ssn);
+        if (!testResult) {
+          this.$wxUtils.toast({title: '请输入正确的身份证号码'});
           return;
         }
       }

@@ -1,6 +1,6 @@
 <template>
-  <div class="organi-detail-container">
-    <div class="organi-header">
+  <div class="organi-detail-container" >
+    <div class="organi-header" v-if="organiData.id">
       <div class="organi-header-item organi-avatar-body">
         <div class="organi-avatar">
           <hoo-avatar :avatar="organiData.coverfile"></hoo-avatar>
@@ -251,7 +251,7 @@
       return {
         title: 'Hooray - ' + this.organiData.name,
         path: '/pages/organization.packages/organi.detail?id=' + this.organiData.id,
-        imageUrl: this.organiData.coverfile2
+        imageUrl: this.organiData.coverfile
       };
     }
   };

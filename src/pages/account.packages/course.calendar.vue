@@ -3,13 +3,13 @@
     <div class="date-list" v-if="courseList && courseList.length > 0">
       <div class="date-item" v-for="item in courseList" :key="item.id">
         <div class="date-title">
-          <hoo-have-left-border-title :title="item[0].fromDate.y + '年' + item[0].fromDate.m + '月' + item[0].fromDate.d + '日'"></hoo-have-left-border-title>
+          <hoo-have-left-border-title :title="item[0].dateTitle"></hoo-have-left-border-title>
         </div>
         <div class="date-total">共{{item.length}}节课</div>
         <div class="course-list">
           <div class="course-item" v-for="(i, num) in item" :key="num" @click="visitOrder(i.orderno)">
-            <div class="course-item-time">{{i.fromTimeString}} - {{i.toTimeString}}</div>
-            <div class="course-item-name ellipsis">{{i.lessonname}}</div>
+            <div class="course-item-time" v-if="i.timeTitle">{{i.timeTitle}}</div>
+            <div class="course-item-name ellipsis" :class="i.fromDateAsToDate?'short':'long'">{{i.lessonname}}</div>
             <div class="course-item-visit">
               <span>查看</span>
               <span class="course-item-visit-icon"></span>
@@ -86,11 +86,24 @@ export default {
           item.toDate = Utils.formatData2(item.cto.split(' ')[0], '-');
           item.toTime = Utils.formatTime2(to);
           item.toTimeString = item.toTime.h + ':' + item.toTime.m;
+          item.toDateString = item.toDate.y + '-' + item.toDate.am + '-' + item.toDate.ad;
+
+          // 添加显示日期参数
+          item.dateTitle = `${item.fromDate.y}年${item.fromDate.m}月${item.fromDate.d}日`;
+          if (item.fromDate.y === item.toDate.y && item.fromDate.m === item.toDate.m && item.fromDate.d === item.toDate.d) {
+            item.fromDateAsToDate = false;
+            item.timeTitle = item.fromTimeString + ' - ' + item.toTimeString;
+          } else {
+            item.fromDateAsToDate = true;
+            item.timeTitle = `${item.fromTimeString} - ${item.toDate.m}月${item.toDate.d}日 ${item.toTimeString}`;
+          }
         });
 
         res.data.sort((a, b) => {
           return a.fromStamp - b.fromStamp;
         });
+
+        console.log(res.data);
 
         // 对处理的数据进行排序
         this.defaultCourseList = this.defaultCourseList.concat(res.data);
@@ -185,10 +198,16 @@ export default {
             }
 
             .course-item-name {
-              flex-basis: 50%;
-              flex-shrink: 0;
               color: #000000;
               font-weight: bold;
+            }
+
+            .long {
+              flex-basis: 50%;
+            }
+
+            .short {
+              flex-basis: 30%;
             }
 
             .course-item-visit {

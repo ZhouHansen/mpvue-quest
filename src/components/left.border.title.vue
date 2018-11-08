@@ -1,5 +1,5 @@
 <template>
-  <div class="have-left-topic-border-container">
+  <div class="have-left-topic-border-container" v-if="title">
     <span></span>
     <div class="content">{{title}}</div>
   </div>

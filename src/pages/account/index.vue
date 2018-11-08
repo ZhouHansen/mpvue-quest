@@ -55,12 +55,22 @@
       </div>
       <div class="account-arrow"></div>
     </div>
-    <div class="section" @click="visitSetting">
+    <div class="section" @click="visitFeedback">
       <div class="section-left">
         <div class="section-icon setting"></div>
         <div class="section-text">
-          <div class="section-text-title">设置</div>
-          <div>设置地址</div>
+          <div class="section-text-title">意见反馈</div>
+          <div>任何疑问请留言</div>
+        </div>
+      </div>
+      <div class="account-arrow"></div>
+    </div>
+    <div class="section" @click="visitAbout">
+      <div class="section-left">
+        <div class="section-icon setting"></div>
+        <div class="section-text">
+          <div class="section-text-title">关于Hooray</div>
+          <div>虎翼教育介绍</div>
         </div>
       </div>
       <div class="account-arrow"></div>
@@ -162,8 +172,12 @@ export default {
       this.$router.push('/pages/account.packages/collection');
     },
 
-    visitSetting () {
-      this.$router.push('/pages/account.packages/setting');
+    visitFeedback () {
+      this.$router.push('/pages/account.packages/feedback');
+    },
+
+    visitAbout () {
+      this.$router.push('/pages/account.packages/about');
     }
   }
 };
