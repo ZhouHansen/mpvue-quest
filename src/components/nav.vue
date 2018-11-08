@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-container">
+  <div class="nav-container" :class="unborder?'':'border'">
     <div class="nav-list">
       <div class="weui-navbar">
         <scroll-view :scroll-x="'true'" :scroll-with-animation="'true'" :scroll-left="scrollLeft">
@@ -19,7 +19,7 @@
 </template>
 <script>
 export default {
-  props: ['tabs', 'checkIndex', 'unOnShowDefault'],
+  props: ['tabs', 'checkIndex', 'unOnShowDefault', 'unborder'],
   data () {
     return {
       // tabs: ['选项一', '选项二', '选项三', '选项四'],
@@ -80,7 +80,6 @@ export default {
   @import '../assets/style/variables.scss';
 
   .nav-container {
-    border-bottom: 1rpx solid #efefef;
 
     .weui-navbar {
       position: relative;
@@ -104,5 +103,9 @@ export default {
       width: 10vw;
       top: 90rpx;
     }
+  }
+
+  .border {
+    border-bottom: 1rpx solid #efefef;
   }
 </style>
