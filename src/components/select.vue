@@ -6,7 +6,7 @@
     </div>
 
     <div v-if="filter.type === 'date'">
-      <picker class="weui-btn" mode="date" :value="filter.chooseDate" :start="startData" :end="'2028-01-01'" @change="dateChange">
+      <picker class="weui-btn" mode="date" :value="filter.chooseDate" :start="startData" :end="'2028-01-01'" @change="dateChange" @cancel="dateCancel">
         <div class="select-container">
           <span>{{filter.text || ''}}</span>
           <span class="select-icon"></span>
@@ -37,8 +37,12 @@ export default {
     },
 
     dateChange (e) {
-      console.log('choose date', e);
+      // console.log('choose date', e);
       this.$emit('chooseDate', {id: this.filter.event, data: e.mp.detail.value});
+    },
+
+    dateCancel (e) {
+      this.$emit('chooseDate', {id: this.filter.event, data: undefined});
     }
   }
 };
