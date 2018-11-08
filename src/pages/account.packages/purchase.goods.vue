@@ -24,13 +24,13 @@
     <hoo-empty v-if="!goods || goods.length === 0" :type="'normal'" :text="'没有购买信息～'"></hoo-empty>
     <div class="puchase-footer">
       <div class="footer-item" @click="visitCourseHistory">
-        <span>历史记录</span>
+        <div>历史记录</div>
       </div>
       <div class="footer-item" @click="visitCourseWaitpay">
-        <span>待支付</span>
+        <div>待支付</div>
       </div>
       <div class="footer-item" @click="visitCourseWaitappr">
-        <span>待评价</span>
+        <div>待评价</div>
       </div>
     </div>
   </div>
@@ -222,7 +222,7 @@ export default {
       position: fixed;
       bottom: 0;
       width: 95%;
-      padding: 28rpx 2.5%;
+      padding: 0 2.5%;
       text-align: center;
       background-color: #ffffff;
       color: #b9b9b9;
@@ -231,10 +231,14 @@ export default {
       @include flex(space-between, center);
 
       .footer-item {
-        border-right: 1rpx solid #d4d4d4;
+        padding: 28rpx 0;
         flex-basis: 33%;
 
-        &:last-child {
+        div {
+          border-right: 1rpx solid #d4d4d4;
+        }
+
+        &:last-child div{
           border-right: 0;
         }
       }

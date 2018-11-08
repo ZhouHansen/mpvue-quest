@@ -21,13 +21,13 @@
     <hoo-empty :text="'~还没有课程信息~'" :type="'normal'" v-if="courseList.length === 0"></hoo-empty>
     <div class="footer" >
       <div class="footer-item" @click="visitCourseHistory">
-        <span>历史课程</span>
+        <div>历史课程</div>
       </div>
       <div class="footer-item" @click="visitCourseWaitPay">
-        <span>待支付</span>
+        <div>待支付</div>
       </div>
       <div class="footer-item" @click="visitCourseWaitAppra">
-        <span>待评价</span>
+        <div>待评价</div>
       </div>
     </div>
   </div>
@@ -231,7 +231,7 @@ export default {
       position: fixed;
       bottom: 0;
       width: 95%;
-      padding: 28rpx 2.5%;
+      padding: 0 2.5%;
       text-align: center;
       background-color: #ffffff;
       color: #b9b9b9;
@@ -241,9 +241,13 @@ export default {
 
       .footer-item {
         flex-basis: 33%;
-        border-right: 1rpx solid #d4d4d4;
+        padding: 28rpx 0;
 
-        &:last-child {
+        div {
+          border-right: 1rpx solid #d4d4d4;
+        }
+
+        &:last-child div{
           border-right: 0;
         }
       }
