@@ -1,7 +1,7 @@
 <template>
   <div class="about-container">
     <div class="about-image">
-      <image :src="'/img/logo.png'" :mode="'aspectFit'" />
+      <image :src="'/img/logo_2.png'" :mode="'aspectFit'" />
     </div>
     <div class="about-item">
       <div class="about-desc" :class="clamp?'line-clamp-3':''" @click="clampStatu">
@@ -15,12 +15,20 @@
     </div>
     <div class="about-item about-inf">
       <div class="about-inf-item" @click="callphone">
+        <span class="about-item-icon telephone"></span>
+        <span class="about-item-text">010-12345678</span>
+      </div>
+      <div class="about-inf-item" @click="callphone">
         <span class="about-item-icon phone"></span>
-        <span class="about-item-text">联系电话</span>
+        <span class="about-item-text">+86 132 3333 2222</span>
       </div>
       <div class="about-inf-item" @click="copyEmail">
         <span class="about-item-icon email"></span>
-        <span class="about-item-text">联系邮箱</span>
+        <span class="about-item-text">hooray@163.com</span>
+      </div>
+      <div class="about-inf-item ">
+        <span class="about-item-icon website"></span>
+        <span class="about-item-text about-website-text">联系邮箱</span>
       </div>
     </div>
     <div class="about-other">
@@ -94,7 +102,7 @@ export default {
       text-align:center;
 
       image {
-        height: 18vh;
+        height: 10vh;
       }
     }
 
@@ -104,19 +112,32 @@ export default {
         @include flex(flex-start, center);
 
         .about-item-icon {
-          width: 36rpx;
-          height: 36rpx;
+          width: 56rpx;
+          height: 56rpx;
           margin-right: 20rpx;
           flex-shrink: 0;
           display: inline-block;
         }
 
-        .email {
-          @include backgroundImg('../../assets/images/organi_position.png');
+        .phone {
+          @include backgroundImg('../../assets/images/ic_m_phone@3x.png');
         }
 
-        .phone {
-          @include backgroundImg('../../assets/images/organi_phone.png');
+        .email {
+          @include backgroundImg('../../assets/images/ic_mail@3x.png');
+        }
+
+        .telephone {
+          @include backgroundImg('../../assets/images/ic_t_phone@3x.png');
+        }
+
+        .website {
+          @include backgroundImg('../../assets/images/ic_website@3x.png');
+
+        }
+
+        .about-website-text {
+          text-decoration: underline;
         }
       }
     }

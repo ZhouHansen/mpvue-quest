@@ -56,7 +56,6 @@ export default {
   },
   data () {
     return {
-      // videoUrl: 'http://ofqz9brr6.bkt.clouddn.com/6421a883db3e42c7b50d762d94930d6b.mp4',
     };
   }
 };

@@ -67,10 +67,10 @@
     </div>
     <div class="section" @click="visitAbout">
       <div class="section-left">
-        <div class="section-icon setting"></div>
+        <div class="section-icon info"></div>
         <div class="section-text">
-          <div class="section-text-title">关于HOORAY</div>
-          <div>虎翼教育介绍</div>
+          <div class="section-text-title">关于</div>
+          <div>查看虎翼介绍</div>
         </div>
       </div>
       <div class="account-arrow"></div>
@@ -202,7 +202,7 @@ export default {
       border-radius: 0;
     }
     .account-header {
-      padding: 80rpx 40rpx;
+      padding: 40rpx;
       border-top: 1rpx solid #e8e8e8;
       @include flex();
 
@@ -230,7 +230,7 @@ export default {
 
     .section {
       @include flex();
-      padding: 40rpx;
+      padding: 30rpx 40rpx;
       border-top: 1rpx solid #e8e8e8;
 
       .section-left {
@@ -260,6 +260,10 @@ export default {
 
         .setting {
           @include backgroundImg('../../assets/images/setting_ic.png');
+        }
+
+        .info {
+          @include backgroundImg('../../assets/images/info_ic.png');
         }
 
         .section-text-title {

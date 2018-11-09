@@ -298,17 +298,17 @@
           }
 
           .position {
-            @include backgroundImg('../../assets/images/organi_position.png');
+            @include backgroundImg('../../assets/images/ic_t_phone@3x.png');
           }
 
           .phone {
-            @include backgroundImg('../../assets/images/organi_phone.png');
+            @include backgroundImg('../../assets/images/ic_location@3x.png');
           }
 
           .organi-inf-label {
             display: inline-block;
-            width: 36rpx;
-            height: 36rpx;
+            width: 56rpx;
+            height: 56rpx;
             flex-shrink: 0;
             margin-right: 20rpx;
           }
