@@ -46,6 +46,7 @@ export default {
   },
   data () {
     return {
+      localAddress: '',
       map: null,
       location: null,
       fixedPoint: null,
@@ -71,7 +72,6 @@ export default {
     };
   },
   onLoad () {
-    this.getLnglat();
   },
   mounted () {
     this.$wxUtils.loading({title: '加载中...'});
@@ -82,6 +82,7 @@ export default {
 
     let result = this.$storage.get(this.$storageTypeName.address);
     this.address = result.result.ad_info.city.slice(0, -1);
+    this.localAddress = this.address;
 
     this.filterCity.forEach((item, index) => {
       if (item.text.indexOf(this.address) > -1) {
@@ -93,6 +94,7 @@ export default {
       }
     });
 
+    this.getLnglat();
     this.getMapList();
     this.getRecommendList();
   },
@@ -102,6 +104,9 @@ export default {
     initLocation () {
       this.searchMarkLnglat = this.fixedPoint;
       this.location = this.fixedPoint;
+      this.address = this.localAddress;
+      this.getMapList();
+      this.getRecommendList();
     },
 
     getLnglat () {
