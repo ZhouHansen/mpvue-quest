@@ -7,8 +7,8 @@
               <img class="account-avatar" :src="avatar" :mode="'aspectFill'">
               <div class="account-header-text">
                 <div class="account-header-text-name">{{name}}</div>
-                <div class="account-header-text-unbind" v-if="!userInf.cell">未绑定手机号</div>
-                <div class="account-header-text-phone" v-if="userInf.cell">手机号：{{userInf.cell}}</div>
+                <div class="account-header-text-unbind" v-if="!userInf.cell || userInf.cell.length < 5">未绑定手机号</div>
+                <div class="account-header-text-phone" v-if="userInf.cell && userInf.cell.length > 5">手机号：{{userInf.cell}}</div>
               </div>
             </div>
             <div class="account-arrow"></div>
@@ -84,7 +84,7 @@ export default {
     return {
       wxUserInf: this.$storage.get(this.$storageTypeName['wxUserInf']),
       userInf: this.$storage.get(this.$storageTypeName.userInf),
-      avatar: '../../img/logo.png',
+      avatar: '/img/logo.png',
       name: '',
       children: null
     };

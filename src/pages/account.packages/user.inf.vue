@@ -51,8 +51,8 @@
 
     <div class="section" @click="visitAddressList">
       <div class="section-label">收货地址</div>
-        <span class="asection-address-text-unempty ellipsis" v-if="address.length > 0">{{address}}</span>
-        <span class="asection-address-text-empty ellipsis" v-if="address.length === 0">{{address}}</span>
+        <span class="asection-address-text-unempty ellipsis" v-if="address && address.length > 0">{{address}}</span>
+        <span class="asection-address-text-empty ellipsis" v-if="!address || address.length === 0">未设置地址</span>
         <span class="section-address-icon"></span>
     </div>
 
@@ -75,7 +75,7 @@ export default {
     return {
       wxUserInf: this.$storage.get(this.$storageTypeName.wxUserInf),
       userInf: this.$storage.get(this.$storageTypeName.userInf),
-      avatar: '../../img/logo.png',
+      avatar: '/img/logo.png',
       nickname: '',
       name: '',
       area: '',
@@ -88,7 +88,7 @@ export default {
       genderValue: 0,
       chooseImgPath: '',
       uploadImgPath: '',
-      address: '打来打来呢打来打来呢打来打来呢打来打来呢'
+      address: null
     };
   },
   mounted () {
@@ -129,7 +129,10 @@ export default {
         this.genderValue = this.wxUserInf.gender - 1;
       }
 
-      this.phoneVal = this.userInf.cell;
+      if (this.userInf.cell && this.userInf.cell.length > 5) {
+        this.phoneVal = this.userInf.cell;
+      }
+
       this.name = this.userInf.decodedname;
       this.area = this.userInf.city;
 

@@ -1,7 +1,7 @@
 <template>
   <div class="teacher-container" @click="viewTeacherDetail">
     <div class="teacher-avatar">
-      <img class="avatar-img" :src="detail.avartarurl" :mode="'aspectFill'">
+      <img class="avatar-img" :src="detail.avartarurl" :mode="'aspectFill'" lazy-load>
     </div>
     <div class="teacher-inf">
       <div class="teacher-name flex-row-start ">
