@@ -68,21 +68,7 @@ wx.getSetting({
           });
         },
         fail (res) {
-          wx.openSetting({
-            success: (res) => {
-              /*
-               * res.authSetting = {
-               *   "scope.userInfo": true,
-               *   "scope.userLocation": true
-               * }
-               */
-              console.log(res);
-
-              if (res.authSetting['scope.userLocation']) {
-                // 当打开小程序时，没有进行定位授权，都会打开设置页面，授权成功之后，重新加载此页面
-              }
-            }
-          });// 打开小程序设置页面
+          Utils.toast({title: '位置授权失败，请在我的账户中进行设置'});
           console.log('fail', res);
         }
       });

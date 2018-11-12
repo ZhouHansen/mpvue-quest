@@ -41,11 +41,13 @@ export default {
       } else {
         return 'big';
       }
+    },
+    chooseScore () {
+      return this.selectedNum ? this.selectedNum : 1;
     }
   },
   data () {
     return {
-      chooseScore: 1,
       fillScore: 5
     };
   },

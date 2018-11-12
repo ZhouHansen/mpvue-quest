@@ -55,12 +55,12 @@
       </div>
       <div class="account-arrow"></div>
     </div>
-    <div class="section" @click="visitFeedback">
+    <div class="section" @click="visitSetting">
       <div class="section-left">
         <div class="section-icon setting"></div>
         <div class="section-text">
-          <div class="section-text-title">意见反馈</div>
-          <div>任何疑问请留言</div>
+          <div class="section-text-title">设置</div>
+          <div>反馈问题、设置权限</div>
         </div>
       </div>
       <div class="account-arrow"></div>
@@ -172,8 +172,8 @@ export default {
       this.$router.push('/pages/account.packages/collection');
     },
 
-    visitFeedback () {
-      this.$router.push('/pages/account.packages/feedback');
+    visitSetting () {
+      this.$router.push('/pages/account.packages/setting');
     },
 
     visitAbout () {

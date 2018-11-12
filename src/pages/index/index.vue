@@ -79,20 +79,16 @@ export default {
   },
   mounted () {
     this.$wxUtils.loading({title: '加载中...'});
-
     this.$wxUtils.setNavTitle('发现');
-
-    this.interval = setInterval(() => {
-      this.getDashboardData();
-      let obj = this.$storage.get(this.$storageTypeName.openid);
-      if (obj && obj.openid) {
-        clearInterval(this.interval);
-      }
-    }, 2000);
-
     this.$wxUtils.getLocation().then(res => {
       this.location = res;
-      GetAddressUseLngLat(res);
+      GetAddressUseLngLat(res, () => {
+        this.sections = [];
+        this.init();
+      });
+    }).catch(() => {
+      console.log('未获取到位置信息');
+      this.init();
     });
   },
   onShow () {
@@ -126,6 +122,16 @@ export default {
     }
   },
   methods: {
+    init () {
+      this.interval = setInterval(() => {
+        this.getDashboardData();
+        let obj = this.$storage.get(this.$storageTypeName.openid);
+        if (obj && obj.openid) {
+          clearInterval(this.interval);
+        }
+      }, 2000);
+    },
+
     goSearchPage () {
       this.$router.push('/pages/search/index');
     },

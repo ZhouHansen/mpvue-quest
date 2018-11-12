@@ -115,5 +115,15 @@ export default {
       limit: [NetworkParamType.number],
       offset: [NetworkParamType.number]
     }
+  },
+
+  /**
+   * 获取评论列表  活动课程、商品、机构、老师
+  */
+  getCompanyDetail: {
+    url: 'weapp/agency',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true
   }
 };

@@ -5,7 +5,7 @@
       <div class="section-score">
         <div class="label">星级评价</div>
         <div class="score-com">
-          <hoo-score :type="'set'" :id="'lesson.score'" @setScore="getScore"></hoo-score>
+          <hoo-score :type="'set'" :id="'lesson.score'" :score="lesson.score" @setScore="getScore"></hoo-score>
         </div>
       </div>
       <div class="section-input">
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div class="teacher-body section">
+    <div class="teacher-body section" v-if="teacher.id">
       <hoo-have-left-border-title :title="'老师评价'"></hoo-have-left-border-title>
       <div class="section-picker" v-if="teacherList.length > 1">
         <picker @change="bindTeacherChange" :value="teacherValue" :range-key="'text'" :range="teacherList">
@@ -38,7 +38,7 @@
       <div class="section-score">
         <div class="label">星级评价</div>
         <div class="score-com">
-          <hoo-score :type="'set'" :id="'teacher.score'" @setScore="getScore"></hoo-score>
+          <hoo-score :type="'set'" :id="'teacher.score'" :score="teacher.score" @setScore="getScore"></hoo-score>
         </div>
       </div>
       <div class="section-input">
@@ -60,7 +60,7 @@
       <div class="section-score">
         <div class="label">星级评价</div>
         <div class="score-com">
-          <hoo-score :type="'set'" :id="'institution.score'" @setScore="getScore"></hoo-score>
+          <hoo-score :type="'set'" :id="'institution.score'" :score="institution.score" @setScore="getScore"></hoo-score>
         </div>
       </div>
       <div class="section-input">
@@ -105,10 +105,10 @@ export default {
       orderno: '',
       lesson: {
         type: 'lesson',
-        id: 0,
+        id: null,
         input: '',
         imageList: [],
-        score: 1,
+        score: 4,
         uploadImgPath: []
       },
       teacher: {
@@ -116,15 +116,15 @@ export default {
         id: null,
         input: '',
         imageList: [],
-        score: 1,
+        score: 4,
         uploadImgPath: []
       },
       institution: {
         type: 'institution',
-        id: 0,
+        id: null,
         input: '',
         imageList: [],
-        score: 1,
+        score: 4,
         uploadImgPath: []
       }
     };
@@ -133,10 +133,13 @@ export default {
     this.$wxUtils.setNavTitle('评价');
     let params = JSON.parse(this.$route.query.obj);
 
-    this.teacher.id = params.teachers[0].id;
+    if (params.teachers.length > 0) {
+      this.teacher.id = params.teachers[0].id;
+      this.teacherList = params.teachers;
+    }
+
     this.lesson.id = params.lessonId;
     this.institution.id = params.instId;
-    this.teacherList = params.teachers;
     this.orderno = params.orderno;
   },
   methods: {
@@ -206,20 +209,28 @@ export default {
     },
 
     submit () {
-      if (!this.teacher.id) {
-        this.$wxUtils.toast({title: '请选择要评价的老师'});
+      if (this.lesson.id && this.lesson.input.length < 5) {
+        this.$wxUtils.toast({title: '课程评论文字需要多余5个字呦～'});
         return;
       };
 
-      if (this.lesson.input.length < 5 || this.teacher.length < 5 || this.institution.input < 5) {
-        this.$wxUtils.toast({title: '评论文字需要多余5个字'});
+      if (this.teacher.id && this.teacher.input.length < 5) {
+        this.$wxUtils.toast({title: '老师评论文字需要多余5个字呦～'});
+        return;
+      };
+
+      if (this.institution.id && this.institution.input.length < 5) {
+        this.$wxUtils.toast({title: '机构评论文字需要多余5个字呦～'});
         return;
       };
 
       let request = [this.lesson, this.teacher, this.institution];
       let requestPromiseArr = [];
       request.forEach((item, index) => {
-        this.sendAppraData(item);
+        // 通过过滤条件可以控制提交评论的对象。
+        if (item.id) {
+          this.sendAppraData(item);
+        }
       });
 
       this.$wxUtils.loading({title: '上传中...'});

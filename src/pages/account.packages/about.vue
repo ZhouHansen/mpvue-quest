@@ -63,6 +63,9 @@ export default {
   },
   mounted () {
     this.$wxUtils.setNavTitle('关于HOORAY');
+    this.$network.base.getCompanyDetail().done((res) => {
+      console.log(res);
+    });
   },
   methods: {
     chooseNav (e) {

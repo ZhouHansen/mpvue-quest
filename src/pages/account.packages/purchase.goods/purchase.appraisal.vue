@@ -5,7 +5,7 @@
       <div class="section-score">
         <div class="label">星级评价</div>
         <div class="score-com">
-          <hoo-score :type="'set'" :id="'product.score'" @setScore="getScore"></hoo-score>
+          <hoo-score :type="'set'" :id="'product.score'" :score="product.score" @setScore="getScore"></hoo-score>
         </div>
       </div>
       <div class="section-input">
@@ -27,7 +27,7 @@
       <div class="section-score">
         <div class="label">星级评价</div>
         <div class="score-com">
-          <hoo-score :type="'set'" :id="'institution.score'" @setScore="getScore"></hoo-score>
+          <hoo-score :type="'set'" :id="'institution.score'" :score="institution.score" @setScore="getScore"></hoo-score>
         </div>
       </div>
       <div class="section-input">
@@ -73,7 +73,7 @@ export default {
         id: 0,
         input: '',
         imageList: [],
-        score: 1,
+        score: 4,
         uploadImgPath: []
       },
       institution: {
@@ -81,7 +81,7 @@ export default {
         id: 0,
         input: '',
         imageList: [],
-        score: 1,
+        score: 4,
         uploadImgPath: []
       },
       orderno: ''
@@ -156,7 +156,7 @@ export default {
 
     submit () {
       if (this.product.input.length < 5 || this.institution.input < 5) {
-        this.$wxUtils.toast({title: '评论文字需要多余5个字'});
+        this.$wxUtils.toast({title: '评论文字需要多余5个字呦～'});
         return;
       };
 

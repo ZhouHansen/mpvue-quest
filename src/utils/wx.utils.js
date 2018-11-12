@@ -1,6 +1,7 @@
 import StorageTypeName from './storage.typename';
 import Storage from './wx.storage';
 import UnCheckFun from './uncheck.utils';
+import {GetAddressUseLngLat} from '@/utils/location';
 
 // 获取当前页面战
 const getPagesLength = () => {
@@ -41,8 +42,59 @@ const getLocation = () => {
           res.timestamp = timestamp;
           Storage.set(StorageTypeName.location, res);
           resolve(res);
+        },
+        fail: (err) => {
+          console.log(err);
+          reject(err);
         }
       });
+    }
+  });
+};
+
+// 权限设置
+const setAuth = () => {
+  wx.openSetting({
+    success: (res) => {
+      /*
+        * res.authSetting = {
+        *   "scope.userInfo": true,
+        *   "scope.userLocation": true
+        * }
+        */
+      console.log(res);
+      if (res.authSetting['scope.userLocation']) {
+        // 当打开小程序时，没有进行定位授权，都会打开设置页面，授权成功之后，重新加载此页面
+        getLocation().then(resl => {
+          // console.log(resl);
+          GetAddressUseLngLat(resl);
+        });
+      }
+
+      // if (res.authSetting['scope.userInfo']) {
+      //   // 当打开小程序时，没有进行定位授权，都会打开设置页面，授权成功之后，重新加载此页面
+      // }
+    }
+  });
+};
+
+// 获取权限列表
+// @param  (scope.userInfo , scope.userLocation )
+const getAuthList = (param, cb) => {
+  wx.getSetting({
+    success (res) {
+      console.log(res.authSetting);
+      // res.authSetting = {
+      //   "scope.userInfo": true,
+      //   "scope.userLocation": true
+      // }
+      if (typeof cb === 'function') {
+        if (param) {
+          cb(res.authSetting[param]);
+        } else {
+          cb(res.authSetting);
+        }
+      }
     }
   });
 };
@@ -64,14 +116,14 @@ const loading = ({title = '', mask = false, show = true}) => {
   }
 };
 
-const toast = ({title, icon = 'none', hide}) => {
+const toast = ({title, icon = 'none', hide, dur = 2000}) => {
   if (hide) {
     wx.hideToast();
   } else {
     wx.showToast({
       title: title,
       icon: icon,
-      duration: 2000
+      duration: dur
     });
   }
 };
@@ -163,5 +215,7 @@ export default {
   previewImage,
   setClipboardData,
   pageScrollTo,
-  stopPullDownRefresh
+  stopPullDownRefresh,
+  setAuth,
+  getAuthList
 };

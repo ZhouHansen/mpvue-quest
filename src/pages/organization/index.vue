@@ -32,6 +32,7 @@
 import _ from 'lodash/core';
 import Utils from '@/utils/index';
 import {OrganiMapCityCenter, GetDataObjUseId} from '@/utils/default.data';
+import {GetAddressUseLngLat} from '@/utils/location';
 import recommendOrgani from '@/module/organization/recommend.organi';
 import organiFilter from '@/module/organization/coverView/organi.filter';
 import organiFilterButton from '@/module/organization/coverView/organi.filter.button';
@@ -74,33 +75,55 @@ export default {
   onLoad () {
   },
   mounted () {
-    this.$wxUtils.loading({title: '加载中...'});
     this.$wxUtils.setNavTitle('机构');
     this.map = wx.createMapContext('map');
 
     this.chooseFilterType = this.filterTypeData[0];
-
-    let result = this.$storage.get(this.$storageTypeName.address);
-    this.address = result.result.ad_info.city.slice(0, -1);
-    this.localAddress = this.address;
-
-    this.filterCity.forEach((item, index) => {
-      if (item.text.indexOf(this.address) > -1) {
-        this.chooseFilterCity = item;
-      }
-
-      if (this.filterCity.length - 1 === index && !this.chooseFilterCity.id) {
-        this.chooseFilterCity = item[0];
-      }
-    });
-
-    this.getLnglat();
-    this.getMapList();
-    this.getRecommendList();
   },
   onShow () {
+    if (this.initMap) {
+      return;
+    }
+
+    let result = this.$storage.get(this.$storageTypeName.address);
+
+    if (!result) {
+      this.$wxUtils.getLocation().then(res => {
+        GetAddressUseLngLat(res, (res) => {
+          result = res;
+          this.init(result);
+        });
+      }).catch(() => {
+        // 没有获取到权限，提示地图无法展示，跳转到设置页面
+        this.$wxUtils.toast({title: '未获取到位置权限，请设置', dur: 3000});
+        setTimeout(() => {
+          this.$router.push('/pages/account.packages/setting');
+        }, 2000);
+      });
+    } else {
+      this.init(result);
+    }
   },
   methods: {
+    init (result) {
+      this.address = result.result.ad_info.city.slice(0, -1);
+      this.localAddress = this.address;
+
+      this.filterCity.forEach((item, index) => {
+        if (item.text.indexOf(this.address) > -1) {
+          this.chooseFilterCity = item;
+        }
+
+        if (this.filterCity.length - 1 === index && !this.chooseFilterCity.id) {
+          this.chooseFilterCity = item[0];
+        }
+      });
+
+      this.getLnglat();
+      this.getMapList();
+      this.getRecommendList();
+    },
+
     initLocation () {
       this.searchMarkLnglat = this.fixedPoint;
       this.location = this.fixedPoint;
@@ -191,6 +214,7 @@ export default {
 
     getMapList () {
       // console.log('查找城市的机构', this.address);
+      this.$wxUtils.loading({title: '加载中...'});
       this.$network.organi.getFilterByMapCity({city: this.address}).then(res => {
         // console.log(res.data);
         // let promiseArr = [];
@@ -232,11 +256,10 @@ export default {
             } else {
               this.markersData = arr;
             }
+            this.$wxUtils.loading({show: false});
             // console.log('显示mark', this.markersData);
-
             this.initMap = true;
             this.markers = this.markersData;
-            this.$wxUtils.loading({show: false});
           }
         });
       });

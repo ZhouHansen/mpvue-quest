@@ -43,7 +43,7 @@
       distanceToSection () {
         let wxAddress = this.$storage.get(this.$storageTypeName.address);
 
-        if (!this.sectionData.city) {
+        if (!this.sectionData.city || !wxAddress) {
           return false;
         }
 

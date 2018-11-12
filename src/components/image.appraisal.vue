@@ -2,7 +2,7 @@
   <div class="image-appraisal-container">
     <div class="choose-image-list">
       <div class="choose-image-item" v-for="(item, index) in imageList" :key="index">
-        <image :src="item" />
+        <image :src="item" :mode="'aspectFill'"/>
         <div class="delete-image" @click="deleteImg(index)"></div>
       </div>
     </div>

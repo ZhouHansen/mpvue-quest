@@ -1,13 +1,13 @@
 <template>
   <div class="setting-container">
     <div class="setting-list">
-      <!-- <div class="setting-item" @click="visitAddress">
+      <div class="setting-item" @click="visitAuth">
         <div class="setting-item-content">
-          <div class="setting-item-title">收货地址</div>
-          <div class="setting-item-value">{{addressData ? addressData.prov + addressData.city + addressData.district + addressData.address : '设置收货地址'}}</div>
+          <div class="setting-item-title">权限设置</div>
+          <div class="setting-item-value">应用权限有关</div>
         </div>
         <div class="setting-item-icon"></div>
-      </div> -->
+      </div>
 
       <div class="setting-item" @click="visitFeedback">
         <div class="setting-item-content">
@@ -20,6 +20,7 @@
   </div>
 </template>
 <script>
+
 export default {
   props: [],
   data () {
@@ -39,8 +40,26 @@ export default {
       });
     },
 
-    visitAddress () {
-      this.$router.push('/pages/account.packages/setting/setting.address');
+    visitAuth () {
+      this.$wxUtils.setAuth();
+      // wx.openSetting({
+      //   success: (res) => {
+      //     /*
+      //       * res.authSetting = {
+      //       *   "scope.userInfo": true,
+      //       *   "scope.userLocation": true
+      //       * }
+      //       */
+      //     console.log(res);
+
+      //     if (res.authSetting['scope.userLocation']) {
+      //       this.$wxUtils.getLocation().then(res => {
+      //         GetAddressUseLngLat(res);
+      //       });
+      //       // 当打开小程序时，没有进行定位授权，都会打开设置页面，授权成功之后，重新加载此页面
+      //     }
+      //   }
+      // });
     },
 
     visitFeedback () {
