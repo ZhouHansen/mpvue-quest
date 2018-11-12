@@ -298,11 +298,11 @@
           }
 
           .position {
-            @include backgroundImg('../../assets/images/ic_t_phone@3x.png');
+            @include backgroundImg('../../assets/images/ic_location@3x.png');
           }
 
           .phone {
-            @include backgroundImg('../../assets/images/ic_location@3x.png');
+            @include backgroundImg('../../assets/images/ic_t_phone@3x.png');
           }
 
           .organi-inf-label {

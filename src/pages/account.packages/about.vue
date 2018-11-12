@@ -3,42 +3,37 @@
     <div class="about-image">
       <image :src="'/img/logo_2.png'" :mode="'aspectFit'" />
     </div>
-    <div class="about-item">
+    <div class="about-item" v-if="about && about.about">
       <div class="about-desc" :class="clamp?'line-clamp-3':''" @click="clampStatu">
-        这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray
-        的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍
-        这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray
-        的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍
-        这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray
-        的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍
+        {{about.about}}
       </div>
     </div>
-    <div class="about-item about-inf">
-      <div class="about-inf-item" @click="callphone">
+    <div class="about-item about-inf" v-if="about">
+      <div class="about-inf-item" @click="callphone" v-if="about.phone">
         <span class="about-item-icon telephone"></span>
-        <span class="about-item-text">010-12345678</span>
+        <span class="about-item-text">{{about.phone}}</span>
       </div>
-      <div class="about-inf-item" @click="callphone">
+      <div class="about-inf-item" @click="callphone" v-if="about.cell">
         <span class="about-item-icon phone"></span>
-        <span class="about-item-text">+86 132 3333 2222</span>
+        <span class="about-item-text">{{about.cell}}</span>
       </div>
-      <div class="about-inf-item" @click="copyEmail">
+      <div class="about-inf-item" @click="copyEmail" v-if="about.email">
         <span class="about-item-icon email"></span>
-        <span class="about-item-text">hooray@163.com</span>
+        <span class="about-item-text">{{about.email}}</span>
       </div>
-      <div class="about-inf-item ">
+      <div class="about-inf-item" v-if="about.website">
         <span class="about-item-icon website"></span>
-        <span class="about-item-text about-website-text">联系邮箱</span>
+        <span class="about-item-text about-website-text">{{about.website}}</span>
       </div>
     </div>
-    <div class="about-other">
+    <div class="about-other" v-if="about">
       <hoo-nav :tabs="navData" :unborder="'true'"  @tapNavItem="chooseNav"></hoo-nav>
 
       <div class="about-instruction" v-if="chooseNavNumber === '0'">
-        <wx-parse :content="instruction"></wx-parse>
+        <wx-parse :content="about.introduction"></wx-parse>
       </div>
       <div class="about-contract" v-if="chooseNavNumber === '1'">
-        <wx-parse :content="htmlabout"></wx-parse>
+        <wx-parse :content="about.terms"></wx-parse>
       </div>
     </div>
   </div>
@@ -54,6 +49,7 @@ export default {
   },
   data () {
     return {
+      about: null,
       clamp: true,
       navData: ['使用说明', '合同条款'],
       chooseNavNumber: '0',
@@ -63,8 +59,9 @@ export default {
   },
   mounted () {
     this.$wxUtils.setNavTitle('关于HOORAY');
-    this.$network.base.getCompanyDetail().done((res) => {
+    this.$network.base.getCompanyDetail().then((res) => {
       console.log(res);
+      this.about = res.data;
     });
   },
   methods: {
