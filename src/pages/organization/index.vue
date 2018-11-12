@@ -31,7 +31,7 @@
 <script>
 import _ from 'lodash/core';
 import Utils from '@/utils/index';
-import {OrganiMapCityCenter, GetDataObjUseId} from '@/utils/default.data';
+import {OrganiMapCityCenter, TypeFilterData, GetDataObjUseId} from '@/utils/default.data';
 import {GetAddressUseLngLat} from '@/utils/location';
 import recommendOrgani from '@/module/organization/recommend.organi';
 import organiFilter from '@/module/organization/coverView/organi.filter';
@@ -229,16 +229,17 @@ export default {
         // });
         let arr = [];
         res.data.forEach((item, index) => {
+          let typename = GetDataObjUseId(TypeFilterData, item.itype).text;
           arr.push({
             iconPath: '/img/iconlocation.png',
-            name: item.name.substr(0, 5),
+            name: typename,
             width: 30,
             height: 30,
             id: item.id,
             latitude: item.xlat,
             longitude: item.xlng,
             callout: {
-              content: item.name.substr(0, 5),
+              content: typename,
               color: '#FFB62E',
               fontSize: 14,
               borderRadius: 4,
