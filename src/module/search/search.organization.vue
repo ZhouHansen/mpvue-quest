@@ -54,15 +54,18 @@ export default {
       chooseFilterType: '',
       filterData: {
         organ_nearby: [
-          {text: '全部', id: '1'},
-          {text: '500米内', id: '2'},
-          {text: '1000米内', id: '3'},
-          {text: '3000米内', id: '4'}
+          {text: '全部', id: '1', number: 0},
+          {text: '500米内', id: '2', number: 0.5},
+          {text: '1000米内', id: '3', number: 1},
+          {text: '3000米内', id: '4', number: 3}
         ],
         organ_auth: AuthFilterData
       },
       chooseFilterData: null,
-      checkedFilter: {}
+      checkedFilter: {},
+      location: {},
+      maxminLnglat: {},
+      lnglatDis: 1000000
     };
   },
   mounted () {
@@ -116,6 +119,17 @@ export default {
       }
       this.showFilterItemDesc = false;
       this.refreshData();
+
+      if (this.chooseFilterType === 'organ_nearby') {
+        this.constLngLatParams();
+        return;
+      }
+      this.sendSearchRequest();
+    },
+
+    constLngLatParams () {
+      this.location = this.$storage.get(this.$storageTypeName.location);
+      this.maxminLnglat = Utils.ConvertDistanceToLogLat({distance: this.checkedFilter.organ_nearby.number, logLat: {lng: this.location.longitude, lat: this.location.latitude}, angle: 45});
       this.sendSearchRequest();
     },
 
@@ -125,9 +139,15 @@ export default {
       console.log('查找过滤的参数 机构', params);
       let requestParams = {
         name: 'inputVal' in params && params.inputVal ? params.inputVal : undefined,
-        endorsed: params.organ_auth && params.organ_auth.id ? parseInt(params.organ_auth.id) : undefined,
+        endorsed: params.organ_auth && params.organ_auth.id ? params.organ_auth.id : undefined,
         limit: this.paging.limit,
-        offset: this.paging.offset
+        offset: this.paging.offset,
+        latmin: this.maxminLnglat.latmin ? parseInt(this.maxminLnglat.latmin * this.lnglatDis) : undefined,
+        latmax: this.maxminLnglat.latmax ? parseInt(this.maxminLnglat.latmax * this.lnglatDis) : undefined,
+        lngmin: this.maxminLnglat.lngmin ? parseInt(this.maxminLnglat.lngmin * this.lnglatDis) : undefined,
+        lngmax: this.maxminLnglat.lngmax ? parseInt(this.maxminLnglat.lngmax * this.lnglatDis) : undefined,
+        xlat: this.location.latitude ? parseInt(this.location.latitude * this.lnglatDis) : undefined,
+        xlng: this.location.longitude ? parseInt(this.location.longitude * this.lnglatDis) : undefined
       };
       this.$network.search.searchOrgani(requestParams).then(res => {
         this.alreadyUseSearch = true;

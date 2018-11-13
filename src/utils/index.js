@@ -117,6 +117,26 @@ const backDistance = ({lat1, lng1, lat2, lng2}) => {
   return callback;
 };
 
+// 将相对于起点的距离转换为经纬度,distance(km)代表到点的距离，angle代表方位角度
+const ConvertDistanceToLogLat = ({distance, logLat, angle}) => {
+  let lng1 = Math.floor(logLat.lng);
+  let lat1 = Math.floor(logLat.lat);
+
+  let rlon1 = lng1 + (distance * Math.sin(angle * Math.PI / 180)) / (111 * Math.cos(lat1 * Math.PI / 180)); // 将距离转换成经度的计算公式
+  let rlat1 = lat1 + (distance * Math.cos(angle * Math.PI / 180)) / 111; // 将距离转换成纬度的计算公式
+  let rlon2 = lng1 + (distance * Math.sin((angle - 180) * Math.PI / 180)) / (111 * Math.cos(lat1 * Math.PI / 180)); // 将距离转换成经度的计算公式
+  let rlat2 = lat1 + (distance * Math.cos((angle - 180) * Math.PI / 180)) / 111; // 将距离转换成纬度的计算公式
+
+  let result = {
+    lngmin: Math.min(rlon1, rlon2),
+    lngmax: Math.max(rlon1, rlon2),
+    latmin: Math.min(rlat1, rlat2),
+    latmax: Math.max(rlat1, rlat2)
+  };
+  console.log(result);
+  return result;
+};
+
 // 过滤分页时重复的数据
 const filterRepeatData = (params1, params2) => {
   let filterArr = [];
@@ -141,5 +161,6 @@ export default {
   formatDateToPicker,
   sumLocation,
   backDistance,
-  filterRepeatData
+  filterRepeatData,
+  ConvertDistanceToLogLat
 };

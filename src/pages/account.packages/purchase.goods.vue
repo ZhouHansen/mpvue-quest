@@ -29,9 +29,9 @@
       <div class="footer-item" @click="visitCourseWaitpay">
         <div>待支付</div>
       </div>
-      <div class="footer-item" @click="visitCourseWaitappr">
+      <!-- <div class="footer-item" @click="visitCourseWaitappr">
         <div>待评价</div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -68,9 +68,7 @@ export default {
     getGoods () {
       let params = {
         limit: this.limit,
-        offset: this.offset,
-        status: 0,
-        commented: 0
+        offset: this.offset
       };
       this.$wxUtils.loading({title: '加载中...'});
       this.$network.account.getCourseList(params, null, 'weapp/orders/product').then(res => {
@@ -232,7 +230,7 @@ export default {
 
       .footer-item {
         padding: 28rpx 0;
-        flex-basis: 33%;
+        flex-basis: 50%;
 
         div {
           border-right: 1rpx solid #d4d4d4;

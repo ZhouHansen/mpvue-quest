@@ -65,7 +65,13 @@ export default {
       name: [NetworkParamType.string],
       order: [NetworkParamType.string],
       prov: [NetworkParamType.string],
-      endorsed: [NetworkParamType.number]
+      endorsed: [NetworkParamType.number],
+      latmin: [NetworkParamType.number],
+      latmax: [NetworkParamType.number],
+      lngmax: [NetworkParamType.number],
+      lngmin: [NetworkParamType.number],
+      xlat: [NetworkParamType.number],
+      xlng: [NetworkParamType.number]
     }
   }
 };
