@@ -12,10 +12,10 @@
       </div>
     </div>
 
-    <div class="express-detail" @click="copyOrderNum" v-if="orderDetail.logino">
+    <div class="express-detail" @click="copyOrderNum" v-if="orderDetail.loginfo">
       <hoo-have-left-border-title :title="'物流信息'"></hoo-have-left-border-title>
       <div class="express-content">
-        {{orderDetail.logino || '暂无物流信息'}}
+        {{orderDetail.loginfo.no || '暂无物流信息'}}
       </div>
     </div>
 
@@ -150,10 +150,10 @@ export default {
       if (this.orderDetail.paystate === 0 && this.orderDetail.status === 1) {
         payResult = GetDataObjUseId(PurchaseStatus, 'timeEnd');
       } else
-      if (this.orderDetail.paystate === 1 && !this.orderDetail.logino) {
+      if (this.orderDetail.paystate === 1 && !this.orderDetail.loginfo) {
         payResult = GetDataObjUseId(PurchaseStatus, 'alreadyConfirm');
       } else
-      if (this.orderDetail.paystate === 1 && this.orderDetail.logino && this.orderDetail.commented === 0) {
+      if (this.orderDetail.paystate === 1 && this.orderDetail.loginfo && this.orderDetail.commented === 0) {
         payResult = GetDataObjUseId(PurchaseStatus, 'waitAppraisal');
       } else
       if (this.orderDetail.commented === 1) {
@@ -212,8 +212,8 @@ export default {
     },
 
     copyOrderNum () {
-      if (this.orderDetail.logino) {
-        this.$wxUtils.setClipboardData(this.orderDetail.logino);
+      if (this.orderDetail.loginfo) {
+        this.$wxUtils.setClipboardData(this.orderDetail.loginfo.no);
       }
     }
   }

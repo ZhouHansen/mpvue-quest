@@ -62,7 +62,7 @@ export default {
       sections: null,
       interval: null,
       location: null,
-      limit: 15,
+      limit: 10,
       offset: 0,
       total: 0,
 
