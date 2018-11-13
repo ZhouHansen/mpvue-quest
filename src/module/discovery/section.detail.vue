@@ -167,7 +167,7 @@
       },
 
       goToOrder () {
-        if (!this.$storage.get(this.$storageTypeName.userInf).cell) {
+        if (!this.$storage.get(this.$storageTypeName.userInf).cell || this.$storage.get(this.$storageTypeName.userInf).cell.length < 10) {
           // console.log(this.$storage.get(this.$storageTypeName.userInf).cell);
           this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, bindPhone: true});
           return;

@@ -98,8 +98,8 @@ export default {
     params: {
       content: [NetworkParamType.string],
       images: [NetworkParamType.array],
-      star: [NetworkParamType.number]
-      // orderno: [NetworkParamType.number]
+      star: [NetworkParamType.number],
+      orderno: [NetworkParamType.number]
     }
   },
 

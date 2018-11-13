@@ -60,6 +60,7 @@
           id: undefined,
           price: undefined,
           coverfile: undefined,
+          coverfile2: undefined,
           name: undefined,
           address: undefined,
           biref: undefined,

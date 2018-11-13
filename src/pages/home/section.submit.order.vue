@@ -7,7 +7,7 @@
     <div class="payment-detail">
       <hoo-left-border-title :title="'购买内容'"></hoo-left-border-title>
       <div class="payment-detail-content" v-if="sectionData">
-        <div class="activity-cover" :style="{background: 'url(' + sectionData.coverfile + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+        <div class="activity-cover" :style="{background: 'url(' + sectionData.coverfile2 + ') no-repeat 50% 50%', backgroundSize: 'contain'}"></div>
         <div class="payment-inf">
           <div class="activity-title">{{sectionData.name}}</div>
           <div class="payment-price"><span>¥{{price}}</span> (单人)</div>
