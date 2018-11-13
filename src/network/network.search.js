@@ -21,7 +21,9 @@ export default {
       prov: [NetworkParamType.string],
       subject: [NetworkParamType.sting],
       tid: [NetworkParamType.number],
-      lfrom: [NetworkParamType.string]
+      lfrom: [NetworkParamType.string],
+      pup: [NetworkParamType.number],
+      pdown: [NetworkParamType.number]
     }
   },
 

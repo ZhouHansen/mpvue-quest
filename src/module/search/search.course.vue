@@ -1,9 +1,9 @@
 <template>
   <div class="search-course-container">
     <div class="course-filter-list">
-      <div class="course-filter-item" @click="chooseFilter('course_type')">
+      <div class="course-filter-item" @click="chooseFilter('disc_type')">
         <div class="filter-item-select">
-          <hoo-select :filter="{text:'学科', event: 'course_type'}"></hoo-select>
+          <hoo-select :filter="{text:'类型', event: 'disc_type'}"></hoo-select>
         </div>
       </div>
       <div class="course-filter-item" @click="chooseFilter('course_price')">
@@ -37,7 +37,7 @@
 </template>
 <script>
   import * as MutationsType from '@/store/mutation.type';
-  import {SubjectsFilterData, AgeFilterData, PriceFilterData} from '@/utils/default.data';
+  import {TypeFilterData, AgeFilterData, PriceFilterData} from '@/utils/default.data';
   import Utils from '@/utils/index';
   import hooSelect from '@/components/select';
   import filterList from '@/module/search/search.header.filter.list';
@@ -63,7 +63,7 @@
         showFilterItemDesc: false,
         chooseFilterType: '',
         filterData: {
-          course_type: SubjectsFilterData,
+          disc_type: TypeFilterData,
           course_price: PriceFilterData,
           course_age: AgeFilterData
         },
@@ -148,12 +148,11 @@
           name: 'inputVal' in params && params.inputVal ? params.inputVal : undefined,
           limit: this.paging.limit,
           offset: this.paging.offset,
-          lfrom: this.checkedFilter.course_time ? this.checkedFilter.course_time : undefined
+          lfrom: this.checkedFilter.course_time ? this.checkedFilter.course_time : undefined,
+          pup: params.course_price ? params.course_price.pup : undefined,
+          pdown: params.course_price ? params.course_price.pdown : undefined,
+          ltype: params.disc_type ? params.disc_type.id : undefined
         };
-
-        if (params.course_type && params.course_type.id !== 'all') {
-          requestParams['subject'] = params.course_type.id;
-        }
 
         this.$network.search.searchCourse(requestParams).then(res => {
           this.alreadyUseSearch = true;

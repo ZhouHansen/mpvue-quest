@@ -37,10 +37,10 @@ const AuthFilterData = [
 ];
 
 const PriceFilterData = [
-  {text: '免费', id: '0'},
-  {text: '50-100', id: 'g50'},
-  {text: '100-300', id: 'g100'},
-  {text: '300以上', id: 'g300'}
+  {text: '免费', id: '0', pup: 0, pdown: 0},
+  {text: '50-100', id: 'g50', pup: 100, pdown: 50},
+  {text: '100-300', id: 'g100', pup: 300, pdown: 100},
+  {text: '300以上', id: 'g300', pup: undefined, pdown: 300}
 ];
 
 const TypeFilterData = [
