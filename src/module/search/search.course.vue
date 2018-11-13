@@ -16,9 +16,9 @@
           <hoo-select :filter="{text:'时间', event: 'course_time', type: 'date', chooseDate: checkedFilter.course_time}" @chooseDate="getChooseDate"></hoo-select>
         </div>
       </div>
-      <div class="course-filter-item" @click="chooseFilter('course_age')">
+      <div class="course-filter-item">
         <div class="filter-item-select">
-          <hoo-select :filter="{text: '适龄', event: 'course_age'}"></hoo-select>
+          <hoo-select :filter="{text:'适龄', event: 'course_age', type: 'number', chooseDate: checkedFilter.course_age}" @chooseDate="getChooseDate"></hoo-select>
         </div>
       </div>
     </div>
@@ -134,7 +134,11 @@
       getChooseDate (e) {
         this.showFilterItemDesc = false;
 
-        console.log('接收到的过滤参数', e);
+        // console.log('接收到的过滤参数', e);
+        if (this.checkedFilter[e.id] === e.data) {
+          return;
+        }
+
         this.checkedFilter[e.id] = e.data;
         this.refreshData();
         this.sendSearchRequest();
@@ -143,15 +147,16 @@
       sendSearchRequest () {
         this.$wxUtils.loading({title: '查找中...'});
         let params = Object.assign(this.filterObject, this.checkedFilter);
-        console.log('查找过滤的参数 课程', params);
+        // console.log('查找过滤的参数 课程', params);
         let requestParams = {
           name: 'inputVal' in params && params.inputVal ? params.inputVal : undefined,
           limit: this.paging.limit,
           offset: this.paging.offset,
-          lfrom: this.checkedFilter.course_time ? this.checkedFilter.course_time : undefined,
+          date: params.course_time ? params.course_time : undefined,
           pup: params.course_price ? params.course_price.pup : undefined,
           pdown: params.course_price ? params.course_price.pdown : undefined,
-          ltype: params.disc_type ? params.disc_type.id : undefined
+          ltype: params.disc_type ? params.disc_type.id : undefined,
+          age: params.course_age ? params.course_age : undefined
         };
 
         this.$network.search.searchCourse(requestParams).then(res => {

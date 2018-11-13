@@ -57,7 +57,15 @@
               lng2: this.sectionData.xlng
             });
 
-            return result.text;
+            let locationText = '';
+
+            if (cityArr[2]) {
+              locationText = cityArr[2] + ' ' + result.text;
+            } else {
+              locationText = result.text;
+            }
+
+            return locationText;
           }
         } else {
           let result = '';
@@ -66,7 +74,10 @@
           });
           cityArr = UniqWith(cityArr, _.isEqual);
           cityArr.forEach((item, index) => {
-            result = result + item;
+            // 2 所获取的是区
+            if (index < 2) {
+              result = result + item;
+            }
           });
 
           return result;

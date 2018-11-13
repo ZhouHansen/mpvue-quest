@@ -1,12 +1,21 @@
 <template>
   <div>
-    <div class="select-container" @click="tapFilter" v-if="filter.type !== 'date'">
+    <div class="select-container" @click="tapFilter" v-if="filter.type !== 'date' && filter.type !== 'number'">
       <span>{{filter.text || ''}}</span>
       <span class="select-icon"></span>
     </div>
 
     <div v-if="filter.type === 'date'">
-      <picker class="weui-btn" mode="date" :value="filter.chooseDate" :start="startData" :end="'2028-01-01'" @change="dateChange" @cancel="dateCancel">
+      <picker class="weui-btn" mode="date" :value="filter.chooseDate" :start="startData" :end="'2028-01-01'" @change="dateChangeDate" @cancel="dateCancel">
+        <div class="select-container">
+          <span>{{filter.text || ''}}</span>
+          <span class="select-icon"></span>
+        </div>
+      </picker>
+    </div>
+
+    <div v-if="filter.type === 'number'">
+      <picker class="weui-btn" mode="selector" :value="filter.chooseDate" :range="ageData" @change="dateChangeAge" @cancel="dateCancel">
         <div class="select-container">
           <span>{{filter.text || ''}}</span>
           <span class="select-icon"></span>
@@ -22,7 +31,13 @@ export default {
   props: ['filter', 'type'],
   data () {
     return {
+      ageData: []
     };
+  },
+  mounted () {
+    for (let i = 5; i < 20; i++) {
+      this.ageData.push(i);
+    }
   },
   computed: {
     startData () {
@@ -36,7 +51,11 @@ export default {
       }
     },
 
-    dateChange (e) {
+    dateChangeAge (e) {
+      this.$emit('chooseDate', {id: this.filter.event, data: this.ageData[e.mp.detail.value]});
+    },
+
+    dateChangeDate (e) {
       // console.log('choose date', e);
       this.$emit('chooseDate', {id: this.filter.event, data: e.mp.detail.value});
     },
