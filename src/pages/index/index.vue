@@ -184,6 +184,10 @@ export default {
     },
 
     getChooseDate (e) {
+      if (this.checkedFilter[e.id] === e.data) {
+        return;
+      }
+
       this.offset = 0;
       this.total = 0;
       this.sections = [];
