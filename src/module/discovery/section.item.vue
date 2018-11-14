@@ -1,6 +1,6 @@
 <template>
   <div class="section-container" @click="goDetail">
-    <img class="section-img" :src="sectionData.coverfile" :mode="'widthFix'" lazy-load/>
+    <img class="section-img" v-if="sectionData.coverfile !== ''" :src="sectionData.coverfile" :mode="'widthFix'" lazy-load/>
     <div class="section-group">
       <div class="section-inf">
         <text class="section-inf-title line-clamp-2">{{sectionData.name}}</text>

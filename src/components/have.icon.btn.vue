@@ -23,7 +23,7 @@
 <script>
 
 export default {
-  props: ['type', 'personNum', 'joinText', 'id', 'subject'], // subject 要收藏的类型，课程、商品、机构、老师
+  props: ['type', 'personNum', 'joinText', 'id', 'subject', 'favoid'], // subject 要收藏的类型，课程、商品、机构、老师
   methods: {
     setCollect () {
       this.$network.base.setCollection({}, null, 'weapp/favor/' + this.subject + '/' + this.id).then(res => {
@@ -40,7 +40,7 @@ export default {
     },
 
     cancelCollect () {
-      this.$network.base.cancelCollection({}, null, 'weapp/favor/del/' + this.id).then(res => {
+      this.$network.base.cancelCollection({}, null, 'weapp/favor/del/' + this.favoid).then(res => {
         if (res.e === 0) {
           this.$wxUtils.toast({title: '取消收藏'});
         } else {

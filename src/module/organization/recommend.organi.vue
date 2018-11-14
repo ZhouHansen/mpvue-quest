@@ -44,7 +44,12 @@
             });
 
             item['distanceNum'] = result.num;
-            item['distance'] = result.text;
+            item['citySplit'] = item.city.split(',');
+            if (item['citySplit'][2]) {
+              item['distance'] = item['citySplit'][2] + ' ' + result.text;
+            } else {
+              item['distance'] = result.text;
+            }
           }
         });
 
