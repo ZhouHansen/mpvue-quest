@@ -61,7 +61,7 @@ export default {
       this.$network.account.getCourseListWaitPay(params, null, 'weapp/unpaidorders/lesson').then(res => {
         // console.log('res', res);
         res.data.forEach((item, index) => {
-          let from = new Date(item.issueat);
+          let from = new Date(item.issueat.replace(/-/g, '/'));
           item.fromStamp = parseInt(from.getTime() / (1000 * 60 * 60 * 24));
           item.fromDate = Utils.formatData2(item.issueat.split(' ')[0], '-');
           item.fromTime = Utils.formatTime2(from);

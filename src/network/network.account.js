@@ -166,7 +166,7 @@ export default {
   },
 
   /**
-   * 获取课程数据
+   * 获取订单数据
   */
   getCourseList: {
     url: 'weapp/orders/{type}',
@@ -177,7 +177,8 @@ export default {
       limit: [NetworkParamType.number],
       offset: [NetworkParamType.number],
       status: [NetworkParamType.number],
-      commented: [NetworkParamType.number]
+      commented: [NetworkParamType.number],
+      paystate: [NetworkParamType.number]
     }
   },
   /**

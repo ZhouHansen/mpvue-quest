@@ -169,7 +169,7 @@ export default {
     cancelOrder () {
       this.$wxUtils.showModal({title: '确定取消订单？'}).then(res => {
         if (res) {
-          this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + this.orderDetail.id).then(res => {
+          this.$network.account.cancelOrder({}, null, 'weapp/order/cancel/' + this.orderDetail.orderno).then(res => {
             if (res.e === 0) {
               this.$wxUtils.toast({title: '取消成功'});
               setTimeout(() => {

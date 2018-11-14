@@ -74,8 +74,8 @@ export default {
       this.$network.account.getCourseCalendarList(params).then(res => {
         // console.log('res', res);
         res.data.forEach((item, index) => {
-          let from = new Date(item.cfrom);
-          let to = new Date(item.cto);
+          let from = new Date(item.cfrom.replace(/-/g, '/'));
+          let to = new Date(item.cto.replace(/-/g, '/'));
           item.fromStamp = parseInt(from.getTime() / (1000 * 60 * 60 * 24));
           item.fromDate = Utils.formatData2(item.cfrom.split(' ')[0], '-');
           item.fromTime = Utils.formatTime2(from);
