@@ -40,7 +40,12 @@
 
       <div class="section-nav-item">
         <div class="section-nav-detail" v-if="chooseNavIndex === '0'">
-          <wx-parse :content="params.htmlabout"></wx-parse>
+          <div v-if="params.htmlabout">
+            <wx-parse :content="params.htmlabout"></wx-parse>
+          </div>
+          <div class="section-nav-detail-empty" v-if="!params.htmlabout">
+            暂无详情介绍
+          </div>
         </div>
         <div class="section-nav-appraise" v-if="chooseNavIndex === '1' && appraListData">
           <scroll-view scroll-y scroll-with-animation @scrolltolower="loadMore">
@@ -341,6 +346,11 @@
 
     .section-nav-detail {
       padding: 0 20rpx;
+    }
+
+    .section-nav-detail-empty {
+      margin-top: 100rpx;
+      text-align: center;
     }
 
     .section-order {

@@ -9,11 +9,11 @@
       </div>
     </div>
     <div class="about-item about-inf" v-if="about">
-      <div class="about-inf-item" @click="callphone" v-if="about.phone">
+      <div class="about-inf-item" @click="callphone(about.phone)" v-if="about.phone">
         <span class="about-item-icon telephone"></span>
         <span class="about-item-text">{{about.phone}}</span>
       </div>
-      <div class="about-inf-item" @click="callphone" v-if="about.cell">
+      <div class="about-inf-item" @click="callphone(about.cell)" v-if="about.cell">
         <span class="about-item-icon phone"></span>
         <span class="about-item-text">{{about.cell}}</span>
       </div>
@@ -21,14 +21,13 @@
         <span class="about-item-icon email"></span>
         <span class="about-item-text">{{about.email}}</span>
       </div>
-      <div class="about-inf-item" v-if="about.website">
+      <div class="about-inf-item" @click="copyWebsite" v-if="about.website">
         <span class="about-item-icon website"></span>
         <span class="about-item-text about-website-text">{{about.website}}</span>
       </div>
     </div>
     <div class="about-other" v-if="about">
       <hoo-nav :tabs="navData" :unborder="'true'"  @tapNavItem="chooseNav"></hoo-nav>
-
       <div class="about-instruction" v-if="chooseNavNumber === '0'">
         <wx-parse :content="about.introduction"></wx-parse>
       </div>
@@ -52,9 +51,7 @@ export default {
       about: null,
       clamp: true,
       navData: ['使用说明', '合同条款'],
-      chooseNavNumber: '0',
-      instruction: '使用说明这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍使用说明这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍使用说明这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍使用说明这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍',
-      htmlabout: '合同条款这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍这是关于hooray的一些介绍'
+      chooseNavNumber: '0'
     };
   },
   mounted () {
@@ -73,12 +70,16 @@ export default {
       this.clamp = !this.clamp;
     },
 
-    callphone () {
-      this.$wxUtils.callPhone({phone: '000'});
+    callphone (e) {
+      this.$wxUtils.callPhone({phone: e});
     },
 
     copyEmail () {
-      this.$wxUtils.setClipboardData('hooray@163.com', '邮箱复制成功!');
+      this.$wxUtils.setClipboardData(this.about.email, '邮箱复制成功!');
+    },
+
+    copyWebsite () {
+      this.$wxUtils.setClipboardData(this.about.website, '网址复制成功!');
     }
   }
 };

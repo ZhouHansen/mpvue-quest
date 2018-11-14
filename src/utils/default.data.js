@@ -58,7 +58,7 @@ const TypeFilterData = [
   {text: '营地', id: 'camp'},
   {text: '游学', id: 'travel'},
   {text: 'STEM', id: 'STEM'},
-  {text: '发布会', id: 'press'},
+  {text: '会议', id: 'press'},
   {text: '工作坊', id: 'workshop'}
 ];
 
