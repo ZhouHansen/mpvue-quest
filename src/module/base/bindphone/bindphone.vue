@@ -2,7 +2,7 @@
   <div class="bindphone-container" v-if="showDialogStatus.bindPhone">
     <div class="bindphone-content">
       <div class="title">绑定手机号</div>
-      <div class="desc">绑定手机号，奖励5元奖学金！</div>
+      <!-- <div class="desc">绑定手机号，奖励5元奖学金！</div> -->
       <div class="phone">
         <input type="number" placeholder="请输入手机号" :value="phone" id="phone" @input="setInputValue">
       </div>
