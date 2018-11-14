@@ -28,7 +28,7 @@
 <script>
 import Utils from '@/utils/index';
 import * as MutationsType from '@/store/mutation.type';
-import {AuthFilterData} from '@/utils/default.data';
+import {AuthFilterData, NearbyFilterData} from '@/utils/default.data';
 import hooSelect from '@/components/select';
 import filterList from '@/module/search/search.header.filter.list';
 import hooOrganiList from '@/module/organization/organization.list';
@@ -53,12 +53,7 @@ export default {
       showFilterItemDesc: false,
       chooseFilterType: '',
       filterData: {
-        organ_nearby: [
-          {text: '全部', id: '1', number: 0},
-          {text: '500米内', id: '2', number: 0.5},
-          {text: '1000米内', id: '3', number: 1},
-          {text: '3000米内', id: '4', number: 3}
-        ],
+        organ_nearby: NearbyFilterData,
         organ_auth: AuthFilterData
       },
       chooseFilterData: null,
@@ -146,9 +141,10 @@ export default {
         latmax: this.maxminLnglat.latmax ? parseInt(this.maxminLnglat.latmax * this.lnglatDis) : undefined,
         lngmin: this.maxminLnglat.lngmin ? parseInt(this.maxminLnglat.lngmin * this.lnglatDis) : undefined,
         lngmax: this.maxminLnglat.lngmax ? parseInt(this.maxminLnglat.lngmax * this.lnglatDis) : undefined,
-        xlat: this.location.latitude ? parseInt(this.location.latitude * this.lnglatDis) : undefined,
-        xlng: this.location.longitude ? parseInt(this.location.longitude * this.lnglatDis) : undefined
+        lat: this.location.latitude ? parseInt(this.location.latitude * this.lnglatDis) : undefined,
+        lng: this.location.longitude ? parseInt(this.location.longitude * this.lnglatDis) : undefined
       };
+
       this.$network.search.searchOrgani(requestParams).then(res => {
         this.alreadyUseSearch = true;
         console.log('返回查找机构数据', res);

@@ -23,6 +23,14 @@ const AgeFilterData = [
   {text: '初中生', id: 'r3', label: '初中生'}
 ];
 
+const NearbyFilterData = [
+  {text: '全部', id: '1', number: undefined},
+  {text: '5千米内', id: '2', number: 5},
+  {text: '10千米内', id: '3', number: 10},
+  {text: '30千米内', id: '4', number: 30},
+  {text: '50千米内', id: '5', number: 50}
+];
+
 const TimeFilterData = [
   {text: '全部', id: undefined},
   {text: '近3天', id: 'd3'},
@@ -133,6 +141,7 @@ export {
   TypeFilterData,
   ProductSpecData,
   AuthFilterData,
+  NearbyFilterData,
 
   TeacheAgeData,
   TeacherDegreeData,

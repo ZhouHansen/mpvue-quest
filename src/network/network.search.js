@@ -70,8 +70,8 @@ export default {
       latmax: [NetworkParamType.number],
       lngmax: [NetworkParamType.number],
       lngmin: [NetworkParamType.number],
-      xlat: [NetworkParamType.number],
-      xlng: [NetworkParamType.number]
+      lat: [NetworkParamType.number],
+      lng: [NetworkParamType.number]
     }
   }
 };

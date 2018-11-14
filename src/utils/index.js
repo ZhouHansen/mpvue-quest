@@ -118,14 +118,15 @@ const backDistance = ({lat1, lng1, lat2, lng2}) => {
 };
 
 // 将相对于起点的距离转换为经纬度,distance(km)代表到点的距离，angle代表方位角度
+// 经度和纬度的值每增加1，增加111km的距离
 const ConvertDistanceToLogLat = ({distance, logLat, angle}) => {
-  let lng1 = Math.floor(logLat.lng);
-  let lat1 = Math.floor(logLat.lat);
-
-  let rlon1 = lng1 + (distance * Math.sin(angle * Math.PI / 180)) / (111 * Math.cos(lat1 * Math.PI / 180)); // 将距离转换成经度的计算公式
-  let rlat1 = lat1 + (distance * Math.cos(angle * Math.PI / 180)) / 111; // 将距离转换成纬度的计算公式
-  let rlon2 = lng1 + (distance * Math.sin((angle - 180) * Math.PI / 180)) / (111 * Math.cos(lat1 * Math.PI / 180)); // 将距离转换成经度的计算公式
-  let rlat2 = lat1 + (distance * Math.cos((angle - 180) * Math.PI / 180)) / 111; // 将距离转换成纬度的计算公式
+  let lng1 = Number(logLat.lng);
+  let lat1 = Number(logLat.lat);
+  let baseAngle = Math.PI / 180;
+  let rlon1 = lng1 + ((distance * Math.sin(angle * baseAngle)) / (111 * Math.cos(lat1 * baseAngle))); // 将距离转换成经度的计算公式
+  let rlat1 = lat1 + ((distance * Math.cos(angle * baseAngle)) / 111); // 将距离转换成纬度的计算公式
+  let rlon2 = lng1 - ((distance * Math.sin(angle * baseAngle)) / (111 * Math.cos(lat1 * baseAngle))); // 将距离转换成经度的计算公式
+  let rlat2 = lat1 - ((distance * Math.cos(angle * baseAngle)) / 111); // 将距离转换成纬度的计算公式
 
   let result = {
     lngmin: Math.min(rlon1, rlon2),
@@ -133,7 +134,6 @@ const ConvertDistanceToLogLat = ({distance, logLat, angle}) => {
     latmin: Math.min(rlat1, rlat2),
     latmax: Math.max(rlat1, rlat2)
   };
-  console.log(result);
   return result;
 };
 

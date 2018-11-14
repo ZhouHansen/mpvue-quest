@@ -15,7 +15,7 @@
     </div>
 
     <div v-if="filter.type === 'number'">
-      <picker class="weui-btn" mode="selector" :value="filter.chooseDate" :range="ageData" @change="dateChangeAge" @cancel="dateCancel">
+      <picker class="weui-btn" mode="selector" :value="chooseAge" :range="ageData" :range-key="'text'" @change="dateChangeAge" @cancel="dateCancel">
         <div class="select-container">
           <span>{{filter.text || ''}}</span>
           <span class="select-icon"></span>
@@ -26,6 +26,7 @@
 </template>
 <script>
 import Utils from '@/utils/index';
+import _ from 'lodash/core';
 
 export default {
   props: ['filter', 'type'],
@@ -36,12 +37,22 @@ export default {
   },
   mounted () {
     for (let i = 5; i < 20; i++) {
-      this.ageData.push(i);
+      this.ageData.push({text: i + '岁', id: i});
     }
   },
   computed: {
     startData () {
       return Utils.formatDateToPicker(new Date(), 35);
+    },
+
+    chooseAge () {
+      if (this.type === 'number') {
+        if (this.filter.chooseDate) {
+          return _.indexOf(this.ageData, {id: this.filter.chooseDate});
+        } else {
+          return 0;
+        }
+      }
     }
   },
   methods: {
@@ -52,7 +63,7 @@ export default {
     },
 
     dateChangeAge (e) {
-      this.$emit('chooseDate', {id: this.filter.event, data: this.ageData[e.mp.detail.value]});
+      this.$emit('chooseDate', {id: this.filter.event, data: this.ageData[e.mp.detail.value].id});
     },
 
     dateChangeDate (e) {

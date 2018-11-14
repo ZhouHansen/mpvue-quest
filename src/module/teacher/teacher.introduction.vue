@@ -35,6 +35,11 @@
       <hoo-have-left-border-title :title="'我是谁？'"></hoo-have-left-border-title>
       <div class="teacher-desc-text">{{params.brief?params.brief:'还没有介绍'}}</div>
     </div>
+    <div class="insert" v-if="params.idea"></div>
+    <div class="teacher-desc" v-if="params.idea">
+      <hoo-have-left-border-title :title="'教育理念'"></hoo-have-left-border-title>
+      <div class="teacher-desc-text">{{params.idea}}</div>
+    </div>
     <div class="insert"></div>
     <div class="teacher-organization">
       <hoo-have-left-border-title :title="'所在机构'"></hoo-have-left-border-title>
