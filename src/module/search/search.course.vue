@@ -115,7 +115,7 @@
       },
 
       doneChooseFilter (e) {
-        console.log('接收到的过滤参数', e);
+        // console.log('接收到的过滤参数', e);
         let params = {
           type: this.chooseFilterType
         };

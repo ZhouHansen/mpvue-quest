@@ -12,7 +12,7 @@ if (!openidObj.openid) {
     success: res => {
       // console.log(res);
       Network.base.login({}, null, 'weapp/login?appcode=hooray&code=' + res.code).then(res => {
-        console.log('登录返回信息', res);
+        // console.log('登录返回信息', res);
         if (res.data.openid) {
           Storage.set(StorageTypeName.openid, res.data);
         }
@@ -25,7 +25,7 @@ if (!openidObj.openid) {
 
 if (!Storage.get(StorageTypeName.userInf) && openidObj.openid) {
   Network.account.getUserInf().then(res => {
-    console.log('获取用户数据', res.data);
+    // console.log('获取用户数据', res.data);
     Storage.set(StorageTypeName.userInf, res.data);
   });
 }
@@ -45,7 +45,7 @@ wx.getSetting({
       wx.getUserInfo({
         success: res => {
           // 可以将 res 发送给后台解码出 unionId
-          console.log(res.userInfo);
+          // console.log(res.userInfo);
           Storage.set(StorageTypeName.wxUserInf, res.userInfo);
           // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
           // 所以此处加入 callback 以防止这种情况
@@ -62,19 +62,19 @@ wx.getSetting({
       wx.authorize({
         scope: 'scope.userLocation',
         success (res) {
-          console.log(res);
+          // console.log(res);
           Utils.getLocation().then(res => {
-            console.log(res);
+            // console.log(res);
           });
         },
         fail (res) {
           Utils.toast({title: '位置授权失败，请在我的账户中进行设置'});
-          console.log('fail', res);
+          // console.log('fail', res);
         }
       });
     } else {
       Utils.getLocation().then(res => {
-        console.log('进入应用定位信息', res);
+        // console.log('进入应用定位信息', res);
       });
     }
   }

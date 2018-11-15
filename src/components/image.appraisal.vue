@@ -30,7 +30,7 @@ export default {
     },
 
     deleteImg (e) {
-      console.log(e);
+      // console.log(e);
       this.imageList = lodashRemove(this.imageList, (item, index) => {
         return index !== e;
       });

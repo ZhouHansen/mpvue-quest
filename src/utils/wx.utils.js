@@ -32,19 +32,19 @@ const getLocation = () => {
   let time = 20 * 60;
   return new Promise((resolve, reject) => {
     if (location && (timestamp - location.timestamp < time)) {
-      console.log('getlocation storage', location);
+      // console.log('getlocation storage', location);
       resolve(location);
     } else {
       wx.getLocation({
         type: 'gcj02',
         success: (res) => {
-          console.log('getlocation wx', res);
+          // console.log('getlocation wx', res);
           res.timestamp = timestamp;
           Storage.set(StorageTypeName.location, res);
           resolve(res);
         },
         fail: (err) => {
-          console.log(err);
+          // console.log(err);
           reject(err);
         }
       });
@@ -62,7 +62,7 @@ const setAuth = () => {
         *   "scope.userLocation": true
         * }
         */
-      console.log(res);
+      // console.log(res);
       if (res.authSetting['scope.userLocation']) {
         // 当打开小程序时，没有进行定位授权，都会打开设置页面，授权成功之后，重新加载此页面
         getLocation().then(resl => {
@@ -83,7 +83,7 @@ const setAuth = () => {
 const getAuthList = (param, cb) => {
   wx.getSetting({
     success (res) {
-      console.log(res.authSetting);
+      // console.log(res.authSetting);
       // res.authSetting = {
       //   "scope.userInfo": true,
       //   "scope.userLocation": true

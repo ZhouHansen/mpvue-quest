@@ -160,7 +160,7 @@
 
       getAddress () {
         this.$network.account.getDefaultAddress().then(res => {
-          console.log(res);
+          // console.log(res);
           this.address = res.data;
           if (res.data) {
             this.$store.commit(MutationType.SET_ORDER_PARAMS, {address: this.address});
@@ -198,7 +198,6 @@
           requestParams['tag'] = tag;
         }
 
-        console.log(this.address);
 
         if (this.address) {
           let address = {
@@ -219,7 +218,7 @@
         }
 
         this.$network.discovery.submitOrder(requestParams, null, 'weapp/order/place/product/' + this.sectionData.id).then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.e === 0) {
             this.orderId = res.data.orderno;
             this.payId = res.data.prepayid;
@@ -266,7 +265,7 @@
         }
 
         this.$network.discovery.submitOrderGroup(requestParams, null, 'weapp/order/joingroup/' + this.group).then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.e === 0) {
             this.orderId = res.data.orderno;
             this.payId = res.data.prepayid;

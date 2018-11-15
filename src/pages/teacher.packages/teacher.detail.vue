@@ -155,7 +155,7 @@
 
         this.$wxUtils.loading({title: '加载中...'});
         this.$network.base.getCommentList(requestParams, null, 'weapp/comments/institution/' + this.$route.query.id).then(res => {
-          console.log('获取评价数据', res);
+          // console.log('获取评价数据', res);
           this.$wxUtils.loading({show: false});
           if (!this.appra.appraListData) {
             this.appra.appraListData = [];

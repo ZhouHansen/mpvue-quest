@@ -88,7 +88,7 @@
     mounted () {
       // order 中包括 payId orderId  type(product or lesson)
       let params = JSON.parse(this.$route.query.obj);
-      console.log(params);
+      // console.log(params);
 
       this.type = params.type;
       this.text = params.text;
@@ -138,7 +138,6 @@
     onShareAppMessage (res) {
       if (res.from === 'button') {
         // 来自页面内转发按钮
-        console.log('转发参数', res);
       }
       let title = '';
       if (this.order.type === 'lesson') {

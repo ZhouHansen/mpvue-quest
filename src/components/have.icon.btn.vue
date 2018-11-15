@@ -27,7 +27,7 @@ export default {
   methods: {
     setCollect () {
       this.$network.base.setCollection({}, null, 'weapp/favor/' + this.subject + '/' + this.id).then(res => {
-        console.log(res);
+        // console.log(res);
 
         if (res.e === 0) {
           this.$wxUtils.toast({title: '收藏成功'});

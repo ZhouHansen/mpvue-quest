@@ -119,7 +119,7 @@ export default {
         this.$wxUtils.loading({show: false});
         this.orderDetail = res.data;
 
-        console.log('订单信息', this.orderDetail);
+        // console.log('订单信息', this.orderDetail);
         if (this.orderDetail.cid) {
           this.getChildDetail(this.orderDetail.cid);
         }

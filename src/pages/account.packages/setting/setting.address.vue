@@ -117,7 +117,7 @@ export default {
     },
 
     deleteItem (e) {
-      console.log(e);
+      // console.log(e);
       let result = this.addressList.filter((item, index) => {
         return item.id === e;
       });

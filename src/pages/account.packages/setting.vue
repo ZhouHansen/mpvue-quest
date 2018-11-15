@@ -35,7 +35,7 @@ export default {
   methods: {
     getAddressDefault () {
       this.$network.account.getDefaultAddress().then(res => {
-        console.log(res);
+        // console.log(res);
         this.addressData = res.data;
       });
     },

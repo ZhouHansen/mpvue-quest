@@ -40,7 +40,7 @@ export default {
     getCode () {
       if ((this.phone + '').length === 11) {
         this.$network.account.sendVerifyMessage({}, null, 'weapp/verifycode/' + this.phone).then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.e === 0) {
             this.$wxUtils.toast({title: '发送成功'});
             this.interval = setInterval(() => {
@@ -59,8 +59,8 @@ export default {
     },
 
     submit () {
-      console.log(this.phone);
-      console.log(this.code);
+      // console.log(this.phone);
+      // console.log(this.code);
 
       if ((this.phone + '').length !== 11 || !this.code) {
         this.$wxUtils.toast({title: '请输入正确的电话号和验证码'});
@@ -68,7 +68,7 @@ export default {
       }
 
       this.$network.account.bindPhoneToOpenid({}, null, 'weapp/bindingcell/' + this.phone + '/' + this.code).then(res => {
-        console.log(res);
+        // console.log(res);
         if (res.e === 0) {
           this.$wxUtils.toast({title: '提交成功'});
           setTimeout(() => {

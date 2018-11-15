@@ -116,7 +116,7 @@ export default {
     },
 
     doneChooseFilter (e) {
-      console.log('接收到的过滤参数', e);
+      // console.log('接收到的过滤参数', e);
       this.limit = 15;
       this.total = 0;
 

@@ -15,7 +15,7 @@ export default {
     hooEmpty
   },
   mounted () {
-    console.log('评价列表', this.params);
+    // console.log('评价列表', this.params);
   }
 };
 </script>

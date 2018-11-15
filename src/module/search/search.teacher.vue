@@ -115,7 +115,7 @@
       },
 
       doneChooseFilter (e) {
-        console.log('接收到的过滤参数', e);
+        // console.log('接收到的过滤参数', e);
 
         let params = {
           type: this.chooseFilterType
@@ -163,7 +163,7 @@
       sendSearchRequest () {
         this.$wxUtils.loading({title: '查找中...'});
         let params = Object.assign(this.filterObject, this.checkedFilter);
-        console.log('查找过滤的参数 老师', params);
+        // console.log('查找过滤的参数 老师', params);
         let requestParams = {
           name: 'inputVal' in params && params.inputVal ? params.inputVal : undefined,
           limit: this.paging.limit,
@@ -179,17 +179,17 @@
 
         this.$network.search.searchTearch(requestParams).then(res => {
           this.alreadyUseSearch = true;
-          console.log('返回查找老师数据', res);
+          // console.log('返回查找老师数据', res);
           this.$wxUtils.loading({show: false});
           if (!this.teacherData) {
             this.teacherData = [];
           }
           let result = Utils.filterRepeatData(this.teacherData, res.data);
           this.teacherData = this.teacherData.concat(result);
-          console.log(this.teacherData);
+          // console.log(this.teacherData);
           this.paging.total = res.total;
         }).catch(err => {
-          console.log(err);
+          // console.log(err);
         });
       },
       loadMore () {

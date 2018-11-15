@@ -7,7 +7,6 @@ export default {
    * 上传文件
   */
   uploadFile ({url, name, data = {}}) {
-    console.log('uploadfile');
     return new Promise((resolve, reject) => {
       wx.uploadFile({
         url: Config.NetworkAPIHost + '/api/image/upload',
@@ -43,10 +42,10 @@ export default {
           let params = {status: true, obj: res};
           cb(params);
         }
-        console.log(res);
+        // console.log(res);
       },
       'fail' (err) {
-        console.log(err);
+        // console.log(err);
         if (typeof cb === 'function') {
           let params = {status: false, obj: err};
           cb(params);

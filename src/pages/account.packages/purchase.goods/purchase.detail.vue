@@ -164,7 +164,7 @@ export default {
       } else {
         payResult = GetDataObjUseId(PurchaseStatus, 'end');
       }
-      console.log(payResult);
+      // console.log(payResult);
       this.orderDetail.resultPayStatus = payResult;
     },
 

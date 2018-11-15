@@ -68,7 +68,7 @@ class Network {
         if (networkAction.authorization) {
           options.headers['token'] = self.authorizationHeader();
           // options.headers['token'] = 'THIS_IS_DUMMY_OPENID';
-          console.log(options);
+          // console.log(options);
         }
 
         // console.log(
@@ -86,7 +86,8 @@ class Network {
             return response.data;
           },
           (err) => {
-            console.log(err);
+            return err;
+            // console.log(err);
             // 发生网络错误后会走到这里
             // return Promise.resolve();
           }

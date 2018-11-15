@@ -151,7 +151,7 @@
 
       getChildren () {
         this.$network.account.getChildrensList({limit: 1, offset: 0}).then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.data.length > 0) {
             this.children = res.data[0];
             this.$store.commit(MutationType.SET_ORDER_PARAMS, {children: this.children});
@@ -181,7 +181,7 @@
 
       sendUnGroupOrder () {
         this.$network.discovery.submitOrder({cid: this.children.id}, null, 'weapp/order/place/lesson/' + this.sectionData.id).then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.e === 0) {
             this.orderId = res.data.orderno;
             this.payId = res.data.prepayid;

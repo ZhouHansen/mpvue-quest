@@ -86,7 +86,6 @@ export default {
         this.init();
       });
     }).catch(() => {
-      console.log('未获取到位置信息');
       this.init();
     });
   },
@@ -164,7 +163,7 @@ export default {
     },
 
     doneChooseFilter (e) {
-      console.log('接收到的过滤参数', e);
+      // console.log('接收到的过滤参数', e);
       this.offset = 0;
       this.total = 0;
 
@@ -193,7 +192,7 @@ export default {
       this.sections = [];
       this.showFilterItemDesc = false;
 
-      console.log('接收到的过滤参数', e);
+      // console.log('接收到的过滤参数', e);
       this.checkedFilter[e.id] = e.data;
       this.getDashboardData();
     },
@@ -210,7 +209,7 @@ export default {
 
       this.$wxUtils.loading({title: '加载中...'});
       this.$network.discovery.getDashboard(requestParams).then(res => {
-        console.log(res);
+        // console.log(res);
         this.$wxUtils.loading({show: false});
         if (res.e !== 0) {
           this.$wxUtils.toast({title: res.e.msg});

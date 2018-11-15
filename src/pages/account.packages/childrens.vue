@@ -53,7 +53,7 @@ export default {
   methods: {
     getChildrenList () {
       this.$network.account.getChildrensList().then(res => {
-        console.log(res);
+        // console.log(res);
         this.childrenList = res.data;
         this.$wxUtils.loading({show: false});
       });

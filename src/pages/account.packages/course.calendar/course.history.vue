@@ -104,7 +104,7 @@ export default {
     }
   },
   onReachBottom () {
-    console.log('reach bottom');
+    // console.log('reach bottom');
     if (this.total > this.offset + this.limit) {
       this.offset = this.offset + this.limit;
       this.getOrderList();

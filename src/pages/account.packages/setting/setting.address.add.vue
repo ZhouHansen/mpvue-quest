@@ -89,7 +89,7 @@ export default {
     },
 
     bindAreaChange (e) {
-      console.log(e);
+      // console.log(e);
       this.areaValue = e.mp.detail.value;
     },
 
@@ -110,7 +110,7 @@ export default {
         'prim': this.defaultAddressStatus ? 1 : 0
       };
 
-      console.log(requestParams);
+      // console.log(requestParams);
 
       for (let i in requestParams) {
         if (!requestParams[i] && i !== 'id' && i !== 'prim' && i !== 'cell2') {

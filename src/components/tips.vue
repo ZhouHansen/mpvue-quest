@@ -44,7 +44,6 @@ export default {
 
     timeoutFn () {
       this.timeout = setTimeout(() => {
-        console.log('over');
         this.defaultShow = false;
         this.show = false;
         this.timeout = null;

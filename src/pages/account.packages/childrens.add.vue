@@ -101,7 +101,7 @@ export default {
   },
   methods: {
     showTip (e) {
-      console.log(e);
+      // console.log(e);
 
       if (this.firstShowTips && e.mp.type === 'focus') {
         this.showTips = true;

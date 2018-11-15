@@ -101,7 +101,7 @@ export default {
     },
 
     doneChooseFilter (e) {
-      console.log('接收到的过滤参数', e);
+      // console.log('接收到的过滤参数', e);
 
       let params = {
         type: this.chooseFilterType
@@ -131,7 +131,7 @@ export default {
     sendSearchRequest () {
       this.$wxUtils.loading({title: '查找中...'});
       let params = Object.assign(this.filterObject, this.checkedFilter);
-      console.log('查找过滤的参数 机构', params);
+      // console.log('查找过滤的参数 机构', params);
       let requestParams = {
         name: 'inputVal' in params && params.inputVal ? params.inputVal : undefined,
         endorsed: params.organ_auth && params.organ_auth.id ? params.organ_auth.id : undefined,
@@ -147,7 +147,7 @@ export default {
 
       this.$network.search.searchOrgani(requestParams).then(res => {
         this.alreadyUseSearch = true;
-        console.log('返回查找机构数据', res);
+        // console.log('返回查找机构数据', res);
         this.$wxUtils.loading({show: false});
 
         if (!this.organiData) {
@@ -157,7 +157,7 @@ export default {
         this.organiData = this.organiData.concat(result);
         this.paging.total = res.total;
       }).catch(err => {
-        console.log(err);
+        // console.log(err);
       });
     },
 

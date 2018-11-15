@@ -137,7 +137,6 @@
             elng: this.organiData.xlng,
             ename: this.organiData.address
           };
-          console.log(params);
 
           this.$router.push({path: '/pages/guideMap/index', query: {obj: encodeURIComponent(JSON.stringify(params))}});
         }
@@ -170,7 +169,7 @@
         };
         this.$wxUtils.loading({title: '加载中...'});
         this.$network.search.searchCourse(requestParams).then(res => {
-          console.log('返回查找课程数据', res);
+          // console.log('返回查找课程数据', res);
           this.$wxUtils.loading({show: false});
           if (!this.courseData) {
             this.courseData = [];
@@ -191,7 +190,7 @@
         };
         this.$wxUtils.loading({title: '加载中...'});
         this.$network.search.searchTearch(requestParams).then(res => {
-          console.log('返回查找老师数据', res);
+          // console.log('返回查找老师数据', res);
           this.$wxUtils.loading({show: false});
           if (!this.teacherData) {
             this.teacherData = [];
@@ -211,7 +210,7 @@
         };
         this.$wxUtils.loading({title: '加载中...'});
         this.$network.base.getCommentList(requestParams, null, 'weapp/comments/institution/' + this.$route.query.id).then(res => {
-          console.log('获取评价数据', res);
+          // console.log('获取评价数据', res);
           this.$wxUtils.loading({show: false});
           if (!this.request.appra.appraListData) {
             this.request.appra.appraListData = [];
@@ -253,7 +252,7 @@
     onShareAppMessage (res) {
       if (res.from === 'button') {
         // 来自页面内转发按钮
-        console.log(res.target);
+        // console.log(res.target);
         this.$network.base.recordShare({}, null, 'weapp/share/institution/' + this.$route.query.id);
       }
       return {

@@ -64,7 +64,7 @@ export default {
       this.$wxUtils.loading({title: '加载中...'});
       this.status = GetDataObjUseId(PurchaseStatus, 'end');
       this.$network.account.getOrderHIstory(params, null, 'weapp/closedorders/product').then(res => {
-        console.log(res);
+        // console.log(res);
         if (!this.goods) {
           this.goods = [];
         }
@@ -76,7 +76,7 @@ export default {
     },
 
     visitOrderDetail (e) {
-      console.log(e);
+      // console.log(e);
       this.$router.push({path: '/pages/account.packages/purchase.goods/purchase.detail', query: {id: e}});
     }
   },

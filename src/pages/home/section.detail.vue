@@ -79,7 +79,7 @@
     onShareAppMessage (res) {
       if (res.from === 'button') {
         // 来自页面内转发按钮
-        console.log('转发参数', res);
+        // console.log('转发参数', res);
         this.$network.base.recordShare({}, null, 'weapp/share/' + this.shareType + '/' + this.$route.query.id);
       }
       return {

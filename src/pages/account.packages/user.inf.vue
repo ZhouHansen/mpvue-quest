@@ -101,7 +101,6 @@ export default {
     this.getAddressDefault();
   },
   onUnload () {
-    console.log('离开页面');
   },
   methods: {
     setParams () {
@@ -141,7 +140,7 @@ export default {
 
     getUserInf () {
       this.$network.account.getUserInf().then(res => {
-        console.log('获取用户数据', res.data);
+        // console.log('获取用户数据', res.data);
         this.$storage.set(this.$storageTypeName.userInf, res.data);
         this.userInf = res.data;
 
@@ -151,7 +150,7 @@ export default {
 
     editAvatar () {
       this.$wxUtils.chooseImg({num: 1}).then(res => {
-        console.log('选择图片', res);
+        // console.log('选择图片', res);
         this.chooseImgPath = res.tempFilePaths[0];
         // this.avatar = res.tempFilePaths[0];
       });
@@ -159,7 +158,7 @@ export default {
 
     getAddressDefault () {
       this.$network.account.getDefaultAddress().then(res => {
-        console.log(res);
+        // console.log(res);
         if (res.data) {
           this.address = res.data.prov + res.data.city + res.data.district + res.data.address;
         }
@@ -171,7 +170,7 @@ export default {
     },
 
     bindGenderChange (e) {
-      console.log(e);
+      // console.log(e);
       this.genderValue = e.mp.detail.value;
     },
 
@@ -234,7 +233,7 @@ export default {
 
       this.$wxUtils.loading({title: '上传中...'});
       this.uploadImg().finally(() => {
-        console.log('继续上传参数');
+        // console.log('继续上传参数');
         this.uploadUserInf();
       });
     }

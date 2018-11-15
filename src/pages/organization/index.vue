@@ -146,7 +146,7 @@ export default {
     },
 
     regionMap (e) {
-      console.log(e);
+      // console.log(e);
     },
 
     regionMapBegin (e) {

@@ -18,7 +18,7 @@ let reverseGeocoder = (res, cb) => {
       longitude: res.longitude
     },
     complete: res => {
-      console.log('腾讯地图定位', res);
+      // console.log('腾讯地图定位', res);
       Storage.set(StorageTypeName.address, res);
 
       if (typeof cb === 'function') {

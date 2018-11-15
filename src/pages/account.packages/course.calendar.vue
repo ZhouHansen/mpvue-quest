@@ -103,7 +103,7 @@ export default {
           return a.fromStamp - b.fromStamp;
         });
 
-        console.log(res.data);
+        // console.log(res.data);
 
         // 对处理的数据进行排序
         this.defaultCourseList = this.defaultCourseList.concat(res.data);

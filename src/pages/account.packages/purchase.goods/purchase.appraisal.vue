@@ -89,9 +89,9 @@ export default {
   },
   mounted () {
     this.$wxUtils.setNavTitle('评价');
-    console.log(this.$route.query.obj);
+    // console.log(this.$route.query.obj);
     let params = JSON.parse(this.$route.query.obj);
-    console.log(params);
+    // console.log(params);
 
     this.product.id = params.productId;
     this.institution.id = params.instId;
