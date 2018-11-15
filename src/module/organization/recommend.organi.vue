@@ -45,7 +45,7 @@
 
             item['distanceNum'] = result.num;
             item['citySplit'] = item.city.split(',');
-            if (item['citySplit'][2]) {
+            if (item['citySplit'][2] && item['distanceNum'] < 50000) {
               item['distance'] = item['citySplit'][2] + ' ' + result.text;
             } else {
               item['distance'] = result.text;
