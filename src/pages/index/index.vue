@@ -47,7 +47,6 @@ import hooSection from '@/module/discovery/section.item';
 import filterList from '@/module/search/search.header.filter.list';
 import hooScrolltop from '@/components/scrolltop';
 import hooEmpty from '@/components/empty';
-import { setTimeout } from 'timers';
 
 export default {
   components: {
@@ -122,11 +121,12 @@ export default {
     }
   },
   methods: {
+
     init () {
       this.interval = setInterval(() => {
-        this.getDashboardData();
         let obj = this.$storage.get(this.$storageTypeName.openid);
         if (obj && obj.openid) {
+          this.getDashboardData();
           clearInterval(this.interval);
         }
       }, 2000);

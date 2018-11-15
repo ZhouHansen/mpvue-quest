@@ -257,12 +257,13 @@ export default {
             } else {
               this.markersData = arr;
             }
-            this.$wxUtils.loading({show: false});
             // console.log('显示mark', this.markersData);
             this.initMap = true;
             this.markers = this.markersData;
           }
         });
+
+        this.$wxUtils.loading({show: false});
       });
     },
 

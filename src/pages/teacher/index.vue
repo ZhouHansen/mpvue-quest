@@ -140,9 +140,9 @@ export default {
       let requestParams = {
         limit: this.limit,
         offset: this.offset,
-        subjects: this.checkedFilter.course_type ? this.checkedFilter.course_type.id : undefined,
-        teachagegte: this.checkedFilter.teacher_age ? this.checkedFilter.teacher_age.id : undefined,
-        degree: this.checkedFilter.teacher_degree ? this.checkedFilter.teacher_degree.id : undefined
+        subjects: this.checkedFilter.course_type && this.checkedFilter.course_type.id ? this.checkedFilter.course_type.id : undefined,
+        teachagegte: this.checkedFilter.teacher_age && this.checkedFilter.teacher_age.id ? this.checkedFilter.teacher_age.id : undefined,
+        degree: this.checkedFilter.teacher_degree && this.checkedFilter.teacher_degree.id ? this.checkedFilter.teacher_degree.id : undefined
       };
 
       this.$network.teacher.getTeacherList(requestParams).then(res => {
