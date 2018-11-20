@@ -157,7 +157,7 @@ export default {
         this.organiData = this.organiData.concat(result);
         this.paging.total = res.total;
       }).catch(err => {
-        // console.log(err);
+        console.log(err);
       });
     },
 

@@ -49,6 +49,8 @@
         <!-- <organi-desc v-if="chooseNavNumber === '3'" :params="organiData"></organi-desc> -->
       </div>
     </div>
+
+    <link-home v-if="isShare"></link-home> 
   </div>
 </template>
 <script>
@@ -57,6 +59,7 @@
   import hooHaveIconBtn from '@/components/have.icon.btn';
   import hooNav from '@/components/nav';
   import hooAuth from '@/components/auth';
+  import linkHome from '@/components/linkhome';
   import courseList from '@/module/course/course.list';
   import teacherList from '@/module/teacher/teacher.list';
   import appraisalList from '@/module/base/appraisal/appraisal.list';
@@ -68,6 +71,7 @@
       hooHaveIconBtn,
       hooNav,
       hooAuth,
+      linkHome,
       courseList,
       teacherList,
       appraisalList
@@ -99,11 +103,16 @@
             offset: 0,
             total: 0
           }
-        }
+        },
+        isShare: false
       };
     },
     onShow () {
       // this.chooseNavNumber = '0';
+      console.log('页面参数', this.$route.query);
+      if (this.$route.query.isshare === '1') {
+        this.isShare = true;
+      }
     },
     onUnload () {
       this.chooseNavNumber = '0';
@@ -257,7 +266,7 @@
       }
       return {
         title: 'Hooray - ' + this.organiData.name,
-        path: '/pages/organization.packages/organi.detail?id=' + this.organiData.id,
+        path: '/pages/organization.packages/organi.detail?isshare=1&id=' + this.organiData.id,
         imageUrl: this.organiData.coverfile
       };
     }

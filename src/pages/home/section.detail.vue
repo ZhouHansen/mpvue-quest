@@ -1,20 +1,24 @@
 <template>
   <div :class="{'overflow-hidden': overflowHiddenStatus}">
     <section-detail :params="sectionData" v-if="sectionData"></section-detail>
+    <link-home v-if="isShare"></link-home> 
   </div>
 </template>
 <script>
   import * as MutationsType from '@/store/mutation.type';
   import { mapState } from 'vuex';
+  import linkHome from '@/components/linkhome';
   import sectionDetail from '@/module/discovery/section.detail';
 
   export default {
     components: {
+      linkHome,
       sectionDetail
     },
     data () {
       return {
         sectionData: null,
+        isShare: false,
         shareType: '' // 转发类型lesson  or  product
       };
     },
@@ -23,6 +27,10 @@
     ]),
     mounted () {
       this.shareType = this.$route.query.type;
+      console.log('页面参数', this.$route.query);
+      if (this.$route.query.isshare === '1') {
+        this.isShare = true;
+      }
 
       if (this.$route.query.type === 'product') {
         this.getProductDetail();
@@ -84,7 +92,7 @@
       }
       return {
         title: this.sectionData.name,
-        path: '/pages/home/section.detail?type=' + this.$route.query.type + '&id=' + this.$route.query.id,
+        path: '/pages/home/section.detail?isshare=1&type=' + this.$route.query.type + '&id=' + this.$route.query.id,
         imageUrl: this.sectionData.coverfile
       };
     }

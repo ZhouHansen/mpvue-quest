@@ -198,7 +198,6 @@
           requestParams['tag'] = tag;
         }
 
-
         if (this.address) {
           let address = {
             'address': this.address.address,

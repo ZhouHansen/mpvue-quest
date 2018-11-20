@@ -148,7 +148,7 @@
 
       return {
         title: title,
-        path: '/pages/home/section.detail?type=' + this.order.type + '&id=' + this.order.product.id,
+        path: '/pages/home/section.detail?isshare=1&type=' + this.order.type + '&id=' + this.order.product.id,
         imageUrl: this.order.product.cover
       };
     }

@@ -189,7 +189,7 @@
           // console.log(this.teacherData);
           this.paging.total = res.total;
         }).catch(err => {
-          // console.log(err);
+          console.log(err);
         });
       },
       loadMore () {

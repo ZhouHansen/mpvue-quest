@@ -38,6 +38,7 @@
           </scroll-view>
         </div>
       </div>
+    <link-home v-if="isShare"></link-home> 
   </div>
 </template>
 <script>
@@ -49,6 +50,7 @@
   import hooHaveIconBtn from '@/components/have.icon.btn';
   import hooNav from '@/components/nav';
   import hooAuth from '@/components/auth';
+  import linkHome from '@/components/linkhome';
   import appraList from '@/module/base/appraisal/appraisal.list';
   import courseList from '@/module/course/course.list';
   import teacherIntroduction from '@/module/teacher/teacher.introduction';
@@ -61,6 +63,7 @@
       hooHaveIconBtn,
       hooNav,
       hooAuth,
+      linkHome,
       appraList,
       courseList,
       teacherIntroduction
@@ -83,10 +86,15 @@
           limit: 15,
           offset: 0,
           total: 0
-        }
+        },
+        isShare: false
       };
     },
     onShow () {
+      console.log('页面参数', this.$route.query);
+      if (this.$route.query.isshare === '1') {
+        this.isShare = true;
+      }
     },
     mounted () {
       this.$wxUtils.setNavTitle('老师详情');
@@ -190,7 +198,7 @@
       }
       return {
         title: 'Hooray - ' + this.teacherData.name,
-        path: '/pages/teacher.packages/teacher.detail?id=' + this.teacherData.id,
+        path: '/pages/teacher.packages/teacher.detail?isshare=1&id=' + this.teacherData.id,
         imageUrl: this.teacherData.avatarurl
       };
     }
