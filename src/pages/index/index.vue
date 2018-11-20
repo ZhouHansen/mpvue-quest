@@ -17,7 +17,7 @@
         </div>
         <div class="disc-filter-item" @click="chooseFilter('disc_type')">
           <div class="filter-item-select">
-            <hoo-select :filter="{text: '类型', event: 'disc_type'}"></hoo-select>
+            <hoo-select :filter="{text: checkedFilter.disc_type && checkedFilter.disc_type.text ? checkedFilter.disc_type.text : '类型', event: 'disc_type'}"></hoo-select>
           </div>
         </div>
       </div>
