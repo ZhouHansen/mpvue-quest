@@ -10,9 +10,9 @@
         </label>
       </div>
       <div class="disc-filter-list">
-        <div class="disc-filter-item">
+        <div class="disc-filter-item" @click="chooseDate">
           <div class="filter-item-select">
-            <hoo-select :filter="{text:'日期', event: 'disc_time', type: 'date', chooseDate: checkedFilter.disc_time}" @chooseDate="getChooseDate"></hoo-select>
+            <hoo-select :filter="{text:'日期', event: 'disc_time', type: 'customDate'}"></hoo-select>
           </div>
         </div>
         <div class="disc-filter-item" @click="chooseFilter('disc_type')">
@@ -34,6 +34,7 @@
       <hoo-empty :type="'discovery'" :text="'~下滑刷一下~'" v-if="!sections || sections.length === 0"></hoo-empty>
     </div>
     <hoo-scrolltop></hoo-scrolltop>
+    <hoo-calendar v-if="showCalendar" :params="{id: 'disc_time', chooseDayText: checkedFilter.disc_time?checkedFilter.disc_time:null}" @chooseDate="getChooseDate" @hideChooseDate="chooseDate"></hoo-calendar>
   </div>
 </template>
 
@@ -43,9 +44,10 @@ import {TypeFilterData} from '@/utils/default.data';
 import {GetAddressUseLngLat} from '@/utils/location';
 import Utils from '@/utils/index';
 import hooSelect from '@/components/select';
+import hooScrolltop from '@/components/scrolltop';
+import hooCalendar from '@/components/calendar';
 import hooSection from '@/module/discovery/section.item';
 import filterList from '@/module/search/search.header.filter.list';
-import hooScrolltop from '@/components/scrolltop';
 import hooEmpty from '@/components/empty';
 
 export default {
@@ -54,7 +56,8 @@ export default {
     filterList,
     hooSelect,
     hooScrolltop,
-    hooEmpty
+    hooEmpty,
+    hooCalendar
   },
   data () {
     return {
@@ -71,7 +74,8 @@ export default {
         disc_type: TypeFilterData
       },
       chooseFilterData: null,
-      checkedFilter: {}
+      checkedFilter: {},
+      showCalendar: false
     };
   },
   created () {
@@ -180,6 +184,10 @@ export default {
       this.sections = [];
 
       this.getDashboardData();
+    },
+
+    chooseDate () {
+      this.showCalendar = !this.showCalendar;
     },
 
     getChooseDate (e) {
