@@ -29,7 +29,7 @@
               'calendar-checked-default':chooseToday === day.id,
               'calendar-checked': chooseDay === day.id}"
           >{{day.number}}</span>
-          <span class="calendar-day-item-text" v-if="day.text">{{day.text}}</span>
+          <span class="calendar-day-item-text">{{day.text?day.text:''}}</span>
           </div>
         </div>
       </div>
@@ -116,6 +116,7 @@ export default {
         let month = day.getMonth() + 1;
         let monthDay = day.getDate();
         let year = day.getFullYear();
+        let str = `${year}-${month}-${monthDay}`;
 
         let obj = {
           text: null,
@@ -123,6 +124,10 @@ export default {
           number: null,
           disabled: false
         };
+
+        if (str === this.chooseToday) {
+          obj.text = '今日';
+        }
 
         if (this.limitMinDate && (year < this.limitMinDate.y ||
           (year === this.limitMinDate.y && month < this.limitMinDate.m) ||
@@ -154,11 +159,19 @@ export default {
         } else {
           row.push('');
         }
+
         if (row.length % 7 === 0) {
+          console.log(i);
+          console.log(row[0]);
+          if (i > 35 && row[0] === '') {
+            row = [];
+            return;
+          }
           this.dayData.push(row);
           row = [];
         }
       };
+      console.log(this.dayData);
     },
 
     preMonth () {
@@ -299,17 +312,17 @@ export default {
           text-align: center;
           flex-basis: calc(100% / 7);
           padding: 10rpx 0;
+          font-weight: bold;
         }
       }
 
       .calendar-day {
         .calendar-day-row {
-          @include flex(space-between, center);
+          @include flex(space-between, flex-start);
 
           .calendar-day-item {
             text-align: center;
             flex-basis: calc(100% / 7);
-            padding: 12rpx 0;
             @include flex(center, center, column nowrap);
 
             .calendar-day-item-num {
@@ -324,6 +337,7 @@ export default {
             .calendar-day-item-text  {
               font-size: 10px;
               line-height:normal;
+              height: 30rpx;
             }
           }
 
