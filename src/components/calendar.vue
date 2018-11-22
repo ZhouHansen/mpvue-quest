@@ -6,13 +6,15 @@
         <span class="calendar-title-cancle" @click="hideCalendar">取消</span>
         <div class="calendar-title-choose">
           <span class="calendar-title-icon calendar-title-icon-left" @click="preMonth"></span>
-          <span class="calendar-title-show"><span>{{year}}</span> {{month}}月</span>
+          <span class="calendar-title-show"><span>{{year}} - {{month}}</span></span>
           <span class="calendar-title-icon calendar-title-icon-right" @click="nextMonth"></span>
         </div>
         <span class="calendar-title-confirm" @click="resetCalendar">重置</span>
       </div>
       <div class="calendar-week">
-        <span v-for="(item, index) in week" :key="index" class="calendar-week-item">{{item}}</span>
+        <span v-for="(item, index) in week" :key="index" class="calendar-week-item"
+          :class="{'calendar-week-item-holiday': index === 0 || index === 6}"
+        >{{item}}</span>
       </div>
       <div class="calendar-day">
         <div v-for="(item, index) in dayData" :key="index" class="calendar-day-row">
@@ -37,6 +39,8 @@
   </div>
 </template>
 <script>
+import HolidayData from '@/utils/holiday.data';
+
 export default {
   props: ['params'], // {id:'', chooseDayText: '2018-1-2', minDate: '2018-10-11', maxDate: '2019-2-10'}
   data () {
@@ -51,7 +55,9 @@ export default {
       dayData: [],
       limitMinDate: null,
       limitMaxDate: null,
-      showCalendar: true
+      showCalendar: true,
+
+      holidayMonth: null
     };
   },
   mounted () {
@@ -104,6 +110,11 @@ export default {
       this.month = obj.month;
       this.day = obj.day;
       this.dayData = [];
+      this.holidayMonth = null;
+
+      if (HolidayData[obj.year] && HolidayData[obj.year][obj.month]) {
+        this.holidayMonth = HolidayData[obj.year][obj.month];
+      }
 
       this.getShowDayList();
     },
@@ -127,6 +138,14 @@ export default {
 
         if (str === this.chooseToday) {
           obj.text = '今日';
+        }
+
+        if (this.holidayMonth) {
+          this.holidayMonth.map((item, index) => {
+            if (item.day === monthDay + '') {
+              obj.text = item.text;
+            }
+          });
         }
 
         if (this.limitMinDate && (year < this.limitMinDate.y ||
@@ -279,7 +298,7 @@ export default {
           .calendar-title-icon {
             height: 40rpx;
             width: 40rpx;
-            margin: 0 50rpx;
+            padding: 0 50rpx;
             flex-shrink: 0;
           }
 
@@ -314,6 +333,10 @@ export default {
           padding: 10rpx 0;
           font-weight: bold;
         }
+
+        .calendar-week-item-holiday {
+          color: #9d9d9d;
+        }
       }
 
       .calendar-day {
@@ -323,6 +346,7 @@ export default {
           .calendar-day-item {
             text-align: center;
             flex-basis: calc(100% / 7);
+            padding-top: 30rpx;
             @include flex(center, center, column nowrap);
 
             .calendar-day-item-num {
