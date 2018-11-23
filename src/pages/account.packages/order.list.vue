@@ -1,8 +1,8 @@
 <template>
   <div class="order-list-container">
     <hoo-nav :tabs="navData" @tapNavItem="chooseNav" :checkIndex="chooseNavNumber" :unOnShowDefault="true"></hoo-nav>
-    <course-calendar-page v-if="chooseNavNumber === '0'"></course-calendar-page>
-    <puchase-goods-page v-if="chooseNavNumber === '1'"></puchase-goods-page>
+    <course-calendar-page v-if="chooseNavNumber === '0'" @sendOrderLength="getOrderLength"></course-calendar-page>
+    <puchase-goods-page v-if="chooseNavNumber === '1'" @sendOrderLength="getOrderLength"></puchase-goods-page>
   </div>
 </template>
 <script>
@@ -18,7 +18,10 @@ export default {
   },
   data () {
     return {
-      navData: ['课程日历', '购买书籍'],
+      navData: [
+        {text: '课程日历', bubbleText: '', id: 'course'},
+        {text: '购买书籍', bubbleText: '', id: 'puchase'}
+      ],
       chooseNavNumber: '0'
     };
   },
@@ -30,6 +33,14 @@ export default {
   methods: {
     chooseNav (e) {
       this.chooseNavNumber = e;
+    },
+
+    getOrderLength (e) {
+      this.navData.map((item, index) => {
+        if (item.id === e.id) {
+          item.bubbleText = e.num;
+        }
+      });
     }
   }
 };

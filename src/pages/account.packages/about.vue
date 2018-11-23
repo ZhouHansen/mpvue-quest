@@ -50,7 +50,7 @@ export default {
     return {
       about: null,
       clamp: true,
-      navData: ['使用说明', '合同条款'],
+      navData: [{text: '使用说明'}, {text: '合同条款'}],
       chooseNavNumber: '0'
     };
   },

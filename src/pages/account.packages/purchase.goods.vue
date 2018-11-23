@@ -113,9 +113,10 @@ export default {
           item.resultPayStatus = payResult;
         });
 
-        this.$wxUtils.loading({show: false});
         this.total = res.total;
         this.goods = arr;
+        this.$wxUtils.loading({show: false});
+        this.$emit('sendOrderLength', {id: 'puchase', num: res.total});
       });
     },
 

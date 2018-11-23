@@ -38,7 +38,7 @@
           </scroll-view>
         </div>
       </div>
-    <link-home v-if="isShare"></link-home> 
+    <link-home v-if="isShare"></link-home>
   </div>
 </template>
 <script>
@@ -72,7 +72,7 @@
       return {
         teacherLabelTypeText: null,
         teacherLabelArr: null,
-        navData: ['课程', '老师介绍', '评价'],
+        navData: [{text: '课程'}, {text: '老师介绍'}, {text: '评价'}],
         chooseNavNumber: '0',
         teacherData: null,
         courseData: null,

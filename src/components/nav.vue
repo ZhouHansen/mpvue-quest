@@ -9,7 +9,10 @@
               :style="'width: ' + navVarItemWidth + 'vw;'"
               :class="{'weui-bar__item_on':activeIndex == index}"
               class="weui-navbar__item" @click="tapNavClick">
-              <div class="weui-navbar__title">{{item}}</div>
+              <div class="weui-navbar__title">
+                <span>{{item.text}}</span>
+                <span class="bubble" v-if="item.bubbleText">{{item.bubbleText}}</span>
+              </div>
             </div>
           </block>
         </scroll-view>
@@ -96,6 +99,25 @@ export default {
 
       .weui-navbar__item {
         display: inline-block;
+        padding: 0;
+
+        .weui-navbar__title {
+          position: relative;
+          padding: 20rpx 36rpx;
+
+          .bubble {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40rpx;
+            height: 40rpx;
+            line-height: 40rpx;
+            font-size: 12px;
+            background-color: $orange-color;
+            color: #ffffff;
+            border-radius: 100%;
+          }
+        }
       }
     }
 

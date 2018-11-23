@@ -39,7 +39,7 @@
     props: [],
     data () {
       return {
-        tabData: ['课程', '老师', '机构', '商品'],
+        tabData: [{text: '课程'}, {text: '老师'}, {text: '机构'}, {text: '商品'}],
         chooseNavIndex: '0',
         ogroup: 'lesson',
         collectionData: {

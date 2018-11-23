@@ -107,7 +107,7 @@
     props: ['params'],
     data () {
       return {
-        tabData: ['详情', '评价'],
+        tabData: [{text: '详情'}, {text: '评价'}],
         chooseNavIndex: '0',
         appraListData: null,
         distance: {

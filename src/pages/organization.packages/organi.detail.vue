@@ -50,7 +50,7 @@
       </div>
     </div>
 
-    <link-home v-if="isShare"></link-home> 
+    <link-home v-if="isShare"></link-home>
   </div>
 </template>
 <script>
@@ -80,7 +80,7 @@
     data () {
       return {
         showAllBriefStatu: false,
-        navData: ['课程', '老师', '评价'],
+        navData: [{text: '课程'}, {text: '老师'}, {text: '评价'}],
         chooseNavNumber: '0',
         organiData: {},
         courseData: null,

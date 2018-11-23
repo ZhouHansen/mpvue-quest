@@ -134,6 +134,7 @@ export default {
         this.courseList = result;
         // console.log(this.courseList);
         this.$wxUtils.loading({show: false});
+        this.$emit('sendOrderLength', {id: 'course', num: res.total});
       });
     },
 
