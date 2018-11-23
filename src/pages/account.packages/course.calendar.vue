@@ -1,23 +1,25 @@
 <template>
   <div class="course-calendar-container">
-    <div class="date-list" v-if="courseList && courseList.length > 0">
-      <div class="date-item" v-for="item in courseList" :key="item.id">
-        <div class="date-title">
-          <hoo-have-left-border-title :title="item[0].dateTitle"></hoo-have-left-border-title>
-        </div>
-        <div class="date-total">共{{item.length}}节课</div>
-        <div class="course-list">
-          <div class="course-item" v-for="(i, num) in item" :key="num" @click="visitOrder(i.orderno)">
-            <div class="course-item-time" v-if="i.timeTitle">{{i.timeTitle}}</div>
-            <div class="course-item-name ellipsis" :class="i.fromDateAsToDate?'short':'long'">{{i.lessonname}}</div>
-            <div class="course-item-visit">
-              <span>查看</span>
-              <span class="course-item-visit-icon"></span>
+    <scroll-view scroll-y scroll-with-animation @scrolltolower="loadMore">
+      <div class="date-list" v-if="courseList && courseList.length > 0">
+        <div class="date-item" v-for="item in courseList" :key="item.id">
+          <div class="date-title">
+            <hoo-have-left-border-title :title="item[0].dateTitle"></hoo-have-left-border-title>
+          </div>
+          <div class="date-total">共{{item.length}}节课</div>
+          <div class="course-list">
+            <div class="course-item" v-for="(i, num) in item" :key="num" @click="visitOrder(i.orderno)">
+              <div class="course-item-time" v-if="i.timeTitle">{{i.timeTitle}}</div>
+              <div class="course-item-name ellipsis" :class="i.fromDateAsToDate?'short':'long'">{{i.lessonname}}</div>
+              <div class="course-item-visit">
+                <span>查看</span>
+                <span class="course-item-visit-icon"></span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </scroll-view>
     <hoo-empty :text="'~还没有课程信息~'" :type="'normal'" v-if="courseList.length === 0"></hoo-empty>
     <div class="footer" >
       <div class="footer-item" @click="visitCourseHistory">
@@ -54,7 +56,7 @@ export default {
     };
   },
   mounted () {
-    this.$wxUtils.setNavTitle('课程日历');
+    // this.$wxUtils.setNavTitle('课程日历');
     this.getOrderList();
     // this.$network.account.getCourseList({}, null, 'weapp/orders/lesson');
   },
@@ -149,23 +151,34 @@ export default {
 
     visitCourseHistory () {
       this.$router.push('/pages/account.packages/course.calendar/course.history');
-    }
-  },
-  onReachBottom () {
-    if (this.total > this.offset + this.limit) {
-      this.offset = this.offset + this.limit;
-      this.getOrderList();
+    },
+
+    loadMore () {
+      if (this.total > this.offset + this.limit) {
+        this.offset = this.offset + this.limit;
+        this.getOrderList();
+      }
     }
   }
+  // onReachBottom () {
+  //   if (this.total > this.offset + this.limit) {
+  //     this.offset = this.offset + this.limit;
+  //     this.getOrderList();
+  //   }
+  // }
 };
 </script>
 <style lang="scss" scoped>
   @import '../../assets/style/variables.scss';
 
   .course-calendar-container {
-    min-height: calc(100vh - 100rpx);
+    min-height: calc(100vh - 220rpx);
     background-color: #f9f9f9;
     padding-bottom: 100rpx;
+
+    scroll-view {
+      max-height: calc(100vh - 110rpx);
+    }
 
     .date-list {
       padding: 40rpx;

@@ -25,7 +25,7 @@
       </div>
       <div class="account-arrow"></div>
     </div>
-    <div class="section" @click="visitCourseCalendar">
+    <!-- <div class="section" @click="visitCourseCalendar">
       <div class="section-left">
         <div class="section-icon course"></div>
         <div class="section-text">
@@ -34,13 +34,23 @@
         </div>
       </div>
       <div class="account-arrow"></div>
-    </div>
-    <div class="section" @click="visitPurchaseGoods">
+    </div> -->
+    <!-- <div class="section" @click="visitPurchaseGoods">
       <div class="section-left">
         <div class="section-icon buy"></div>
         <div class="section-text">
           <div class="section-text-title">购买商品</div>
           <div>查看商品订单</div>
+        </div>
+      </div>
+      <div class="account-arrow"></div>
+    </div> -->
+    <div class="section" @click="visitOrderList">
+      <div class="section-left">
+        <div class="section-icon buy"></div>
+        <div class="section-text">
+          <div class="section-text-title">我的订单</div>
+          <div>查看订单列表</div>
         </div>
       </div>
       <div class="account-arrow"></div>
@@ -160,12 +170,16 @@ export default {
       this.$router.push('/pages/account.packages/childrens');
     },
 
-    visitCourseCalendar () {
-      this.$router.push('/pages/account.packages/course.calendar');
-    },
+    // visitCourseCalendar () {
+    //   this.$router.push('/pages/account.packages/course.calendar');
+    // },
 
-    visitPurchaseGoods () {
-      this.$router.push('/pages/account.packages/purchase.goods');
+    // visitPurchaseGoods () {
+    //   this.$router.push('/pages/account.packages/purchase.goods');
+    // },
+
+    visitOrderList () {
+      this.$router.push('/pages/account.packages/order.list');
     },
 
     visitCollection () {

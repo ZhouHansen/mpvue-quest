@@ -21,6 +21,7 @@ module.exports = [
   'pages/account.packages/purchase.goods/purchase.history',
   'pages/account.packages/purchase.goods/purchase.waitpay',
   'pages/account.packages/purchase.goods/purchase.waitappr',
+  'pages/account.packages/order.list',
   'pages/account.packages/setting',
   'pages/account.packages/feedback',
   'pages/account.packages/about',

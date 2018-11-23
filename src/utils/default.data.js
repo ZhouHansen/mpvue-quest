@@ -62,6 +62,11 @@ const TypeFilterData = [
   {text: '工作坊', id: 'workshop'}
 ];
 
+const OrderFilterData = [
+  {text: '时间顺序', id: undefined, lng: undefined, lat: undefined},
+  {text: '距离顺序', id: 'latlng', lng: '', lat: ''}
+];
+
 const ProductSpecData = [
   {text: '单本', id: '1'},
   {text: '套装', id: '2'},
@@ -139,6 +144,7 @@ export {
   TimeFilterData,
   PriceFilterData,
   TypeFilterData,
+  OrderFilterData,
   ProductSpecData,
   AuthFilterData,
   NearbyFilterData,

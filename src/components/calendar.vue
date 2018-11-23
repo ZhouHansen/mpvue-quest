@@ -90,7 +90,7 @@ export default {
     }
 
     if (this.params && this.params.chooseDayText) {
-      console.log(this.params.chooseDayText);
+      // console.log(this.params.chooseDayText);
       this.chooseDay = this.params.chooseDayText;
       let splitArr = this.params.chooseDayText.split('-');
       let request = {
@@ -180,8 +180,6 @@ export default {
         }
 
         if (row.length % 7 === 0) {
-          console.log(i);
-          console.log(row[0]);
           if (i > 35 && row[0] === '') {
             row = [];
             return;
@@ -190,7 +188,7 @@ export default {
           row = [];
         }
       };
-      console.log(this.dayData);
+      // console.log(this.dayData);
     },
 
     preMonth () {

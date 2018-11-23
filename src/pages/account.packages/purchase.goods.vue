@@ -1,26 +1,28 @@
 <template>
   <div class="purchase-container">
-    <div class="order-list" v-if="goods">
-      <div class="order-item" v-for="item in goods" :key="item.id">
-        <div class="order-item-body">
-          <div class="order-id">
-            <hoo-have-left-border-title :title="'下单时间：' + item.issueat"></hoo-have-left-border-title>
-          </div>
-          <div class="order-item-status">{{item.resultPayStatus.text}}</div>
-          <div class="order-item-content" @click="visitOrderDetail(item.orderno)">
-            <div class="order-item-cover" :style="{background: 'url(' + item.product.coverfile2 + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
-            <div class="order-item-detail">
-              <div class="order-item-name">{{item.product.name}}</div>
-              <!-- <div class="order-item-format">{{item.product.agesText}}</div> -->
-              <div class="order-item-cost">
-                <div class="order-price">¥{{item.price / 100}}</div>
-                <div class="order-num">{{item.count}}件</div>
+    <scroll-view scroll-y scroll-with-animation @scrolltolower="loadMore">
+      <div class="order-list" v-if="goods">
+        <div class="order-item" v-for="item in goods" :key="item.id">
+          <div class="order-item-body">
+            <div class="order-id">
+              <hoo-have-left-border-title :title="'下单时间：' + item.issueat"></hoo-have-left-border-title>
+            </div>
+            <div class="order-item-status">{{item.resultPayStatus.text}}</div>
+            <div class="order-item-content" @click="visitOrderDetail(item.orderno)">
+              <div class="order-item-cover" :style="{background: 'url(' + item.product.coverfile2 + ') no-repeat 50% 50%', backgroundSize: 'cover'}"></div>
+              <div class="order-item-detail">
+                <div class="order-item-name">{{item.product.name}}</div>
+                <!-- <div class="order-item-format">{{item.product.agesText}}</div> -->
+                <div class="order-item-cost">
+                  <div class="order-price">¥{{item.price / 100}}</div>
+                  <div class="order-num">{{item.count}}件</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </scroll-view>
     <hoo-empty v-if="!goods || goods.length === 0" :type="'normal'" :text="'没有购买信息～'"></hoo-empty>
     <div class="puchase-footer">
       <div class="footer-item" @click="visitCourseHistory">
@@ -55,7 +57,7 @@ export default {
     };
   },
   mounted () {
-    this.$wxUtils.setNavTitle('商品购买');
+    // this.$wxUtils.setNavTitle('商品购买');
     this.getGoods();
   },
   methods: {
@@ -131,23 +133,34 @@ export default {
 
     visitCourseWaitappr () {
       this.$router.push('/pages/account.packages/purchase.goods/purchase.waitappr');
-    }
-  },
-  onReachBottom () {
-    if (this.total > this.offset + this.limit) {
-      this.offset = this.offset + this.limit;
-      this.getGoods();
+    },
+
+    loadMore () {
+      if (this.total > this.offset + this.limit) {
+        this.offset = this.offset + this.limit;
+        this.getGoods();
+      }
     }
   }
+  // onReachBottom () {
+  //   if (this.total > this.offset + this.limit) {
+  //     this.offset = this.offset + this.limit;
+  //     this.getGoods();
+  //   }
+  // }
 };
 </script>
 <style lang="scss" scoped>
   @import '../../assets/style/variables.scss';
 
   .purchase-container {
-    min-height: calc(100vh - 20rpx);
+    min-height: calc(100vh - 130rpx);
     padding-bottom: 20rpx;
     background-color: #f9f9f9;
+
+    scroll-view {
+      max-height: calc(100vh - 110rpx);
+    }
 
     .order-list {
       padding-bottom: 110rpx;

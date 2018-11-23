@@ -20,8 +20,14 @@
             <hoo-select :filter="{text: checkedFilter.disc_type && checkedFilter.disc_type.text ? checkedFilter.disc_type.text : '类型', event: 'disc_type'}"></hoo-select>
           </div>
         </div>
+        <div class="disc-filter-item" @click="chooseFilter('disc_order')">
+          <div class="filter-item-select">
+            <hoo-select :filter="{text: '排序', event: 'disc_order'}"></hoo-select>
+          </div>
+        </div>
       </div>
     </div>
+
     <div>
       <div class="disc-filter-item-desc" :hidden="!showFilterItemDesc">
         <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
@@ -40,7 +46,7 @@
 
 <script>
 import * as MutationsType from '@/store/mutation.type';
-import {TypeFilterData} from '@/utils/default.data';
+import {TypeFilterData, OrderFilterData} from '@/utils/default.data';
 import {GetAddressUseLngLat} from '@/utils/location';
 import Utils from '@/utils/index';
 import hooSelect from '@/components/select';
@@ -71,7 +77,8 @@ export default {
       showFilterItemDesc: false,
       chooseFilterType: '',
       filterData: {
-        disc_type: TypeFilterData
+        disc_type: TypeFilterData,
+        disc_order: OrderFilterData
       },
       chooseFilterData: null,
       checkedFilter: {},
@@ -161,7 +168,7 @@ export default {
       if (!this.checkedFilter[this.chooseFilterType]) {
         this.checkedFilter[this.chooseFilterType] = {
           type: this.chooseFilterType,
-          id: null
+          id: undefined
         };
       }
     },
@@ -182,6 +189,12 @@ export default {
       }
       this.showFilterItemDesc = false;
       this.sections = [];
+
+      // 设置距离排序参数
+      if (this.checkedFilter.disc_order && this.checkedFilter.disc_order.id === 'latlng') {
+        this.checkedFilter.disc_order.lng = this.location.longitude.toFixed(2) * 1000000;
+        this.checkedFilter.disc_order.lat = this.location.latitude.toFixed(2) * 1000000;
+      }
 
       this.getDashboardData();
     },
@@ -212,7 +225,9 @@ export default {
         limit: this.limit,
         offset: this.offset,
         ltype: this.checkedFilter.disc_type ? this.checkedFilter.disc_type.id : undefined,
-        date: this.checkedFilter.disc_time ? this.checkedFilter.disc_time : undefined
+        date: this.checkedFilter.disc_time ? this.checkedFilter.disc_time : undefined,
+        lng: this.checkedFilter.disc_order ? this.checkedFilter.disc_order.lng : undefined,
+        lat: this.checkedFilter.disc_order ? this.checkedFilter.disc_order.lat : undefined
       };
 
       this.$wxUtils.loading({title: '加载中...'});
@@ -258,11 +273,12 @@ export default {
       border: 0;
       padding: 16rpx 5%;
 
-      @include flex(space-between, center);
+      @include flex(space-between, center, column nowrap);
 
       .weui-search-bar__form {
         border: 0;
         border-radius: 40rpx;
+        width: 100%;
         overflow: hidden;
 
         .weui-search-bar__label {
@@ -288,10 +304,10 @@ export default {
 
     .disc-filter-list {
       @include flex(space-between, center);
-      width: 50%;
+      width: 100%;
 
       .disc-filter-item {
-        width: 50%;
+        width: calc(100% / 3);
         padding: 24rpx 0;
         flex-shrink: 0;
 
