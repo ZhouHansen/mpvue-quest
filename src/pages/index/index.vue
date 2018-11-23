@@ -131,11 +131,17 @@ export default {
     }
   },
   methods: {
-
     init () {
       this.interval = setInterval(() => {
         let obj = this.$storage.get(this.$storageTypeName.openid);
         if (obj && obj.openid) {
+          this.chooseFilterType = 'disc_order';
+          this.chooseFilterData = this.filterData[this.chooseFilterType];
+          this.checkedFilter[this.chooseFilterType] = {
+            type: this.chooseFilterType,
+            id: undefined
+          };
+          this.doneChooseFilter(this.filterData.disc_order[0]);
           this.getDashboardData();
           clearInterval(this.interval);
         }
