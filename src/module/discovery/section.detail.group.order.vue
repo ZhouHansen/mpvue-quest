@@ -1,12 +1,15 @@
 <template>
   <div class="group-order-container" v-if="showDialogStatus.groupOrder">
     <div class="group-order-section">
-      <div class="group-title">发起拼团课程</div>
-      <div class="group-desc">发起拼团课程后，可选择拼团方式，系统会自动匹配，请先支付订单，若最终不能拼团，则自动退款！</div>
+      <div class="group-title">{{params.tag}}</div>
+      <div class="group-desc">
+        <div>发起拼团课程后，请先支付订单，若最终不能拼团，则自动退款！</div>
+        <div>报名结束时间：{{params.lastday}}</div>
+      </div>
       <div class="group-ctrl">
-        <div class="first-ctrl ctrl-item" v-for="item in params" :key="item.id" :id="item.id"  @click="chooseOrderType">
-          <span>{{item.minps}}人团</span>
-          <span>¥{{item.price / 100}}/人</span>
+        <div class="first-ctrl ctrl-item" @click="chooseOrderType" :id="params.id">
+          <span>{{params.minps}}人 - {{params.maxps}}人</span>
+          <span>¥{{params.price / 100}}/人</span>
         </div>
       </div>
     </div>

@@ -65,9 +65,9 @@
       <div class="go-to-order" :class="params.grouplist.length > 0 ? 'group' : 'un-group'" @click="goToOrder">
         <span v-if="params.price > 0">直接下单</span><span class="order-cost">{{params.price > 0?'¥' + params.price / 100 : '免费报名'}}</span>
       </div>
-      <div class="group-order" @click="groupOrder" v-if="params.grouplist.length > 0"><span>拼团购买</span></div>
+      <div class="group-order" @click="groupOrder" v-if="params.grouplist.length > 0"><span>{{params.grouplist[0].tag}}</span></div>
     </div>
-    <group-order @chooseGroupType="sendGroupOrder" :params="params.grouplist"></group-order>
+    <group-order @chooseGroupType="sendGroupOrder" :params="params.grouplist[0]"></group-order>
     <bind-phone></bind-phone>
   </div>
 </template>
@@ -172,6 +172,8 @@
       },
 
       goToOrder () {
+        this.$store.commit(MutationType.SET_ORDER_PARAMS, {group: null});
+
         if (!this.$storage.get(this.$storageTypeName.userInf).cell || this.$storage.get(this.$storageTypeName.userInf).cell.length < 10) {
           // console.log(this.$storage.get(this.$storageTypeName.userInf).cell);
           this.$store.commit(MutationType.SHOW_DIALOG_STATUS, {background: true, bindPhone: true});
