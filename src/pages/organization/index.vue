@@ -63,7 +63,7 @@ export default {
       filter: [],
       filterType: '',
       filterCity: OrganiMapCityCenter,
-      chooseFilterCity: {},
+      chooseFilterCity: OrganiMapCityCenter[0],
       filterTypeData: [
         {id: 'all', type: 'type', text: '全部'},
         {id: 'course', type: 'type', text: '课程'},
@@ -112,10 +112,6 @@ export default {
       this.filterCity.forEach((item, index) => {
         if (item.text.indexOf(this.address) > -1) {
           this.chooseFilterCity = item;
-        }
-
-        if (this.filterCity.length - 1 === index && !this.chooseFilterCity.id) {
-          this.chooseFilterCity = item[0];
         }
       });
 
@@ -262,6 +258,9 @@ export default {
             this.markers = this.markersData;
           }
         });
+        if (res.data.length === 0) {
+          this.initMap = true;
+        }
 
         this.$wxUtils.loading({show: false});
       });
