@@ -13,13 +13,13 @@
       </div>
       <div class="calendar-week">
         <span v-for="(item, index) in week" :key="index" class="calendar-week-item"
-          :class="{'calendar-week-item-holiday': index === 0 || index === 6}"
+          :class="{'calendar-week-item-holiday': index === 5 || index === 6}"
         >{{item}}</span>
       </div>
       <div class="calendar-day">
         <div v-for="(item, index) in dayData" :key="index" class="calendar-day-row">
           <div v-for="(day, dindex) in item" :key="dindex" class="calendar-day-item"
-            :class="{'week-7': day!== '' && dindex === 0, 'week-6':day!== '' && dindex === 6,
+            :class="{'week-7': day!== '' && (dindex === 5 || dindex === 6),
               'calendar-disabled': day.disabled
             } "
             :id="day.id"
@@ -51,7 +51,7 @@ export default {
       year: '',
       month: '',
       day: '', // 今日
-      week: ['日', '一', '二', '三', '四', '五', '六'],
+      week: ['一', '二', '三', '四', '五', '六', '日'],
       dayData: [],
       limitMinDate: null,
       limitMaxDate: null,
@@ -164,8 +164,9 @@ export default {
 
         if (month === this.month) {
           if (i === 1) {
-            // 判断第一天的日期
-            for (let d = 0; d < weekDay; d++) {
+            // 判断第一天的日期，
+            // @d 用于控制第一天显示的星期 （d = 0 开头为星期日 / d = 1 开头为星期一）
+            for (let d = 1; d < weekDay; d++) {
               row.push('');
             }
 
