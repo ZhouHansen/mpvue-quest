@@ -10,7 +10,7 @@
         </label>
       </div>
       <div class="disc-filter-list">
-        <div class="disc-filter-item" @click="chooseDate">
+        <div class="disc-filter-item" @click="tapChooseDate">
           <div class="filter-item-select">
             <hoo-select :filter="{text:'日期', event: 'disc_time', type: 'customDate'}"></hoo-select>
           </div>
@@ -40,7 +40,13 @@
       <hoo-empty :type="'discovery'" :text="'~下滑刷一下~'" v-if="!sections || sections.length === 0"></hoo-empty>
     </div>
     <hoo-scrolltop></hoo-scrolltop>
-    <hoo-calendar v-if="showCalendar" :params="{id: 'disc_time', chooseDayText: checkedFilter.disc_time?checkedFilter.disc_time:null}" @chooseDate="getChooseDate" @hideChooseDate="chooseDate"></hoo-calendar>
+    <hoo-calendar v-if="showCalendar"
+      :params="{id: 'disc_time', chooseDayText: checkedFilter.disc_time?checkedFilter.disc_time:null}"
+      :activity-data="dataForCalendar"
+      @chooseDate="getChooseDate"
+      @hideChooseDate="tapChooseDate"
+      @changeDate="tapChangeDate"
+    ></hoo-calendar>
   </div>
 </template>
 
@@ -82,7 +88,8 @@ export default {
       },
       chooseFilterData: null,
       checkedFilter: {},
-      showCalendar: false
+      showCalendar: false,
+      dataForCalendar: null
     };
   },
   created () {
@@ -143,6 +150,7 @@ export default {
           };
           this.doneChooseFilter(this.filterData.disc_order[0]);
           this.getDashboardData();
+          this.initGetDashboardDataForCanledar();
           clearInterval(this.interval);
         }
       }, 2000);
@@ -205,13 +213,14 @@ export default {
       this.getDashboardData();
     },
 
-    chooseDate () {
-      this.showCalendar = !this.showCalendar;
-    },
-
     getChooseDate (e) {
       if (this.checkedFilter[e.id] === e.data) {
         return;
+      }
+
+      // 重置日历需要初始化活动数据
+      if (!e.data) {
+        this.initGetDashboardDataForCanledar();
       }
 
       this.offset = 0;
@@ -225,8 +234,6 @@ export default {
     },
 
     getDashboardData () {
-      // this.checkedFilter
-
       let requestParams = {
         limit: this.limit,
         offset: this.offset,
@@ -250,6 +257,93 @@ export default {
         let result = Utils.filterRepeatData(this.sections, res.data);
         this.sections = this.sections.concat(result);
         this.total = res.total;
+      });
+    },
+
+    constCalendarData () {
+      this.dataForCalendar = {};
+    },
+
+    tapChooseDate () {
+      this.showCalendar = !this.showCalendar;
+    },
+
+    tapChangeDate (e) {
+      console.log('修改日历时间', e);
+      this.dataForCalendar = null;
+
+      let nextMonth = new Date(e.year, e.month, 1);
+      let day = 24 * 3600 * 1000;
+      let lastDay = new Date(nextMonth - day).getDate();
+
+      let params = {
+        lfromstart: `${e.year}-${e.month}-1`,
+        lfromend: `${e.year}-${e.month}-${lastDay}`
+      };
+
+      this.getDashboardDataForCanledar(params);
+    },
+
+    initGetDashboardDataForCanledar () {
+      let today = new Date();
+
+      let nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+      let day = 24 * 3600 * 1000;
+      let lastDay = new Date(nextMonth - day).getDate();
+
+      let params = {
+        lfromstart: `${today.getFullYear()}-${today.getMonth() + 1}-1`,
+        lfromend: `${today.getFullYear()}-${today.getMonth() + 1}-${lastDay}`
+      };
+
+      this.getDashboardDataForCanledar(params);
+    },
+
+    getDashboardDataForCanledar (e) {
+      let requestParams = {
+        limit: 999,
+        offset: 0,
+        lfromstart: e.lfromstart,
+        lfromend: e.lfromend
+      };
+
+      this.$network.discovery.getDashboard(requestParams).then(res => {
+        console.log('日历使用首页数据', res);
+        // 构造日历需要使用的数据样式。
+        this.dataForCalendar = {};
+        res.data.map((item, index) => {
+          if (item.lfrom) {
+            let lfromSplit = item.lfrom.split('-');
+            if (this.dataForCalendar[lfromSplit[0]]) {
+              if (this.dataForCalendar[lfromSplit[0]][parseInt(lfromSplit[1])]) {
+                this.dataForCalendar[lfromSplit[0]][parseInt(lfromSplit[1])].push({
+                  day: parseInt(lfromSplit[2]),
+                  name: item.name
+                });
+              } else {
+                this.dataForCalendar[lfromSplit[0]][parseInt(lfromSplit[1])] = [];
+                this.dataForCalendar[lfromSplit[0]][parseInt(lfromSplit[1])].push({
+                  day: parseInt(lfromSplit[2]),
+                  name: item.name
+                });
+              }
+            } else {
+              this.dataForCalendar[lfromSplit[0]] = {};
+              if (this.dataForCalendar[lfromSplit[0]][parseInt(lfromSplit[1])]) {
+                this.dataForCalendar[lfromSplit[0]][parseInt(lfromSplit[1])].push({
+                  day: parseInt(lfromSplit[2]),
+                  name: item.name
+                });
+              } else {
+                this.dataForCalendar[lfromSplit[0]][parseInt(lfromSplit[1])] = [];
+                this.dataForCalendar[lfromSplit[0]][parseInt(lfromSplit[1])].push({
+                  day: parseInt(lfromSplit[2]),
+                  name: item.name
+                });
+              }
+            }
+          }
+        });
       });
     }
   },

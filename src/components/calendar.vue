@@ -31,7 +31,8 @@
               'calendar-checked-default':chooseToday === day.id,
               'calendar-checked': chooseDay === day.id}"
           >{{day.number}}</span>
-          <span class="calendar-day-item-text">{{day.text?day.text:''}}</span>
+          <span class="calendar-day-item-text" v-if="day !== ''">{{day.text?day.text:''}}</span>
+          <span class="calendar-day-item-flag" :class="{'calendar-day-item-flag-checked': day.haveFlag}" v-if="day !== ''"></span>
           </div>
         </div>
       </div>
@@ -39,11 +40,12 @@
   </div>
 </template>
 <script>
-// import HolidayData from '@/utils/holiday.data';
 import Calendar from '@/plugs/chinese-calendar';
 
 export default {
-  props: ['params'], // {id:'', chooseDayText: '2018-1-2', minDate: '2018-10-11', maxDate: '2019-2-10'}
+
+  // activityData: {year:{ month:[]}}, 有活动的日期显示flag 2018-1-8 // 不能有 01-03
+  props: ['params', 'activityData'], // {id:'', chooseDayText: '2018-1-2', minDate: '2018-10-11', maxDate: '2019-2-10'}
   data () {
     return {
       todayObj: {},
@@ -58,6 +60,16 @@ export default {
       limitMaxDate: null,
       showCalendar: true
     };
+  },
+  watch: {
+    activityData: {
+      immediate: true,
+      handler () {
+        if (this.year && this.month) {
+          this.setFlagArr();
+        }
+      }
+    }
   },
   mounted () {
     let date = new Date();
@@ -108,12 +120,24 @@ export default {
       this.year = obj.year;
       this.month = obj.month;
       this.day = obj.day;
-      this.dayData = [];
+
+      this.setFlagArr();
+    },
+
+    setFlagArr () {
+      // 判断是否有需要特殊显示的日期
+      // console.log(this.activityData);
+      // console.log(this.activityData[parseInt(this.year)]);
+      // console.log(this.activityData[parseInt(this.year)][parseInt(this.month)]);
+      if (this.activityData && this.activityData[parseInt(this.year)] && this.activityData[parseInt(this.year)][parseInt(this.month)]) {
+        this.flagArr = this.activityData[parseInt(this.year)][parseInt(this.month)];
+      }
 
       this.getShowDayList();
     },
 
     getShowDayList () {
+      this.dayData = [];
       let row = [];
       for (let i = 1; i < 42; i++) { // 7 * 5line
         let day = new Date(this.year, this.month - 1, i);
@@ -127,8 +151,19 @@ export default {
           text: null,
           id: str,
           number: null,
-          disabled: false
+          disabled: false,
+          haveFlag: false
         };
+
+        // 判断是否突出显示当天日期，例如当天有活动
+        if (this.flagArr) {
+          for (let i = 0; i < this.flagArr.length; i++) {
+            if (parseInt(this.flagArr[i].day) === monthDay) {
+              obj.haveFlag = true;
+              break;
+            }
+          }
+        }
 
         // 假期，农历显示
         let calendarTextObj = Calendar.solar2lunar(year, month, monthDay);
@@ -206,7 +241,9 @@ export default {
         day: setDate.getDate()
       };
 
+      this.flagArr = null;
       this.setDateParams(params);
+      this.$emit('changeDate', params);
     },
 
     chooseDate (params) {
@@ -343,7 +380,7 @@ export default {
           .calendar-day-item {
             text-align: center;
             flex-basis: calc(100% / 7);
-            padding-top: 30rpx;
+            padding: 16rpx 0;
             @include flex(center, center, column nowrap);
 
             .calendar-day-item-num {
@@ -359,6 +396,16 @@ export default {
               font-size: 10px;
               line-height:normal;
               height: 30rpx;
+            }
+
+            .calendar-day-item-flag {
+              width: 10rpx;
+              height: 10rpx;
+              border-radius: 100%;
+            }
+
+            .calendar-day-item-flag-checked {
+              background-color: $orange-color;
             }
           }
 

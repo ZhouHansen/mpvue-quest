@@ -16,7 +16,9 @@ export default {
       ltype: [NetworkParamType.string],
       date: [NetworkParamType.string], // 查找的时间范围：date - 1 至 date + 30 天范围内
       lng: [NetworkParamType.number],
-      lat: [NetworkParamType.number]
+      lat: [NetworkParamType.number],
+      lfromstart: [NetworkParamType.string],
+      lfromend: [NetworkParamType.string]
     }
   },
 
