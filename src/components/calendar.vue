@@ -1,9 +1,9 @@
 <template>
   <div class="calendar-container" v-if="showCalendar">
-    <div class="calendar-bg" @click="hideCalendar"></div>
+    <div class="calendar-bg" @click="hideCalendar({emitStatu: true})"></div>
     <div class="calendar-body">
       <div class="calendar-title">
-        <span class="calendar-title-cancle" @click="hideCalendar">取消</span>
+        <span class="calendar-title-cancle" @click="hideCalendar({emitStatu: true})">取消</span>
         <div class="calendar-title-choose">
           <span class="calendar-title-icon calendar-title-icon-left" @click="preMonth"></span>
           <span class="calendar-title-show"><span>{{year}} - {{month}}</span></span>
@@ -58,7 +58,9 @@ export default {
       dayData: [],
       limitMinDate: null,
       limitMaxDate: null,
-      showCalendar: true
+      showCalendar: true,
+      flagArr: null,
+      checkedMonthFlagArr: null
     };
   },
   watch: {
@@ -260,7 +262,7 @@ export default {
         };
 
         this.$emit('chooseDate', result);
-        this.hideCalendar();
+        this.hideCalendar({emitStatu: false});
       }
     },
 
@@ -276,12 +278,35 @@ export default {
       };
 
       this.$emit('chooseDate', result);
-      this.hideCalendar();
+      this.hideCalendar({emitStatu: false});
     },
 
-    hideCalendar () {
+    hideCalendar (e) {
       this.showCalendar = false;
+      if (e.emitStatu) {
+        this.emitGetActivityParams();
+      }
       this.$emit('hideChooseDate');
+    },
+
+    emitGetActivityParams () {
+      let params = null;
+      if (this.params && this.params.chooseDayText) {
+        let splitArr = this.params.chooseDayText.split('-');
+        params = {
+          year: splitArr[0],
+          month: splitArr[1],
+          day: splitArr[2]
+        };
+      } else {
+        params = {
+          year: this.todayObj.year,
+          month: this.todayObj.month,
+          day: this.todayObj.day
+        };
+      }
+
+      this.$emit('changeDate', params);
     }
   }
 };
