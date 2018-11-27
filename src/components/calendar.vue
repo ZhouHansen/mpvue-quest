@@ -39,7 +39,8 @@
   </div>
 </template>
 <script>
-import HolidayData from '@/utils/holiday.data';
+// import HolidayData from '@/utils/holiday.data';
+import Calendar from '@/plugs/chinese-calendar';
 
 export default {
   props: ['params'], // {id:'', chooseDayText: '2018-1-2', minDate: '2018-10-11', maxDate: '2019-2-10'}
@@ -55,9 +56,7 @@ export default {
       dayData: [],
       limitMinDate: null,
       limitMaxDate: null,
-      showCalendar: true,
-
-      holidayMonth: null
+      showCalendar: true
     };
   },
   mounted () {
@@ -110,11 +109,6 @@ export default {
       this.month = obj.month;
       this.day = obj.day;
       this.dayData = [];
-      this.holidayMonth = null;
-
-      if (HolidayData[obj.year] && HolidayData[obj.year][obj.month]) {
-        this.holidayMonth = HolidayData[obj.year][obj.month];
-      }
 
       this.getShowDayList();
     },
@@ -131,23 +125,25 @@ export default {
 
         let obj = {
           text: null,
-          id: year + '-' + month + '-' + monthDay,
+          id: str,
           number: null,
           disabled: false
         };
 
-        if (str === this.chooseToday) {
-          obj.text = '今日';
+        // 假期，农历显示
+        let calendarTextObj = Calendar.solar2lunar(year, month, monthDay);
+        if (calendarTextObj.festival.length > 0) {
+          obj.text = calendarTextObj.festival[0];
+        } else
+        if (calendarTextObj.IMonthCn && calendarTextObj.IDayCn) {
+          if (calendarTextObj.IDayCn === '初一') {
+            obj.text = calendarTextObj.IMonthCn;
+          } else {
+            obj.text = calendarTextObj.IDayCn;
+          }
         }
 
-        if (this.holidayMonth) {
-          this.holidayMonth.map((item, index) => {
-            if (item.day === monthDay + '') {
-              obj.text = item.text;
-            }
-          });
-        }
-
+        // 限制选取最小日期
         if (this.limitMinDate && (year < this.limitMinDate.y ||
           (year === this.limitMinDate.y && month < this.limitMinDate.m) ||
           (year === this.limitMinDate.y && month === this.limitMinDate.m && monthDay < this.limitMinDate.d))
@@ -155,6 +151,7 @@ export default {
           obj.disabled = true;
         }
 
+        // 限制选取最大日期
         if (this.limitMaxDate && (year > this.limitMaxDate.y ||
           (year === this.limitMaxDate.y && month > this.limitMaxDate.m) ||
           (year === this.limitMaxDate.y && month === this.limitMaxDate.m && monthDay > this.limitMaxDate.d))
@@ -162,6 +159,7 @@ export default {
           obj.disabled = true;
         }
 
+        // 构造本月的日历数据
         if (month === this.month) {
           if (i === 1) {
             // 判断第一天的日期，
