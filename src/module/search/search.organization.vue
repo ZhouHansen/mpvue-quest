@@ -14,7 +14,7 @@
     </div>
     <div class="organi-content">
       <div class="organi-filter-item-desc" :hidden="!showFilterItemDesc">
-        <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
+        <filter-list @chooseFilterDone="doneChooseFilter" @cancleChooseFilter="cancleChooseFiler" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="organi-list">
         <scroll-view class="organi-scroll" v-if="organiData && organiData.length > 0" scroll-y scroll-with-animation @scrolltolower="loadMore">
@@ -120,6 +120,10 @@ export default {
         return;
       }
       this.sendSearchRequest();
+    },
+
+    cancleChooseFiler () {
+      this.showFilterItemDesc = false;
     },
 
     constLngLatParams () {

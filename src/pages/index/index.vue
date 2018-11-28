@@ -30,7 +30,7 @@
 
     <div>
       <div class="disc-filter-item-desc" :hidden="!showFilterItemDesc">
-        <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
+        <filter-list @chooseFilterDone="doneChooseFilter" @cancleChooseFilter="cancleChooseFiler" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
     </div>
     <div class="section-list">
@@ -188,7 +188,7 @@ export default {
     },
 
     doneChooseFilter (e) {
-      // console.log('接收到的过滤参数', e);
+      console.log('接收到的过滤参数', e);
       this.offset = 0;
       this.total = 0;
 
@@ -211,6 +211,10 @@ export default {
       }
 
       this.getDashboardData();
+    },
+
+    cancleChooseFiler () {
+      this.showFilterItemDesc = false;
     },
 
     getChooseDate (e) {

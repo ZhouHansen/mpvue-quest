@@ -15,23 +15,28 @@
         <p class="course-filter-item-text">{{item.text}}</p>
       </div>
     </div>
+
+    <div class="hide-search-filter" @click="hideFilterParam"><span>关闭</span></div>
   </div>
 </template>
 <script>
 import * as MutationsType from '@/store/mutation.type';
 
 export default {
-  props: ['filter', 'checkedFilter'],
+  props: ['filter', 'checkedFilter', 'id'],
   mounted () {
   },
   methods: {
     chooseFilterParam (e) {
       this.$store.commit(MutationsType.TOGGLE_SEARCH_OVERFLOW, false);
-      // console.log('发送的过滤参数', e);
       let commitData = this.filter.filter((item, index) => {
         return item.id === e;
       });
       this.$emit('chooseFilterDone', commitData[0]);
+    },
+
+    hideFilterParam () {
+      this.$emit('cancleChooseFilter');
     }
   }
 };
@@ -92,6 +97,20 @@ export default {
 
       .course-filter-item-checked {
         background-color: #f0f0f0;
+      }
+    }
+
+    .hide-search-filter {
+      padding: 50rpx 0 30rpx;
+      text-align: center;
+
+      span {
+        display: inline-block;
+        width: 40%;
+        padding: 10rpx 0;
+        text-align: center;
+        border-radius: 10rpx;
+        border: 1rpx solid #999;
       }
     }
   }

@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="teacher-filter-item-desc" :hidden="!showFilterItemDesc">
-        <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
+        <filter-list @chooseFilterDone="doneChooseFilter"  @cancleChooseFilter="cancleChooseFiler" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
     </div>
     <div class="teacher-list-body">
@@ -133,6 +133,10 @@ export default {
       this.showFilterItemDesc = false;
       this.teacherListData = [];
       this.getTeacherList();
+    },
+
+    cancleChooseFiler () {
+      this.showFilterItemDesc = false;
     },
 
     getTeacherList () {

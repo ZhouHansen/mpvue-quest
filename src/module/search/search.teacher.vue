@@ -24,7 +24,7 @@
     </div>
     <div class="teacher-content">
       <div class="teacher-filter-item-desc" :hidden="!showFilterItemDesc">
-        <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
+        <filter-list @chooseFilterDone="doneChooseFilter" @cancleChooseFilter="cancleChooseFiler" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="teacher-list">
         <scroll-view class="organi-scroll" v-if="teacherData && teacherData.length > 0" scroll-y scroll-with-animation @scrolltolower="loadMore">
@@ -132,6 +132,10 @@
         this.sendSearchRequest();
       },
 
+      cancleChooseFiler () {
+        this.showFilterItemDesc = false;
+      },
+
       getOrderList () {
         if (this.showFilterItemDesc) {
           this.showFilterItemDesc = false;
@@ -173,7 +177,7 @@
           endorsed: params.teacher_auth && params.teacher_auth.id ? parseInt(params.teacher_auth.id) : undefined
         };
 
-        if (params.course_type && params.course_type.id !== 'all') {
+        if (params.course_type && params.course_type.id !== null && params.course_type.id !== 'all') {
           requestParams['subjects'] = params.course_type.id;
         }
 

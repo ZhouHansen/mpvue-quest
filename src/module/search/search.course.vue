@@ -24,7 +24,7 @@
     </div>
     <div class="course-content">
       <div class="course-filter-item-desc" :hidden="!showFilterItemDesc">
-        <filter-list @chooseFilterDone="doneChooseFilter" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
+        <filter-list @chooseFilterDone="doneChooseFilter" @cancleChooseFilter="cancleChooseFiler" :filter="chooseFilterData" :checkedFilter="checkedFilter[chooseFilterType]"></filter-list>
       </div>
       <div class="course-list">
         <scroll-view class="organi-scroll" v-if="resultData && resultData.length > 0" scroll-y scroll-with-animation @scrolltolower="loadMore">
@@ -115,7 +115,7 @@
       },
 
       doneChooseFilter (e) {
-        // console.log('接收到的过滤参数', e);
+        console.log('接收到的过滤参数', e);
         let params = {
           type: this.chooseFilterType
         };
@@ -129,6 +129,10 @@
         this.showFilterItemDesc = false;
         this.refreshData();
         this.sendSearchRequest();
+      },
+
+      cancleChooseFiler () {
+        this.showFilterItemDesc = false;
       },
 
       getChooseDate (e) {
@@ -155,7 +159,7 @@
           date: params.course_time ? params.course_time : undefined,
           pup: params.course_price ? params.course_price.pup : undefined,
           pdown: params.course_price ? params.course_price.pdown : undefined,
-          ltype: params.disc_type ? params.disc_type.id : undefined,
+          ltype: params.disc_type && params.disc_type.id !== null ? params.disc_type.id : undefined,
           age: params.course_age ? params.course_age : undefined
         };
 
