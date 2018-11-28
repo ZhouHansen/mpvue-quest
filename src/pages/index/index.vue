@@ -22,7 +22,7 @@
         </div>
         <div class="disc-filter-item" @click="chooseFilter('disc_order')">
           <div class="filter-item-select">
-            <hoo-select :filter="{text: '排序', event: 'disc_order'}"></hoo-select>
+            <hoo-select :filter="{text: '排序方式', event: 'disc_order'}"></hoo-select>
           </div>
         </div>
       </div>
