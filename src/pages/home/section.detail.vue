@@ -1,7 +1,7 @@
 <template>
   <div :class="{'overflow-hidden': overflowHiddenStatus}">
     <section-detail :params="sectionData" v-if="sectionData"></section-detail>
-    <link-home v-if="isShare"></link-home> 
+    <link-home v-if="isShare"></link-home>
   </div>
 </template>
 <script>
@@ -81,6 +81,11 @@
           params[i] = this.sectionData[i];
         }
 
+        let title = this.sectionData.name.substr(0, 8);
+        if (this.sectionData.name.length > 8) {
+          title = title + '...';
+        }
+        this.$wxUtils.setNavTitle(title);
         this.$store.commit(MutationsType.SET_CHOOSE_ACTIVITY, params);
       }
     },

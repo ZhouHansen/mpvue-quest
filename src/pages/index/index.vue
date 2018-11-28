@@ -269,7 +269,7 @@ export default {
     },
 
     tapChangeDate (e) {
-      console.log('修改日历时间', e);
+      // console.log('修改日历时间', e);
       this.dataForCalendar = null;
 
       let nextMonth = new Date(e.year, e.month, 1);
@@ -308,7 +308,7 @@ export default {
       };
 
       this.$network.discovery.getDashboard(requestParams).then(res => {
-        console.log('日历使用首页数据', res);
+        // console.log('日历使用首页数据', res);
         // 构造日历需要使用的数据样式。
         this.dataForCalendar = {};
         res.data.map((item, index) => {

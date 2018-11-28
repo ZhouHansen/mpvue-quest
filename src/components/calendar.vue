@@ -103,7 +103,6 @@ export default {
     }
 
     if (this.params && this.params.chooseDayText) {
-      // console.log(this.params.chooseDayText);
       this.chooseDay = this.params.chooseDayText;
       let splitArr = this.params.chooseDayText.split('-');
       let request = {
@@ -128,9 +127,6 @@ export default {
 
     setFlagArr () {
       // 判断是否有需要特殊显示的日期
-      // console.log(this.activityData);
-      // console.log(this.activityData[parseInt(this.year)]);
-      // console.log(this.activityData[parseInt(this.year)][parseInt(this.month)]);
       if (this.activityData && this.activityData[parseInt(this.year)] && this.activityData[parseInt(this.year)][parseInt(this.month)]) {
         this.flagArr = this.activityData[parseInt(this.year)][parseInt(this.month)];
       }
@@ -224,7 +220,6 @@ export default {
           row = [];
         }
       };
-      // console.log(this.dayData);
     },
 
     preMonth () {
