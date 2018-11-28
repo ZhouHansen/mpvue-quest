@@ -20,10 +20,10 @@
         <div class="arrange-icon kidney"></div>
         <div class="arrange-text">{{ages}}</div>
       </div>
-      <div class="arrange-item" v-if="arrangeParams.brief">
+      <!-- <div class="arrange-item" v-if="arrangeParams.brief">
         <div class="arrange-icon info"></div>
         <div class="arrange-text">{{arrangeParams.brief}}</div>
-      </div>
+      </div> -->
       <div class="arrange-item" v-if="arrangeParams.rule && arrangeParams.rule.minps && arrangeParams.rule.maxps">
         <div class="arrange-icon people"></div>
         <div class="arrange-text">活动开启最少{{arrangeParams.rule.minps}}人，最多{{arrangeParams.rule.maxps}}人</div>

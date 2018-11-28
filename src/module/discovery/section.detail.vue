@@ -23,14 +23,14 @@
       </div> -->
     </div>
 
-    <div class="section-teacher" v-if="params.ltypes && params.teacherlist.length > 0">
+    <div class="section-teacher" v-if="params.ltypes && teacherList && teacherList.length > 0">
       <hoo-left-border-title :title="'教师'"></hoo-left-border-title>
       <div class="teacher-list">
-        <div class="teacher-item" v-for="item in params.teacherlist" :key="item" @click="visitTeacher(item.id)">
+        <div class="teacher-item" v-for="item in teacherList" :key="item.id" @click="visitTeacher(item.id)">
           <hoo-avatar :avatar="item.avartarurl"></hoo-avatar>
           <div class="teacher-name ellipsis">{{item.name}}</div>
-          <div class="teacher-label" v-if="teacherDegree">
-            <hoo-label :type-text="teacherDegree.text" :label-arr="item.tags" :type="'center'"></hoo-label>
+          <div class="teacher-label" v-if="item.text">
+            <hoo-label :type-text="item.text" :label-arr="item.tags" :type="'center'"></hoo-label>
           </div>
         </div>
       </div>
@@ -63,9 +63,12 @@
     </div>
     <div class="section-order">
       <div class="go-to-order" :class="params.grouplist.length > 0 ? 'group' : 'un-group'" @click="goToOrder">
-        <span v-if="params.price > 0">直接下单</span><span class="order-cost">{{params.price > 0?'¥' + params.price / 100 : '免费报名'}}</span>
+        <span v-if="params.price > 0">{{params.ltypes?'直接参加' : '直接下单'}}</span><span class="order-cost">{{params.price > 0?'¥' + params.price / 100 : '免费报名'}}</span>
       </div>
-      <div class="group-order" @click="groupOrder" v-if="params.grouplist.length > 0"><span>{{params.grouplist[0].tag}}</span></div>
+      <div class="group-order" @click="groupOrder" v-if="params.grouplist.length > 0">
+        <span>{{params.grouplist[0].tag}}</span>
+        <span class="order-cost">{{'¥' + params.grouplist[0].price / 100}}</span>
+      </div>
     </div>
     <group-order @chooseGroupType="sendGroupOrder" :params="params.grouplist[0]"></group-order>
     <bind-phone></bind-phone>
@@ -121,7 +124,7 @@
           offset: 0,
           total: 0
         },
-        teacherDegree: null
+        teacherList: null
       };
     },
     computed: {
@@ -150,7 +153,11 @@
 
         this.params.teacherlist.forEach((item, index) => {
           if (item.degree) {
-            this.teacherDegree = GetDataObjUseId(TeacherDegreeData, item.degree);
+            item.text = GetDataObjUseId(TeacherDegreeData, item.degree).text;
+          }
+
+          if (this.params.teacherlist.length - 1 === index) {
+            this.teacherList = this.params.teacherlist;
           }
         });
       },
@@ -382,7 +389,8 @@
       }
 
       .group {
-        flex-basis: 66%;
+        flex-basis: 45%;
+        flex-shrink: 0;
       }
 
       .un-group {
@@ -391,13 +399,15 @@
 
       .group-order {
         font-size: 13px;
-        flex-basis: 34%;
+        flex-basis: 55%;
+        flex-shrink: 0;
         height: 100%;
         background-color: #26C925;
 
-        span {
-          display:inline-block;
-          margin-top:4rpx;
+        .order-cost {
+          font-size: 18px;
+          margin-left: 12rpx;
+          font-weight: bold;
         }
       }
     }
