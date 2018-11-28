@@ -1,7 +1,10 @@
 <template>
   <div class="calendar-container" v-if="showCalendar">
     <div class="calendar-bg" @click="hideCalendar({emitStatu: true})"></div>
-    <div class="calendar-body">
+    <div class="calendar-body"
+      @touchstart="bindTouchStart"
+      @touchend="bindTouchEnd"
+    >
       <div class="calendar-title">
         <span class="calendar-title-cancle" @click="hideCalendar({emitStatu: true})">取消</span>
         <div class="calendar-title-choose">
@@ -60,7 +63,10 @@ export default {
       limitMaxDate: null,
       showCalendar: true,
       flagArr: null,
-      checkedMonthFlagArr: null
+      checkedMonthFlagArr: null,
+
+      touchObj: {},
+      touchLimit: 30 // px
     };
   },
   watch: {
@@ -227,7 +233,7 @@ export default {
     },
 
     nextMonth () {
-      this.setMonth(this.month + 1);
+      this.setMonth(parseInt(this.month + 1));
     },
 
     setMonth (month) {
@@ -302,6 +308,20 @@ export default {
       }
 
       this.$emit('changeDate', params);
+    },
+
+    bindTouchStart (e) {
+      this.touchObj['start'] = e.mp.changedTouches[0].clientX;
+    },
+
+    bindTouchEnd (e) {
+      this.touchObj['end'] = e.mp.changedTouches[0].clientX;
+      if (this.touchObj.end - this.touchObj.start > this.touchLimit) {
+        this.preMonth();
+      } else
+      if (this.touchObj.end - this.touchObj.start < -this.touchLimit) {
+        this.nextMonth();
+      }
     }
   }
 };
