@@ -18,7 +18,8 @@ export default {
       lng: [NetworkParamType.number],
       lat: [NetworkParamType.number],
       lfromstart: [NetworkParamType.string],
-      lfromend: [NetworkParamType.string]
+      lfromend: [NetworkParamType.string],
+      order: [NetworkParamType.string]
     }
   },
 

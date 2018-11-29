@@ -63,8 +63,8 @@ const TypeFilterData = [
 ];
 
 const OrderFilterData = [
-  {text: '距离顺序', id: 'latlng', lng: '', lat: ''},
-  {text: '日期顺序', id: undefined, lng: undefined, lat: undefined}
+  {text: '距离顺序', id: 'latlng', lng: '', lat: '', showChildren: false, children: [{id: 'asc', text: '由近到远'}, {id: 'desc', text: '由远到近'}]},
+  {text: '日期顺序', id: undefined, lng: undefined, lat: undefined, showChildren: false, children: [{id: 'asc', text: '由近到远'}, {id: 'desc', text: '由远到近'}]}
 ];
 
 const ProductSpecData = [

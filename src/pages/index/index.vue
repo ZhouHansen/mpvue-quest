@@ -188,19 +188,15 @@ export default {
     },
 
     doneChooseFilter (e) {
-      console.log('接收到的过滤参数', e);
+      // console.log('接收到的过滤参数', e);
       this.offset = 0;
       this.total = 0;
 
       let params = {
         type: this.chooseFilterType
       };
-      if (this.checkedFilter[this.chooseFilterType].id !== e.id) {
-        params = Object.assign(params, e);
-        this.checkedFilter[this.chooseFilterType] = params;
-      } else {
-        this.checkedFilter[this.chooseFilterType] = params;
-      }
+      params = Object.assign(params, e);
+      this.checkedFilter[this.chooseFilterType] = params;
       this.showFilterItemDesc = false;
       this.sections = [];
 
@@ -244,7 +240,8 @@ export default {
         ltype: this.checkedFilter.disc_type ? this.checkedFilter.disc_type.id : undefined,
         date: this.checkedFilter.disc_time ? this.checkedFilter.disc_time : undefined,
         lng: this.checkedFilter.disc_order ? this.checkedFilter.disc_order.lng : undefined,
-        lat: this.checkedFilter.disc_order ? this.checkedFilter.disc_order.lat : undefined
+        lat: this.checkedFilter.disc_order ? this.checkedFilter.disc_order.lat : undefined,
+        order: this.checkedFilter.disc_order && this.checkedFilter.disc_order.child ? this.checkedFilter.disc_order.child.id : undefined
       };
 
       this.$wxUtils.loading({title: '加载中...'});
