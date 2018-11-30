@@ -4,11 +4,9 @@
       <span class="icon hand"></span>
       <span>{{personNum === 0 ? '好多' : personNum}}{{joinText || '人想参加'}}</span>
     </span>
-    <span v-if="type === 'share'">
-      <button :open-type="'share'" :plain="'true'">
-        <span class="icon share"></span>
-        <span>分享</span>
-      </button>
+    <span class="collection btn-item" v-if="type === 'share'" @click="toogleActionSheet">
+      <span class="icon share"></span>
+      <span>分享</span>
     </span>
     <span class="collection btn-item" v-if="type === 'collection'" @click="setCollect">
       <span class="icon star"></span>
@@ -18,12 +16,26 @@
       <span class="icon star_already"></span>
       <span>已收藏</span>
     </span>
+
+    <hoo-action-sheet @hideasc="toogleActionSheet" :params="{type: 'share'}" v-if="showActions"></hoo-action-sheet>
   </div>
 </template>
 <script>
 
+import hooActionSheet from '@/components/action.sheet';
 export default {
   props: ['type', 'personNum', 'joinText', 'id', 'subject', 'favoid'], // subject 要收藏的类型，课程、商品、机构、老师
+  components: {
+    hooActionSheet
+  },
+  data () {
+    return {
+      showActions: false
+    };
+  },
+  onHide () {
+    this.showActions = false;
+  },
   methods: {
     setCollect () {
       this.$network.base.setCollection({}, null, 'weapp/favor/' + this.subject + '/' + this.id).then(res => {
@@ -49,6 +61,10 @@ export default {
         this.type = 'collection';
         this.$emit('changeData', {collect: this.type});
       });
+    },
+
+    toogleActionSheet () {
+      this.showActions = !this.showActions;
     }
   }
 };
@@ -94,28 +110,10 @@ export default {
       .star_already {
         @include backgroundImg('../assets/images/ic_cllect_green.png');
       }
-    }
-
-    button {
-      @include flex(space-between);
-      color: $topic-color;
-      border: 1rpx solid $topic-color;
-      font-size: 14px;
-      padding: 10rpx 20rpx;
-      border-radius: 42rpx;
-      line-height:normal;
-
-      .icon {
-        width: 30rpx;
-        height: 30rpx;
-        margin-right: 10rpx;
-        flex-shrink: 0;
-      }
 
       .share {
         @include backgroundImg('../assets/images/share.png');
       }
     }
-
   }
 </style>

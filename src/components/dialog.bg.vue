@@ -8,7 +8,6 @@
   import * as MutationType from '@/store/mutation.type';
 
   export default {
-
     computed: mapState([
       // 映射 this.showDialogStatus 为 store.state.showDialogStatus
       'showDialogStatus'
