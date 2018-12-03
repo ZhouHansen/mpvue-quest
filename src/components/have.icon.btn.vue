@@ -17,14 +17,14 @@
       <span>已收藏</span>
     </span>
 
-    <hoo-action-sheet @hideasc="toogleActionSheet" :params="{type: 'share'}" v-if="showActions"></hoo-action-sheet>
+    <hoo-action-sheet @hideasc="toogleActionSheet" :params="{type: 'share', data: params}" v-if="showActions"></hoo-action-sheet>
   </div>
 </template>
 <script>
 
 import hooActionSheet from '@/components/action.sheet';
 export default {
-  props: ['type', 'personNum', 'joinText', 'id', 'subject', 'favoid'], // subject 要收藏的类型，课程、商品、机构、老师
+  props: ['type', 'personNum', 'joinText', 'id', 'subject', 'favoid', 'params'], // subject 要收藏的类型，课程、商品、机构、老师
   components: {
     hooActionSheet
   },

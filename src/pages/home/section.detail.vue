@@ -43,6 +43,7 @@
         this.$wxUtils.loading({title: '加载中...'});
         this.$network.discovery.getActivityDetail({}, null, 'weapp/lesson/' + this.$route.query.id).then(res => {
           // console.log(res.data);
+          res.data.pageType = 'lesson';
           this.sectionData = res.data;
           this.$wxUtils.loading({show: false});
           this.storeSectionData();
@@ -55,6 +56,7 @@
         this.$wxUtils.loading({title: '加载中...'});
         this.$network.discovery.getProductDetail({}, null, 'weapp/product/' + this.$route.query.id).then(res => {
           // console.log(res.data);
+          res.data.pageType = 'product';
           this.sectionData = res.data;
           this.$wxUtils.loading({show: false});
           this.storeSectionData();

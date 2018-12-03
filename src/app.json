@@ -80,6 +80,12 @@
         "setting/setting.address",
         "setting/setting.address.add"
       ]
+    },
+    {
+      "root": "pages/utils.pages",
+      "pages": [
+        "upload.shareimg"
+      ]
     }
   ],
   "plugins": {

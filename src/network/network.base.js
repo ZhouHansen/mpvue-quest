@@ -125,5 +125,16 @@ export default {
     method: 'get',
     apiVersion: NetworkAPIVersion.v1_version,
     authorization: true
+  },
+
+  /**
+   * 获取页面二维码
+   * */
+
+  getPageQrcode: {
+    url: 'weapp/codecard/{group}/{id}',
+    method: 'get',
+    apiVersion: NetworkAPIVersion.v1_version,
+    authorization: true
   }
 };

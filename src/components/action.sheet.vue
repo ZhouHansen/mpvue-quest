@@ -8,7 +8,7 @@
             <span>分享给朋友</span>
           </button>
         </div>
-        <div class="acs-item">生成卡片 保存分享</div>
+        <div class="acs-item" @click="visitDownloadImg">生成卡片 保存分享</div>
       </div>
       <div @click="hideACS" class="acs-item-cancel">取消</div>
     </div>
@@ -27,8 +27,17 @@ export default {
       this.$emit('hideasc');
     },
 
-    doneACS (e) {
+    visitDownloadImg (e) {
+      console.log(this.params.data);
 
+      let params = {
+        id: this.params.data.id,
+        pageType: this.params.data.pageType,
+        name: this.params.data.name,
+        context: this.params.data.about
+      };
+
+      this.$router.push('/pages/utils.pages/upload.shareimg?obj=' + JSON.stringify(params));
     }
   }
 };

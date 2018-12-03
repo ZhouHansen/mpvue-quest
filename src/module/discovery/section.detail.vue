@@ -10,7 +10,7 @@
         <hoo-icon-button :type="'activity'" :person-num="params.favorcount" v-if="params.ltypes" :personNum="params.favorcount"></hoo-icon-button>
         <hoo-icon-button :type="'activity'" :person-num="params.favorcount" :join-text="'人想买'" v-if="!params.ltypes"></hoo-icon-button>
         <hoo-icon-button :type="params.favored === 0 ? 'collection' : 'collection_already'" :id="params.id" :favoid="params.favorid" :subject="params.subject_type" @changeData="saveCollection"></hoo-icon-button>
-        <hoo-icon-button :type="'share'"></hoo-icon-button>
+        <hoo-icon-button :type="'share'" :params="params"></hoo-icon-button>
       </div>
     </div>
     <div class="section-content">

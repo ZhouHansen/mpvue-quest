@@ -36,5 +36,6 @@ module.exports = [
   'pages/home/custom.signature',
   'pages/payment/payment.result',
   'pages/teacher.packages/teacher.detail',
-  'pages/guideMap/index'
+  'pages/guideMap/index',
+  'pages/utils.pages/upload.shareimg'
 ];
