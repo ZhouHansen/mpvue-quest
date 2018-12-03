@@ -74,7 +74,7 @@
 
     <div class="footer">
       <div class='button-item' v-if="orderDetail.resultPayStatus.id === 'waitPayment'">
-        <hoo-button :text="'去付款'" :type="'topic'" @tapButton="runWxPayment"></hoo-button>
+        <hoo-button :text="'去付款'" :type="'topic'" @tapButton="getPayParams"></hoo-button>
       </div>
       <div class='button-item' v-if="orderDetail.resultPayStatus.id === 'waitPayment'">
         <hoo-button :text="'取消订单'" :type="'normal'" @tapButton="cancelOrder"></hoo-button>
@@ -195,9 +195,21 @@ export default {
       this.$router.push({path: '/pages/account.packages/purchase.goods/purchase.appraisal', query: {obj: JSON.stringify(params)}});
     },
 
-    runWxPayment () {
+    getPayParams () {
+      this.$wxUtils.loading({title: '加载中...'});
+      this.$network.account.getPaymentParams({}, null, 'weapp/order/pay/' + this.orderDetail.orderno).then(res => {
+        this.$wxUtils.loading({show: false});
+        if (res.data.prepayid) {
+          this.runWxPayment(res.data.prepayid);
+        } else {
+          this.$wxUtils.toast({title: '下单失败，未获取到微信支付订单号'});
+        }
+      });
+    },
+
+    runWxPayment (sign) {
       let params = {
-        sign: this.orderDetail.wxtradeno,
+        sign: sign,
         cb: this.updateOrder
       };
       WxNetwork.wxPayment(params);

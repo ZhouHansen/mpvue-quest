@@ -8,7 +8,7 @@
             <span>分享给朋友</span>
           </button>
         </div>
-        <div class="acs-item" @click="visitDownloadImg">生成卡片 保存分享</div>
+        <!-- <div class="acs-item" @click="visitDownloadImg">生成卡片 保存分享</div> -->
       </div>
       <div @click="hideACS" class="acs-item-cancel">取消</div>
     </div>

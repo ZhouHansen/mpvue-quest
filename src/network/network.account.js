@@ -131,9 +131,9 @@ export default {
   },
 
   /**
-   * 更新订单状态
+   * 获取支付参数
   */
-  updateOrder: {
+  getPaymentParams: {
     url: 'weapp/order/pay/{oid}', // lesson  product
     method: 'post',
     apiVersion: NetworkAPIVersion.v1_version,

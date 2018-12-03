@@ -111,14 +111,12 @@
 
       updateOrder (e) {
         if (e.status) {
-          this.$network.account.updateOrder({}, null, 'weapp/order/pay/' + this.orderId).then(res => {
-            this.type = 'success';
-            if (this.order.type === 'product') {
-              this.text = '等待商家确认发货';
-            } else {
-              this.text = '请您提前联系机构了解相关课程准备，祝您学习愉快！';
-            }
-          });
+          this.type = 'success';
+          if (this.order.type === 'product') {
+            this.text = '等待商家确认发货';
+          } else {
+            this.text = '请您提前联系机构了解相关课程准备，祝您学习愉快！';
+          }
         }
       },
 
