@@ -75,15 +75,19 @@
         <span class="total-money-title">总计金额</span>
         <span class="total-money-number">¥{{totalMoney}}</span>
       </div>
-      <div class="submit-payment" @click="submitPayment">去支付</div>
+      <div class="submit-payment">
+        <form @submit="submitPayment" report-submit='true' >
+          <button form-type="submit" type="default" size="mini" class="payment-button">去支付</button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
 <script>
   import WxNetwork from '@/network/network.wx';
   import * as MutationType from '@/store/mutation.type';
-  // import {ProductSpecData, GetDataObjUseId} from '@/utils/default.data';
   import hooLeftBorderTitle from '@/components/left.border.title';
+  import Utils from '@/utils/index';
 
   export default {
     components: {
@@ -176,7 +180,8 @@
         }
       },
 
-      submitPayment () {
+      submitPayment (e) {
+        Utils.storageFormId(e.mp.detail.formId);
         if (this.group) {
           this.sendGroupOrder();
         } else {
@@ -563,12 +568,20 @@
 
       .submit-payment {
         flex-basis: 30%;
-        background-color: $topic-color;
-        color: #ffffff;
-        font-size: 16px;
-        font-weight: bold;
         height: 100%;
-        text-align: center;
+
+        .payment-button {
+          background-color: $topic-color;
+          color: #ffffff;
+          font-size: 16px;
+          font-weight: bold;
+          width: 100%;
+          height: 100%;
+          border: 0;
+          padding: 0;
+          line-height: 8vh;
+          border-radius: 0;
+        }
       }
     }
 

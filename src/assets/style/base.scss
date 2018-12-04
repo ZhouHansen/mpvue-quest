@@ -38,6 +38,18 @@ a:focus {
   text-decoration: none;
 }
 
+button {
+
+}
+
+button::after {
+  border-radius: 0;
+}
+
+button::after {
+  border: 0;
+}
+
 img {
   max-width: 100%;
 }

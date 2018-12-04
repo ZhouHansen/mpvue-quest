@@ -69,7 +69,7 @@
 
     <div class="footer" v-if="orderDetail.resultPayStatus.id === 'waitPayment' || orderDetail.resultPayStatus.id === 'waitPayment' || orderDetail.resultPayStatus.id === 'waitAppraisal'">
       <div class="button-item" v-if="orderDetail.resultPayStatus.id === 'waitPayment'" >
-        <hoo-button :text="'去付款'" :type="'topic'" @tapButton="getPayParams"></hoo-button>
+        <hoo-button :text="'去付款'" :type="'topic-formId'" @tapButton="getPayParams"></hoo-button>
       </div>
       <div class="button-item" v-if="orderDetail.resultPayStatus.id === 'waitPayment'">
         <hoo-button :text="'取消订单'" :type="'normal'" @tapButton="cancelOrder"></hoo-button>

@@ -1,4 +1,6 @@
 import _ from 'lodash/core';
+import Storage from '@/utils/wx.storage';
+import StorageType from '@/utils/storage.typename';
 
 const formatNumber = n => {
   let str = n.toString();
@@ -152,6 +154,16 @@ const filterRepeatData = (params1, params2) => {
   return filterArr;
 };
 
+// 保存formId
+const storageFormId = formId => {
+  if (!_.isNaN(formId * 1)) {
+    return new Promise((resolve, reject) => {
+      Storage.set(StorageType.formId, formId);
+      resolve();
+    });
+  }
+};
+
 export default {
   formatNumber,
   formatTime,
@@ -162,5 +174,6 @@ export default {
   sumLocation,
   backDistance,
   filterRepeatData,
-  ConvertDistanceToLogLat
+  ConvertDistanceToLogLat,
+  storageFormId
 };

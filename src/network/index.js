@@ -71,13 +71,22 @@ class Network {
           // console.log(options);
         }
 
-        // console.log(
-        //   'Requesting on:',
-        //   // networkAction.multipart ? "Multipart" : "NonMultipart",
-        //   BASICURL,
-        //   url,
-        //   filteredParam
-        // );
+        if (options.method.toLowerCase() === 'post') {
+          let formId = Storage.get(StorageType.formId);
+          if (formId) {
+            options.headers['formid'] = formId;
+            Storage.remove(StorageType.formId);
+          }
+        }
+
+        console.log(
+          'Requesting on:',
+          // networkAction.multipart ? "Multipart" : "NonMultipart",
+          // BASICURL,
+          url,
+          // filteredParam,
+          options.headers
+        );
 
         let fly = new Fly();
         fly.interceptors.response.use(

@@ -6,7 +6,8 @@ const StorageTypeName = {
   wxUserInf: 'wxUserInf',
   userInf: 'userInf',
   address: 'address',
-  setApp: 'setApp' // 设置应用中的状态 'unShowOrderTips'
+  setApp: 'setApp', // 设置应用中的状态 'unShowOrderTips'
+  formId: 'formId'
 };
 
 export default StorageTypeName;
