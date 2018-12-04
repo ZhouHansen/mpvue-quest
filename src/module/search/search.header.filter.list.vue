@@ -114,6 +114,7 @@ export default {
     },
 
     hideFilterParam () {
+      this.$store.commit(MutationsType.TOGGLE_SEARCH_OVERFLOW, false);
       this.$emit('cancleChooseFilter');
     }
   }

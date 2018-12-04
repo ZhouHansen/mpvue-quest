@@ -11,6 +11,11 @@
         <div class="payment-inf">
           <div class="activity-title">{{sectionData.name}}</div>
           <div class="payment-price"><span>¥{{price}}</span> (单人)</div>
+          <div class="payment-ctrl">
+            <span class="ctrl-less" @click="chagePriceNumber('less')"></span>
+            <span class="ctrl-number">{{priceNumber}}</span>
+            <span class="ctrl-add" @click="chagePriceNumber('add')"></span>
+          </div>
         </div>
       </div>
     </div>
@@ -129,7 +134,7 @@
       // console.log('设置的孩子信息', this.children);
     },
     methods: {
-      chagePriceNUmber (e) {
+      chagePriceNumber (e) {
         if (e === 'less') {
           if (this.priceNumber > 1) {
             this.priceNumber = this.priceNumber - 1;
@@ -180,7 +185,12 @@
       },
 
       sendUnGroupOrder () {
-        this.$network.discovery.submitOrder({cid: this.children.id}, null, 'weapp/order/place/lesson/' + this.sectionData.id).then(res => {
+        let requestParams = {
+          count: this.priceNumber,
+          cid: this.children.id
+        };
+
+        this.$network.discovery.submitOrder(requestParams, null, 'weapp/order/place/lesson/' + this.sectionData.id).then(res => {
           // console.log(res);
           if (res.e === 0) {
             this.orderId = res.data.orderno;
@@ -193,7 +203,11 @@
       },
 
       sendGroupOrder () {
-        this.$network.discovery.submitOrderGroup({cid: this.children.id}, null, 'weapp/order/joingroup/' + this.group).then(res => {
+        let requestParams = {
+          count: this.priceNumber,
+          cid: this.children.id
+        };
+        this.$network.discovery.submitOrderGroup(requestParams, null, 'weapp/order/joingroup/' + this.group).then(res => {
           // console.log(res);
           if (res.e === 0) {
             this.orderId = res.data.orderno;

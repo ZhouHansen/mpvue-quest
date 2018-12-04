@@ -8,9 +8,9 @@
           <div class="activity-title">{{sectionData.name}}</div>
           <div class="payment-price"><span>¥{{price}}</span> (单人)</div>
           <div class="payment-ctrl">
-            <span class="ctrl-less" @click="chagePriceNUmber('less')"></span>
+            <span class="ctrl-less" @click="chagePriceNumber('less')"></span>
             <span class="ctrl-number">{{priceNumber}}</span>
-            <span class="ctrl-add" @click="chagePriceNUmber('add')"></span>
+            <span class="ctrl-add" @click="chagePriceNumber('add')"></span>
           </div>
         </div>
       </div>
@@ -142,7 +142,7 @@
       // console.log('设置的地址信息', this.address);
     },
     methods: {
-      chagePriceNUmber (e) {
+      chagePriceNumber (e) {
         if (e === 'less') {
           if (this.priceNumber > 1) {
             this.priceNumber = this.priceNumber - 1;
