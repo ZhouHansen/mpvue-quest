@@ -17,12 +17,10 @@ npm run dev
 mpvue, sass, mpvue-entry, mpvue-router-patch, flyio.js, vuex, mpvue-weui, vuex-persistedstate
 ```
 ## 有关文档
-```
 [mpvue-router-patch](https://github.com/F-loat/mpvue-router-patch)
 [mpvue-weui](https://kuangpf.com/mpvue-weui/#/search)
 [mpvue-wxParse 格式化html/markdown](https://github.com/htzhanglong/mpvue-wxParse)
 [微信小程序文档](https://developers.weixin.qq.com/miniprogram/dev/)
-```
 
 ## 已支持的功能和组件
 ``` bash
@@ -39,7 +37,8 @@ mpvue, sass, mpvue-entry, mpvue-router-patch, flyio.js, vuex, mpvue-weui, vuex-p
 描述：network.base.js文件中书写请求，设置debug参数则此请求返回对应的本地数据
 ```
 
-##***[mpvue开发问题总结点击查看](http://wangyanz.cn/2018/12/05/mpvueqa/)***
+##mpvue开发问题总结
+[点击查看](http://wangyanz.cn/2018/12/05/mpvueqa/)
 ```bash
 问题列表：
 1. 下拉刷新页面时，页面上放出现大段空白。
@@ -136,10 +135,11 @@ mpvue, sass, mpvue-entry, mpvue-router-patch, flyio.js, vuex, mpvue-weui, vuex-p
 
 
 ### 文件夹：src/store
+[点击查看vuex文档](https://vuex.vuejs.org/zh/)
 ``` bash
-vuex 有关内容[点击查看文档](https://vuex.vuejs.org/zh/)
+vuex 有关内容
 ```
-### 文件说明
+### 其他文件说明
 ```bash
 --- 文件名：app.json ---
 描述：小程序设置文件
