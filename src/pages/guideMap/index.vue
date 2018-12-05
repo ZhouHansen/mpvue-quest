@@ -5,6 +5,13 @@
   </div>
 </template>
 <script>
+// 说明：使用腾讯第三方地图插件，需要在小程序的管理后台进行添加，并在app.json中设置。
+//"plugins": {
+//   "mapPlug": {
+//     "version": "1.0.6",
+//     "provider": "wx5bc2ac602a747594"
+//   }
+// },
 export default {
   data () {
     return {

@@ -32,19 +32,4 @@ Vue.use(MpvueRouterPatch);
 Vue.use(Hack);
 
 export default {
-  config: {
-    pages: [],
-    windows: {
-      navigationBarTitleText: '首页',
-      enablePullDownRefresh: true,
-      backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff'
-    },
-    tabBar: {
-      color: '#454545',
-      borderStyle: 'white',
-      selectedColor: '#32DA31',
-      position: 'bottom'
-    }
-  }
 };

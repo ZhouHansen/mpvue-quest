@@ -1,11 +1,5 @@
 const State = {
-  overflowHiddenStatus: false,
-  showDialogStatus: {
-    background: false,
-    groupOrder: false,
-    bindPhone: false,
-    feedback: false
-  }
+  overflowHiddenStatus: false
 };
 
 export default State;

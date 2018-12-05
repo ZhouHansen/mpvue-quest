@@ -2,10 +2,10 @@ import _ from 'lodash/core';
 import MapKeys from 'lodash/mapKeys';
 
 const NetworkAPIVersion = {
-  v1_version: '/api/v1/'
+  v1_version: ''
 };
 
-const NetworkAPIHost = 'https://h.dyglxt.com';
+const NetworkAPIHost = '你的域名信息';
 
 class NetworkParamTypeClass {
   constructor (type) {

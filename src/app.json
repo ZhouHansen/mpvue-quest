@@ -1,8 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/organization/index",
-    "pages/teacher/index",
     "pages/account/index"
   ],
   "window": {
@@ -14,77 +12,9 @@
   },
   "subPackages": [
     {
-      "root": "pages/search",
-      "pages": [
-        "index"
-      ]
-    },
-    {
-      "root": "pages/payment",
-      "pages": [
-        "payment.result"
-      ]
-    },
-    {
       "root": "pages/guideMap",
       "pages": [
         "index"
-      ]
-    },
-    {
-      "root": "pages/home",
-      "pages": [
-        "section.detail",
-        "select.time.purchases",
-        "section.submit.order",
-        "section.submit.order.book",
-        "custom.signature"
-      ]
-    },
-    {
-      "root": "pages/organization.packages",
-      "pages": [
-        "organi.detail"
-      ]
-    },
-    {
-      "root": "pages/teacher.packages",
-      "pages": [
-        "teacher.detail"
-      ]
-    },
-    {
-      "root": "pages/account.packages",
-      "pages": [
-        "user.inf",
-        "childrens",
-        "childrens.add",
-        "collection",
-        "course.calendar",
-        "purchase.goods",
-        "setting",
-        "bind.phone",
-        "feedback",
-        "about",
-        "order.list",
-        "course.calendar/course.order",
-        "course.calendar/course.appraisal",
-        "course.calendar/course.history",
-        "course.calendar/course.waitappr",
-        "course.calendar/course.waitpay",
-        "purchase.goods/purchase.detail",
-        "purchase.goods/purchase.appraisal",
-        "purchase.goods/purchase.history",
-        "purchase.goods/purchase.waitpay",
-        "purchase.goods/purchase.waitappr",
-        "setting/setting.address",
-        "setting/setting.address.add"
-      ]
-    },
-    {
-      "root": "pages/utils.pages",
-      "pages": [
-        "upload.shareimg"
       ]
     }
   ],
@@ -105,16 +35,6 @@
       "text": "发现",
       "iconPath": "img/ic_see_off_tab.png",
       "selectedIconPath": "img/ic_see_on_tab.png"
-    }, {
-      "pagePath": "pages/organization/index",
-      "text": "机构",
-      "iconPath": "img/ic_org_off_tab.png",
-      "selectedIconPath": "img/ic_org_on_tab.png"
-    }, {
-      "pagePath": "pages/teacher/index",
-      "text": "老师",
-      "iconPath": "img/ic_teacher_off_tab.png",
-      "selectedIconPath": "img/ic_teacher_on_tab.png"
     }, {
       "pagePath": "pages/account/index",
       "text": "我",

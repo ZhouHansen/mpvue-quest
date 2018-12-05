@@ -1,5 +1,6 @@
-const pageDatas = {};
+// 说明：页面回退时， 保证data数据不会被重置，页面显示不变。
 
+const pageDatas = {};
 export default {
   install (_Vue) {
     // 添加全局方法或属性

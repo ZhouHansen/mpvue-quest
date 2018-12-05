@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import state from './state';
 import mutations from './mutation';
 
-// import createPersistedState from 'vuex-persistedstate';
+// import createPersistedState from 'vuex-persistedstate'; // 使vuex的数据永久化到本地
 import Module from './module';
 
 Vue.use(Vuex);

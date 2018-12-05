@@ -1,28 +1,7 @@
-import * as Config from './config';
 import UncheckUtils from '@/utils/uncheck.utils';
 import MD5 from '@/plugs/md5';
 
 export default {
-  /**
-   * 上传文件
-  */
-  uploadFile ({url, name, data = {}}) {
-    return new Promise((resolve, reject) => {
-      wx.uploadFile({
-        url: Config.NetworkAPIHost + '/api/image/upload',
-        filePath: url,
-        name: 'imgfile',
-        formData: data,
-        success (res) {
-          resolve(JSON.parse(res.data));
-        },
-        fail (res) {
-          reject(res);
-        }
-      });
-    });
-  },
-
   /**
    * 调用微信支付请求
   */

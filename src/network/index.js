@@ -11,21 +11,12 @@ import {
   _filterValidateParams
 } from './config';
 
+// 增加的请求的文件在此引入 begin
 import base from './network.base';
-import search from './network.search';
-import discovery from './network.discovery';
-import organi from './network.organi';
-import teacher from './network.teacher';
-import account from './network.account';
-
 const networkActions = {
-  base,
-  search,
-  discovery,
-  organi,
-  teacher,
-  account
+  base
 };
+// 增加的请求的文件在此引入 end
 
 class Network {
   constructor () {

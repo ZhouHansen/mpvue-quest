@@ -121,13 +121,6 @@ module.exports = {
         flatten: true
       }
     ]),
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../src/assets/product-img/subjects/*.png'),
-        to: path.resolve(__dirname, '../dist/img/subjects'),
-        flatten: true
-      }
-    ]),
     // 复制腾讯地图插件json设置
     new CopyWebpackPlugin([
       {

@@ -11,7 +11,7 @@
 	"compileType": "miniprogram",
 	"appid": "wx0d9fe1abe5ba75b6",
 	"projectname": "hooray-pro",
-	"libVersion": "2.2.5",
+	"libVersion": "2.3.0",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -30,61 +30,8 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 8,
+			"current": 0,
 			"list": [
-				{
-					"id": -1,
-					"name": "search",
-					"pathName": "pages/search/index",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "课程列表",
-					"pathName": "pages/account.packages/course.calendar",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "商品购买",
-					"pathName": "pages/account.packages/purchase.goods",
-					"query": ""
-				},
-				{
-					"id": 3,
-					"name": "支付状态",
-					"pathName": "pages/payment/payment.result",
-					"query": "obj={\"type\":\"wrong\",\"text\":\"等待发货\",\"order\":{\"type\":\"product\",\"payId\":\"1\",\"orderId\":\"2\"}}"
-				},
-				{
-					"id": -1,
-					"name": "孩子列表",
-					"pathName": "pages/account.packages/childrens",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "地图插件",
-					"pathName": "pages/guideMap/index",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "收藏",
-					"pathName": "pages/account.packages/collection",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "机构详情",
-					"pathName": "pages/organization.packages/organi.detail",
-					"query": "id=8"
-				},
-				{
-					"id": -1,
-					"name": "老师",
-					"pathName": "pages/teacher/index"
-				}
 			]
 		}
 	}
