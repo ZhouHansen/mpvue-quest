@@ -38,6 +38,7 @@ mpvue, sass, mpvue-entry, mpvue-router-patch, flyio.js, vuex, mpvue-weui, vuex-p
 ```
 
 ##mpvue开发问题总结
+
 [点击查看](http://wangyanz.cn/2018/12/05/mpvueqa/)
 ```bash
 问题列表：
