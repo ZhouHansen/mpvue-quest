@@ -18,8 +18,11 @@ mpvue, sass, mpvue-entry, mpvue-router-patch, flyio.js, vuex, mpvue-weui, vuex-p
 ```
 ## 有关文档
 [mpvue-router-patch](https://github.com/F-loat/mpvue-router-patch)
+
 [mpvue-weui](https://kuangpf.com/mpvue-weui/#/search)
+
 [mpvue-wxParse 格式化html/markdown](https://github.com/htzhanglong/mpvue-wxParse)
+
 [微信小程序文档](https://developers.weixin.qq.com/miniprogram/dev/)
 
 ## 已支持的功能和组件
@@ -37,7 +40,7 @@ mpvue, sass, mpvue-entry, mpvue-router-patch, flyio.js, vuex, mpvue-weui, vuex-p
 描述：network.base.js文件中书写请求，设置debug参数则此请求返回对应的本地数据
 ```
 
-##mpvue开发问题总结
+## mpvue开发问题总结
 
 [点击查看](http://wangyanz.cn/2018/12/05/mpvueqa/)
 ```bash
