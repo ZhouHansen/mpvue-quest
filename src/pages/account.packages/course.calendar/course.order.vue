@@ -10,7 +10,7 @@
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">张数</div>
-          <div class="order-detail-item-text">1张</div>
+          <div class="order-detail-item-text">{{orderDetail.count}}张</div>
         </div>
         <div class="order-detail-item">
           <div class="order-detail-item-label">总计</div>

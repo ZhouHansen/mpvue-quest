@@ -79,14 +79,14 @@ class Network {
           }
         }
 
-        console.log(
-          'Requesting on:',
-          // networkAction.multipart ? "Multipart" : "NonMultipart",
-          // BASICURL,
-          url,
-          // filteredParam,
-          options.headers
-        );
+        // console.log(
+        // 'Requesting on:',
+        // networkAction.multipart ? "Multipart" : "NonMultipart",
+        // BASICURL,
+        // url,
+        // filteredParam,
+        // options.headers
+        // );
 
         let fly = new Fly();
         fly.interceptors.response.use(
